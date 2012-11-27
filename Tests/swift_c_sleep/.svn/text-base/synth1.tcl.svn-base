@@ -1,0 +1,20 @@
+
+# synth1 Tcl wrapper
+
+namespace eval synth1 {
+
+    proc c_strcat { stack output inputs } {
+
+        turbine::rule "c_strcat-$output" $inputs $turbine::WORK \
+            "synth1::c_strcat_body $inputs $output"
+    }
+
+    proc c_strcat_body { s1 s2 o } {
+
+        set s1 [ turbine::retrieve_string $s1 ]
+        set s2 [ turbine::retrieve_string $s2 ]
+        set result [ synth1::c::c_strcat $s1 $s2 ]
+        puts "result: $result"
+        turbine::store_string $o $result
+    }
+}

@@ -1,0 +1,1 @@
+gcc -std=c99 -I/usr/local/cuda/include -o thread -L. -ltest threadTest.c

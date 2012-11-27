@@ -1,0 +1,39 @@
+#include <stdio.h>
+
+__device__ void clock_block(int kernel_time, int clockRate)
+{ 
+    int finish_clock;
+    int start_time;
+    for(int temp=0; temp<kernel_time; temp++){
+        start_time = clock();
+        finish_clock = start_time + clockRate;
+        bool wrapped = finish_clock < start_time;
+        while( clock() < finish_clock || wrapped) wrapped = clock()>0 && wrapped;
+    }
+}
+
+
+__global__ void superKernel(int *init, int numThreads,int *result)
+{ 
+    // init and result are arrays of integers where result should end up
+    // being the result of incrementing all elements of init.
+    // They have n elements and are (n+1) long. The should wait for the
+    // first element to be set to zero
+    int warp_size = 32;
+
+    int threadID = threadIdx.x % warp_size;
+    int warpID = threadIdx.x / warp_size;
+
+    while(init[0]!=0);
+
+    if(threadID<numThreads && warpID==0) result[threadID+1] = init[threadID+1]+1;
+
+    //clock_block(100,20000000);
+
+    __syncthreads(); //this will need to be a warp wide sync using (PTX barriers)
+
+    if(threadID==0) result[0] = 0;
+}
+
+
+

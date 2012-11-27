@@ -1,0 +1,56 @@
+[0] Starting run number 0.
+[0] 
+[0] Starting run number 2.
+[0] 
+[0] Starting run number 1.
+[0] 
+[0] Setup called finished.
+[0] 
+[1] Recieved result on Job #0
+[1] Finished job with parameter: 18395202
+[0] !!A is set to 0.000000 finished
+[2] ADLB DATA ERROR:
+[2] already exists: <9>[1]
+[2] 	 in: data_insert()
+[2] 	 at: src/data.c:737
+[0] 
+[0] error: adlb::insert: failed: <9>["1"]
+[0] 
+[0] 
+[0] CAUGHT ERROR:
+[0] 
+[0] error: adlb::insert: failed: <9>["1"]
+[0] 
+[0] 
+[0] 
+[0]     invoked from within
+[0] "adlb::insert $id $subscript $member $drops"
+[0]     (procedure "container_insert" line 11)
+[0]     invoked from within
+[0] "container_insert $c $s $d 1"
+[0]     (procedure "turbine::container_f_insert_body" line 3)
+[0]     invoked from within
+[0] "turbine::container_f_insert_body 9 25 4"
+[0]     ("eval" body line 1)
+[0]     invoked from within
+[0] "eval $command"
+[0]     (procedure "release" line 9)
+[0]     invoked from within
+[0] "release $transform $action"
+[0]     (procedure "engine" line 21)
+[0]     invoked from within
+[0] "engine $rules $engine_startup "
+[0]     (procedure "enter_mode" line 5)
+[0]     invoked from within
+[0] "enter_mode $rules $engine_startup "
+[0] CALLING adlb::abort
+[0] ADLB_Abort(1)
+[0] MPI_Abort(1)
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   EXIT CODE: 1
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================
+

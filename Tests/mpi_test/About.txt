@@ -1,0 +1,2 @@
+
+This dir establishes the C API between Swift/T and GeMTC. With multiple workers

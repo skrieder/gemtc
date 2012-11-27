@@ -1,0 +1,12 @@
+
+#include <builtins.swift>
+#include "synth1.swift"
+
+main {
+  string s1 = "hello";
+  string s2 = "bye";
+
+  string o = c_strcat(s1, s2);
+
+  trace(o);
+}

@@ -1,0 +1,2 @@
+
+(string o) c_strcat(string s1, string s2) "synth1" "0.0.1" "c_strcat";

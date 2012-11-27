@@ -1,0 +1,15 @@
+
+#include <builtins.swift>
+#include "sleep1.swift"
+#include <io.swift>
+
+main {
+  float x = 5;
+
+  float y = c_sleep(x);
+  
+  wait (y) {
+    printf("Working");
+  }
+
+}
