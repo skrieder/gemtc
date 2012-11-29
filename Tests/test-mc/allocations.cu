@@ -89,7 +89,7 @@ float *makeMatrixTranspose(int ROW, int& size)
       {
          //matrix[b + a * ROW]=((float)rand())/((float) RAND_MAX);
          matrixIn[b + a * ROW]=b;
-         matrixOut[b + a * ROW]=0;
+         matrixOut[b + a * ROW]=-1;
       }
   }
   return stuff;

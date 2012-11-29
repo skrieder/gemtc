@@ -12,10 +12,18 @@ int main(int argc, char **argv){
   for(i=0; i<1; i++){
     int sleepTime = 6;
     // runs a task on the gpu
+    //testArrayAvg();
+    //testArrayMax();
+    //testArrayMin();
     //testAdd();
     //testVectorProduct();
-    //testArrayMin();
-    testArrayAvg();
+    //testMatrixMultiply();
+    //testMatrixTranspose();
+    //testMatrixSquare();
+    //testMatrixVector();
+    //testMatrixInverse();
+    //testStencil();
+    testBlackScholes();
     //void *ret = run(0, 32, &sleepTime, sizeof(int));
     //printf("%d : Finished job with parameter: %d\n",i, *(int *)ret);
   }

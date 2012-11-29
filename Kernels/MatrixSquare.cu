@@ -1,12 +1,16 @@
 #include <stdio.h>
 
-__device__ void MatrixSquare(void *input)
+__device__ void MatrixSquare(void *param)
 { 
-    float *matrix = (float *) input;
+    float *input = (float *) param;
     int warp_size=32;
+    int matrixWidth = (int)input[0];
+    float* matrix = input+1;
+    float* matrixOut = matrix + matrixWidth*matrixWidth;
+    //printf("%d\n", matrixWidth);
+#if 1 
     int thread = threadIdx.x % warp_size;
         
-    int matrixWidth = 32;
     for (unsigned int i = thread; i < matrixWidth; i=i+32)
     {
       for (unsigned int j = 0; j < matrixWidth; j++) {
@@ -16,7 +20,9 @@ __device__ void MatrixSquare(void *input)
            float b = matrix[k * matrixWidth + j];
            sum += a * b;
          }
-         matrix[i * matrixWidth + j + (matrixWidth * matrixWidth)] = sum;
+         //matrixOut[i * matrixWidth + j + (matrixWidth * matrixWidth)] = sum;
+         matrixOut[i * matrixWidth + j ] = sum;
       }
    }
+#endif
 }
