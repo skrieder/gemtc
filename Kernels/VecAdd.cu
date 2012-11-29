@@ -7,16 +7,15 @@ __device__ void VecAdd ( void* param1)
    int* B = A+size;
    int* C = B+size;
    int warp_size = 32;
-   int tid = threadIdx.x%warp_size;
+   int tid = threadIdx.x;
+   //printf("%d,%d\n",size, threadIdx.x);
    //C[tid] = A[tid] + B[tid];
-#if 1 
    while (tid < size)
    {
       C[tid] = A[tid] + B[tid];
-      //printf("tid:%d, C=%d\n", tid, C[tid]);
+      //printf("%d=%d\n", tid, C[tid]);
       tid = tid + warp_size;
    }
-#endif
 
 #if 0 
    int* A = (int*)param1;
