@@ -1,11 +1,11 @@
 #include <stdio.h>
 __device__ void VecAdd ( void* param1)
 {
-   int* mem = (int*)param1;
-   int size = mem[0];
-   int* A = mem+1;
-   int* B = A+size;
-   int* C = B+size;
+   float* mem = (float*)param1;
+   int size = (int)mem[0];
+   float* A = mem+1;
+   float* B = A+size;
+   float* C = B+size;
    int warp_size = 32;
    int tid = threadIdx.x;
    //printf("%d,%d\n",size, threadIdx.x);

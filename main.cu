@@ -9,13 +9,14 @@ int main(int argc, char **argv){
 
   // doing work on gpu
   int i;
-  for(i=0; i<1; i++){
+  for(i=0; i<2; i++){
     int sleepTime = 6;
     // runs a task on the gpu
     //testArrayAvg();
     //testArrayMax();
     //testArrayMin();
-    //testAdd();
+    testAdd();
+    printf("\n");
     //testVectorProduct();
     //testMatrixMultiply();
     //testMatrixTranspose();
@@ -23,7 +24,7 @@ int main(int argc, char **argv){
     //testMatrixVector();
     //testMatrixInverse();
     //testStencil();
-    testBlackScholes();
+    //testBlackScholes();
     //void *ret = run(0, 32, &sleepTime, sizeof(int));
     //printf("%d : Finished job with parameter: %d\n",i, *(int *)ret);
   }

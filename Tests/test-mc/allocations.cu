@@ -57,7 +57,7 @@ void* makeVectorArgs(int N, int & size)
 
 void* makeVectorAddArgs(int N, int & size)
 {
-   size = (3*N+1)*sizeof(int);
+   size = (3*N+1)*sizeof(float);
    int* mem = (int*)malloc(size);
    int* a1 = mem+1;
    int* b1 = a1+N;

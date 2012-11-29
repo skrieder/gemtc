@@ -1,5 +1,5 @@
 #include "allocations.cu"
-
+#include <time.h>
 void testSleep()
 {
     int sleepTime = 5;
@@ -53,20 +53,40 @@ void testArrayMin()
 
 void testAdd()
 {
+    int N = 16;
+    for (int idx = 0; idx < 1; ++idx)
+    {
+    clock_t begin, end;
+    begin = clock();
+#if 0 
+    cudaEventCreate(&beginEvent);
+    cudaEventCreate(&endEvent); 
+    cudaEventRecord(beginEvent,0);
+#endif
+    N = N << idx;
+    //N = 655350;
     void* param; void* ret;
     // runs a task on the gpu
-    int N = 1024 << 4;
     //N = 32;
     int size = sizeof(int)*(N*3+1);
+    printf("testAdd: %d,%d\n", N, size);
     param = makeVectorAddArgs(N, size);
     //printf("testAdd: %d,%d\n", N, size);
     ret = run(1, 32, param, size);
-    int* ret1 = (int*)ret;
-    int* ret2 = (int*)param;
-    int* A = ret1+1;
-    int* B = A+N;
-    int* C = B+N;
-    printf("testAdd: N:%d,Size:%d\n", N, size);
+    end = clock();
+    //printf("Start: %ld, End: %ld\n", begin, end);
+    double time = (double)(end - begin)/CLOCKS_PER_SEC;
+#if 0 
+    cudaEventRecord(endEvent,0);
+    cudaEventSynchronize(endEvent);
+    cudaEventElapsedTime(&time, beginEvent, endEvent);
+#endif
+    float* ret1 = (float*)ret;
+    float* ret2 = (float*)param;
+    float* A = ret1+1;
+    float* B = A+N;
+    float* C = B+N;
+    printf("testAdd: N[%d]:%d,Size:%d, time:%.5g ms\n", idx,N, size, time);
 #if 0 
     for (int idx = 0; idx < N; ++idx)
     {
@@ -76,6 +96,11 @@ void testAdd()
     }
 #endif
     free(ret);free(param);
+    }
+#if 0 
+    cudaEventDestroy(beginEvent);
+    cudaEventDestroy(endEvent); 
+#endif
 }
 
 void testVectorProduct()
