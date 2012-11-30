@@ -1,1 +1,0 @@
-gcc api.c -o bin/api

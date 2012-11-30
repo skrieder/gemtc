@@ -1,16 +1,6 @@
 #include <stdio.h>
 #include "api.h"
 
-int main(){
-
-  printf("In main\n");
-
-  gemtcSetup();
-  gemtcRun();
-  gemtcCleanup();
-
-}
-
 void gemtcSetup(){
 
   printf("In setup\n");

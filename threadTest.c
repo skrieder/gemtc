@@ -6,8 +6,8 @@ extern void cleanupGemtc(void);
 #include<pthread.h>
 #include<stdlib.h>
 
-int NUM_THREADS=4;
-int JOBS_PER_THREAD=2500;
+int NUM_THREADS=1;
+int JOBS_PER_THREAD=10;
 int QUEUE_SIZE=5120;
 int SLEEP_TIME=0;
 //int SLEEP_TIME=1000;

@@ -17,9 +17,9 @@ main
      // float sleepTime = 0;
 
      // print for debug
-     printf("The number of arguments is: %i\n", argc());
-     printf("The bound is: %i\n", bound);
-     printf("The sleeptime is: %f\n", sleepTime);
+     // printf("The number of arguments is: %i\n", argc());
+     // printf("The bound is: %i\n", bound);
+     // printf("The sleeptime is: %f\n", sleepTime);
 
      // run the sleep
      foreach i in [1:bound:1]{
