@@ -45,11 +45,13 @@ void EnqueueJob(JobPointer h_JobDescription, Queue Q) {
   Queue h_Q = (Queue) malloc(sizeof(struct QueueRecord));
   cudaSafeMemcpy(h_Q, Q, copySize, cudaMemcpyDeviceToHost, stream_dataIn,
                  "EnqueueJob, Getting Queue");
-
+  int c=0;
   while(h_IsFull(h_Q)){
+    if(c%500==0)printf("Looping alot\n");
     pthread_yield();
     cudaSafeMemcpy(h_Q, Q, copySize, cudaMemcpyDeviceToHost, stream_dataIn,
                     "EnqueueJob, Getting Queue again...");
+    c++;
   }
 
   // floating point exception from mod capacity if 0 or -n
@@ -77,6 +79,48 @@ void EnqueueJob(JobPointer h_JobDescription, Queue Q) {
 		 sizeof(int), cudaMemcpyHostToDevice, stream_dataIn,
                  "EnqueueJob, Updating Queue");
   free(h_Q);
+}
+
+JobPointer MaybeFandD(Queue Q){
+  int copySize= sizeof(struct QueueRecord);
+
+  Queue h_Q = (Queue) malloc(sizeof(struct QueueRecord));
+  
+  cudaSafeMemcpy(h_Q, Q, copySize, cudaMemcpyDeviceToHost, stream_dataOut,
+                 "MaybeFandDJob, Getting Queue");
+  //printf("Reading queue\n");
+  //printf("Front %d\n", h_Q->Front);
+  //printf("Rear %d\n", h_Q->Rear);
+
+  if(h_IsEmpty(h_Q)){
+    free(h_Q);
+    return NULL;
+  }else{
+    JobPointer *resultP = (JobPointer *) malloc(sizeof(JobPointer));
+    JobPointer result = (JobPointer) malloc(sizeof(struct JobDescription));
+
+    //Read task Description Location
+    cudaSafeMemcpy(resultP, (void *)&h_Q->Array[h_Q->Front], sizeof(JobPointer), 
+                   cudaMemcpyDeviceToHost, stream_dataOut,
+                   "FandDJob, Getting JobPointer");
+    //Read task description
+    cudaSafeMemcpy(result, (void *)*resultP, sizeof(struct JobDescription), 
+                   cudaMemcpyDeviceToHost, stream_dataOut,
+                   "FandDJob, Getting JobDescription");
+    //Free task description
+    gemtcFree(*resultP);
+
+
+    //Update Queue metadata
+    h_Q->Front = (h_Q->Front+1)%(h_Q->Capacity);
+    cudaSafeMemcpy( movePointer(Q, 16), movePointer(h_Q, 16), 
+                    sizeof(int), cudaMemcpyHostToDevice, stream_dataOut,
+                    "FandDJob, Updating Queue");
+
+    free(h_Q);
+    free(resultP);
+    return result;
+  }
 }
 
 JobPointer FrontResult(Queue Q) {

@@ -38,7 +38,7 @@ __global__ void superKernel(volatile Queue incoming,
       if(threadID==0)
           FrontAndDequeueJob(incoming, &currentJobs[warpID], kill);
       if(*kill)break;
-      
+
       //execute the task
       volatile JobPointer retval;
       if(threadID<(currentJobs[warpID]->numThreads)) 
@@ -57,9 +57,7 @@ __device__ JobPointer executeJob(JobPointer currentJob){
   // large switch
   switch(JobType){
     case 0:
-      int v = addSleep(currentJob->params);
-      int *temp = (int *) currentJob->params;
-      *temp = v;
+      addSleep(currentJob->params);
       break;
     case 1:
       VecAdd(currentJob->params);
