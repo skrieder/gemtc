@@ -45,9 +45,9 @@ void EnqueueJob(JobPointer h_JobDescription, Queue Q) {
   Queue h_Q = (Queue) malloc(sizeof(struct QueueRecord));
   cudaSafeMemcpy(h_Q, Q, copySize, cudaMemcpyDeviceToHost, stream_dataIn,
                  "EnqueueJob, Getting Queue");
+
   int c=0;
   while(h_IsFull(h_Q)){
-    if(c%500==0)printf("Looping alot\n");
     pthread_yield();
     cudaSafeMemcpy(h_Q, Q, copySize, cudaMemcpyDeviceToHost, stream_dataIn,
                     "EnqueueJob, Getting Queue again...");
@@ -66,7 +66,6 @@ void EnqueueJob(JobPointer h_JobDescription, Queue Q) {
                   cudaMemcpyHostToDevice, 
                   stream_dataIn,
                   "EnqueueJob, Writing JobDescription");
-
   // set job description
   cudaSafeMemcpy( (void *)&h_Q->Array[h_Q->Rear],
                   &d_JobDescription, 
@@ -109,7 +108,6 @@ JobPointer MaybeFandD(Queue Q){
                    "FandDJob, Getting JobDescription");
     //Free task description
     gemtcFree(*resultP);
-
 
     //Update Queue metadata
     h_Q->Front = (h_Q->Front+1)%(h_Q->Capacity);

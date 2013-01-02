@@ -42,6 +42,7 @@ void gemtcSetup(int QueueSize){
   pthread_mutex_init(&memcpyLock, NULL);
   pthread_mutex_init(&enqueueLock, NULL);
   pthread_mutex_init(&dequeueLock, NULL);
+  pthread_mutex_init(&memoryListLock, NULL);
 
   int warp_size = 32;
 
@@ -114,6 +115,7 @@ void gemtcCleanup(){
   pthread_mutex_destroy(&memcpyLock);
   pthread_mutex_destroy(&enqueueLock);
   pthread_mutex_destroy(&dequeueLock);
+  pthread_mutex_destroy(&memoryListLock);
 }
 
 extern "C"
@@ -126,11 +128,7 @@ void gemtcPush(int taskType, int threads, int ID, void *d_parameters){
 
   pthread_mutex_lock(&enqueueLock);  //Start Critical Section
 
-  printf("start enqueue\n");
-
   EnqueueJob(h_JobDescription, d_newJobs);
-
-  printf("end enqueue\n");
 
   pthread_mutex_unlock(&enqueueLock); //End Critical Section
 }
@@ -141,13 +139,9 @@ void *gemtcPoll(){
   //Returns a pair with the ID and param pointer of the first job in the queue
   //If the queue is empty, this returns a NULL
   JobPointer h_JobDescription = (JobPointer) malloc(sizeof(JobDescription));
-
   pthread_mutex_lock(&dequeueLock);  //Start Critical Section
-
   h_JobDescription = MaybeFandD(d_finishedJobs);//returns null if empty
-
   pthread_mutex_unlock(&dequeueLock); //End Critical Section
-
   if(h_JobDescription==NULL){
     free(h_JobDescription);
     return NULL;
