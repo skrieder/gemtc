@@ -1,0 +1,10 @@
+13.76
+11.63
+14.78
+24.35
+11.63
+[mpiexec@skrieder] stdoe_cb (./ui/utils/uiu.c:309): assert (!closed) failed
+[mpiexec@skrieder] control_cb (./pm/pmiserv/pmiserv_cb.c:298): error in the UI defined callback
+[mpiexec@skrieder] HYDT_dmxu_poll_wait_for_event (./tools/demux/demux_poll.c:77): callback returned error status
+[mpiexec@skrieder] HYD_pmci_wait_for_completion (./pm/pmiserv/pmiserv_pmci.c:196): error waiting for event
+[mpiexec@skrieder] main (./ui/mpich/mpiexec.c:325): process manager error waiting for completion
