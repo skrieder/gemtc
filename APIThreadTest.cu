@@ -9,6 +9,7 @@ int QUEUE_SIZE=1280000;
 int SLEEP_TIME=0;
 
 void *Work(void *param){
+  // loop over the jobs per thread mod 10k
   int j;
   for(j=0; j<JOBS_PER_THREAD/10000; j++){
     int i;
@@ -27,7 +28,7 @@ void *Work(void *param){
       gemtcGPUFree(ret->params);
       ret = NULL;
     }
-    //printf("Finished group of %d,   %d\n",j, j*10000);
+    printf("Finished group of %d,   %d\n",j, j*10000);
   }
   printf("Thread done\n");
   pthread_exit(NULL);
@@ -41,14 +42,17 @@ int main(int argc, char **argv){
     SLEEP_TIME = atoi(argv[3]);
   }
 
+  // call gemtcSetup with the queue size
   gemtcSetup(QUEUE_SIZE);
 
+  // set the number of threads
   pthread_t threads[NUM_THREADS];
   pthread_attr_t attr;
 
   pthread_attr_init(&attr);
   pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
+  // loop over the number of threads and create them
   int i;
   for(i=0; i<NUM_THREADS; i++){
     int *id = (int *)malloc(sizeof(int));
@@ -56,11 +60,13 @@ int main(int argc, char **argv){
     pthread_create(&threads[i], &attr, Work, (void *) id);
   }
 
+  // wait for the threads to join
   void *status;
   for(i=0; i<NUM_THREADS; i++){
     pthread_join(threads[i], &status);
   }
 
+  // cleanup threads and gemtc
   pthread_attr_destroy(&attr);
   gemtcCleanup();
   return 0;
