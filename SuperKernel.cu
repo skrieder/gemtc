@@ -22,17 +22,16 @@ __device__ JobPointer executeJob(volatile JobPointer currentJob);
 __global__ void superKernel(volatile Queue incoming, 
                             volatile Queue results, volatile int *kill)
 { 
-    // init and result are arrays of integers where result should end up
-    // being the result of incrementing all elements of init.
-    // They have n elements and are (n+1) long. The should wait for the
-    // first element to be set to zero
     int warp_size = 32;
 
     int threadID = threadIdx.x % warp_size;
-    int warpID = threadIdx.x / warp_size;   //added depenency on block
+    int warpID = threadIdx.x / warp_size;   //add depenency on block?
 
+    //Init shared memory to hold Task descriptions
     __shared__ JobPointer currentJobs[32];
 
+    //Init general purpose shared memory
+    // TODO: make this work correctly
     __shared__ char shared_mem[10000];
     gemtcInitSharedMemory(shared_mem, 10000, 8);
 

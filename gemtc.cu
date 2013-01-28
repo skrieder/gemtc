@@ -16,6 +16,29 @@ int *d_kill;
 #include "SuperKernel.cu"
 
 Queue d_newJobs, d_finishedJobs;
+
+/*
+This file contains the functions that make up the API to gemtc
+They are:
+*** Initialize/Deconstruct ***
+  gemtcSetup()
+  gemtcCleanup()
+
+*** EnQueue/DeQueue Tasks  ***
+  gemtcBlockingRun()
+  gemtcPush()
+  gemtcPoll()
+
+*** Memory Transfer Calls  ***
+  gemtcMemcpyHostToDevice()
+  gemtcMemcpyDeviceToHost()
+
+****Memory Management Calls***
+  gemtcGPUMalloc()
+  gemtcGPUFree()
+ */
+
+
 /////////////////////
 //Utility Functions//
 /////////////////////
@@ -39,26 +62,31 @@ void *moveFromCuda(void *val, int size){
 /////////////////
 extern "C"
 void gemtcSetup(int QueueSize){
+  //initialize locks
   pthread_mutex_init(&memcpyLock, NULL);
   pthread_mutex_init(&enqueueLock, NULL);
   pthread_mutex_init(&dequeueLock, NULL);
   pthread_mutex_init(&memoryListLock, NULL);
 
+  //Default sizes for SuperKernel
+  // Eventually this should read from a config file
   int warp_size = 32;
-
   int warps = 8;
   int blocks = 14;
 
   dim3 threads(warp_size*warps, 1, 1);
   dim3 grid(blocks, 1, 1);
 
+  //Init Streams for the SuperKernel and various memory copies
   cudaStreamCreate(&stream_kernel);
   cudaStreamCreate(&stream_dataIn);
   cudaStreamCreate(&stream_dataOut);
   
+  //Initialize Device Memory with Queues
   d_newJobs = CreateQueue(QueueSize);
   d_finishedJobs = CreateQueue(QueueSize);
 
+  //Initialize kill flag in device Memory
   int temp = 0;
   d_kill = (int *) moveToCuda((void *)&temp, sizeof(int));
 
@@ -72,6 +100,9 @@ void gemtcSetup(int QueueSize){
 
 extern "C"
 void gemtcBlockingRun(int Type, int Threads, int ID, void *d_params){
+  //This funcyion will enqueue the given task to the device
+  //Then block until it returns
+  //   This is busy blocking where it polls the GPU to see if it finished
   JobPointer h_JobDescription = (JobPointer) malloc(sizeof(JobDescription));
   h_JobDescription->JobType = Type;
   h_JobDescription->numThreads = Threads;
@@ -83,10 +114,12 @@ void gemtcBlockingRun(int Type, int Threads, int ID, void *d_params){
   EnqueueJob(h_JobDescription, d_newJobs);
 
   pthread_mutex_unlock(&enqueueLock); //End Critical Section
-  //  printf("Finished enqueue #%d\n", MyID);
 
   int first = 1;
   while(h_JobDescription->JobID!=ID || first){
+    //Loop until our task is at the front of the result queue
+    // Non-ideal because the task could finish but take awhile to move
+    // through the queue. Cannot fix this problem with current DataStruct
     pthread_yield();
     pthread_mutex_lock(&dequeueLock);
     h_JobDescription = FrontResult(d_finishedJobs);
@@ -120,6 +153,8 @@ void gemtcCleanup(){
 
 extern "C"
 void gemtcPush(int taskType, int threads, int ID, void *d_parameters){
+  //Enqueue the given task to the device
+  //Returns as soon as the task is in Device Memory
   JobPointer h_JobDescription = (JobPointer) malloc(sizeof(JobDescription));
   h_JobDescription->JobType = taskType;
   h_JobDescription->numThreads = threads;
@@ -171,10 +206,12 @@ void gemtcMemcpyDeviceToHost(void *host, void *device, int size){
 
 extern "C"
 void *gemtcGPUMalloc(int size){
+  //This is defined in malloc/gemtcMalloc.cu
   return gemtcMalloc(size);
 }
 
 extern "C"
 void gemtcGPUFree(void *p){
+  //This is defined in malloc/gemtcMalloc.cu
   gemtcFree(p);
 }

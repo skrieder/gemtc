@@ -1,6 +1,0 @@
-#include"addSleep.cu"
-
-int main(int argc, char **args){
-  int i=500000000;
-  sleep(i);
-}

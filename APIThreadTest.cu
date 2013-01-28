@@ -11,6 +11,7 @@ int MALLOC_SIZE=4;
 int TASKS_PER_LOOP=1000;
 
 void *Work(void *param){
+  // loop over the jobs per thread mod 10k
   int j;
   for(j=0; j<JOBS_PER_THREAD/TASKS_PER_LOOP; j++){
     int i;
@@ -30,6 +31,7 @@ void *Work(void *param){
       gemtcGPUFree(ret->params);
       ret = NULL;
     }
+
     free(h_sleepTime);
   }
   printf("Thread done\n");
@@ -46,14 +48,17 @@ int main(int argc, char **argv){
     TASKS_PER_LOOP = atoi(argv[5]);
   }
 
+  // call gemtcSetup with the queue size
   gemtcSetup(QUEUE_SIZE);
 
+  // set the number of threads
   pthread_t threads[NUM_THREADS];
   pthread_attr_t attr;
 
   pthread_attr_init(&attr);
   pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
+  // loop over the number of threads and create them
   int i;
   for(i=0; i<NUM_THREADS; i++){
     int *id = (int *)malloc(sizeof(int));
@@ -61,11 +66,13 @@ int main(int argc, char **argv){
     pthread_create(&threads[i], &attr, Work, (void *) id);
   }
 
+  // wait for the threads to join
   void *status;
   for(i=0; i<NUM_THREADS; i++){
     pthread_join(threads[i], &status);
   }
 
+  // cleanup threads and gemtc
   pthread_attr_destroy(&attr);
   gemtcCleanup();
   return 0;
