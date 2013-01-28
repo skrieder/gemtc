@@ -18,6 +18,7 @@ __device__ int addSleep(void *p_us_time)
     //float AddPerUs = 18.3952025; //Scott Main.c
     //float AddPerUs = 1; // Test
 
+    /* //Regular Addsleep
     int adds = (*time)*AddPerUs;
 
     int save_time = *time;
@@ -26,8 +27,19 @@ __device__ int addSleep(void *p_us_time)
        adds--;
        (*time)--;
     }
-
     *time = save_time;
+    */
+    //Shared Memory AddSleep
+    int *shared = (int *) gemtcSharedMemory();
+    *shared = (*time)*AddPerUs;
 
+    int save_time = *time;
+
+    while((*shared)>0){
+       (*shared)--;
+       (*time)--;
+    }
+    *time = save_time;
+    
     return *time;
 }

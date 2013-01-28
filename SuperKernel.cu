@@ -32,8 +32,8 @@ __global__ void superKernel(volatile Queue incoming,
 
     //Init general purpose shared memory
     // TODO: make this work correctly
-    __shared__ char shared_mem[10000];
-    gemtcInitSharedMemory(shared_mem, 10000, 8);
+    __shared__ char shared_mem[8192];  //8kB for the 8 warps, so 1kB each
+    gemtcInitSharedMemory(shared_mem, 8192, 8);
 
     while(!(*kill))
     {

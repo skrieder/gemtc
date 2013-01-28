@@ -93,7 +93,7 @@ void gemtcSetup(int QueueSize){
   cudaDeviceSynchronize();
 
 //Launch the super kernel
-  superKernel<<< grid, threads, 0, stream_kernel>>>
+  superKernel<<< grid, threads, 8192, stream_kernel>>>  //8192 = 8kBytes of shared Memory
              (d_newJobs, d_finishedJobs, d_kill);
 }
 
