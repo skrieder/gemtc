@@ -1,18 +1,24 @@
 #! /bin/bash
 
 sleepTime=0
-# do the overall test, this many times
-for i in {1..1}
+threads=1
+
+for c in {1..4}
+do
+
+for i in {1..6}
 do
 jobs=10000
-    # 1 through 8 for the sleeptimes
-    for k in {1..9}
+    for k in $(eval echo {$i..8})
+#    for k in {$i..9)}
     do
-	echo "Jobs: $jobs    SleepTime: $sleepTime"
-	(/usr/bin/time -f "%e" ./bin/APITest $jobs $sleepTime) 2>> logs/log$i.txt
+	echo "Threads: $threads    Jobs: $jobs    SleepTime: $sleepTime"
+	(/usr/bin/time -f "%e" ./bin/APIThread $threads $jobs $sleepTime) 2>> logs/logAPIThreadTest$c.txt
 
-	# double the matrix size
         jobs=$(($jobs+$jobs))
     done
+    threads=$(($threads+$threads))
 #    sleepTime=$(($sleepTime+$sleepTime))
+done
+
 done

@@ -6,7 +6,6 @@ __device__ int addSleep(void *p_us_time)
     // which is equivalent to sleeping for kernel_time microseconds
     int *time = (int *) p_us_time;
 
-
     float AddPerUs = 17.69911504424; //Ben
     //float AddPerUs = 9.89759943623274; //Scott Mainh.cu
     //float AddPerUs = 18.3952025; //Scott Main.c
@@ -15,11 +14,14 @@ __device__ int addSleep(void *p_us_time)
     int adds = (*time)*AddPerUs;
 
     int save_time = *time;
+    /*
+    while(*shared>0){
+       (*shared)--;
+       (*time)--;
+    }
+    */
+    *time = save_time;
 
-    //    int temp=0;
-    //while(temp<adds){
-      //   temp++;
-       //}
     while(adds>0){
        adds--;
        (*time)--;

@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+#include "Kernels/gemtcKernelLib.cu"
 #include "Kernels/AddSleep.cu"
 #include "Kernels/VecAdd.cu"
 #include "Kernels/VecDot.cu"
@@ -31,6 +32,9 @@ __global__ void superKernel(volatile Queue incoming,
     int warpID = threadIdx.x / warp_size;   //added depenency on block
 
     __shared__ JobPointer currentJobs[32];
+
+    __shared__ char shared_mem[10000];
+    gemtcInitSharedMemory(shared_mem, 10000, 8);
 
     while(!(*kill))
     {
