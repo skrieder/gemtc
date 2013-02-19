@@ -1,0 +1,29 @@
+#include <stdlib.h>
+#include <stdio.h>
+
+int fib(int n)
+{
+  if (n<2) return n;
+  else
+    {
+      int x, y;
+      x = cilk_spawn fib (n-1);
+      y = cilk_spawn fib (n-2);
+      cilk_sync;
+      return (x+y);
+    }
+}
+
+int cilk_main (int argc, char *argv[])
+{
+  if(argc==1){
+    printf("Usage: fib <n> where n is the nth fib number to calc.");
+    return 0;
+  }
+  int n, result;
+  n = atoi(argv[1]);
+  result = cilk_spawn fib(n);
+  cilk_sync;
+  printf ("Result: %d\n", result);
+  return 0;
+}
