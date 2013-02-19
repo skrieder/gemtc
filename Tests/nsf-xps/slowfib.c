@@ -16,6 +16,6 @@ int main (int argc, char *argv[])
   int n, result;
   n = atoi(argv[1]);
   result = fib (n);
-  printf ("Result: %d\n", result);
+  //printf ("Result: %d\n", result);
   return 0;
 }
