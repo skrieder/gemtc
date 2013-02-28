@@ -31,7 +31,7 @@ __device__ int addSleep(void *p_us_time)
     */
     //Shared Memory AddSleep
     int *shared = (int *) gemtcSharedMemory();
-    *shared = (*time)*AddPerUs;
+    *shared = (*time)*AddPerUs;  //number of adds
 
     int save_time = *time;
 
