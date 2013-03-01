@@ -117,21 +117,23 @@ void CPU_gemtcPush(int taskType, int Threads, int ID, void *parameters){
   pthread_mutex_unlock(&enqueueLock); //End Critical Section
 }
 
-void *CPU_gemtcPoll(){
-  //Returns a pair with the ID and param pointer of the first job in the queue
-  //If the queue is empty, this returns a NULL
+void CPU_gemtcPoll(int *ID, void **params){
+  //ID and params a references to where the output should be written
+  //This function has no real parameters
+  //ID is -1 and params is NULL if no tasks have finished
+
   JobPointer h_JobDescription;
   pthread_mutex_lock(&dequeueLock);  //Start Critical Section
   h_JobDescription = MaybeFandD(finishedJobs);//returns null if empty
   pthread_mutex_unlock(&dequeueLock); //End Critical Section
   if(h_JobDescription==NULL){
-    return NULL;
+    *ID=-1;
+    *params=NULL;
+    return;
   }
-  struct ResultPair *ret = (struct ResultPair *) malloc(sizeof(struct ResultPair));
 
-  ret->ID = h_JobDescription->JobID;
-  ret->params = h_JobDescription->params;
+  *ID = h_JobDescription->JobID;
+  *params = h_JobDescription->params;
 
   free(h_JobDescription);
-  return (void *)ret;
 }

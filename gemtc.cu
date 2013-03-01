@@ -168,26 +168,34 @@ void gemtcPush(int taskType, int threads, int ID, void *d_parameters){
   pthread_mutex_unlock(&enqueueLock); //End Critical Section
 }
 
-struct ResultPair{int ID; void *params;};
 extern "C"
-void *gemtcPoll(){
-  //Returns a pair with the ID and param pointer of the first job in the queue
-  //If the queue is empty, this returns a NULL
+void gemtcPoll(int *ID, void **params){
+  //This function has no input parameters and two result parameters.
+  //  ID and params are used as references to where the result will be written
+
+  //This function will check the device queues for any tasks that finished
+  //If none are found:
+  //   Value at ID will be set to -1
+  //   Value at params will be set to NULL
+  //If a finished task is in the queue:
+  //   Value at ID will be that task's ID
+  //   Value at params will be a pointer to that tasks parameters
+
   JobPointer h_JobDescription = (JobPointer) malloc(sizeof(JobDescription));
   pthread_mutex_lock(&dequeueLock);  //Start Critical Section
   h_JobDescription = MaybeFandD(d_finishedJobs);//returns null if empty
   pthread_mutex_unlock(&dequeueLock); //End Critical Section
   if(h_JobDescription==NULL){
     free(h_JobDescription);
-    return NULL;
+    *ID=-1;
+    *params=NULL;
+    return;
   }
-  ResultPair *ret = (ResultPair *) malloc(sizeof(ResultPair));
 
-  ret->ID = h_JobDescription->JobID;
-  ret->params = h_JobDescription->params;
+  *ID = h_JobDescription->JobID;
+  *params = h_JobDescription->params;
 
   free(h_JobDescription);
-  return (void *)ret;
 }
 
 extern "C"
