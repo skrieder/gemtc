@@ -3,27 +3,27 @@
 #include<pthread.h>
 #include<stdlib.h>
 
-int NUM_THREADS=1;
-int JOBS_PER_THREAD=10;
-int QUEUE_SIZE=1280000;
-int SLEEP_TIME=0;
-int MALLOC_SIZE=4;
-int TASKS_PER_LOOP=1000;
+int NUM_THREADS;
+int JOBS_PER_THREAD;
+int QUEUE_SIZE=12800;
+int SLEEP_TIME;
+int MALLOC_SIZE;
+int LOOP_SIZE;
 
 void *Work(void *param){
   // loop over the jobs per thread mod 10k
   int j;
-  for(j=0; j<JOBS_PER_THREAD/TASKS_PER_LOOP; j++){
+  for(j=0; j<JOBS_PER_THREAD/LOOP_SIZE; j++){
     int i;
     int *h_sleepTime = (int *) malloc(MALLOC_SIZE);
     *h_sleepTime = SLEEP_TIME;
-    for(i=0; i<TASKS_PER_LOOP; i++){
+    for(i=0; i<LOOP_SIZE; i++){
       int *d_sleepTime = (int *) gemtcGPUMalloc(MALLOC_SIZE);
       gemtcMemcpyHostToDevice((void *)d_sleepTime, (void *)h_sleepTime, MALLOC_SIZE);
       gemtcPush(0, 32, i, d_sleepTime);
     }
     ResultPair *ret=NULL;
-    for(i=0; i<TASKS_PER_LOOP; i++){
+    for(i=0; i<LOOP_SIZE; i++){
       while(ret==NULL){
         ret = (ResultPair *)gemtcPoll();
       }
@@ -31,7 +31,6 @@ void *Work(void *param){
       gemtcGPUFree(ret->params);
       ret = NULL;
     }
-
     free(h_sleepTime);
   }
   printf("Thread done\n");
@@ -45,7 +44,17 @@ int main(int argc, char **argv){
     JOBS_PER_THREAD = atoi(argv[2]);
     SLEEP_TIME = atoi(argv[3]);
     MALLOC_SIZE = atoi(argv[4]);
-    TASKS_PER_LOOP = atoi(argv[5]);
+    LOOP_SIZE = atoi(argv[5]);
+  }else{
+    printf("This test requires five parameters:\n");
+    printf("   int NUM_THREADS, int JOBS_PER_THREAD, int SLEEP_TIME, int MALLOC_SIZE, int LOOP_SIZE\n");
+    printf("where  NUM_THREADS is the number of seperate threads that will be sending work into gemtc\n");
+    printf("       JOBS_PER_THREAD is the number of tasks that a given thread will submit to gemtc\n");
+    printf("       SLEEP_TIME is the parameter that will be given to each AddSleep micro-kernel, in microseconds\n");
+    printf("       MALLOC_SIZE is the amount of memory that will be allocated and transfered with each sleep\n");
+    printf("                   This number must be a multiple of 4, to comply with cuda's memory requirements\n");
+    printf("       LOOP_SIZE is the number of tasks a thread will submit to gemtc before waiting for results\n");
+    exit(1);
   }
 
   // call gemtcSetup with the queue size

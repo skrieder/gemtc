@@ -5,15 +5,21 @@
 int main(int argc, char **argv){
   gemtcSetup(25600);
 
-  int NUM_TASKS = 100;
-  int MATRIX_SIZE = 32;
-  int LOOP_SIZE = 100;
+  int NUM_TASKS, LOOP_SIZE, MATRIX_SIZE;
 
   if(argc>3){
     NUM_TASKS = atoi(argv[1]);
-    MATRIX_SIZE = atoi(argv[2]);
-    LOOP_SIZE = atoi(argv[3]);
+    LOOP_SIZE = atoi(argv[2]);
+    MATRIX_SIZE = atoi(argv[3]);
+  }else{
+    printf("This test requires three parameters:\n");
+    printf("   int NUM_TASKS, int LOOP_SIZE, int MATRIX_SIZE\n");
+    printf("where  NUM_TASKS is the total numer of vector add tasks to be sent to gemtc\n");
+    printf("       LOOP_SIZE is the number of tasks should be sent to gemtc before waiting for results\n");
+    printf("       MATRIX_SIZE is the side length of the matrix that is going to be squared\n");
+    exit(1);
   }
+
   int j;
   float *h_params = (float *) malloc(sizeof(float)*(1+2*MATRIX_SIZE*MATRIX_SIZE));
   h_params[0] = MATRIX_SIZE;

@@ -11,12 +11,17 @@ int main(int argc, char **argv){
 
   gemtcSetup(25600);
 
-  int NUM_TASKS = 20000; //Must be a multiple of 1000
-  int SLEEP_TIME = 1000000;
+  int NUM_TASKS, SLEEP_TIME;
 
   if(argc>2){
     NUM_TASKS = atoi(argv[1]);
     SLEEP_TIME = atoi(argv[2]);
+  }else{
+    printf("This test requires two parameters:\n");
+    printf("   int NUM_TASKS, SLEEP_TIME\n");
+    printf("where  NUM_TASKS is the total numer of tasks to be run, must be a multiple of 1000\n");
+    printf("       SLEEP_TIME is the parameter that will be passed to each AddSleep, in microseconds\n");
+    exit(1);
   }
 
   //We will Push 1000 tasks
