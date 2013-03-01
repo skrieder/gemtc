@@ -1,0 +1,16 @@
+
+
+void matrixSquare(void *params){
+  int side = *((int *)params);
+  float *A = (float *)(((char *)params) + sizeof(int));
+  float *C = (float *)(((char *)params) + sizeof(int) +side*sizeof(float));
+
+  int i, j , k;
+  for(i=0; i<side; i++){
+    for(j=0; j<side; j++){
+      float temp=0;
+      for(k=0; k<side; k++)temp+= A[i+side*k]*A[k+side*j];
+      C[i][j]=temp;
+    }
+  }
+}

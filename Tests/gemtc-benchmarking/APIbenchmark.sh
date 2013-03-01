@@ -13,7 +13,7 @@ jobs=10000
 #    for k in {$i..9)}
     do
 	echo "Threads: $threads    Jobs: $jobs    SleepTime: $sleepTime"
-	(/usr/bin/time -f "%e" ./bin/APIThread $threads $jobs $sleepTime) 2>> logs/logAPIThreadTest$c.txt
+	(/usr/bin/time -f "%e" ../../bin/APIThread $threads $jobs $sleepTime) 2>> ../../logs/logAPIThreadTest$c.txt
 
         jobs=$(($jobs+$jobs))
     done

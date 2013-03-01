@@ -1,4 +1,4 @@
-#include "gemtc.cu"
+#include "../../gemtc.cu"
 #include<stdio.h>
 #include<stdlib.h>
 

@@ -5,12 +5,12 @@
 int main(int argc, char **argv){
 
   // creates two queues each size of half this param
-  setupGemtc(2560);
+  gemtcSetup(2560);
 
   // doing work on gpu
   int i;
   for(i=0; i<2; i++){
-    int sleepTime = 6;
+    //    int sleepTime = 6;
     // runs a task on the gpu
     //testArrayAvg();
     //testArrayMax();
@@ -30,7 +30,7 @@ int main(int argc, char **argv){
   }
 
   // stops the superkernel and cleans up some memory
-  cleanupGemtc();
+  gemtcCleanup();
 
   return 0;
 }
