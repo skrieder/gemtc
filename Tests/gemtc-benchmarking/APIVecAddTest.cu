@@ -27,33 +27,51 @@ int main(int argc, char **argv){
   //  IT IS NOT CORRECT CODE
   //THIS IS STILL BEING WRITTEN
 
+  //  size, As, A1, A2, .. AN, ret 
+
   int j;
-  float *h_params = (float *) malloc(sizeof(float)*(1+2*MATRIX_SIZE*MATRIX_SIZE));
-  h_params[0] = MATRIX_SIZE;
-  for(j=1; j<MATRIX_SIZE*MATRIX_SIZE+1; j++){
+  float *h_params = (float *) malloc(sizeof(float)*(2+(NUM_VECTORS+1)*VECTOR_LENGTH));
+  h_params[0] = VECTOR_LENGTH;
+  h_params[1] = NUM_VECTORS;
+  for(j=2; j<NUM_VECTORS*VECTOR_LENGTH+2; j++){
     h_params[j]= ((float) rand())/INT_MAX;
   }
 
   for(j=0; j<NUM_TASKS/LOOP_SIZE; j++){
     int i;
     for(i=0; i<LOOP_SIZE; i++){
-      float *d_params = (float *) gemtcGPUMalloc(sizeof(float)*(1+2*MATRIX_SIZE*MATRIX_SIZE));
+      float *d_params = (float *) gemtcGPUMalloc(sizeof(float)*(2+(NUM_VECTORS+1)*VECTOR_LENGTH));
 
-      gemtcMemcpyHostToDevice(d_params, h_params, sizeof(float)*(1+2*MATRIX_SIZE*MATRIX_SIZE));
-      gemtcPush(2, 32, i+j*LOOP_SIZE, d_params);
+      int j,k;
+      for(j=0; j<NUM_VECTORS+1; j++){
+	for(k=0; k<VECTOR_LENGTH; k++){
+          printf("%f  ", h_params[2+j*VECTOR_LENGTH+k]);
+        }
+        printf("\n");
+      }
+      printf("\n");
+
+
+      gemtcMemcpyHostToDevice(d_params, h_params, sizeof(float)*(2+(NUM_VECTORS+1)*VECTOR_LENGTH));
+      gemtcPush(1, 32, i+j*LOOP_SIZE, d_params);
     }
 
-    ResultPair *ret=NULL;
     for(i=0; i<LOOP_SIZE; i++){
+      void *ret=NULL;
+      int id;
       while(ret==NULL){
-        ret = (ResultPair *)gemtcPoll();
+        gemtcPoll(&id, &ret);
       }
-      gemtcMemcpyDeviceToHost(h_params, 
-                              ret->params, 
-                              sizeof(float)*(1+2*MATRIX_SIZE*MATRIX_SIZE));
+      gemtcMemcpyDeviceToHost(h_params, ret, sizeof(float)*(2+(NUM_VECTORS+1)*VECTOR_LENGTH));
 
-      gemtcGPUFree(ret->params);
-      ret = NULL;
+      int j, k;
+      for(j=0; j<NUM_VECTORS+1; j++){
+	for(k=0; k<VECTOR_LENGTH; k++){
+          printf("%f  ", h_params[2+j*VECTOR_LENGTH+k]);
+        }
+        printf("\n");
+      }
+      gemtcGPUFree(ret);
     }
   }
   gemtcCleanup();

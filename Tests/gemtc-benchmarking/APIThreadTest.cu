@@ -22,13 +22,14 @@ void *Work(void *param){
       gemtcMemcpyHostToDevice((void *)d_sleepTime, (void *)h_sleepTime, MALLOC_SIZE);
       gemtcPush(0, 32, i, d_sleepTime);
     }
-    ResultPair *ret=NULL;
     for(i=0; i<LOOP_SIZE; i++){
+      void *ret=NULL;
+      int id;
       while(ret==NULL){
-        ret = (ResultPair *)gemtcPoll();
+        gemtcPoll(&id, &ret);
       }
-      gemtcMemcpyDeviceToHost(h_sleepTime, ret->params, MALLOC_SIZE);
-      gemtcGPUFree(ret->params);
+      gemtcMemcpyDeviceToHost(h_sleepTime, ret, MALLOC_SIZE);
+      gemtcGPUFree(ret);
       ret = NULL;
     }
     free(h_sleepTime);

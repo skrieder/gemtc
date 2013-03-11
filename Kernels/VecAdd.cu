@@ -10,13 +10,24 @@ __device__ void VecAdd ( void* param1)
    float* C = A + As*size;
 
    int warp_size = 32;
-   int tid = threadIdx.x%warp_size;
-   //C[tid] = A[tid] + B[tid];
-   while (tid < size)
+   //C[tid] = A1[tid] + A2[tid] + A3[tid] + ...;
+
+   int i;
+   for(i=0; i<As; i++){
+     float * cur = A + i*size;
+     int tid = threadIdx.x%warp_size;
+     while(tid<size){
+       C[tid] += cur[tid];
+       tid += warp_size;
+     }
+   }
+
+   /*   while (tid < size)
    {
-     int i, temp=0;
-     for(i=0;i<As;i++)temp += A[tid+i*size];
+     int i, temp;
+     temp=0;
+     for(i=0; i<As; i++) temp += [tid]);
      C[tid]=temp;
      tid = tid + warp_size;
-   }
+     }*/
 }

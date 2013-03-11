@@ -36,16 +36,17 @@ int main(int argc, char **argv){
       gemtcPush(2, 32, i+j*LOOP_SIZE, d_params);
     }
 
-    ResultPair *ret=NULL;
     for(i=0; i<LOOP_SIZE; i++){
+      void *ret=NULL;
+      int id;
       while(ret==NULL){
-        ret = (ResultPair *)gemtcPoll();
+        gemtcPoll(&id, &ret);
       }
       gemtcMemcpyDeviceToHost(h_params, 
-                              ret->params, 
+                              ret, 
                               sizeof(float)*(1+2*MATRIX_SIZE*MATRIX_SIZE));
 
-      gemtcGPUFree(ret->params);
+      gemtcGPUFree(ret);
       ret = NULL;
     }
   }

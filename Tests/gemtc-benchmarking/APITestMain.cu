@@ -37,16 +37,17 @@ int main(int argc, char **argv){
       gemtcPush(0, 32, i+j*1000, d_sleepTime);
     }
 
-    ResultPair *ret=NULL;
     for(i=0; i<1000; i++){
+      void *ret=NULL;
+      int id;      
       while(ret==NULL){
-        ret = (ResultPair *)gemtcPoll();
+        gemtcPoll(&id, &ret);
       }
 
       int h_sleepTime;
-      gemtcMemcpyDeviceToHost(&h_sleepTime, ret->params, sizeof(int));
-      printf("Recieved task %d\n", ret->ID);
-      gemtcGPUFree(ret->params);
+      gemtcMemcpyDeviceToHost(&h_sleepTime, ret, sizeof(int));
+      printf("Recieved task %d\n", id);
+      gemtcGPUFree(ret);
       ret = NULL;
     }
   }

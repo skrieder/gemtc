@@ -15,6 +15,7 @@
 #include "Kernels/ArrayMin.cu"
 #include "Kernels/ArrayMax.cu"
 #include "Kernels/ArrayAvg.cu"
+#include "Kernels/Sort.cu"
 
 
 __device__ JobPointer executeJob(volatile JobPointer currentJob);
@@ -69,34 +70,37 @@ __device__ JobPointer executeJob(JobPointer currentJob){
       MatrixSquare(currentJob->params);
       break;
     case 3:
-      VecDot(currentJob->params);
+      Sort(currentJob->params);
       break;
     case 4:
-      MatrixMultiply(currentJob->params);
+      VecDot(currentJob->params);
       break;
     case 5:
-      MatrixTranspose(currentJob->params);
+      MatrixMultiply(currentJob->params);
       break;
     case 6:
-      MatrixVector(currentJob->params);
+      MatrixTranspose(currentJob->params);
       break;
     case 7:
-      MatrixInverse(currentJob->params);
+      MatrixVector(currentJob->params);
       break;
     case 8:
-      StencilCopy(currentJob->params);
+      MatrixInverse(currentJob->params);
+      break;
     case 9:
+      StencilCopy(currentJob->params);
+    case 10:
       StencilUpdate(currentJob->params);
       break;
-    case 10:
-      BlackScholes(currentJob->params);
     case 11:
+      BlackScholes(currentJob->params);
+    case 12:
       ArrayMin(currentJob->params);
       break;
-    case 12:
+    case 13:
       ArrayMax(currentJob->params);
       break;
-    case 13:
+    case 14:
       ArrayAvg(currentJob->params);
       break;
   }
