@@ -15,7 +15,7 @@
 #include "Kernels/ArrayMin.cu"
 #include "Kernels/ArrayMax.cu"
 #include "Kernels/ArrayAvg.cu"
-#include "Kernels/Sort.cu"
+//#include "Kernels/Sort.cu"
 
 
 __device__ JobPointer executeJob(volatile JobPointer currentJob);
@@ -70,7 +70,7 @@ __device__ JobPointer executeJob(JobPointer currentJob){
       MatrixSquare(currentJob->params);
       break;
     case 3:
-      Sort(currentJob->params);
+      //      Sort(currentJob->params);
       break;
     case 4:
       VecDot(currentJob->params);
