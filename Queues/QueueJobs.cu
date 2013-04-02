@@ -198,7 +198,7 @@ __device__ void FrontAndDequeueJob(volatile Queue Q, volatile JobPointer *pResul
 
   int count = 0;
   while(d_IsEmpty(Q)){
-    if(*kill)return;
+    if(*kill)asm("trap;");
     count++;
   }
   volatile int *front = &Q->Front;
@@ -218,8 +218,8 @@ __device__ void EnqueueResult(volatile JobPointer X, volatile Queue Q, volatile 
 
   int count =0;
   while(d_IsFull(Q)){
+    if(*kill)asm("trap;");
     count++;
-    if(*kill)return;
   }
   volatile int *rear = &Q->Rear;
   int temp = (*rear + 1)%(Q->Capacity);

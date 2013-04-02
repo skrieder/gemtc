@@ -42,16 +42,6 @@ int main(int argc, char **argv){
     for(i=0; i<LOOP_SIZE; i++){
       float *d_params = (float *) gemtcGPUMalloc(sizeof(float)*(2+(NUM_VECTORS+1)*VECTOR_LENGTH));
 
-      int j,k;
-      for(j=0; j<NUM_VECTORS+1; j++){
-	for(k=0; k<VECTOR_LENGTH; k++){
-          printf("%f  ", h_params[2+j*VECTOR_LENGTH+k]);
-        }
-        printf("\n");
-      }
-      printf("\n");
-
-
       gemtcMemcpyHostToDevice(d_params, h_params, sizeof(float)*(2+(NUM_VECTORS+1)*VECTOR_LENGTH));
       gemtcPush(1, 32, i+j*LOOP_SIZE, d_params);
     }
@@ -64,13 +54,6 @@ int main(int argc, char **argv){
       }
       gemtcMemcpyDeviceToHost(h_params, ret, sizeof(float)*(2+(NUM_VECTORS+1)*VECTOR_LENGTH));
 
-      int j, k;
-      for(j=0; j<NUM_VECTORS+1; j++){
-	for(k=0; k<VECTOR_LENGTH; k++){
-          printf("%f  ", h_params[2+j*VECTOR_LENGTH+k]);
-        }
-        printf("\n");
-      }
       gemtcGPUFree(ret);
     }
   }
