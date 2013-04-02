@@ -72,7 +72,7 @@ void gemtcSetup(int QueueSize){
   // Eventually this should read from a config file
   int warp_size = 32;
   int warps = 32;
-  int blocks = 14;
+  int blocks = 7;
 
   dim3 threads(warp_size*warps, 1, 1);
   dim3 grid(blocks, 1, 1);
