@@ -1,0 +1,1 @@
+nvcc sleep.cu -o sleep
