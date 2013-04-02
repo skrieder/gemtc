@@ -9,8 +9,6 @@ int main(int argc, char **argv){
   printf("  Global memory:  %d mb\n", (int) props.totalGlobalMem);
   printf("  Shared memory:  %d kb/block\n ",(int) props.sharedMemPerBlock);
 
-  gemtcSetup(25600);
-
   int NUM_TASKS, SLEEP_TIME;
 
   if(argc>2){
@@ -23,6 +21,8 @@ int main(int argc, char **argv){
     printf("       SLEEP_TIME is the parameter that will be passed to each AddSleep, in microseconds\n");
     exit(1);
   }
+
+  gemtcSetup(25600);
 
   //We will Push 1000 tasks
   // Then Poll until we have 1000 results
@@ -46,7 +46,7 @@ int main(int argc, char **argv){
 
       int h_sleepTime;
       gemtcMemcpyDeviceToHost(&h_sleepTime, ret, sizeof(int));
-      printf("Recieved task %d\n", id);
+      //printf("Recieved task %d\n", id);
       gemtcGPUFree(ret);
       ret = NULL;
     }

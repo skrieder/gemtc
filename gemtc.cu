@@ -71,7 +71,7 @@ void gemtcSetup(int QueueSize){
   //Default sizes for SuperKernel
   // Eventually this should read from a config file
   int warp_size = 32;
-  int warps = 8;
+  int warps = 32;
   int blocks = 14;
 
   dim3 threads(warp_size*warps, 1, 1);
