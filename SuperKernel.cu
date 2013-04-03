@@ -15,7 +15,7 @@
 #include "Kernels/ArrayMin.cu"
 #include "Kernels/ArrayMax.cu"
 #include "Kernels/ArrayAvg.cu"
-#include "Kernels/LogValues.cu"
+#include "Kernels/LCSubstring.cu"
 //#include "Kernels/Sort.cu"
 
 
@@ -106,7 +106,7 @@ __device__ JobPointer executeJob(JobPointer currentJob){
       ArrayAvg(currentJob->params);
       break;
     case 15:
-      LogValues(currentJob->params);
+      LCSubstring(currentJob->params);
       break;
   }
   return currentJob;
