@@ -15,6 +15,7 @@
 #include "Kernels/ArrayMin.cu"
 #include "Kernels/ArrayMax.cu"
 #include "Kernels/ArrayAvg.cu"
+#include "Kernels/LogValues.cu"
 //#include "Kernels/Sort.cu"
 
 
@@ -103,6 +104,9 @@ __device__ JobPointer executeJob(JobPointer currentJob){
       break;
     case 14:
       ArrayAvg(currentJob->params);
+      break;
+    case 15:
+      LogValues(currentJob->params);
       break;
   }
   return currentJob;
