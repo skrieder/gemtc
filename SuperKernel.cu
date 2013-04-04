@@ -41,18 +41,16 @@ __global__ void superKernel(volatile Queue incoming,
       //dequeue a task
       if(threadID==0)
           FrontAndDequeueJob(incoming, &currentJobs[warpID], kill);
-      if(*kill)asm("trap;");
-
+      if(*kill)return;
       //execute the task
       volatile JobPointer retval;
       if(threadID<(currentJobs[warpID]->numThreads)) 
           retval = executeJob(currentJobs[warpID]);
-      if(*kill)asm("trap;");
-
+      if(*kill)return;
       //enqueue the result
       if(threadID==0) EnqueueResult(retval, results, kill);
     }
-    asm("trap;");
+    return;
 }
 
 __device__ JobPointer executeJob(JobPointer currentJob){

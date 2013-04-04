@@ -134,8 +134,16 @@ void gemtcBlockingRun(int Type, int Threads, int ID, void *d_params){
 extern "C"
 void gemtcCleanup(){
   int temp=1;
-  cudaSafeMemcpy(&temp, d_kill, sizeof(int), cudaMemcpyHostToDevice, 
+  cudaSafeMemcpy(d_kill, &temp, sizeof(int), cudaMemcpyHostToDevice, 
                  stream_dataIn, "Writing the kill command to SuperKernel");
+
+  //Wait for SuperKernel to die
+  cudaEvent_t Super_Kernel_Finished;
+  cudaEventCreate(&Super_Kernel_Finished);
+  cudaEventRecord(Super_Kernel_Finished, stream_kernel);
+  cudaEventSynchronize(Super_Kernel_Finished);
+
+  cudaError_t e = cudaGetLastError();
 
   DisposeQueue(d_newJobs);
 

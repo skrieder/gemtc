@@ -194,11 +194,12 @@ void DequeueResult(Queue Q) {
 __device__ void FrontAndDequeueJob(volatile Queue Q, volatile JobPointer *pResult, 
                                    volatile int *kill) {
 //called by GPU
-  getLock(Q);
+  getLock(Q, kill);
+  if(*kill)return;
 
   int count = 0;
   while(d_IsEmpty(Q)){
-    if(*kill)asm("trap;");
+    if(*kill)return;
     count++;
   }
   volatile int *front = &Q->Front;
@@ -214,11 +215,12 @@ __device__ void FrontAndDequeueJob(volatile Queue Q, volatile JobPointer *pResul
 
 __device__ void EnqueueResult(volatile JobPointer X, volatile Queue Q, volatile int *kill) {
 //called by GPU
-  getLock(Q);
+  getLock(Q, kill);
+  if(*kill)return;
 
   int count =0;
   while(d_IsFull(Q)){
-    if(*kill)asm("trap;");
+    if(*kill)return;
     count++;
   }
   volatile int *rear = &Q->Rear;

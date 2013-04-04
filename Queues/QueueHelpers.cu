@@ -22,9 +22,9 @@ typedef struct QueueRecord *Queue;
 ////////////////////////////////////////////////////////////
 // Locking Functions used to Sync warps access to Queues
 ////////////////////////////////////////////////////////////
-__device__ void getLock(volatile Queue Q)
+__device__ void getLock(volatile Queue Q, volatile int *kill)
 {
-  while(atomicCAS(&(Q->ReadLock), 0, 1) != 0);
+  while(atomicCAS(&(Q->ReadLock), 0, 1) != 0) if(*kill)return;
 }
 
 __device__ void releaseLock(volatile Queue Q)
