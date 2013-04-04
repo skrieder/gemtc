@@ -8,8 +8,9 @@ int main(int argc, char **argv){
   cudaGetDeviceProperties(&props, 0);
  
   gemtcSetup(25600);
-  char* message = "I am not the right message!";
-  void* d_memory = gemtcGPUMalloc(sizeof(message));
+  char* message = "abcdef";
+  void* d_memory = gemtcGPUMalloc(sizeof(message)*10);
+  printf("Size of: %lu\n", sizeof(message));
 
   gemtcMemcpyHostToDevice(d_memory, &message, sizeof(message));
   gemtcPush(15, 1, 12000, d_memory); 
@@ -22,7 +23,7 @@ int main(int argc, char **argv){
   }
   
   char* h_ret_message;
-  gemtcMemcpyDeviceToHost(&h_ret_message, ret, sizeof(message));
+  gemtcMemcpyDeviceToHost(h_ret_message, (char*)ret+sizeof(message), sizeof(message));
   printf("Received task %d\n", id);
   printf("message = %s\n", h_ret_message);
 
