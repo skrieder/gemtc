@@ -3,7 +3,6 @@
 #include<stdlib.h>
 
 int main(int argc, char **argv){
-  gemtcSetup(25600);
 
   int NUM_TASKS, SORT_SIZE;
 
@@ -17,6 +16,8 @@ int main(int argc, char **argv){
     printf("       SORT_SIZE is the size of the array that sort will be called on in each task\n");
     exit(1);
   }
+
+  gemtcSetup(25600, 1);
 
   int LOOP_SIZE=1;
 

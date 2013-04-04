@@ -7,11 +7,12 @@ int main(int argc, char **argv){
   cudaDeviceProp props;
   cudaGetDeviceProperties(&props, 0);
  
-  gemtcSetup(25600);
-  char* message = "I am not the right message!";
-  void* d_memory = gemtcGPUMalloc(sizeof(message));
+  gemtcSetup(25600, 0);
+  char* message = "Ben's Message"; //13 chars and a '\0'
+  void* d_memory = gemtcGPUMalloc(14*sizeof(char));
 
-  gemtcMemcpyHostToDevice(d_memory, &message, sizeof(message));
+  gemtcMemcpyHostToDevice(d_memory, &message, 14*sizeof(char));
+
   gemtcPush(15, 1, 12000, d_memory); 
 
   void *ret=NULL;
@@ -20,9 +21,9 @@ int main(int argc, char **argv){
   while(ret==NULL){
     gemtcPoll(&id, &ret);
   }
-  
-  char* h_ret_message;
-  gemtcMemcpyDeviceToHost(&h_ret_message, ret, sizeof(message));
+
+  char* h_ret_message = (char *) malloc(14*sizeof(char));
+  gemtcMemcpyDeviceToHost(h_ret_message, ret, 14*sizeof(char));
   printf("Received task %d\n", id);
   printf("message = %s\n", h_ret_message);
 
@@ -30,6 +31,8 @@ int main(int argc, char **argv){
   ret = NULL;
 
   gemtcCleanup();
+
+  free(h_ret_message);
 
   return 0;
 }

@@ -3,8 +3,6 @@
 #include<stdlib.h>
 
 int main(int argc, char **argv){
-  gemtcSetup(25600);
-
   int NUM_TASKS, LOOP_SIZE, MATRIX_SIZE;
 
   if(argc>3){
@@ -19,6 +17,8 @@ int main(int argc, char **argv){
     printf("       MATRIX_SIZE is the side length of the matrix that is going to be squared\n");
     exit(1);
   }
+
+  gemtcSetup(25600, 1);
 
   int j;
   float *h_params = (float *) malloc(sizeof(float)*(1+2*MATRIX_SIZE*MATRIX_SIZE));

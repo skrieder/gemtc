@@ -7,8 +7,6 @@
 
 int main(int argc, char **argv){
 
-  gemtcSetup(25600);
-
   int NUM_TASKS, SLEEP_TIME;
 
   if(argc>2){
@@ -33,6 +31,8 @@ int main(int argc, char **argv){
     exit(1);
 
   }
+
+  gemtcSetup(25600, 1);
 
   int j;
 

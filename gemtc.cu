@@ -61,18 +61,36 @@ void *moveFromCuda(void *val, int size){
 //API Functions//
 /////////////////
 extern "C"
-void gemtcSetup(int QueueSize){
+void gemtcSetup(int QueueSize, int Overfill){
+//QueueSize determines the size of both of the queues in GPU memory
+//  that hold pointers to task descriptions for new and finished tasks
+//Overfill is a flag:
+//  0  means  launch enough warps to have a one-to-one mapping with 
+//            16 Cuda Core Groupings. High Efficiency
+//  1  means  launch the maximum number of warps per SM
+//            Highest Throughput
+//            Extra warps will be "Hyperthreaded"
+
   //initialize locks
   pthread_mutex_init(&memcpyLock, NULL);
   pthread_mutex_init(&enqueueLock, NULL);
   pthread_mutex_init(&dequeueLock, NULL);
   pthread_mutex_init(&memoryListLock, NULL);
 
-  //Default sizes for SuperKernel
-  // Eventually this should read from a config file
-  int warp_size = 32;
-  int warps = 32;
-  int blocks = 7;
+
+  cudaDeviceProp devProp;
+  cudaGetDeviceProperties(&devProp, 0); //default to first GPU
+
+  int warp_size = devProp.warpSize;  //Always 32
+  int warps;
+  int blocks = devProp.multiProcessorCount;
+  if(Overfill){
+    warps = devProp.maxThreadsPerBlock/32;
+  }else{
+    int coresPerSM = _ConvertSMVer2Cores(devProp.major, devProp.minor);
+    warps = coresPerSM/16;  //A warp runs on 16 cores
+  }
+
 
   dim3 threads(warp_size*warps, 1, 1);
   dim3 grid(blocks, 1, 1);

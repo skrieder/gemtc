@@ -22,7 +22,7 @@ int main(int argc, char **argv){
     exit(1);
   }
 
-  gemtcSetup(25600);
+  gemtcSetup(25600,1);
 
   //We will Push 1000 tasks
   // Then Poll until we have 1000 results

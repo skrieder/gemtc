@@ -59,7 +59,7 @@ int main(int argc, char **argv){
   }
 
   // call gemtcSetup with the queue size
-  gemtcSetup(QUEUE_SIZE);
+  gemtcSetup(QUEUE_SIZE, 1);
 
   // set the number of threads
   pthread_t threads[NUM_THREADS];
