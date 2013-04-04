@@ -1,2 +1,2 @@
 #1
-nvcc -arch=sm_11 LCSubstringTest.cu -o LCSubstringTest
+nvcc -arch=sm_20 LCSubstringTest.cu -o LCSubstringTest
