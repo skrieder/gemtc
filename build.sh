@@ -1,6 +1,6 @@
 # Compile the GEMTC framework into a shared library
 echo 'Compiling the framework with NVCC'
-nvcc -arch=sm_11 -o libtest.so --shared -Xcompiler -fPIC gemtc.cu
+nvcc -arch=sm_20 -o libtest.so --shared -Xcompiler -fPIC gemtc.cu
 
 echo 'Compiling the different wrapper functions'
 # Compile the gemtc_setup wrapper

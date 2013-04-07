@@ -16,6 +16,7 @@
 #include "Kernels/ArrayMax.cu"
 #include "Kernels/ArrayAvg.cu"
 #include "Kernels/LCSubstring.cu"
+#include "Kernels/MDProxy.cu"
 //#include "Kernels/Sort.cu"
 
 
@@ -106,6 +107,8 @@ __device__ JobPointer executeJob(JobPointer currentJob){
     case 15:
       LCSubstring(currentJob->params);
       break;
+    case 16:
+      ComputeParticles(currentJob->params); 
   }
   return currentJob;
 }
