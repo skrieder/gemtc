@@ -31,7 +31,7 @@ int main(int argc, char **argv){
   }
 
   gemtcMemcpyHostToDevice(d_mem, h_mem, mem_needed);
-  gemtcPush(16, 1, 12000, d_mem); 
+  gemtcPush(17, 32, 12000, d_mem); 
  
   void *ret = NULL;
   int id;
