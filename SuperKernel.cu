@@ -17,6 +17,7 @@
 #include "Kernels/ArrayAvg.cu"
 #include "Kernels/LCSubstring.cu"
 #include "Kernels/MDProxy.cu"
+#include "Kernels/Fake.cu"
 //#include "Kernels/Sort.cu"
 
 
@@ -108,7 +109,7 @@ __device__ JobPointer executeJob(JobPointer currentJob){
       LCSubstring(currentJob->params);
       break;
     case 16:
-      ComputeParticles(currentJob->params); 
+      Fake(currentJob->params); 
   }
   return currentJob;
 }
