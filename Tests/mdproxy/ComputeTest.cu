@@ -10,8 +10,8 @@ int main(int argc, char **argv){
   int nd = 2;  //This value should only be 2 or 3!
   const double mass = 1.0;
 
-  int a_size = np * nd; 
-  int a_mem = sizeof(double) * a_size;
+  int a_size = np * nd; //Number of indexes in the arrays. 
+  int a_mem = sizeof(double) * a_size; //Size of the arrays in bytes. 
 
   double darray[a_size];
 
@@ -20,17 +20,18 @@ int main(int argc, char **argv){
   void *d_mem = gemtcGPUMalloc(mem_needed);
   void *h_mem = malloc(mem_needed);
 
+  //Copy all parameters into void*, then transfer the void* to device. 
   memcpy( h_mem                , &np   , sizeof(int));
   memcpy( (((int*)h_mem)+1)    , &nd   , sizeof(int)); 
   memcpy( (((double*)h_mem)+1) , &mass , sizeof(double));
   
-  //Creates arrays for pos, vel, f, pe, ke. 
   int i;
   for(i=0; i<5; i++){
     memcpy( (((double*)h_mem) + (a_size*i) + 2), darray, a_mem);
   }
-
   gemtcMemcpyHostToDevice(d_mem, h_mem, mem_needed);
+  
+  //Push the Jobs, wait for results. 
   gemtcPush(16, 32, 12000, d_mem); 
  
   void *ret = NULL;
@@ -42,6 +43,7 @@ int main(int argc, char **argv){
   void* results = malloc(mem_needed);
   gemtcMemcpyDeviceToHost(results, ret, mem_needed);
 
+  //Access the energy array results. 
   double *pe = ((double*)results) + 2 + 3*a_size;
   double *ke = pe + a_size;
   
