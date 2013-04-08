@@ -8,18 +8,19 @@ int main(int argc, char **argv){
   
   int np = 5;
   int nb = 6;
-  int a_size = np * nb;
+  int a_size = np * nb; 
 
-  int size = sizeof(int)*2 + sizeof(double)*a_size;
+  double darray[a_size];
+
+  int size = sizeof(int)*2 + sizeof(double)*a_size*2;
   
   void *d_mem = gemtcGPUMalloc(size);
   void *h_mem = malloc(size);
 
-  double pos[a_size];
-
   memcpy(h_mem, &np, sizeof(int));
   memcpy((((int*)h_mem)+1), &nb, sizeof(int));
-  memcpy((((int*)h_mem)+2), pos, sizeof(double)*a_size); 
+  memcpy((((int*)h_mem)+2), darray, sizeof(double)*a_size);
+  memcpy((((double*)h_mem)+a_size+1), darray, sizeof(double)*a_size);
 
   gemtcMemcpyHostToDevice(d_mem, h_mem, size);
   gemtcPush(16, 1, 12000, d_mem); 
@@ -36,11 +37,12 @@ int main(int argc, char **argv){
   int *p_np = (int*)results;
   int *p_nb = ((int*)results)+1;
   double *p_pos = (double*)((int*)results + 2); 
-
+  double *p_vel = p_pos + a_size;
+  
   printf("np is : %d\nnb is : %d\n", *p_np, *p_nb);
   int i;
   for(i=0; i<a_size; i++){
-    printf("%f\n", p_pos[i]);
+    printf("%f %f\n", p_pos[i], p_vel[i]);
   }
 
   gemtcGPUFree(results);
