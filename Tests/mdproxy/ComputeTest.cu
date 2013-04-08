@@ -6,23 +6,31 @@
 int main(int argc, char **argv){
   gemtcSetup(25600, 0);
   
-  int np = 5;
-  int nb = 6;
-  int a_size = np * nb; 
+  int np = 32; //Feel free to modify this variable. 
+  int nd = 2;  //This value should only be 2 or 3!
+  const double mass = 1.0;
+
+  int a_size = np * nd; 
+  int a_mem = sizeof(double) * a_size;
 
   double darray[a_size];
 
-  int size = sizeof(int)*2 + sizeof(double)*a_size*2;
+  int mem_needed = sizeof(int)*2 + sizeof(double) + a_mem*5;
   
-  void *d_mem = gemtcGPUMalloc(size);
-  void *h_mem = malloc(size);
+  void *d_mem = gemtcGPUMalloc(mem_needed);
+  void *h_mem = malloc(mem_needed);
 
-  memcpy(h_mem, &np, sizeof(int));
-  memcpy((((int*)h_mem)+1), &nb, sizeof(int));
-  memcpy((((int*)h_mem)+2), darray, sizeof(double)*a_size);
-  memcpy((((double*)h_mem)+a_size+1), darray, sizeof(double)*a_size);
+  memcpy( h_mem                , &np   , sizeof(int));
+  memcpy( (((int*)h_mem)+1)    , &nd   , sizeof(int)); 
+  memcpy( (((double*)h_mem)+1) , &mass , sizeof(double));
+  
+  //Creates arrays for pos, vel, f, pe, ke. 
+  int i;
+  for(i=0; i<5; i++){
+    memcpy( (((double*)h_mem) + (a_size*i) + 2), darray, a_mem);
+  }
 
-  gemtcMemcpyHostToDevice(d_mem, h_mem, size);
+  gemtcMemcpyHostToDevice(d_mem, h_mem, mem_needed);
   gemtcPush(16, 1, 12000, d_mem); 
  
   void *ret = NULL;
@@ -30,19 +38,26 @@ int main(int argc, char **argv){
   while(ret==NULL){
     gemtcPoll(&id, &ret);
   }
-
-  void* results = malloc(size);
-  gemtcMemcpyDeviceToHost(results, ret, size);
+  printf("Got the results!");
+  void* results = malloc(mem_needed);
+  gemtcMemcpyDeviceToHost(results, ret, mem_needed);
 
   int *p_np = (int*)results;
   int *p_nb = ((int*)results)+1;
-  double *p_pos = (double*)((int*)results + 2); 
-  double *p_vel = p_pos + a_size;
+  printf("np is: %d\n nb is: %d\n", *p_np, *p_nb);
+
+  double *p_mass = (double *)((int*)results+2);
+  printf("Mass is: %f\n", *p_mass);
+
+  double *pos = p_mass + 1; 
+  double *vel = pos + a_size;
+  double *f = vel + a_size;
+
+  double *pe = f + a_size;
+  double *ke = pe + a_size;
   
-  printf("np is : %d\nnb is : %d\n", *p_np, *p_nb);
-  int i;
   for(i=0; i<a_size; i++){
-    printf("%f %f\n", p_pos[i], p_vel[i]);
+    printf("%f %f %f %f %f\n", pos[i], vel[i], f[i], pe[i], ke[i]);
   }
 
   gemtcGPUFree(results);
@@ -50,3 +65,9 @@ int main(int argc, char **argv){
 
   gemtcCleanup();
 }
+
+//This code is used if you want to check any of 
+//the parameters that you passed in earlier. 
+
+
+ 

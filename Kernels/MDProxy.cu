@@ -1,22 +1,36 @@
 __device__ void ComputeParticles(void* params){
   
-  void *table = *((void**)params);
-  int offset = *((int*)(((void **)params) + 1)); 
+  //void *table = *((void**)params);
+  //int offset = *((int*)(((void **)params) + 1)); 
   
   //Extract all the values. 
-  int np = *((int*) table);
-  int nd = *(((int*) table)+1);
+  int *np = (int*) params;
+  int *nd = np +1;
 
-  int size = np * nd;
+  int size = (*np) * (*nd);
 
-  double *pos = (double*)(((int*) table)+2);
+  *np = 10;
+  *nd = 5;
+
+  double *mass = (double*)(nd + 1);
+  double *pos = mass + 1; 
   double *vel = pos + size; 
-  double *mass = vel + size; 
-  double *f = mass + 1;
+  double *f = vel + size;
 
   double *pe = f + size;
   double *ke = pe + size;
 
+  int i;
+  for(i=0; i<size; i++){
+    pos[i] = i;
+    vel[i] = i*2;
+    f[i] = i*3;
+    pe[i] = i*4;
+    ke[i] = i*5;
+  }
+
+
+  /*
   double d, d2; 
   double PI2 = 3.141592653589793 / 2.0;
   double rij[3];
@@ -51,5 +65,5 @@ __device__ void ComputeParticles(void* params){
         ke[k] += vel[i+k*nd] * vel[i+k*nd];
       }
 
-  ke[k] *= 0.5 * (*mass);
+  ke[k] *= 0.5 * (*mass);*/
 }
