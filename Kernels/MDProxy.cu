@@ -37,7 +37,9 @@ __device__ void ComputeParticles(void* params){
         for(i=0; i<nd; i++){
           rij[i] = pos[k*nd+i] - pos[j*nd+i];
           d += pow(rij[i], 2); 
+          d = rij[i];
         }
+
         d = sqrt(d); 
         d2 = d < PI2? d : PI2; 
 

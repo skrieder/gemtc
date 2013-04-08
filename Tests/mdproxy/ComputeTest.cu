@@ -31,16 +31,34 @@ int main(int argc, char **argv){
   }
 
   gemtcMemcpyHostToDevice(d_mem, h_mem, mem_needed);
-  gemtcPush(17, 32, 12000, d_mem); 
+  gemtcPush(16, 32, 12000, d_mem); 
  
   void *ret = NULL;
   int id;
   while(ret==NULL){
     gemtcPoll(&id, &ret);
   }
-  printf("Got the results!");
+
   void* results = malloc(mem_needed);
   gemtcMemcpyDeviceToHost(results, ret, mem_needed);
+
+  double *pe = ((double*)results) + 2 + 3*a_size;
+  double *ke = pe + a_size;
+  
+  for(i=0; i<a_size; i++){
+    printf("%f %f\n", pe[i], ke[i]);
+  }
+
+  gemtcGPUFree(results);
+  ret = NULL;
+
+  gemtcCleanup();
+}
+
+//This code is used if you want to check any of 
+//the parameters that you passed in earlier. 
+
+/*
 
   int *p_np = (int*)results;
   int *p_nb = ((int*)results)+1;
@@ -60,14 +78,5 @@ int main(int argc, char **argv){
     printf("%f %f %f %f %f\n", pos[i], vel[i], f[i], pe[i], ke[i]);
   }
 
-  gemtcGPUFree(results);
-  ret = NULL;
-
-  gemtcCleanup();
-}
-
-//This code is used if you want to check any of 
-//the parameters that you passed in earlier. 
-
-
+*/
  
