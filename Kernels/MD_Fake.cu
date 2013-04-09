@@ -47,29 +47,11 @@ __device__ double r8_uniform_01(int *seed){
 __device__ void FakeInit(void *params){
 
   //Extract all the values if they are going to be passed in. 
-  int np = *((int*) params);
-  int nd = *(((int*) params) +1);
-  
-  int size = np * nd; 
-  
-  int *seed = ((int*) params) +2;
- 
-  *seed = 696969;
-  
-  /*
-  double *box = (double*)(((int*)params) +3); 
-  double *pos = box + nd; 
-  double *vel = pos + size;
-  double *acc = vel + size; 
+  int *np = (int*)params;
+  int *nd = np + 1;
+  int *seed = nd + 1;
 
-  int i;
-  int tid = threadIdx.x % 32;
-
-  for(i=0; i<size; i++){
-    int index = i + tid * nd;
-      
-    pos[index] = box[i] * r8_uniform_01(seed);
-    vel[index] = 0.0;
-    acc[index] = 0.0;
-  }*/ 
+  *np = 1;
+  *nd = 2;
+  *seed = 3; 
 }
