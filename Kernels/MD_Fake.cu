@@ -1,7 +1,7 @@
 #include<stdlib.h>
 #include<stdio.h>
 
-__device__ void Fake_Compute(void* params){
+__device__ void FakeCompute(void* params){
   
   //void *table = *((void**)params);
   //int offset = *((int*)(((void **)params) + 1)); 
@@ -44,7 +44,7 @@ __device__ double r8_uniform_01(int *seed){
   return r; 
 }
 
-__device__ void Fake_Initialize(void *params){
+__device__ void FakeInit(void *params){
 
   //Extract all the values if they are going to be passed in. 
   int np = *((int*) params);
@@ -53,7 +53,10 @@ __device__ void Fake_Initialize(void *params){
   int size = np * nd; 
   
   int *seed = ((int*) params) +2;
-
+ 
+  *seed = 696969;
+  
+  /*
   double *box = (double*)(((int*)params) +3); 
   double *pos = box + nd; 
   double *vel = pos + size;
@@ -63,10 +66,10 @@ __device__ void Fake_Initialize(void *params){
   int tid = threadIdx.x % 32;
 
   for(i=0; i<size; i++){
-    index = i + tid * nd;
+    int index = i + tid * nd;
       
     pos[index] = box[i] * r8_uniform_01(seed);
     vel[index] = 0.0;
     acc[index] = 0.0;
-  } 
+  }*/ 
 }
