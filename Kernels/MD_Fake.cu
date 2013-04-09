@@ -51,7 +51,15 @@ __device__ void FakeInit(void *params){
   int *nd = np + 1;
   int *seed = nd + 1;
 
+  int size = (*np) * (*nd); 
+  double *box = (double*)(seed + 1);
+
   *np = 1;
   *nd = 2;
   *seed = 3; 
+  
+  int i;
+  for(i=0; i<size; i++){
+    box[i] = i;
+  }
 }
