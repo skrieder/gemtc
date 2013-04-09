@@ -30,7 +30,7 @@ __device__ void FakeCompute(void* params){
   }
 }
 
-
+/*
 __device__ double r8_uniform_01(int *seed){
   
   int k = *seed/127773;
@@ -43,23 +43,21 @@ __device__ double r8_uniform_01(int *seed){
   double r = (double) (*seed) * 4.65661275E-10; 
   return r; 
 }
-
-__device__ void FakeInit(void *params){
-
-  //Extract all the values if they are going to be passed in. 
+*/
+__device__ void FakeInit(void *params){ 
   int *np = (int*)params;
   int *nd = np + 1;
   int *seed = nd + 1;
-
-  int size = (*np) * (*nd); 
-  double *box = (double*)(seed + 1);
-
+  /* UNCOMMENT ME TO BREAK EVERYTHING.
+  int size = (*np) * (*nd);
+ 
+  double *array = (double*)(seed + 1);
+  int i;
+  for(i=0; i<size; i++){
+    array[i] = i;
+  }
+  */
   *np = 1;
   *nd = 2;
   *seed = 3; 
-  
-  int i;
-  for(i=0; i<size; i++){
-    box[i] = i;
-  }
 }

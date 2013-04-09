@@ -1,6 +1,5 @@
 #include "../../gemtc.cu"
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
 
 int main(int argc, char **argv){
@@ -51,9 +50,9 @@ int main(int argc, char **argv){
     printf("%f %f\n", pe[i], ke[i]);
   }
 
+  //gemtcGPUFree(results);
   gemtcGPUFree(results);
   ret = NULL;
-
   gemtcCleanup();
 }
 
