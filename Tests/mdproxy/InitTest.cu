@@ -13,18 +13,22 @@ int main(int argc, char **argv){
 
   double darray[a_size];
 
-  int mem_needed = sizeof(int)*3 + a_mem; 
+  int mem_needed = sizeof(int)*4 + a_mem; 
   
   void *d_mem = gemtcGPUMalloc(mem_needed);
   void *h_mem = malloc(mem_needed);
 
+//  Memory is lines up like this:
+//Content:   np  |  nd  | seed | blank | darray
+//Bytes:     4      4     4      4       80
+
   memcpy( h_mem               , &np   , sizeof(int));
   memcpy( (((int*)h_mem)+1)   , &nd   , sizeof(int));
   memcpy( (((int*)h_mem)+2)   , &seed , sizeof(int)); 
-  memcpy( (((int*)h_mem)+3)   , darray, a_mem); 
+  memcpy( (((int*)h_mem)+4)   , darray, a_mem); 
 
   gemtcMemcpyHostToDevice(d_mem, h_mem, mem_needed);
-  gemtcPush(18, 32, 11000, d_mem);
+  gemtcPush(18, 1, 11000, d_mem);
 
   void *ret = NULL;
   int id;
@@ -39,7 +43,7 @@ int main(int argc, char **argv){
   int *pnp = (int*)results;
   int *pnd = pnp + 1;
   int *pseed = pnd + 1;
-  double *boxes = (double*)(pseed + 1);
+  double *boxes = (double*)(pseed + 2);
   printf("The first three values are: %d %d %d\n", *pnp, *pnd, *pseed);
 
   int i;

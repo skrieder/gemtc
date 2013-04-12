@@ -48,15 +48,15 @@ __device__ void FakeInit(void *params){
   int *np = (int*)params;
   int *nd = np + 1;
   int *seed = nd + 1;
-  /* UNCOMMENT ME TO BREAK EVERYTHING.
+
   int size = (*np) * (*nd);
- 
-  double *array = (double*)(seed + 1);
+
+  double *array = (double*)(seed + 2);
   int i;
   for(i=0; i<size; i++){
     array[i] = i;
   }
-  */
+
   *np = 1;
   *nd = 2;
   *seed = 3; 
