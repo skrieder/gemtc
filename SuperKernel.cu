@@ -17,7 +17,7 @@
 #include "Kernels/ArrayAvg.cu"
 #include "Kernels/LCSubstring.cu"
 #include "Kernels/MDProxy.cu"
-#include "Kernels/MD_Fake.cu"
+#include "Kernels/MDFake.cu"
 //#include "Kernels/Sort.cu"
 
 
@@ -115,9 +115,12 @@ __device__ JobPointer executeJob(JobPointer currentJob){
       InitParticles(currentJob->params);
       break; 
     case 18:
-      FakeCompute(currentJob->params);
+      UpdatePosVelAccel(currentJob->params);
       break;
     case 19:
+      FakeCompute(currentJob->params);
+      break;
+    case 20:
       FakeInit(currentJob->params);
       break;
   }
