@@ -30,32 +30,30 @@ __device__ void FakeCompute(void* params){
   }
 }
 
-/*
-__device__ double r8_uniform_01(int *seed){
-  
-  int k = *seed/127773;
-  *seed = 16807 * (*seed - k * 127773) - k * 2836; 
 
-  if(*seed < 0 ){
-    *seed += 2147483647;
-  }
-
-  double r = (double) (*seed) * 4.65661275E-10; 
-  return r; 
-}
-*/
 __device__ void FakeInit(void *params){ 
-  int *np = (int*)params;
+  
+  int *np = (int*)(params);
   int *nd = np + 1;
-  int *seed = nd + 1;
 
   int size = (*np) * (*nd);
 
-  double *array = (double*)(seed + 2);
+  double *acc = ((double*)(params)) + 1;
+  double *vel = acc + size; 
+  double *pos = vel + size;
+  double *box = pos + size; 
+
+  int *seed = (int*)(box + *nd); //box size is ND.  
+  
   int i;
   for(i=0; i<size; i++){
-    array[i] = i;
+    acc[i] = i;
+    vel[i] = i*2;
+    pos[i] = i*3;
   }
+
+  box[0] = 107;
+  box[1] = 107;
 
   *np = 1;
   *nd = 2;

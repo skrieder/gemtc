@@ -12,23 +12,27 @@ int main(int argc, char **argv){
   int a_mem = sizeof(double) * a_size;
 
   double darray[a_size];
+  double box[nd];
 
-  int mem_needed = sizeof(int)*4 + a_mem; 
+  int mem_needed = sizeof(int)*3 + a_mem*3 + nd*sizeof(double); 
   
   void *d_mem = gemtcGPUMalloc(mem_needed);
   void *h_mem = malloc(mem_needed);
 
-//  Memory is lines up like this:
-//Content:   np  |  nd  | seed | blank | darray
-//Bytes:     4      4     4      4       80
-
   memcpy( h_mem               , &np   , sizeof(int));
-  memcpy( (((int*)h_mem)+1)   , &nd   , sizeof(int));
-  memcpy( (((int*)h_mem)+2)   , &seed , sizeof(int)); 
-  memcpy( (((int*)h_mem)+4)   , darray, a_mem); 
+  memcpy( (((int*)h_mem)+1)   , &nd   , sizeof(int)); 
+  memcpy( (((int*)h_mem)+2)   , darray, a_mem); 
+
+  int i;
+  for(i=0; i<3; i++){
+    memcpy( ((double*)(h_mem)) + 1 + a_size*i , darray, a_mem);
+  }
+
+  memcpy( ((double*)(h_mem)) + 1 + a_size*3, box, sizeof(double)*nd); 
+  memcpy( (((double*)(h_mem)) + 1 + a_size*3 + nd), &seed, sizeof(int));
 
   gemtcMemcpyHostToDevice(d_mem, h_mem, mem_needed);
-  gemtcPush(17, 1, 11000, d_mem);
+  gemtcPush(19, 1, 11000, d_mem);
 
   void *ret = NULL;
   int id;
@@ -42,13 +46,18 @@ int main(int argc, char **argv){
 
   int *pnp = (int*)results;
   int *pnd = pnp + 1;
-  int *pseed = pnd + 1;
-  double *boxes = (double*)(pseed + 2);
-  printf("The first three values are: %d %d %d\n", *pnp, *pnd, *pseed);
+  
+  double *acc = (double*)results + 1; 
+  double *vel = acc + a_size; 
+  double *pos = vel + a_size;
+  double *pbox = pos + a_size; 
 
-  int i;
+  int *pseed = (int*)(pbox + nd); 
+
+  printf("np = %d\n nd = %d\n seed = %d\n", *pnp, *pnd, *pseed);
+
   for(i=0; i<a_size; i++){
-    printf("%f\n", boxes[i]);
+    printf("%f %f %f\n", acc[i], vel[i], pos[i]);
   }
 
   gemtcGPUFree(results);
