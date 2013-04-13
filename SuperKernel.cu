@@ -123,6 +123,9 @@ __device__ JobPointer executeJob(JobPointer currentJob){
     case 20:
       FakeInit(currentJob->params);
       break;
+    case 21:
+      FakeUpdate(currentJob->params);
+      break; 
   }
   return currentJob;
 }

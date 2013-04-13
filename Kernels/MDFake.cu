@@ -59,3 +59,27 @@ __device__ void FakeInit(void *params){
   *nd = 2;
   *seed = 3; 
 }
+
+__device__ void FakeUpdate(void* params){
+  
+  int np = *((int*)params);
+  int nd = *(((int*)params)+1);
+
+  int size = np * nd; 
+
+  double *pos = ((double*)(params) + 1); 
+  double *vel = pos + size;
+  double *f = vel + size;
+  double *acc = f + size; 
+
+  // double mass = *(acc + size);
+  //double dt = *(acc + size + 1); 
+
+  int i; 
+  for( i = 0; i < size; i++ ){
+    pos[i] = i;
+    vel[i] = i*2; 
+    f[i] = i*3;
+    acc[i] = i*4; 
+  }
+}
