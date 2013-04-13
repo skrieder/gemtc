@@ -112,9 +112,12 @@ __device__ JobPointer executeJob(JobPointer currentJob){
       ComputeParticles(currentJob->params);
       break;
     case 17:
+      InitParticles(currentJob->params);
+      break; 
+    case 18:
       FakeCompute(currentJob->params);
       break;
-    case 18:
+    case 19:
       FakeInit(currentJob->params);
       break;
   }

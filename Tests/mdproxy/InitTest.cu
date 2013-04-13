@@ -28,7 +28,7 @@ int main(int argc, char **argv){
   memcpy( (((int*)h_mem)+4)   , darray, a_mem); 
 
   gemtcMemcpyHostToDevice(d_mem, h_mem, mem_needed);
-  gemtcPush(18, 1, 11000, d_mem);
+  gemtcPush(17, 1, 11000, d_mem);
 
   void *ret = NULL;
   int id;
