@@ -9,7 +9,7 @@ int main(int argc, char **argv){
  
   gemtcSetup(25600, 0);
   char* message = "Ben's Message"; //13 chars and a '\0'
-  void* d_memory = gemtcGPUMalloc(14*sizeof(char));
+  void* d_memory = gemtcGPUMalloc(20*sizeof(char));
 
   gemtcMemcpyHostToDevice(d_memory, &message, 14*sizeof(char));
 
@@ -23,7 +23,7 @@ int main(int argc, char **argv){
   }
 
   char* h_ret_message = (char *) malloc(14*sizeof(char));
-  gemtcMemcpyDeviceToHost(h_ret_message, ret, 14*sizeof(char));
+  gemtcMemcpyDeviceToHost(h_ret_message, (char*)ret+14, 6*sizeof(char));
   printf("Received task %d\n", id);
   printf("message = %s\n", h_ret_message);
 

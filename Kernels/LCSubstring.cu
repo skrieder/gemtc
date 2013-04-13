@@ -1,11 +1,11 @@
-#include <stdio.h>
+#include<stdio.h>
 
 __device__ void LCSubstring(void *params){
-  char* output = (char*)params;
-  char *string = "New message!!";
+  char *result = (char *)params + sizeof(char)*14;
+  char *m = "test!";
   int i=0;
-  while(i<14){
-    output[i]=string[i];
+  while(i<6){
+    result[i] = m[i];
     i++;
   }
 }
