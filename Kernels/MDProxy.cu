@@ -57,21 +57,49 @@ __device__ void ComputeParticles(void* params){
       ke[k] *= 0.5 * (*mass);
 }
 
+__device__ double r8_uniform_01(int *seed){
+  int k; 
+  double r;
 
-__device__ void InitParticles(void* params){
-  int *np = (int*)params;
-  int *nd = np + 1;
-  int *seed = nd + 1; 
+  k = *seed/ 127773;
+  *seed = 16807 * (*seed - k * 127773) - k * 2836;
 
-  int size = (*np) * (*nd);
-
-  double *array = (double*)(seed + 2);
-  int i;
-  for(i=0; i<size; i++){
-    array[i] = i;
+  if( *seed < 0 ){
+    *seed += 2147483647;
   }
 
-  *np = 1;
-  *nd = 2; 
-  *seed = 3;
+  r = (double)(*seed) * 4.656612875E-10;
+  return r; 
+}
+
+__device__ void InitParticles(void* params){
+  
+  //Params| np | nd |  *acc  |  *vel  |  *pos  | *box | seed | 
+  //Bytes | 4  |  4 | size*8 | size*8 | size*8 | nd*8 |   4  | 
+   
+  int np = *((int*)params);
+  int nd = *(((int*)params) + 1);
+  
+  int size = np * nd;
+
+  double *acc = ((double*)(params)) + 1;
+  double *vel = acc + size; 
+  double *pos = vel + size; 
+  double *box = pos + size;
+
+  int *seed = (int*)(box + nd);
+
+  int i, j; 
+  for( i = 0; i < nd ; i++){
+    box[i] = 10.0; 
+  }
+
+  for ( j = 0; j < np ; j++){
+    for ( i = 0; i < nd ; i++){
+      pos[i+j*nd] = box[i] * r8_uniform_01(seed);
+      vel[i+j*nd] = 0.0;
+      acc[i+j*nd] = 0.0;
+    }
+  }
+
 }
