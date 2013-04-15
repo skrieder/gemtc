@@ -1,8 +1,4 @@
-__device__ void ComputeParticles(void* params){
-  
-  //void *table = *((void**)params);
-  //int offset = *((int*)(((void **)params) + 1)); 
-  
+__device__ void ComputeParticles(void* params){  
   //Extract all the values. 
   int np = *((int*) params);
   int nd = *(((int*) params)+1);
@@ -76,7 +72,8 @@ __device__ void InitParticles(void* params){
   
   //Params| np | nd |  *acc  |  *vel  |  *pos  | *box | seed | 
   //Bytes | 4  |  4 | size*8 | size*8 | size*8 | nd*8 |   4  | 
-   
+  
+  //Extract Values 
   int np = *((int*)params);
   int nd = *(((int*)params) + 1);
   
@@ -94,6 +91,7 @@ __device__ void InitParticles(void* params){
     box[i] = 10.0; 
   }
 
+  //Update values
   for ( j = 0; j < np ; j++){
     for ( i = 0; i < nd ; i++){
       pos[i+j*nd] = box[i] * r8_uniform_01(seed);
@@ -102,4 +100,37 @@ __device__ void InitParticles(void* params){
     }
   }
 
+}
+
+__device__ void UpdatePosVelAccel(void* params){
+ 
+  //Params: | np | nd |  *pos  |  *vel  |   *f   |  *acc  | mass | dt | 
+  //Bytes:  | 4  | 4  | 8*size | 8*size | 8*size | 8*size |  8   |  8 | 
+
+  //Extract Values 
+  int np = *((int*)params);
+  int nd = *(((int*)params)+1);
+
+  int size = np * nd; 
+
+  double *pos = ((double*)(params) + 1);
+  double *vel = pos + size; 
+  double *f = vel + size;
+  double *acc = f + size;
+
+  double mass = *(acc + size);
+  double dt = *(acc + size + 1); 
+  
+  int i,j; 
+  double rmass = 1.0 / mass;
+
+  //Begin computation
+  for ( j = 0; j < np ; j++){
+    for ( i = 0 ; i < nd; i ++){
+      pos[i+j*nd] += vel[i+j*nd] * dt + 0.5 * acc[i+j*nd] * dt * dt;   
+      vel[i+j*nd] += 0.5 * dt * (f[i+j*nd] * rmass + acc[i+j*nd]);
+      acc[i+j*nd] = f[i+j*nd] * rmass; 
+
+    }
+  }
 }
