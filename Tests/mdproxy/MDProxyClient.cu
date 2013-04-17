@@ -6,7 +6,6 @@
 int pushJobs(int num_tasks, void *h_params, void *offset_pointer, int mem_needed, int microkernel);
 void* pullJobs(int kernel_calls, int mem_needed); 
 
-
 int main(int argc, char **argv){
   gemtcSetup(100000,0);
 
@@ -20,7 +19,7 @@ int main(int argc, char **argv){
   int a_mem = sizeof(double) * a_size; 
 
   double darray[a_size];
-  
+ 
   int i; 
   for(i=0; i<a_size; i++){
     darray[i] = 0.0; 
@@ -72,24 +71,7 @@ int main(int argc, char **argv){
     Microkernel */
 
   gemtcPush(17, 32, 1000, d_init_params); 
-  void *params = pullJobs(1, init_mem_needed); 
-   
-  void *check_table = *((void**)params);
-  void *table = malloc(mem_needed); //We have to allocate for the whole table..
-  gemtcMemcpyDeviceToHost(table, check_table, mem_needed); 
-
-  int *p_np = (int*)(table);
-  int *p_nd = p_np + 1;
-
-  int size = (*p_np) * (*p_nd);
-
-  double *pos = ((double*)(table)) + 1;
-  double *vel = pos + size;
-  double *acc = vel + size; 
-
-  for(i=0; i<a_size; i++){
-    printf("%d: %f %f %f\n",i, pos[i], vel[i], acc[i]);
-  }  
+  void *params = pullJobs(1, init_mem_needed);   
     
   /*
   /////////////// Compute/Update Loop /////////////////
@@ -177,5 +159,7 @@ void* pullJobs(int kernel_calls, int mem_needed){
 
       return results; 
     }
-  } 
+  }
+
+  return NULL; 
 }
