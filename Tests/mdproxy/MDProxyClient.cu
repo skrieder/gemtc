@@ -4,13 +4,17 @@
 
 #define MAX_WORKERS 32 
 int pushJobs(int num_tasks, void *h_params, void *offset_pointer, int mem_needed, int microkernel);
+void* pullJobs(int kernel_calls); 
+
 
 int main(int argc, char **argv){
   gemtcSetup(100000,0);
 
-  const int np = 500; //Modify this variable.
+  const int np = 100; //Modify this variable.
   const int nd = 2; //This value should only be 2 or 3!
+  const int step_num = 100; 
   const double mass = 1.0;
+  const double dt = 0.0001;
 
   int a_size = np*nd;
   int a_mem = sizeof(double) * a_size; 
@@ -63,13 +67,47 @@ int main(int argc, char **argv){
   void *init_offset_pointer =  ((int*)h_init_params) + 2 + 2*a_size + 1; 
   int k_calls = pushJobs(np, h_init_params, init_offset_pointer, init_mem_needed, 20); 
 
-  for(i=0; i<k_calls; i++){
-    void *ret = NULL;
-    int id; 
-    while(ret==NULL){
-      gemtcPoll(&id, &ret);
+  pullJobs(k_calls); //Since we don't care need any results, just call function 
+
+  /////////////// Compute/Update Loop /////////////////
+  int j; 
+  int print_step = step_num / 10;
+  
+  for(j=0; j<step_num; j++){
+
+    //Compute Params  | &Table | offset | 
+    //Bytes           |   8    |   4    | 
+
+    int comp_mem_needed = sizeof(void*) + sizeof(int);
+    //Allocate Memory for Compute params, pass in ref to table. 
+    void *h_comp_params = malloc(comp_mem_needed);
+    memcpy(h_comp_params, &d_table, sizeof(void*));
+
+    void *comp_offset_pointer = ((double*)h_comp_params) + 1; 
+    
+    k_calls = pushJobs(np, h_comp_params, comp_offset_pointer, comp_mem_needed, 21);
+    void *results = pullJobs(k_calls); 
+
+    if( j % print_step == 0){
+      printf("%d : This is a step I need to print.", j);  
     }
-  }
+    if(j==0){continue;}//The first compute step does need to update.
+
+    //Update Params | &Table |  dt | offset |
+    //Bytes         |   8    |  8  |   4    | 
+
+    int upda_mem_needed = sizeof(void*) + sizeof(double) + sizeof(int);
+
+    void *h_upda_params = malloc(upda_mem_needed); 
+    memcpy(h_upda_params               , &d_table, sizeof(void*));
+    memcpy(((double*)h_upda_params) + 1,   &dt   , sizeof(double));
+    void *upda_offset_pointer = ((double*)h_upda_params) + 2; 
+
+    k_calls = pushJobs(np, h_upda_params, upda_offset_pointer, upda_mem_needed, 22);
+    pullJobs(k_calls);
+
+  } 
+  //print time elasped. 
 
   gemtcCleanup(); 
   return 0; 
@@ -78,6 +116,7 @@ int main(int argc, char **argv){
 int pushJobs(int num_tasks, void *h_params, void *offset_pointer, int mem_needed, int microkernel){
   int kernel_calls = num_tasks / MAX_WORKERS; 
   int i; 
+  printf("\n\n");
 
   for(i=0; i<= kernel_calls; i++){
     int offset = i * MAX_WORKERS; 
@@ -97,4 +136,16 @@ int pushJobs(int num_tasks, void *h_params, void *offset_pointer, int mem_needed
   }
 
   return kernel_calls; 
+}
+
+void* pullJobs(int kernel_calls){
+  int i; 
+  for(i=0; i<kernel_calls; i++){ //Pulls for jobs. 
+    /*void *ret = NULL;
+    int id; 
+    while(ret==NULL){
+      gemtcPoll(&id, &ret);
+    }*/
+  }
+  return malloc(5); 
 }
