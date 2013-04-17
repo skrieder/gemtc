@@ -2,12 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void pushJobs(int num_tasks, int max_workers, void *params, int microkernel); 
+int pushJobs(int num_tasks, int max_workers, void *params, int microkernel); 
 
 int main(int argc, char **argv){
-  gemtcSetup(25600,0);
+  gemtcSetup(100000,0);
 
-  int np = 32; //Modify this variable.
+  int np = 10; //Modify this variable.
   int nd = 2; //This value should only be 2 or 3!
   const double mass = 1.0;
 
@@ -35,12 +35,41 @@ int main(int argc, char **argv){
   memcpy( (((double*)h_table)+1)  , &mass , sizeof(double));
 
   for(i=0; i<4; i++){
-    memcpy( (((double*)h_table) + (a_size*i) + 2), darray, a_mem); 
+    memcpy( (((double*)h_table) + a_size*i + 2), darray, a_mem); 
   }
   //Copy Table onto Device Memory
   gemtcMemcpyHostToDevice(d_table, h_table, mem_needed);
 
-  
+  gemtcPush(19,32,12000, d_table);
+
+  void *ret = NULL;
+  int id;
+  while(ret==NULL){
+    gemtcPoll(&id, &ret);
+  }
+
+  void *results = malloc(mem_needed);
+  gemtcMemcpyDeviceToHost(results, ret, mem_needed); 
+
+  int *a = (int*)results; 
+  int *b = a + 1; 
+
+  double *c = ((double*)results) + 1; 
+  double *pos = c + 1;
+  double *vel = pos + a_size; 
+  double *acc = vel + a_size;
+  double *f   = acc + a_size; 
+
+  printf("%d %d %f\n", *a, *b, *c);
+  for(i=0; i<a_size; i++){
+    printf("%f %f %f %f\n", pos[i], vel[i], acc[i], f[i]); 
+  }
+
+
+
+
+
+/*  
   /////////////// Initialize ////////////////
   
   int init_mem_needed = sizeof(double) + a_mem + sizeof(int) + sizeof(int);
@@ -51,12 +80,51 @@ int main(int argc, char **argv){
   //Init Params  | &Table |  box[]  | seed | offset | 
   //Bytes        |   8    |  a_size |  4   |   4    | 
 
-  pushJobs(np, 32, d_init_params, 107); 
+  int seed = 107;
+  int offset = 99; 
 
+  memcpy( h_init_params                              , &d_table , sizeof(void*));
+  memcpy( ((double*)h_init_params)+1                 ,  darray  , a_mem);
+  memcpy( (int*)(((double*)h_init_params)+1+a_size)  ,  &seed   , sizeof(int));
+  memcpy( ((int*)h_init_params) + 2 + 2*a_size + 1   ,  &offset , sizeof(int)); 
+
+  //Copy Parameters 
+  gemtcMemcpyHostToDevice(d_init_params, h_init_params, init_mem_needed);
+  
+  //Run Init Job
+  gemtcPush(20, 32, 12000, d_init_params);
+
+  void *ret = NULL;
+  int id; 
+  while(ret==NULL){
+    gemtcPoll(&id, &ret);
+  }
+ 
+  void *params = malloc(init_mem_needed);
+  gemtcMemcpyDeviceToHost(params, ret, init_mem_needed);
+  void *table = *((void**)params);
+
+  int *p_np = (int*)(table);
+  int *p_nd = p_np + 1;
+
+  int size = (*p_np) * (*p_nd);
+
+  double *pos = ((double*)(table)) + 1;
+  double *vel = pos + size;
+  double *acc = vel + size; 
+
+  double *box = (double*)(((void**)params)+1);
+  int *p_seed = (int*)(box + a_size);
+  int *p_offset = p_seed + 1;   
+
+  printf("%d %d %d %d\n", *p_np, *p_nd, *p_seed, *p_offset);
+*/
   return 1; 
 }
 
-void pushJobs(int num_tasks, int max_workers, void *params, int microkernel){
+
+/*
+int pushJobs(int num_tasks, int max_workers, void *params, int microkernel){
   int kernel_calls = num_tasks / max_workers; 
   int i; 
 
@@ -65,9 +133,12 @@ void pushJobs(int num_tasks, int max_workers, void *params, int microkernel){
     int threads = (offset + max_workers <= num_tasks) ? max_workers : num_tasks-offset;  
     
     if(threads > 0){
-      printf("gemtcPush(%d, %d, %d, params);\n", microkernel, threads, (i+1)*1000);
+      printf("gemtcPush(%d, %d, %d, params);\n", microkernel, threads, (i+microkernel));
     }
-  }
-}
 
+  }
+
+  return kernel_calls; 
+}
+*/
 
