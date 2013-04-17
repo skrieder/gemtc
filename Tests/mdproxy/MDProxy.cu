@@ -23,10 +23,10 @@ int main(int argc, char **argv){
  
   //Setup the Table we will constantly reference.
 
-  //Table | np | nd | mass | pos[] | vel[] | acc[] |  f[]  | 
-  //Bytes | 4  | 4  |   8  | a_mem | a_mem | a_mem | a_mem | 
+  //Table | np | nd | mass | pos[] | vel[] | acc[] |  f[]  | pe[]  |  ke[]  |
+  //Bytes | 4  | 4  |   8  | a_mem | a_mem | a_mem | a_mem | a_mem | a_mem  |
 
-  int mem_needed = sizeof(int) * 2 + sizeof(double) + a_mem*4; 
+  int mem_needed = sizeof(int) * 2 + sizeof(double) + a_mem*6; 
   void *d_table = gemtcGPUMalloc(mem_needed); 
   void *h_table = malloc(mem_needed); 
 
@@ -39,38 +39,7 @@ int main(int argc, char **argv){
   }
   //Copy Table onto Device Memory
   gemtcMemcpyHostToDevice(d_table, h_table, mem_needed);
-
-///////////////////////////////////////////////////////////////////
-
-  int pts = sizeof(void*); 
-  void *h_init_block = malloc(pts);
-  void *d_init_block = gemtcGPUMalloc(pts);
-
-  memcpy(h_init_block, &d_table, sizeof(double));
-  gemtcMemcpyHostToDevice(d_init_block, h_init_block, pts);
-
-  gemtcPush(19,32,12000, d_init_block);
-    
-  void *ret = NULL;
-  int id;
-  while(ret==NULL){
-    gemtcPoll(&id, &ret);
-  }
-
-  void *results = malloc(pts);
-  gemtcMemcpyDeviceToHost(results, ret, pts); 
- 
-  void *t = *((void**)results);
-  void *table = malloc(mem_needed);
   
-  gemtcMemcpyDeviceToHost(table, t, mem_needed);
-
-
-  int *a = (int*)table; 
-  int *b = a + 1; 
-
-  printf("%d %d\n", *a, *b);
-/*  
   /////////////// Initialize ////////////////
   
   int init_mem_needed = sizeof(double) + a_mem + sizeof(int) + sizeof(int);
@@ -82,10 +51,15 @@ int main(int argc, char **argv){
   //Bytes        |   8    |  a_size |  4   |   4    | 
 
   int seed = 107;
-  int offset = 99; 
+  int offset = 99;
+
+  double box[nd];
+  for(i=0; i<nd; i++){
+    box[i] = 10.0;
+  }
 
   memcpy( h_init_params                              , &d_table , sizeof(void*));
-  memcpy( ((double*)h_init_params)+1                 ,  darray  , a_mem);
+  memcpy( ((double*)h_init_params)+1                 ,  box     , nd*sizeof(double));
   memcpy( (int*)(((double*)h_init_params)+1+a_size)  ,  &seed   , sizeof(int));
   memcpy( ((int*)h_init_params) + 2 + 2*a_size + 1   ,  &offset , sizeof(int)); 
 
@@ -103,7 +77,10 @@ int main(int argc, char **argv){
  
   void *params = malloc(init_mem_needed);
   gemtcMemcpyDeviceToHost(params, ret, init_mem_needed);
-  void *table = *((void**)params);
+
+  void *check_table = *((void**)params);
+  void *table = malloc(mem_needed); //We have to allocate for the whole table..
+  gemtcMemcpyDeviceToHost(table, check_table, mem_needed); 
 
   int *p_np = (int*)(table);
   int *p_nd = p_np + 1;
@@ -114,12 +91,12 @@ int main(int argc, char **argv){
   double *vel = pos + size;
   double *acc = vel + size; 
 
-  double *box = (double*)(((void**)params)+1);
-  int *p_seed = (int*)(box + a_size);
+  double *p_box = (double*)(((void**)params)+1);
+  int *p_seed = (int*)(box + nd);
   int *p_offset = p_seed + 1;   
 
   printf("%d %d %d %d\n", *p_np, *p_nd, *p_seed, *p_offset);
-*/
+
   return 1; 
 }
 
