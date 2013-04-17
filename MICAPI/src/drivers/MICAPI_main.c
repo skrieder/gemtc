@@ -7,42 +7,58 @@ int main(int argv, char **argc) {
   int workers=1;
   int numTasks=1;  //Must be multiple of loopSize (currently 100)
   long sleepTime=1;
+  int batches=1;
+  int queueSize = 1000;
 
   //Get these values from argc, if given
   if(argv>3){
     workers = atoi(argc[1]);
     numTasks = atoi(argc[2]);
     sleepTime = atol(argc[3]);
+    batches = atoi(argc[4]);
   }
-  printf("Recieved parameters\n");
 
-  int loopSize = 1;//Must be less than QueueSize (currently 1000)
+  if (batches > queueSize) {
+    printf("Error, batch size can not be larger than queue size of: %d\n", queueSize);
+    return -1;
+  }
 
-  MIC_gemtcSetup(1000, workers); //1000==QueueSize
+  printf("== GEMTC_MIC Initalizing ===========\n");
+  printf("+ Workers: %d\n", workers);
+  printf("+ numTasks/batch: %d\n", numTasks);
+  printf("+ sleepTime: %ld\n", sleepTime);
+  printf("+ batches: %d\n", batches);
 
-  printf("Setup Done\n");
+  printf(" -> To change: %s [workers] [numTasks/batch] [sleepTime] [batches]\n", argc[0]);
+
+  MIC_gemtcSetup(queueSize, workers); //1000==QueueSize
+
+  printf("== GEMTC_MIC Initalized ===========\n\n");
 
   int i, j;
-  for(i=0;i<numTasks;){
-    printf("Starting to send batch\n");
-    for(j=0;j<loopSize;j++){
-      MIC_gemtcPush(0,1,i,&sleepTime);
-      i++;
+  for(i=0;i<batches;i++){
+    printf("- Sending Batch ---------------\n");
+    for(j=0;j<numTasks;j++){
+      MIC_gemtcPush(0,1,i * batches + j,&sleepTime);
+      printf(".");
+      if (j % 10 == 1) { printf("\n"); }
     }
-    printf("batch sent, starting to recieve\n");
-    for(j=0;j<loopSize;j++){
-      // (int *ID, void **params) 
+    printf("\n- Batch Sent ------------------\n");
+    printf("- Reciving Batch ---------------\n");
+    for(j=0;j<numTasks;j++){
+
       int result_id = -1;
       void *result_params;
 
       while(result_id == -1) { MIC_gemtcPoll(&result_id, &result_params); }
 
-      printf("JOB: %d, result: %d", result_id, *(int*)result_params);
-      free(result_params);
+      printf("+ Job: %d, result: %d\n", result_id, *(int*)result_params);
+ 
     }
-    printf("batch received\n");
+    printf("= All Jobs Recieved\n");
   }
+  printf("== GEMTC_MIC Deinitalizing ===========\n");
   MIC_gemtcCleanup();
-  printf("Cleanup done\n");
+  printf("== GEMTC_MIC Deinitalized ============\n");
   return 0;
 }

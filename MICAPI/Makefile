@@ -1,5 +1,5 @@
-CC        := gcc 
-LD        := gcc
+CC        := gcc -g -Wall
+LD        := gcc -lpthread
 
 MODULES   := base kernels drivers lib
 SRC_DIR   := $(addprefix src/,$(MODULES))

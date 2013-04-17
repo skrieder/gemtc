@@ -12,6 +12,7 @@ struct SuperKernelParameter {
 
 typedef struct SuperKernelParameter SuperKernelParameter_t;
 
-JobPointer executeJob(JobPointer currentJob);
+JobPointer execute_job(JobPointer currentJob);
+void *super_kernel(void* params);
 
 #endif

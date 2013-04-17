@@ -3,9 +3,11 @@
 #include "QueueJobs.h"
 #include "kernels.h"
 #include <stddef.h>
+#include <unistd.h>
 
+#define SLEEP_POOL_LENGTH 0.1
 
-void *superKernel(void *val) {
+void *super_kernel(void *val) {
 
   SuperKernelParameter_t *params = (SuperKernelParameter_t *) val;
   Queue incoming = params->incoming;
@@ -15,13 +17,15 @@ void *superKernel(void *val) {
   JobDescription_t* currentJob;
   //This is the function that all worker threads execute
   while(!(*kill)) {
-    //dequeue a task
-    currentJob = Front(incoming);
-    Dequeue(incoming);
+    // dequeue a task if avaliable, otherwise sleep
+    if ((currentJob = MaybeFandD(incoming)) == NULL) {
+      sleep(SLEEP_POOL_LENGTH);
+      continue;
+    }
 
       //execute the task
     JobDescription_t* retval;
-    retval = executeJob(currentJob);
+    retval = execute_job(currentJob);
 
       //enqueue the result
     Enqueue(retval, results);
@@ -29,7 +33,7 @@ void *superKernel(void *val) {
   return NULL;
 }
 
-JobPointer executeJob(JobDescription_t* currentJob) {
+JobPointer execute_job(JobDescription_t* currentJob) {
 
   int JobType = currentJob->JobType;
 
