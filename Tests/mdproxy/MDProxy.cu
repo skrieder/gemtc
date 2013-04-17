@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void pushJobs(int num_tasks, int max_workers, void *params, int microkernel); 
+
 int main(int argc, char **argv){
   gemtcSetup(25600,0);
 
@@ -28,12 +30,12 @@ int main(int argc, char **argv){
   void *d_table = gemtcGPUMalloc(mem_needed); 
   void *h_table = malloc(mem_needed); 
 
-  memcpy( h_table               , &np   , sizeof(int));  
-  memcpy( (((int*)h_mem)+1)     , &nd   , sizeof(int)); 
-  memcpy( (((double*)h_mem)+1)  , &mass , sizeof(double));
+  memcpy( h_table                 , &np   , sizeof(int));  
+  memcpy( (((int*)h_table)+1)     , &nd   , sizeof(int)); 
+  memcpy( (((double*)h_table)+1)  , &mass , sizeof(double));
 
   for(i=0; i<4; i++){
-    memcpy( (((double*)h_mem) + (a_size*i) + 2), darray, a_mem); 
+    memcpy( (((double*)h_table) + (a_size*i) + 2), darray, a_mem); 
   }
   //Copy Table onto Device Memory
   gemtcMemcpyHostToDevice(d_table, h_table, mem_needed);
@@ -49,11 +51,23 @@ int main(int argc, char **argv){
   //Init Params  | &Table |  box[]  | seed | offset | 
   //Bytes        |   8    |  a_size |  4   |   4    | 
 
-  
-
-
-
-
+  pushJobs(np, 32, d_init_params, 107); 
 
   return 1; 
 }
+
+void pushJobs(int num_tasks, int max_workers, void *params, int microkernel){
+  int kernel_calls = num_tasks / max_workers; 
+  int i; 
+
+  for(i=0; i<= kernel_calls; i++){
+    int offset = i * max_workers; 
+    int threads = (offset + max_workers <= num_tasks) ? max_workers : num_tasks-offset;  
+    
+    if(threads > 0){
+      printf("gemtcPush(%d, %d, %d, params);\n", microkernel, threads, (i+1)*1000);
+    }
+  }
+}
+
+
