@@ -11,7 +11,7 @@ int main(int argc, char **argv){
 
   const int np = 100; //Modify this variable.
   const int nd = 2; //This value should only be 2 or 3!
-  const int step_num = 100; 
+  const int step_num = 1; 
   const double mass = 1.0;
   const double dt = 0.0001;
 
@@ -73,7 +73,6 @@ int main(int argc, char **argv){
   gemtcPush(17, 32, 1000, d_init_params); 
   void *params = pullJobs(1, init_mem_needed);   
     
-  /*
   /////////////// Compute/Update Loop /////////////////
   int j; 
   int print_step = step_num / 10;
@@ -83,21 +82,22 @@ int main(int argc, char **argv){
     //Compute Params  | &Table | offset | 
     //Bytes           |   8    |   4    | 
 
-    int comp_mem_needed = sizeof(void*) + sizeof(int);
-    //Allocate Memory for Compute params, pass in ref to table. 
+    int comp_mem_needed = sizeof(void*) + sizeof(int); 
     void *h_comp_params = malloc(comp_mem_needed);
+
     memcpy(h_comp_params, &d_table, sizeof(void*));
 
     void *comp_offset_pointer = ((double*)h_comp_params) + 1; 
     
-    k_calls = pushJobs(np, h_comp_params, comp_offset_pointer, comp_mem_needed, 21);
+    k_calls = pushJobs(np, h_comp_params, comp_offset_pointer, comp_mem_needed, 16);
     void *results = pullJobs(k_calls); 
 
     if( j % print_step == 0){
       printf("%d : This is a step I need to print.", j);  
     }
     if(j==0){continue;}//The first compute step does need to update.
-
+    
+    /*
     //Update Params | &Table |  dt | offset |
     //Bytes         |   8    |  8  |   4    | 
 
@@ -110,10 +110,9 @@ int main(int argc, char **argv){
 
     k_calls = pushJobs(np, h_upda_params, upda_offset_pointer, upda_mem_needed, 22);
     pullJobs(k_calls);
-
+    */
   } 
   //print time elasped. 
-  */
   gemtcCleanup(); 
   return 0; 
 }
