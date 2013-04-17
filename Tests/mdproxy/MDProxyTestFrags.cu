@@ -3,9 +3,6 @@
 
 
 void InitTestFrag(){ 
-  void *params = malloc(init_mem_needed);
-  gemtcMemcpyDeviceToHost(params, ret, init_mem_needed);
-
   void *check_table = *((void**)params);
   void *table = malloc(mem_needed); //We have to allocate for the whole table..
   gemtcMemcpyDeviceToHost(table, check_table, mem_needed); 

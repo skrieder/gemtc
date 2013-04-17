@@ -88,15 +88,17 @@ __device__ void InitParticles(void* params){
   //Unpack Params
   double *box = (double*)(((void**)params)+1);
   int *seed = (int*)(box + nd);
-  int *offset = seed + 1; 
+  //int *offset = seed + 1; 
 
-  int i; 
-  int tid = (threadIdx.x % 32) + *offset; 
+  int i,j; 
+  //int tid = (threadIdx.x % 32) + *offset; 
   //Update values
-  for ( i = 0; i < nd ; i++){
-    pos[i+tid*nd] = box[i] * r8_uniform_01(seed);
-    vel[i+tid*nd] = 0.0;
-    acc[i+tid*nd] = 0.0;
+  for ( j = 0; j < np ; j++){
+    for ( i = 0; i < nd ; i++){
+      pos[i+j*nd] = box[i] * r8_uniform_01(seed);
+      vel[i+j*nd] = 0.0;
+      acc[i+j*nd] = 0.0;
+    }
   }
 
 }
