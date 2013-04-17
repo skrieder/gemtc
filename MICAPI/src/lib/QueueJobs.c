@@ -18,18 +18,20 @@ int IsFull(Queue Q) {
 Queue CreateQueue(int MaxElements) {
   Queue Q = (Queue) malloc (sizeof(struct QueueRecord));
 
-  Q->Array = (struct JobDescription *) malloc(sizeof(struct JobDescription)*MaxElements);
+  Q->Array = (struct JobDescription **) malloc(sizeof(struct JobDescription)*MaxElements);
 
   Q->Capacity = MaxElements;
   Q->Front = 1;
   Q->Rear = 0;
   Q->ReadLock = 0;
+  pthread_mutex_init(&Q->WriteLock, NULL);
 
   return Q;
 }
 
 void DisposeQueue(Queue Q) {
   free(Q->Array);
+  pthread_mutex_destroy(&Q->WriteLock);
   free(Q);
 }
 
@@ -39,38 +41,31 @@ void DisposeQueue(Queue Q) {
 
 void Enqueue(JobPointer jobDescription, Queue Q) {
 
-  while(IsFull(Q));
+  while(IsFull(Q)); // I'm weary of this...
 
-  // floating point exception from mod capacity if 0 or -n
-  int temp = (Q->Rear+1)%(Q->Capacity);
-  
-  // set job description
-  Q->Array[temp] = *jobDescription, 
+  pthread_mutex_lock(&Q->WriteLock);
 
-  Q->Rear = temp;
+    // floating point exception from mod capacity if 0 or -n
+    int temp = (Q->Rear+1)%(Q->Capacity);
+    
+    // set job description
+    Q->Array[temp] = jobDescription;
+
+    Q->Rear = temp;
+
+  pthread_mutex_unlock(&Q->WriteLock);
 }
 
 JobPointer MaybeFandD(Queue Q){
-
-  if(IsEmpty(Q)){
+  if (IsEmpty(Q)){
     return NULL;
-  }else{
-    JobPointer result = (JobPointer) malloc(sizeof(JobPointer));
-    *result = Q->Array[Q->Front];
-    Q->Front = (Q->Front+1)%(Q->Capacity);
+  } else {
+    pthread_mutex_lock(&Q->WriteLock);
+      JobPointer result = (JobPointer) malloc(sizeof(JobPointer));
+      result = Q->Array[Q->Front];
+      Q->Front = (Q->Front+1)%(Q->Capacity);
+    pthread_mutex_unlock(&Q->WriteLock);
+
     return result;
   }
-}
-
-JobPointer Front(Queue Q) {
-  while(IsEmpty(Q));
-  JobPointer result = (JobPointer) malloc(sizeof(JobPointer));
-  *result = Q->Array[Q->Front];
-  return result;
-}
-
-void Dequeue(Queue Q) {
-//called by CPU
-  while(IsEmpty(Q));
-  Q->Front = (Q->Front+1)%(Q->Capacity);
 }

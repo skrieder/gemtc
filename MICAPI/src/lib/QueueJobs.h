@@ -2,13 +2,15 @@
 #define _MIC_QUEUEJOBS_H_
 
 #include "gemtc_types.h"
+#include <pthread.h>
 
 struct QueueRecord {
-  struct JobDescription* Array;
+  struct JobDescription** Array;
   int Capacity;
   int Rear;
   int Front;
   int ReadLock;
+  pthread_mutex_t WriteLock;
 };
 
 typedef struct QueueRecord *Queue;

@@ -10,8 +10,6 @@
 // TODO: Move all of this ======================
 Queue newJobs, finishedJobs;
 
-pthread_mutex_t enqueueLock;
-pthread_mutex_t dequeueLock;
 
 int* kill_p;
 int total_workers;
@@ -19,9 +17,6 @@ pthread_t *worker_threads;
 // =============================================
 
 void MIC_gemtcSetup(int QueueSize, int workers) {
-	// Initalize locks (perhaps internalize this in Queue?)
-	pthread_mutex_init(&enqueueLock, NULL);
-	pthread_mutex_init(&dequeueLock, NULL);
 
 	// Initialize Queues
 	newJobs = CreateQueue(QueueSize);
@@ -52,9 +47,6 @@ void MIC_gemtcCleanup() {
 	DisposeQueue(newJobs);
 	DisposeQueue(finishedJobs);
 
-	pthread_mutex_destroy(&enqueueLock);
-	pthread_mutex_destroy(&dequeueLock);
-
 	int t;
 	for (t=0; t<total_workers;t++) {
 		pthread_join(worker_threads[t], NULL);
@@ -71,16 +63,12 @@ void MIC_gemtcPush(int taskType, int Threads, int ID, void *params) {
   job->params = params;
   job->JobID = ID;
 
-  pthread_mutex_lock(&enqueueLock);
-  	Enqueue(job, newJobs);
-  pthread_mutex_unlock(&enqueueLock);
+  Enqueue(job, newJobs);
 }
 void MIC_gemtcPoll(int *ID, void **params) {
 	JobDescription_t* job;
 
-	pthread_mutex_lock(&dequeueLock);  //Start Critical Section
-		job = MaybeFandD(finishedJobs);//returns null if empty
-	pthread_mutex_unlock(&dequeueLock); //End Critical Section
+	job = MaybeFandD(finishedJobs);//returns null if empty
 
 	if(job==NULL){
 		*ID=-1;
