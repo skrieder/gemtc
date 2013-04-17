@@ -8,11 +8,13 @@ implementations and perform simple modifications
 so the user can be sure the kernel is unpacking 
 and modifying the parameters the correct way. */ 
 
-__device__ void UnpackTable(void* params){
+__device__ void UnpackTable(void* p){
  
   //Params | np | nd |  mass  |   pos  |   vel  |  acc   |   f    |
   //Bytes  | 4  | 4  |    8   | 8*size | 8*size | 8*size | 8*size |
- 
+
+  void *params = *((void**)p);
+
   int *np = (int*) params;
   int *nd = ((int*) params) + 1;
 

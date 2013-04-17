@@ -40,35 +40,36 @@ int main(int argc, char **argv){
   //Copy Table onto Device Memory
   gemtcMemcpyHostToDevice(d_table, h_table, mem_needed);
 
-  gemtcPush(19,32,12000, d_table);
+///////////////////////////////////////////////////////////////////
 
+  int pts = sizeof(void*); 
+  void *h_init_block = malloc(pts);
+  void *d_init_block = gemtcGPUMalloc(pts);
+
+  memcpy(h_init_block, &d_table, sizeof(double));
+  gemtcMemcpyHostToDevice(d_init_block, h_init_block, pts);
+
+  gemtcPush(19,32,12000, d_init_block);
+    
   void *ret = NULL;
   int id;
   while(ret==NULL){
     gemtcPoll(&id, &ret);
   }
 
-  void *results = malloc(mem_needed);
-  gemtcMemcpyDeviceToHost(results, ret, mem_needed); 
+  void *results = malloc(pts);
+  gemtcMemcpyDeviceToHost(results, ret, pts); 
+ 
+  void *t = *((void**)results);
+  void *table = malloc(mem_needed);
+  
+  gemtcMemcpyDeviceToHost(table, t, mem_needed);
 
-  int *a = (int*)results; 
+
+  int *a = (int*)table; 
   int *b = a + 1; 
 
-  double *c = ((double*)results) + 1; 
-  double *pos = c + 1;
-  double *vel = pos + a_size; 
-  double *acc = vel + a_size;
-  double *f   = acc + a_size; 
-
-  printf("%d %d %f\n", *a, *b, *c);
-  for(i=0; i<a_size; i++){
-    printf("%f %f %f %f\n", pos[i], vel[i], acc[i], f[i]); 
-  }
-
-
-
-
-
+  printf("%d %d\n", *a, *b);
 /*  
   /////////////// Initialize ////////////////
   
