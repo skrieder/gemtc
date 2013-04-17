@@ -10,8 +10,8 @@ and modifying the parameters the correct way. */
 
 __device__ void UnpackTable(void* p){
  
-  //Params | np | nd |  mass  |   pos  |   vel  |  acc   |   f    |
-  //Bytes  | 4  | 4  |    8   | 8*size | 8*size | 8*size | 8*size |
+  //Params | np | nd |  mass  |   pos  |   vel  |  acc   |   f    |  pe    |    ke  |
+  //Bytes  | 4  | 4  |    8   | 8*size | 8*size | 8*size | 8*size | 8*size | 8*size |
 
   void *params = *((void**)p);
 
@@ -25,6 +25,8 @@ __device__ void UnpackTable(void* p){
   double *vel = pos + size; 
   double *acc = vel + size;
   double *f = acc + size;
+  double *pe = f + size;
+  double *ke = pe + size; 
 
   int i;
 
@@ -37,6 +39,8 @@ __device__ void UnpackTable(void* p){
     vel[i] = i * 2;
     acc[i] = i * 3;
     f[i] = i * 4;
+    pe[i] = i * 5;
+    ke[i] = i * 6;
   }
 }
 

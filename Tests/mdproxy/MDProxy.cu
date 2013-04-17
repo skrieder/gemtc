@@ -42,13 +42,13 @@ int main(int argc, char **argv){
   
   /////////////// Initialize ////////////////
   
-  int init_mem_needed = sizeof(double) + a_mem + sizeof(int) + sizeof(int);
+  int init_mem_needed = sizeof(double) + sizeof(double)*nd + sizeof(int) + sizeof(int);
 
   void *d_init_params = gemtcGPUMalloc(init_mem_needed);
   void *h_init_params = malloc(init_mem_needed);
 
   //Init Params  | &Table |  box[]  | seed | offset | 
-  //Bytes        |   8    |  a_size |  4   |   4    | 
+  //Bytes        |   8    | 8 * nd  |  4   |   4    | 
 
   int seed = 107;
   int offset = 99;
@@ -60,7 +60,7 @@ int main(int argc, char **argv){
 
   memcpy( h_init_params                              , &d_table , sizeof(void*));
   memcpy( ((double*)h_init_params)+1                 ,  box     , nd*sizeof(double));
-  memcpy( (int*)(((double*)h_init_params)+1+a_size)  ,  &seed   , sizeof(int));
+  memcpy( (int*)(((double*)h_init_params)+1+nd)      ,  &seed   , sizeof(int));
   memcpy( ((int*)h_init_params) + 2 + 2*a_size + 1   ,  &offset , sizeof(int)); 
 
   //Copy Parameters 
@@ -92,10 +92,15 @@ int main(int argc, char **argv){
   double *acc = vel + size; 
 
   double *p_box = (double*)(((void**)params)+1);
-  int *p_seed = (int*)(box + nd);
+  int *p_seed = (int*)(p_box + nd);
   int *p_offset = p_seed + 1;   
 
   printf("%d %d %d %d\n", *p_np, *p_nd, *p_seed, *p_offset);
+  printf("%f %f\n", p_box[0], p_box[1]); 
+
+  for(i=0; i<a_size; i++){
+    printf("%f %f %f\n", pos[i], vel[i], acc[i]);
+  }
 
   return 1; 
 }
