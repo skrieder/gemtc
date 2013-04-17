@@ -61,9 +61,14 @@ JobPointer MaybeFandD(Queue Q){
     return NULL;
   } else {
     pthread_mutex_lock(&Q->WriteLock);
-      JobPointer result = (JobPointer) malloc(sizeof(JobPointer));
-      result = Q->Array[Q->Front];
-      Q->Front = (Q->Front+1)%(Q->Capacity);
+
+      if (IsEmpty(Q)) {
+        pthread_mutex_unlock(&Q->WriteLock);
+        return NULL;
+      }
+        JobPointer result = (JobPointer) malloc(sizeof(JobPointer));
+        result = Q->Array[Q->Front];
+        Q->Front = (Q->Front+1)%(Q->Capacity);
     pthread_mutex_unlock(&Q->WriteLock);
 
     return result;
