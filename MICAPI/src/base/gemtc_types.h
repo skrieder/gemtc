@@ -11,4 +11,8 @@ struct JobDescription{
 typedef struct JobDescription JobDescription_t;
 typedef struct JobDescription *JobPointer;
 
+#ifndef MIC_DEV
+#define MIC_DEV 0
+#endif
+
 #endif

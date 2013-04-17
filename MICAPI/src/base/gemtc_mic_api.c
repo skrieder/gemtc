@@ -24,10 +24,11 @@ void MIC_gemtcSetup(int QueueSize, int workers) {
 
 	kill_p = malloc(sizeof(int));
 	*kill_p = 0;
-
 	total_workers = workers;
 
-	//Launch threads
+	// Say hello to MIC
+	#pragma offload_transfer target(mic:MIC_DEV)
+
 
 	// TODO: Free this resource
 	SuperKernelParameter_t *val = malloc(sizeof(SuperKernelParameter_t)); 
@@ -35,6 +36,7 @@ void MIC_gemtcSetup(int QueueSize, int workers) {
 	val->results = finishedJobs;
 	val->kill = kill_p;
 
+	// Launch threads
 	worker_threads = malloc(sizeof(pthread_t) * total_workers);
 	int t;
 	for(t=0;t<total_workers;t++){

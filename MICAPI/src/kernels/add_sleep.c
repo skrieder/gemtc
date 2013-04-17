@@ -3,6 +3,7 @@
 
 #define BUSY_LOOP_REPEATS 100000
 
+#pragma offload_attribute(push, target (mic))
 long time_diff_usec(struct timeval start, struct timeval end) {
 	return (end.tv_sec-start.tv_sec)*1000000 + (end.tv_usec-start.tv_usec);
 }
@@ -25,3 +26,4 @@ void* kernel_add_sleep(void *length) {
 
 	return 0;
 }
+#pragma offload_attribute(pop)

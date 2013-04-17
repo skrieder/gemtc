@@ -23,7 +23,7 @@ void *super_kernel(void *val) {
       continue;
     }
 
-      //execute the task
+    //execute the task
     JobDescription_t* retval;
     retval = execute_job(currentJob);
 
@@ -37,12 +37,19 @@ JobPointer execute_job(JobDescription_t* currentJob) {
 
   int JobType = currentJob->JobType;
 
-  // large switch
-  switch(JobType){
-    case 0:
-      kernel_add_sleep(currentJob->params);
-      break;
+  void* params = currentJob->params;
+  int val = *((int*)params);
+
+  // Offload Region
+  #pragma offload target(mic:MIC_DEV) in(val)
+  {
+    switch(JobType){
+      case 0:
+        kernel_add_sleep((void*)&val);
+        break;
+    }
   }
+
   return currentJob;
 }
 

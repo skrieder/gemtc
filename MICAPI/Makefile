@@ -1,5 +1,5 @@
-CC        := gcc -g -Wall
-LD        := gcc -lpthread
+CC        := icc -g -Wall -O3 -openmp -offload-build -Wno-unknown-pragmas -openmp-report
+LD        := icc -lpthread -g -Wall -O3 -openmp -offload-build -Wno-unknown-pragmas -openmp-report
 
 MODULES   := base kernels drivers lib
 SRC_DIR   := $(addprefix src/,$(MODULES))
