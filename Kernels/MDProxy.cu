@@ -70,27 +70,28 @@ __device__ double r8_uniform_01(int *seed){
 
 __device__ void InitParticles(void* params){
   
-  //Params| np | nd |  *acc  |  *vel  |  *pos  | *box | seed | 
-  //Bytes | 4  |  4 | size*8 | size*8 | size*8 | nd*8 |   4  | 
+  //Params| &table | box[] | seed | offset |  
+  //Bytes |   8    | 8*nd  |  4   |   4    |
   
-  //Extract Values 
-  int np = *((int*)params);
-  int nd = *(((int*)params) + 1);
+  void *table = *((void**)params); 
+
+  //Unpack Table  
+  int np = *((int*)table);
+  int nd = *(((int*)table) + 1);
   
   int size = np * nd;
 
-  double *acc = ((double*)(params)) + 1;
-  double *vel = acc + size; 
-  double *pos = vel + size; 
-  double *box = pos + size;
+  double *pos = ((double*)table) + 1;
+  double *vel = pos + size;
+  double *acc = vel + size; 
 
+  //Unpack Params
+  double *box = (double*)(((void**)params)+1);
   int *seed = (int*)(box + nd);
+  //int *offset = seed + 1; 
 
-  int i, j; 
-  for( i = 0; i < nd ; i++){
-    box[i] = 10.0; 
-  }
-
+  int i,j; 
+  //int tid = (threadIdx.x % 32) + *offset; 
   //Update values
   for ( j = 0; j < np ; j++){
     for ( i = 0; i < nd ; i++){
