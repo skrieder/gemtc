@@ -74,8 +74,9 @@ int main(int argc, char **argv){
   void *params = pullJobs(1, init_mem_needed);   
     
   /////////////// Compute/Update Loop /////////////////
-  int j; 
+  int j, e0; 
   int print_step = step_num / 10;
+  if(print_step == 0){ print_step++;}; 
   
   for(j=0; j<step_num; j++){
 
@@ -89,14 +90,17 @@ int main(int argc, char **argv){
 
     void *comp_offset_pointer = ((double*)h_comp_params) + 1; 
     
-    k_calls = pushJobs(np, h_comp_params, comp_offset_pointer, comp_mem_needed, 16);
-    void *results = pullJobs(k_calls); 
+    int k_calls = pushJobs(np, h_comp_params, comp_offset_pointer, comp_mem_needed, 16);
+    void *results = pullJobs(k_calls, mem_needed); 
 
     if( j % print_step == 0){
-      printf("%d : This is a step I need to print.", j);  
+      printf("%d : This is a step I need to print.\n", j);  
     }
-    if(j==0){continue;}//The first compute step does need to update.
-    
+    if(j==0){
+      //TODO: SUM E0 HERE!! 
+      continue;
+    }
+      
     /*
     //Update Params | &Table |  dt | offset |
     //Bytes         |   8    |  8  |   4    | 
