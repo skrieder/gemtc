@@ -11,7 +11,7 @@ int main(int argc, char **argv){
 
   const int np = 100; //Modify this variable.
   const int nd = 2; //This value should only be 2 or 3!
-  const int step_num = 1; 
+  const int step_num = 10; 
   const double mass = 1.0;
   const double dt = 0.0001;
 
@@ -71,8 +71,8 @@ int main(int argc, char **argv){
     Microkernel */
 
   gemtcPush(17, 32, 1000, d_init_params); 
-  void *params = pullJobs(1, init_mem_needed);   
-    
+  pullJobs(1, init_mem_needed);   
+   
   /////////////// Compute/Update Loop /////////////////
   int j, e0; 
   int print_step = step_num / 10;
@@ -91,8 +91,18 @@ int main(int argc, char **argv){
     void *comp_offset_pointer = ((double*)h_comp_params) + 1; 
     
     int k_calls = pushJobs(np, h_comp_params, comp_offset_pointer, comp_mem_needed, 16);
-    void *results = pullJobs(k_calls, mem_needed); 
+    void *results = pullJobs(k_calls, comp_mem_needed); 
 
+//    double *pe = ((double*)d_table) + 2 + 4 * a_size; 
+//    double psum = 0.0;
+//    int z;
+//    for(z=0; z<a_size; z++){
+//       psum += pe[z];
+//    }
+    
+//    printf("%d :  %f\n", j, psum); 
+
+    /*
     if( j % print_step == 0){
       printf("%d : This is a step I need to print.\n", j);  
     }
@@ -100,7 +110,7 @@ int main(int argc, char **argv){
       //TODO: SUM E0 HERE!! 
       continue;
     }
-      
+      */
     /*
     //Update Params | &Table |  dt | offset |
     //Bytes         |   8    |  8  |   4    | 
@@ -146,23 +156,23 @@ int pushJobs(int num_tasks, void *h_params, void *offset_pointer, int mem_needed
   return kernel_calls; 
 }
 
-void* pullJobs(int kernel_calls, int mem_needed){
+void* pullJobs(int kernel_calls, int memory){
   int i; 
   for(i=0; i<kernel_calls; i++){ //Pulls for jobs. 
     void *ret = NULL;
-    int id; 
-    
+    int id;
+
     while(ret==NULL){
       gemtcPoll(&id, &ret);
     }
     
     if(i == kernel_calls-1){
-      void *results = malloc(mem_needed);
-      gemtcMemcpyDeviceToHost(results, ret, mem_needed);
+      void *job_results = malloc(memory);
+      gemtcMemcpyDeviceToHost(job_results, ret, memory);
 
-      return results; 
-    }
+      return job_results; 
+    } 
   }
-
+  printf("I have reached this point.\n\n\n\n\n\n\n\n\n" );
   return NULL; 
 }
