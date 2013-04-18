@@ -1,14 +1,22 @@
 __device__ void ComputeParticles(void* params){  
+  
+  //Params| &table | offset | 
+  //Bytes |   8    |   4    | 
+  
+ void *table = *((void**)params);
+ int offset = *((int*)(((void**)params)+1));
+  
   //Extract all the values. 
-  int np = *((int*) params);
-  int nd = *(((int*) params)+1);
+  int np = *((int*) table);
+  int nd = *(((int*) table)+1);
 
   int size = np * nd;
 
-  double *mass = (double*)(((int*)params)+2);
+  double *mass = (double*)(((int*)table)+2);
   double *pos = mass + 1;
   double *vel = pos + size; 
-  double *f = vel + size;
+  double *acc = vel + size;
+  double *f = acc + size;
 
   double *pe = f + size;
   double *ke = pe + size;
@@ -19,8 +27,7 @@ __device__ void ComputeParticles(void* params){
   
   int i,j;
   int tid = threadIdx.x % 32; 
-  //int k = offset + tid; 
-  int k = tid;
+  int k = offset + tid; 
   //Compute all the potential energy and forces.
       for(i=0; i<nd; i++){
         f[i+k*nd] = 0.0;
