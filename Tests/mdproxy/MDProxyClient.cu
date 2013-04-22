@@ -1,17 +1,19 @@
 #include "../../gemtc.cu"
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define MAX_WORKERS 32 
 int pushJobs(int num_tasks, void *h_params, void *offset_pointer, int mem_needed, int microkernel);
 void* pullJobs(int kernel_calls, int mem_needed, bool need_results); 
+double cpu_time();
 
 int main(int argc, char **argv){
   gemtcSetup(100000,0);
 
-  const int np = 100; //Modify this variable.
+  const int np = 500; //Modify this variable.
   const int nd = 2; //This value should only be 2 or 3!
-  const int step_num = 10; 
+  const int step_num = 50; 
   const double mass = 1.0;
   const double dt = 0.0001;
 
@@ -76,13 +78,13 @@ int main(int argc, char **argv){
   /////////////// Compute/Update Loop /////////////////
   printf("\nComputing inital forces and energies.\n");
   
-  
-  int j, e0; 
+  double e0, ctime1, ctime2;
+  int j; 
   int print_step = step_num / 10;
   if(print_step == 0){ print_step++;}; 
 
-  printf("Step\tP Energy\tK Energy\t(P+K-E0)/E0");
-  for(j=0; j<step_num; j++){
+  printf("Step\tP Energy\tK Energy\t(P+K-E0)/E0\n");
+  for(j=0; j<=step_num; j++){
 
     //Compute Params  | &Table | offset | 
     //Bytes           |   8    |   4    | 
@@ -115,15 +117,16 @@ int main(int argc, char **argv){
       psum += pe[z];
       ksum += ke[z];
     }
-
+   
     if(j == 0){
       e0 = psum + ksum; 
-      printf("%d\t%.2f\t\t%.4f\t\t%f", j, psum, ksum, (psum+ksum-e0)/e0); 
+      printf("%d\t%.2f\t\t%.4f\t\t%f\n", j, psum, ksum, (psum+ksum-e0)/e0);
+      ctime1 = cpu_time();
       continue;
     }
 
     if( j % print_step == 0){
-      printf("%d\t%.2f\t\t%f\t\t%f", j, psum, ksum, (psum+ksum-e0)/e0);  
+      printf("%d\t%.2f\t\t%f\t\t%f\n", j, psum, ksum, (psum+ksum-e0)/e0);  
     }
 
     ////////////////UPDATE/////////////////
@@ -142,15 +145,15 @@ int main(int argc, char **argv){
     k_calls = pushJobs(np, h_upda_params, upda_offset_pointer, upda_mem_needed, 18);
     pullJobs(k_calls, upda_mem_needed, false);
   } 
-  //print time elasped. 
+  ctime2 = cpu_time();
+  printf("Elapsed cpu time for main computation: %.2f\n", ctime2-ctime1);
   gemtcCleanup(); 
   return 0; 
 }
 
 int pushJobs(int num_tasks, void *h_params, void *offset_pointer, int mem_needed, int microkernel){
   int kernel_calls = num_tasks / MAX_WORKERS; 
-  int i; 
-  printf("\n\n");
+  int i;
 
   for(i=0; i<= kernel_calls; i++){
     int offset = i * MAX_WORKERS; 
@@ -196,4 +199,9 @@ void* pullJobs(int kernel_calls, int memory, bool need_results){
   }
   printf("I should never reach this point.");
   return NULL; 
+}
+
+double cpu_time(){
+  double value = (double)clock() / (double)CLOCKS_PER_SEC;
+  return value;
 }

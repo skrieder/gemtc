@@ -22,7 +22,8 @@ __device__ void ComputeParticles(void* params){
   double *ke = pe + size;
 
   int i;
-   
+
+
   double d, d2; 
   double PI2 = 3.141592653589793 / 2.0;
   double rij[3];
@@ -34,7 +35,7 @@ __device__ void ComputeParticles(void* params){
       for(i=0; i<nd; i++){
         f[i+k*nd] = 0.0;
       }
-
+     
       for(j=0; j<np; j++){
         if(k == j){ continue; }
 
@@ -139,7 +140,9 @@ __device__ void UpdatePosVelAccel(void* params){
   double *vel = pos + size;
   double *acc = vel + size; 
   double *f = acc + size; 
-
+  double *pe = f + size;
+  double *ke = pe + size; 
+  
   int i,j;
   double rmass = 1.0 / mass;
 
@@ -150,6 +153,9 @@ __device__ void UpdatePosVelAccel(void* params){
   for ( i = 0 ; i < nd; i ++){
     pos[i+j*nd] += vel[i+j*nd] * dt + 0.5 * acc[i+j*nd] * dt * dt;   
     vel[i+j*nd] += 0.5 * dt * (f[i+j*nd] * rmass + acc[i+j*nd]);
-    acc[i+j*nd] = f[i+j*nd] * rmass; 
+    acc[i+j*nd] = f[i+j*nd] * rmass;
+    
+    pe[i+j*nd] = 0.0;
+    ke[i+j*nd] = 0.0;
   }
 }
