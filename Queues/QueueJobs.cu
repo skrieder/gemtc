@@ -80,6 +80,69 @@ void EnqueueJob(JobPointer h_JobDescription, Queue Q) {
   free(h_Q);
 }
 
+void EnqueueJobBatch(JobDescription *buffer, int jobs, Queue Q) {
+//called by CPU
+
+  int copySize= sizeof(struct QueueRecord);
+
+  Queue h_Q = (Queue) malloc(sizeof(struct QueueRecord));
+  cudaSafeMemcpy(h_Q, Q, copySize, cudaMemcpyDeviceToHost, stream_dataIn,
+                 "EnqueueJob, Getting Queue");
+
+  int c=0;
+  while(h_openSpace(h_Q) < jobs){
+    pthread_yield();
+    cudaSafeMemcpy(h_Q, Q, copySize, cudaMemcpyDeviceToHost, stream_dataIn,
+                    "EnqueueJob, Getting Queue again...");
+    c++;
+  }
+  // floating point exception from mod capacity if 0 or -n
+
+  JobDescription *d_buffer = 
+      (JobDescription *) gemtcMalloc(jobs*sizeof(struct JobDescription));
+
+  cudaSafeMemcpy( d_buffer,
+                  buffer, 
+                  jobs*sizeof(struct JobDescription),
+                  cudaMemcpyHostToDevice, 
+                  stream_dataIn,
+                  "EnqueueJobbatch, Writing All JobDescriptions");
+  // set job description
+
+  JobDescription *pointers[jobs];
+  int i;
+  for(i=0; i<jobs; i++) pointers[i]=d_buffer+i;
+
+  if(h_Q->Capacity-h_Q->Rear > jobs){
+    cudaSafeMemcpy( (void *)&h_Q->Array[(h_Q->Rear+1)%h_Q->Capacity],
+                    pointers, 
+                    jobs*sizeof(JobPointer),
+                    cudaMemcpyHostToDevice, 
+                    stream_dataIn,
+                    "EnqueueJob, Writing All JobPointers");
+  }else{
+    int jobs_before_wrap = h_Q->Capacity - h_Q->Rear - 1;
+    cudaSafeMemcpy( (void *)&h_Q->Array[(h_Q->Rear+1)%h_Q->Capacity],
+                    pointers, 
+                    jobs_before_wrap*sizeof(JobPointer),
+                    cudaMemcpyHostToDevice, 
+                    stream_dataIn,
+                    "EnqueueJob, Writing First Half of JobPointers");
+    cudaSafeMemcpy( (void *)&h_Q->Array[0],
+                    pointers+jobs_before_wrap, 
+                    (jobs - jobs_before_wrap)*sizeof(JobPointer),
+                    cudaMemcpyHostToDevice, 
+                    stream_dataIn,
+                    "EnqueueJob, Writing Second Half of JobPointers");
+  }
+
+  h_Q->Rear = (h_Q->Rear+jobs)%(h_Q->Capacity);
+  cudaSafeMemcpy(movePointer(Q, 12), movePointer(h_Q, 12), 
+		 sizeof(int), cudaMemcpyHostToDevice, stream_dataIn,
+                 "EnqueueJob, Updating Queue");
+  free(h_Q);
+}
+
 JobPointer MaybeFandD(Queue Q){
   int copySize= sizeof(struct QueueRecord);
 
@@ -118,6 +181,57 @@ JobPointer MaybeFandD(Queue Q){
     free(h_Q);
     free(resultP);
     return result;
+  }
+}
+int FrontAndDequeueBatch(JobDescription *outBuffer, int max, Queue Q){
+  int copySize= sizeof(struct QueueRecord);
+
+  Queue h_Q = (Queue) malloc(sizeof(struct QueueRecord));
+  
+  cudaSafeMemcpy(h_Q, Q, copySize, cudaMemcpyDeviceToHost, stream_dataOut,
+                 "FandDJobBatch, Getting Queue");
+
+  if(h_IsEmpty(h_Q)){
+    free(h_Q);
+    return 0;
+  }else{
+    int jobs = h_Q->Capacity-1 - h_openSpace(h_Q);
+    if(jobs>max)jobs=max;
+    JobPointer results[jobs];
+    //Read task Description Location
+    if(h_Q->Capacity - h_Q->Front > jobs){
+      cudaSafeMemcpy(results, (void *)&h_Q->Array[h_Q->Front], 
+                     jobs*sizeof(JobPointer), 
+                     cudaMemcpyDeviceToHost, stream_dataOut,
+                     "FandDJobBatch, Getting All JobPointers");
+    }else{
+      int jobs_before_wrap = h_Q->Capacity - h_Q->Front-1;
+      cudaSafeMemcpy(results, (void *)&h_Q->Array[h_Q->Front], 
+                     jobs_before_wrap*sizeof(JobPointer), 
+                     cudaMemcpyDeviceToHost, stream_dataOut,
+                     "FandDJobBatch, Getting All JobPointers");
+      cudaSafeMemcpy(results + jobs_before_wrap, (void *)&h_Q->Array[0],
+                     (jobs-jobs_before_wrap)*sizeof(JobPointer), 
+                     cudaMemcpyDeviceToHost, stream_dataOut,
+                     "FandDJobBatch, Getting All JobPointers");
+    }
+    //Read task descriptions
+    int i;
+    for(i=0; i<jobs; i++){
+      cudaSafeMemcpy(&outBuffer[i], (void *)results[i], sizeof(struct JobDescription), 
+                     cudaMemcpyDeviceToHost, stream_dataOut,
+                     "FandDJobBatch, Getting A JobDescriptions");
+
+      //Free task description
+      //gemtcFree(*resultP);     Fix me, memory leak, some descriptions allocated as large array. Problems
+    }
+    //Update Queue metadata
+    h_Q->Front = (h_Q->Front+jobs)%(h_Q->Capacity);
+    cudaSafeMemcpy( movePointer(Q, 16), movePointer(h_Q, 16), 
+                    sizeof(int), cudaMemcpyHostToDevice, stream_dataOut,
+                    "FandDJob, Updating Queue");
+    free(h_Q);
+    return jobs;
   }
 }
 

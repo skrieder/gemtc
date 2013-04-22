@@ -58,6 +58,12 @@ int h_IsFull(Queue Q) {
   return (Q->Rear+2)%Q->Capacity == Q->Front;
 }
 
+int h_openSpace(Queue Q){
+  int temp = (Q->Front - ((Q->Rear+2)%Q->Capacity));
+  while(temp<0) temp+=Q->Capacity;
+  return temp;
+}
+
 void *movePointer(void *p, int n){
    char * ret = (char *) p;
    return ((void *)(ret+n));

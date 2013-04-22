@@ -10,9 +10,10 @@ void synchronizeAndPrint(cudaStream_t stream, char *s){
   }
 }
 
-
+int copies=0;
 void cudaSafeMemcpy(void *destination, void *source, int size, enum cudaMemcpyKind direction, cudaStream_t stream, char *errorStatement)
 {
+  copies++;
   //Get Lock
   pthread_mutex_lock(&memcpyLock);
 

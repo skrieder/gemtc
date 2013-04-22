@@ -4,11 +4,6 @@
 
 int main(int argc, char **argv){
 
-  cudaDeviceProp props;
-  cudaGetDeviceProperties(&props, 0);
-  printf("  Global memory:  %d mb\n", (int) props.totalGlobalMem);
-  printf("  Shared memory:  %d kb/block\n ",(int) props.sharedMemPerBlock);
-
   int NUM_TASKS, SLEEP_TIME;
 
   if(argc>2){
@@ -22,7 +17,7 @@ int main(int argc, char **argv){
     exit(1);
   }
 
-  gemtcSetup(25600,1);
+  gemtcSetup(32768,1);
 
   //We will Push 1000 tasks
   // Then Poll until we have 1000 results
@@ -32,7 +27,6 @@ int main(int argc, char **argv){
     int i;
     for(i=0; i<1000; i++){
       int *d_sleepTime = (int *) gemtcGPUMalloc(sizeof(int));
-
       gemtcMemcpyHostToDevice(d_sleepTime, &SLEEP_TIME, sizeof(int));
       gemtcPush(0, 32, i+j*1000, d_sleepTime);
     }
@@ -51,7 +45,6 @@ int main(int argc, char **argv){
       ret = NULL;
     }
   }
-
   gemtcCleanup();
 
   return 0;
