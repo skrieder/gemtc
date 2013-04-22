@@ -77,7 +77,8 @@ int main(int argc, char **argv){
   int j, e0; 
   int print_step = step_num / 10;
   if(print_step == 0){ print_step++;}; 
-  
+
+  printf("Step\tP Energy\tK Energy\t(P+K-E0)/E0");
   for(j=0; j<step_num; j++){
 
     //Compute Params  | &Table | offset | 
@@ -91,27 +92,35 @@ int main(int argc, char **argv){
     void *comp_offset_pointer = ((double*)h_comp_params) + 1; 
     
     int k_calls = pushJobs(np, h_comp_params, comp_offset_pointer, comp_mem_needed, 16);
-    void *results = pullJobs(k_calls, comp_mem_needed); 
+    void *comp_results = pullJobs(k_calls, comp_mem_needed);  
 
-//    double *pe = ((double*)d_table) + 2 + 4 * a_size; 
-//    double psum = 0.0;
-//    int z;
-//    for(z=0; z<a_size; z++){
-//       psum += pe[z];
-//    }
-    
-//    printf("%d :  %f\n", j, psum); 
+    void *comp_table_p = *((void**)comp_results); 
+    void *comp_table = malloc(mem_needed);
 
-    /*
+    gemtcMemcpyDeviceToHost(comp_table, comp_table_p, mem_needed);
+
+    double *pe = ((double*)comp_table) + 2 + 4 * a_size;
+    double *ke = pe + a_size;
+    double psum = 0.0;
+    double ksum = 0.0; 
+    int z;
+
+    for(z=0; z < np ; z++){
+      psum += pe[z];
+      ksum += ke[z];
+    }
+
+    if(j == 0){
+      e0 = psum + ksum; 
+    }
+
     if( j % print_step == 0){
-      printf("%d : This is a step I need to print.\n", j);  
+      printf("%d\t%.2f\t\t%.2f\t\t%f", j, psum, ksum, (psum+ksum-e0)/e0);  
     }
-    if(j==0){
-      //TODO: SUM E0 HERE!! 
-      continue;
-    }
-      */
-    /*
+
+    //TODO:Try to findout how to rearrange this logic.
+    if(j == 0){continue;}
+
     //Update Params | &Table |  dt | offset |
     //Bytes         |   8    |  8  |   4    | 
 
@@ -120,11 +129,11 @@ int main(int argc, char **argv){
     void *h_upda_params = malloc(upda_mem_needed); 
     memcpy(h_upda_params               , &d_table, sizeof(void*));
     memcpy(((double*)h_upda_params) + 1,   &dt   , sizeof(double));
+    
     void *upda_offset_pointer = ((double*)h_upda_params) + 2; 
 
     k_calls = pushJobs(np, h_upda_params, upda_offset_pointer, upda_mem_needed, 22);
     pullJobs(k_calls);
-    */
   } 
   //print time elasped. 
   gemtcCleanup(); 
@@ -148,7 +157,7 @@ int pushJobs(int num_tasks, void *h_params, void *offset_pointer, int mem_needed
       //Copy params to device. 
       gemtcMemcpyHostToDevice(d_params, h_params, mem_needed); 
       //Push Job 
-      printf("changedgemtcPush(%d, %d, %d, d_params);\n", microkernel, threads, i*1000); 
+      //printf("gemtcPush(%d, %d, %d, d_params);\n", microkernel, threads, i*1000); 
       gemtcPush(microkernel, threads, i*1000, d_params); 
     }
   }

@@ -20,12 +20,19 @@ __device__ void ComputeParticles(void* params){
 
   double *pe = f + size;
   double *ke = pe + size;
-  
+
+  int i;
+  //TODO: set all this stuff to 0 earlier. 
+  for(i=0; i<np; i++){
+    pe[i] = 0.0;
+    ke[i] = 0.0;
+  }
+   
   double d, d2; 
   double PI2 = 3.141592653589793 / 2.0;
   double rij[3];
   
-  int i,j;
+  int j;
   int tid = threadIdx.x % 32; 
   int k = offset + tid; 
   //Compute all the potential energy and forces.
