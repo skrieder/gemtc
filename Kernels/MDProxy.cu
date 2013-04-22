@@ -22,11 +22,6 @@ __device__ void ComputeParticles(void* params){
   double *ke = pe + size;
 
   int i;
-  //TODO: set all this stuff to 0 earlier. 
-  for(i=0; i<np; i++){
-    pe[i] = 0.0;
-    ke[i] = 0.0;
-  }
    
   double d, d2; 
   double PI2 = 3.141592653589793 / 2.0;
@@ -95,9 +90,12 @@ __device__ void InitParticles(void* params){
   
   int size = np * nd;
 
-  double *pos = ((double*)table) + 1;
+  double *pos = ((double*)table) + 2;
   double *vel = pos + size;
-  double *acc = vel + size; 
+  double *acc = vel + size;
+  double *f = acc + size;
+  double *pe = f + size;
+  double *ke = pe + size; 
 
   //Unpack Params
   double *box = (double*)(((void**)params)+1);
@@ -112,6 +110,9 @@ __device__ void InitParticles(void* params){
       pos[i+j*nd] = box[i] * r8_uniform_01(seed);
       vel[i+j*nd] = 0.0;
       acc[i+j*nd] = 0.0;
+      f[i+j*nd] = 0.0;
+      pe[i+j*nd] = 0.0;
+      ke[i+j*nd] = 0.0;
     }
   }
 
@@ -119,33 +120,36 @@ __device__ void InitParticles(void* params){
 
 __device__ void UpdatePosVelAccel(void* params){
  
-  //Params: | np | nd |  *pos  |  *vel  |   *f   |  *acc  | mass | dt | 
-  //Bytes:  | 4  | 4  | 8*size | 8*size | 8*size | 8*size |  8   |  8 | 
+  //Params: | &table |  dt  | offset | 
+  //Bytes:  |    8   |   8  |   4    |
 
-  //Extract Values 
-  int np = *((int*)params);
-  int nd = *(((int*)params)+1);
-
-  int size = np * nd; 
-
-  double *pos = ((double*)(params) + 1);
-  double *vel = pos + size; 
-  double *f = vel + size;
-  double *acc = f + size;
-
-  double mass = *(acc + size);
-  double dt = *(acc + size + 1); 
+  void *table = *((void**)params);
+  double dt = *((double*)(((void**)params)+1));
+  int offset = *(((int*)params) + 4);
   
-  int i,j; 
+  //Unpack Table
+  int np = *((int*)table);
+  int nd = *(((int*)table) + 1);
+  
+  int size = np * nd;
+
+  double mass = *(((double*)table) + 1); 
+   
+  double *pos = ((double*)table) + 2;
+  double *vel = pos + size;
+  double *acc = vel + size; 
+  double *f = acc + size; 
+
+  int i,j;
   double rmass = 1.0 / mass;
 
-  //Begin computation
-  for ( j = 0; j < np ; j++){
-    for ( i = 0 ; i < nd; i ++){
-      pos[i+j*nd] += vel[i+j*nd] * dt + 0.5 * acc[i+j*nd] * dt * dt;   
-      vel[i+j*nd] += 0.5 * dt * (f[i+j*nd] * rmass + acc[i+j*nd]);
-      acc[i+j*nd] = f[i+j*nd] * rmass; 
+  int tid = threadIdx.x % 32;
+  j = offset + tid; 
 
-    }
+  //Begin computation
+  for ( i = 0 ; i < nd; i ++){
+    pos[i+j*nd] += vel[i+j*nd] * dt + 0.5 * acc[i+j*nd] * dt * dt;   
+    vel[i+j*nd] += 0.5 * dt * (f[i+j*nd] * rmass + acc[i+j*nd]);
+    acc[i+j*nd] = f[i+j*nd] * rmass; 
   }
 }
