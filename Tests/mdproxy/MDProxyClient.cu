@@ -148,7 +148,7 @@ int pushJobs(int num_tasks, void *h_params, void *offset_pointer, int mem_needed
       //Copy params to device. 
       gemtcMemcpyHostToDevice(d_params, h_params, mem_needed); 
       //Push Job 
-      printf("gemtcPush(%d, %d, %d, d_params);\n", microkernel, threads, i*1000); 
+      printf("changedgemtcPush(%d, %d, %d, d_params);\n", microkernel, threads, i*1000); 
       gemtcPush(microkernel, threads, i*1000, d_params); 
     }
   }
