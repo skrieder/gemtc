@@ -1,6 +1,7 @@
 #include "gemtc_types.h"
 #include "gemtc_mic_api.h"
 #include "super_kernel.h"
+#include "gemtc_memory.h"
 #include "QueueJobs.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -83,4 +84,15 @@ void MIC_gemtcPoll(int *ID, void **params) {
 
 		free(job);
 	}
+}
+
+void *MIC_gemtcMalloc(unsigned int nbytes) {
+	DataHeader_t *header = malloc(nbytes + sizeof(DataHeader_t));
+	header->size = nbytes;
+
+	return payload_from_header(header);
+}
+
+void MIC_gemtcFree(void *loc) {
+	free(loc);
 }
