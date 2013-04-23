@@ -97,9 +97,8 @@ int main(int argc, char **argv){
    
     //Push the Jobs 
     int k_calls = pushJobs(np, h_comp_params, comp_offset_pointer, comp_mem_needed, 16);
-    
-    //Pull the Results 
     pullJobs(k_calls);   
+    
     void *comp_table = malloc(mem_needed);
 
     //Get the Values from the Data Table. 
@@ -107,9 +106,14 @@ int main(int argc, char **argv){
 
     double *pe = ((double*)comp_table) + 2 + 4 * a_size;
     double *ke = pe + a_size;
+
+    for(i=0; i<a_size; i++){
+      printf("%d: %f %f\n", i, pe[i], ke[i]);
+    }
+    
     double psum = 0.0;
     double ksum = 0.0; 
-
+    
     for(i=0; i < a_size; i++){
       psum += pe[i];
       ksum += ke[i];
@@ -145,7 +149,7 @@ int main(int argc, char **argv){
 
   ctime2 = cpu_time();
   printf("Elapsed cpu time for main computation: %.2f\n", ctime2-ctime1);
-
+  
   gemtcCleanup(); 
   return 0; 
 }
