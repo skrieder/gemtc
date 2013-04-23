@@ -5,15 +5,16 @@
 
 #define MAX_WORKERS 32 
 int pushJobs(int num_tasks, void *h_params, void *offset_pointer, int mem_needed, int microkernel);
-void* pullJobs(int kernel_calls, int mem_needed, bool need_results); 
+void pullJobs(int kernel_calls); 
 double cpu_time();
 
 int main(int argc, char **argv){
   gemtcSetup(100000,0);
 
-  const int np = 500; //Modify this variable.
+  const int np = 50; //Modify this variable.
   const int nd = 2; //This value should only be 2 or 3!
-  const int step_num = 50; 
+  const int step_num = 5; 
+  const int seed = 123456789;
   const double mass = 1.0;
   const double dt = 0.0001;
 
@@ -40,7 +41,7 @@ int main(int argc, char **argv){
   memcpy( (((int*)h_table)+1)     , &nd   , sizeof(int)); 
   memcpy( (((double*)h_table)+1)  , &mass , sizeof(double));
 
-  for(i=0; i<4; i++){
+  for(i=0; i<6; i++){
     memcpy( (((double*)h_table) + a_size*i + 2), darray, a_mem); 
   }
   //Copy Table onto Device Memory
@@ -53,8 +54,6 @@ int main(int argc, char **argv){
 
   //Init Params  | &Table |  box[]  | seed |
   //Bytes        |   8    | 8 * nd  |  4   | 
-
-  int seed = 123456789;
 
   double box[nd];
   for(i=0; i<nd; i++){
@@ -73,7 +72,7 @@ int main(int argc, char **argv){
     Microkernel */
 
   gemtcPush(17, 32, 1000, d_init_params); 
-  pullJobs(1, init_mem_needed, false);   
+  pullJobs(1);   
    
   /////////////// Compute/Update Loop /////////////////
   printf("\nComputing inital forces and energies.\n");
@@ -100,22 +99,20 @@ int main(int argc, char **argv){
     int k_calls = pushJobs(np, h_comp_params, comp_offset_pointer, comp_mem_needed, 16);
     
     //Pull the Results 
-    void *comp_results = pullJobs(k_calls, comp_mem_needed, true);  
-    void *comp_table_p = *((void**)comp_results); 
+    pullJobs(k_calls);   
     void *comp_table = malloc(mem_needed);
 
     //Get the Values from the Data Table. 
-    gemtcMemcpyDeviceToHost(comp_table, comp_table_p, mem_needed);
+    gemtcMemcpyDeviceToHost(comp_table, d_table, mem_needed);
 
     double *pe = ((double*)comp_table) + 2 + 4 * a_size;
     double *ke = pe + a_size;
     double psum = 0.0;
     double ksum = 0.0; 
-    int z;
 
-    for(z=0; z < np ; z++){
-      psum += pe[z];
-      ksum += ke[z];
+    for(i=0; i < a_size; i++){
+      psum += pe[i];
+      ksum += ke[i];
     }
    
     if(j == 0){
@@ -143,10 +140,12 @@ int main(int argc, char **argv){
     void *upda_offset_pointer = ((double*)h_upda_params) + 2; 
 
     k_calls = pushJobs(np, h_upda_params, upda_offset_pointer, upda_mem_needed, 18);
-    pullJobs(k_calls, upda_mem_needed, false);
-  } 
+    pullJobs(k_calls);
+  }
+
   ctime2 = cpu_time();
   printf("Elapsed cpu time for main computation: %.2f\n", ctime2-ctime1);
+  
   gemtcCleanup(); 
   return 0; 
 }
@@ -175,7 +174,7 @@ int pushJobs(int num_tasks, void *h_params, void *offset_pointer, int mem_needed
   return kernel_calls; 
 }
 
-void* pullJobs(int kernel_calls, int memory, bool need_results){
+void pullJobs(int kernel_calls){
   int i; 
   for(i=0; i<kernel_calls; i++){ //Pulls for jobs. 
     void *ret = NULL;
@@ -183,22 +182,8 @@ void* pullJobs(int kernel_calls, int memory, bool need_results){
 
     while(ret==NULL){
       gemtcPoll(&id, &ret);
-    }
-    
-    if(i == kernel_calls-1){
-      if(need_results){
-        void *job_results = malloc(memory);
-        gemtcMemcpyDeviceToHost(job_results, ret, memory);
-
-        return job_results;
-      }
-      else{
-        return NULL;
-      }
     } 
   }
-  printf("I should never reach this point.");
-  return NULL; 
 }
 
 double cpu_time(){
