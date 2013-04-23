@@ -78,8 +78,8 @@ __device__ double r8_uniform_01(int *seed){
 
 __device__ void InitParticles(void* params){
   
-  //Params| &table | box[] | seed | offset |  
-  //Bytes |   8    | 8*nd  |  4   |   4    |
+  //Params| &table | box[] | seed |
+  //Bytes |   8    | 8*nd  |  4   |
   
   void *table = *((void**)params); 
 
@@ -90,14 +90,13 @@ __device__ void InitParticles(void* params){
   //Unpack Params
   double *box = (double*)(((void**)params)+1);
   int *seed = (int*)(box + nd);
-  int offset = *(seed + 1); 
 
   int i,j; 
-  int tid = (threadIdx.x % 32);
-  j = tid + offset;
   //Update values
-  for ( i = 0; i < nd ; i++){
-    pos[i+j*nd] = box[i] * r8_uniform_01(seed);
+  for ( j = 0; j < np ; j++){
+    for ( i = 0; i < nd ; i++){
+      pos[i+j*nd] = box[i] * r8_uniform_01(seed);
+    }
   }
 }
 

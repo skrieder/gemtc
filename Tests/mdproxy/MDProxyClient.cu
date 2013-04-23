@@ -13,7 +13,7 @@ int main(int argc, char **argv){
 
   const int np = 50; //Modify this variable.
   const int nd = 2; //This value should only be 2 or 3!
-  const int step_num = 5; 
+  const int step_num = 1; 
   const int seed = 123456789;
   const double mass = 1.0;
   const double dt = 0.0001;
@@ -73,7 +73,16 @@ int main(int argc, char **argv){
 
   gemtcPush(17, 32, 1000, d_init_params); 
   pullJobs(1);   
-   
+
+
+
+
+
+
+
+
+
+/*
   /////////////// Compute/Update Loop /////////////////
   printf("\nComputing inital forces and energies.\n");
   
@@ -145,7 +154,7 @@ int main(int argc, char **argv){
 
   ctime2 = cpu_time();
   printf("Elapsed cpu time for main computation: %.2f\n", ctime2-ctime1);
-  
+ */ 
   gemtcCleanup(); 
   return 0; 
 }
@@ -166,7 +175,7 @@ int pushJobs(int num_tasks, void *h_params, void *offset_pointer, int mem_needed
       //Copy params to device. 
       gemtcMemcpyHostToDevice(d_params, h_params, mem_needed); 
       //Push Job 
-      //printf("gemtcPush(%d, %d, %d, d_params);\n", microkernel, threads, i*1000); 
+      printf("gemtcPush(%d, %d, %d, d_params);\n", microkernel, threads, i*1000); 
       gemtcPush(microkernel, threads, i*1000, d_params); 
     }
   }
