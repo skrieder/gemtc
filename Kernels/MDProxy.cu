@@ -84,6 +84,7 @@ __device__ void InitParticles(void* params){
   void *table = *((void**)params); 
 
   //Unpack Table  
+  int np = *((int*)table);
   int nd = *(((int*)table) + 1);
   double *pos = ((double*)table) + 2;
  

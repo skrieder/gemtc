@@ -74,15 +74,6 @@ int main(int argc, char **argv){
   gemtcPush(17, 32, 1000, d_init_params); 
   pullJobs(1);   
 
-
-
-
-
-
-
-
-
-/*
   /////////////// Compute/Update Loop /////////////////
   printf("\nComputing inital forces and energies.\n");
   
@@ -154,7 +145,7 @@ int main(int argc, char **argv){
 
   ctime2 = cpu_time();
   printf("Elapsed cpu time for main computation: %.2f\n", ctime2-ctime1);
- */ 
+
   gemtcCleanup(); 
   return 0; 
 }
