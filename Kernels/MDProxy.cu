@@ -21,14 +21,12 @@ __device__ void ComputeParticles(void* params){
   double *pe = f + size;
   double *ke = pe + size;
 
-  int i;
-
+  int i, j;
 
   double d, d2; 
   double PI2 = 3.141592653589793 / 2.0;
   double rij[3];
-  
-  int j;
+ 
   int tid = threadIdx.x % 32; 
   int k = offset + tid; 
   //Compute all the potential energy and forces.
@@ -86,37 +84,21 @@ __device__ void InitParticles(void* params){
   void *table = *((void**)params); 
 
   //Unpack Table  
-  int np = *((int*)table);
   int nd = *(((int*)table) + 1);
-  
-  int size = np * nd;
-
   double *pos = ((double*)table) + 2;
-  double *vel = pos + size;
-  double *acc = vel + size;
-  double *f = acc + size;
-  double *pe = f + size;
-  double *ke = pe + size; 
-
+ 
   //Unpack Params
   double *box = (double*)(((void**)params)+1);
   int *seed = (int*)(box + nd);
-  //int *offset = seed + 1; 
+  int offset = *(seed + 1); 
 
   int i,j; 
-  //int tid = (threadIdx.x % 32) + *offset; 
+  int tid = (threadIdx.x % 32);
+  j = tid + offset;
   //Update values
-  for ( j = 0; j < np ; j++){
-    for ( i = 0; i < nd ; i++){
-      pos[i+j*nd] = box[i] * r8_uniform_01(seed);
-      vel[i+j*nd] = 0.0;
-      acc[i+j*nd] = 0.0;
-      f[i+j*nd] = 0.0;
-      pe[i+j*nd] = 0.0;
-      ke[i+j*nd] = 0.0;
-    }
+  for ( i = 0; i < nd ; i++){
+    pos[i+j*nd] = box[i] * r8_uniform_01(seed);
   }
-
 }
 
 __device__ void UpdatePosVelAccel(void* params){
