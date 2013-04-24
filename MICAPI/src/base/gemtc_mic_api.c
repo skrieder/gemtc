@@ -67,6 +67,7 @@ void MIC_gemtcPush(int taskType, int Threads, int ID, void *params) {
   job->params = params;
   job->JobID = ID;
 
+  printf("Pushed: %p, %p\n", job->params, ((DataHeader_t*)job->params)->mic_payload);
   Enqueue(job, newJobs);
 }
 void MIC_gemtcPoll(int *ID, void **params) {
@@ -80,6 +81,7 @@ void MIC_gemtcPoll(int *ID, void **params) {
 
 	} else {
 
+		printf("Params: %p, %p\n", job->params, ((DataHeader_t*)job->params)->mic_payload);
 		*ID = job->JobID;
 		*params = job->params;
 
@@ -99,12 +101,10 @@ void *MIC_gemtcMalloc(unsigned int payload_size) {
 			void* mem_ptr = malloc(payload_size);
 			
 			addr = mem_ptr;
-
-			printf("Hello: %p\n", mem_ptr);
 		}
 	}
-	printf("addr: %p\n", (void*)addr);
-
+	
+	printf("Malloc'd: %p\n", addr);
 	header->mic_payload = addr;
 
 	return header;

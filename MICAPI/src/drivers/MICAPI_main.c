@@ -26,12 +26,14 @@ int main(int argv, char **argc) {
     return -1;
   }
 
+  int device_memory_size = payload + sizeof(sleep_task);
+
   printf("== GEMTC_MIC Initalizing ===========\n");
   printf("+ Workers: %d\n", workers);
   printf("+ numTasks/batch: %d\n", numTasks);
   printf("+ sleepTime: %ld (uSec)\n", sleepTime);
   printf("+ batches: %d\n", batches);
-  printf("+ payload: %d + %d job overhead + %d data overhead\n", payload * sizeof(payload_t), sizeof(sleep_task), sizeof(DataHeader_t));
+  printf("+ payload: %zu + %zu job overhead + %zu data overhead = %d\n", payload * sizeof(payload_t), sizeof(sleep_task), sizeof(DataHeader_t), device_memory_size);
 
   printf(" -> To change: %s [workers] [numTasks/batch] [sleepTime] [batches] [payload (B)]\n", argc[0]);
 
@@ -45,11 +47,13 @@ int main(int argv, char **argc) {
 
   sleep_task* data = malloc(sizeof(sleep_task));
 
+  void* device_memory;
+
   for(i=0;i<batches;i++){
     printf("- Sending Batch ---------------\n");
     for(j=0;j<numTasks;j++){
-      void* device_memory = MIC_gemtcMalloc(payload + sizeof(sleep_task));
-      MIC_gemtcMemcpyHostToDevice(device_memory, data, payload + sizeof(sleep_task));
+      device_memory = MIC_gemtcMalloc(device_memory_size);
+      MIC_gemtcMemcpyHostToDevice(device_memory, data, device_memory_size);
       
       MIC_gemtcPush(0,1,i * batches + j, device_memory);
 
@@ -65,7 +69,9 @@ int main(int argv, char **argc) {
 
       while(result_id == -1) { MIC_gemtcPoll(&result_id, &result_params); }
 
-      printf("+ Job: %d, result: %d\n", result_id, *(int*)result_params);
+      MIC_gemtcMemcpyDeviceToHost(data, result_params, device_memory_size);
+
+      printf("+ Job: %d, result: %d, from copy: %d\n", result_id, *(int*)result_params, *(int*)data);
  
     }
     printf("= All Jobs Recieved\n");

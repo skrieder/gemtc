@@ -24,6 +24,7 @@ void* kernel_add_sleep(void *length) {
 		gettimeofday(&cur_time, NULL);
 	}
 
+	//*length = 8008;
 	return 0;
 }
 #pragma offload_attribute(pop)
