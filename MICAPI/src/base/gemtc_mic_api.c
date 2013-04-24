@@ -2,6 +2,7 @@
 #include "gemtc_mic_api.h"
 #include "super_kernel.h"
 #include "gemtc_memory.h"
+#include <offload.h>
 #include "QueueJobs.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -86,13 +87,57 @@ void MIC_gemtcPoll(int *ID, void **params) {
 	}
 }
 
-void *MIC_gemtcMalloc(unsigned int nbytes) {
-	DataHeader_t *header = malloc(nbytes + sizeof(DataHeader_t));
-	header->size = nbytes;
+void *MIC_gemtcMalloc(unsigned int payload_size) {
+	DataHeader_t *header = malloc(sizeof(DataHeader_t));
+	header->size = payload_size;
 
-	return payload_from_header(header);
+	mic_mem_ref_t addr = 0;
+
+	if (payload_size > 0) {
+	    #pragma offload target(mic:MIC_DEV) in(payload_size) out(addr)
+		{
+			void* mem_ptr = malloc(payload_size);
+			
+			addr = mem_ptr;
+
+			printf("Hello: %p\n", mem_ptr);
+		}
+	}
+	printf("addr: %p\n", (void*)addr);
+
+	header->mic_payload = addr;
+
+	return header;
 }
 
 void MIC_gemtcFree(void *loc) {
-	free(loc);
+	DataHeader_t *header = (DataHeader_t*)loc;
+
+	#pragma offload target(mic:MIC_DEV) in(header:length(1))
+	{
+		free((void*)header->mic_payload);
+	}
+
+	free(header);
+}
+
+
+ // MIC-> PC
+void MIC_gemtcMemcpyDeviceToHost(void *host, void *device_ptr, int size) {
+	DataHeader_t *device = device_ptr;
+
+	#pragma offload target(mic:MIC_DEV) in(device) out(host)
+	{
+		memcpy(host, device->mic_payload, size);
+	}
+}
+
+ // PC -> MIC
+void MIC_gemtcMemcpyHostToDevice(void *device_ptr, int *host, int size) {
+	DataHeader_t *device = device_ptr;
+
+	#pragma offload target(mic:MIC_DEV) in(host:length(size)) in(device) in(size)
+	{
+		memcpy(device->mic_payload, host, size);
+	}
 }

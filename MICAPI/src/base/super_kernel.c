@@ -38,17 +38,16 @@ JobPointer execute_job(JobDescription_t* currentJob) {
 
   int JobType = currentJob->JobType;
 
-  payload_t* payload = currentJob->params;
-  DataHeader_t* header = header_from_payload(payload);
-  int payload_size = header->size;
-  int sleep_length = ((sleep_task*)payload)->length;
+  DataHeader_t* header = currentJob->params;
+
+  mic_mem_ref_t addr = header->mic_payload;
 
   // Offload Region
-  #pragma offload target(mic:MIC_DEV) in(payload:length(payload_size))
+  #pragma offload target(mic:MIC_DEV) in(JobType) in(addr)
   {
     switch(JobType){
       case 0:
-        kernel_add_sleep(payload);
+        kernel_add_sleep((void*)addr);
         break;
     }
   }

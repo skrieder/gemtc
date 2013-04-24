@@ -40,22 +40,19 @@ int main(int argv, char **argc) {
   printf("== GEMTC_MIC Initalized ===========\n\n");
 
   int i, j;
-  sleep_task* data_no_payload = malloc(sizeof(sleep_task));
-  data_no_payload->length = sleepTime;
+  //sleep_task* data_no_payload = malloc(sizeof(sleep_task));
+  //data_no_payload->length = sleepTime;
 
-  sleep_task* data;
+  sleep_task* data = malloc(sizeof(sleep_task));
 
   for(i=0;i<batches;i++){
     printf("- Sending Batch ---------------\n");
     for(j=0;j<numTasks;j++){
-      if (payload > 0) {
-        data = MIC_gemtcMalloc(payload + sizeof(sleep_task));
-        data->length = sleepTime;
+      void* device_memory = MIC_gemtcMalloc(payload + sizeof(sleep_task));
+      MIC_gemtcMemcpyHostToDevice(device_memory, data, payload + sizeof(sleep_task));
+      
+      MIC_gemtcPush(0,1,i * batches + j, device_memory);
 
-        MIC_gemtcPush(0,1,i * batches + j, data);
-      } else {
-        MIC_gemtcPush(0,1,i * batches + j, data_no_payload);
-      }
       printf(".");
       if (j % 10 == 1) { printf("\n"); }
     }
