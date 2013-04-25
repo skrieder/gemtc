@@ -1,31 +1,39 @@
 __device__ void ComputeParticles(void* params){  
+  
+  //Params| &table | offset | 
+  //Bytes |   8    |   4    | 
+  
+ void *table = *((void**)params);
+ int offset = *((int*)(((void**)params)+1));
+  
   //Extract all the values. 
-  int np = *((int*) params);
-  int nd = *(((int*) params)+1);
+  int np = *((int*) table);
+  int nd = *(((int*) table)+1);
 
   int size = np * nd;
 
-  double *mass = (double*)(((int*)params)+2);
+  double *mass = (double*)(((int*)table)+2);
   double *pos = mass + 1;
   double *vel = pos + size; 
-  double *f = vel + size;
+  double *acc = vel + size;
+  double *f = acc + size;
 
   double *pe = f + size;
   double *ke = pe + size;
-  
+
+  int i, j;
+
   double d, d2; 
   double PI2 = 3.141592653589793 / 2.0;
   double rij[3];
-  
-  int i,j;
+ 
   int tid = threadIdx.x % 32; 
-  //int k = offset + tid; 
-  int k = tid;
+  int k = offset + tid; 
   //Compute all the potential energy and forces.
       for(i=0; i<nd; i++){
         f[i+k*nd] = 0.0;
       }
-
+     
       for(j=0; j<np; j++){
         if(k == j){ continue; }
 
@@ -70,67 +78,66 @@ __device__ double r8_uniform_01(int *seed){
 
 __device__ void InitParticles(void* params){
   
-  //Params| np | nd |  *acc  |  *vel  |  *pos  | *box | seed | 
-  //Bytes | 4  |  4 | size*8 | size*8 | size*8 | nd*8 |   4  | 
+  //Params| &table | box[] | seed |
+  //Bytes |   8    | 8*nd  |  4   |
   
-  //Extract Values 
-  int np = *((int*)params);
-  int nd = *(((int*)params) + 1);
-  
-  int size = np * nd;
+  void *table = *((void**)params); 
 
-  double *acc = ((double*)(params)) + 1;
-  double *vel = acc + size; 
-  double *pos = vel + size; 
-  double *box = pos + size;
-
+  //Unpack Table  
+  int np = *((int*)table);
+  int nd = *(((int*)table) + 1);
+  double *pos = ((double*)table) + 2;
+ 
+  //Unpack Params
+  double *box = (double*)(((void**)params)+1);
   int *seed = (int*)(box + nd);
 
-  int i, j; 
-  for( i = 0; i < nd ; i++){
-    box[i] = 10.0; 
-  }
-
+  int i,j; 
   //Update values
   for ( j = 0; j < np ; j++){
     for ( i = 0; i < nd ; i++){
       pos[i+j*nd] = box[i] * r8_uniform_01(seed);
-      vel[i+j*nd] = 0.0;
-      acc[i+j*nd] = 0.0;
     }
   }
-
 }
 
 __device__ void UpdatePosVelAccel(void* params){
  
-  //Params: | np | nd |  *pos  |  *vel  |   *f   |  *acc  | mass | dt | 
-  //Bytes:  | 4  | 4  | 8*size | 8*size | 8*size | 8*size |  8   |  8 | 
+  //Params: | &table |  dt  | offset | 
+  //Bytes:  |    8   |   8  |   4    |
 
-  //Extract Values 
-  int np = *((int*)params);
-  int nd = *(((int*)params)+1);
-
-  int size = np * nd; 
-
-  double *pos = ((double*)(params) + 1);
-  double *vel = pos + size; 
-  double *f = vel + size;
-  double *acc = f + size;
-
-  double mass = *(acc + size);
-  double dt = *(acc + size + 1); 
+  void *table = *((void**)params);
+  double dt = *((double*)(((void**)params)+1));
+  int offset = *(((int*)params) + 4);
   
-  int i,j; 
+  //Unpack Table
+  int np = *((int*)table);
+  int nd = *(((int*)table) + 1);
+  
+  int size = np * nd;
+
+  double mass = *(((double*)table) + 1); 
+   
+  double *pos = ((double*)table) + 2;
+  double *vel = pos + size;
+  double *acc = vel + size; 
+  double *f = acc + size; 
+  double *pe = f + size;
+  double *ke = pe + size; 
+  
+  int i,j;
   double rmass = 1.0 / mass;
 
-  //Begin computation
-  for ( j = 0; j < np ; j++){
-    for ( i = 0 ; i < nd; i ++){
-      pos[i+j*nd] += vel[i+j*nd] * dt + 0.5 * acc[i+j*nd] * dt * dt;   
-      vel[i+j*nd] += 0.5 * dt * (f[i+j*nd] * rmass + acc[i+j*nd]);
-      acc[i+j*nd] = f[i+j*nd] * rmass; 
+  int tid = threadIdx.x % 32;
+  j = offset + tid; 
 
-    }
+  //Begin computation
+  for ( i = 0 ; i < nd; i ++){
+    pos[i+j*nd] += vel[i+j*nd] * dt + 0.5 * acc[i+j*nd] * dt * dt;   
+    vel[i+j*nd] += 0.5 * dt * (f[i+j*nd] * rmass + acc[i+j*nd]);
+    acc[i+j*nd] = f[i+j*nd] * rmass;
+    
+    pe[i+j*nd] = 0.0;
+    ke[i+j*nd] = 0.0;
   }
 }

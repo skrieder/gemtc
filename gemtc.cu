@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <cuda_runtime.h>
 #include <pthread.h>
+#include <sys/time.h>
+#include <unistd.h>
+struct timeval tp;
 
 cudaStream_t stream_dataIn, stream_dataOut, stream_kernel;
 
@@ -17,6 +20,16 @@ int *d_kill;
 
 Queue d_newJobs, d_finishedJobs;
 
+//Jobs going in to the GPU
+JobDescription *inBuffer;
+int inSize;
+int inMax;
+double timeStamp;
+//Jobs coming out of the GPU
+JobDescription *outBuffer;
+int outSize;
+int outMax;
+
 /*
 This file contains the functions that make up the API to gemtc
 They are:
@@ -25,7 +38,7 @@ They are:
   gemtcCleanup()
 
 *** EnQueue/DeQueue Tasks  ***
-  gemtcBlockingRun()
+  -- gemtcBlockingRun()   Not up to date
   gemtcPush()
   gemtcPoll()
 
@@ -56,6 +69,25 @@ void *moveFromCuda(void *val, int size){
                  "in moveFromCuda of run()");
   return ret;
 }
+double getTime_usec() {
+    gettimeofday(&tp, NULL);
+    return static_cast<double>(tp.tv_sec) * 1E6
+            + static_cast<double>(tp.tv_usec);
+}
+void *bufferFlush(void *junk){
+  while(1){
+    pthread_mutex_lock(&enqueueLock);  //Start Critical Section
+
+    double curTime = getTime_usec();
+    if(curTime-timeStamp > 100 && inSize!=0){
+      EnqueueJobBatch(inBuffer, inSize, d_newJobs);
+      inSize=0;
+    }
+
+    pthread_mutex_unlock(&enqueueLock); //End Critical Section
+    pthread_yield();  //wait for awhile before polling again
+  }
+}
 
 /////////////////
 //API Functions//
@@ -77,6 +109,14 @@ void gemtcSetup(int QueueSize, int Overfill){
   pthread_mutex_init(&dequeueLock, NULL);
   pthread_mutex_init(&memoryListLock, NULL);
 
+  inMax = 2;
+  inSize = 0;
+  inBuffer = (JobDescription *) malloc(inMax*sizeof(JobDescription));
+  timeStamp = 0;
+
+  outMax = 2;
+  outSize = 0;
+  outBuffer = (JobDescription *) malloc(outMax*sizeof(JobDescription));
 
   cudaDeviceProp devProp;
   cudaGetDeviceProperties(&devProp, 0); //default to first GPU
@@ -90,7 +130,6 @@ void gemtcSetup(int QueueSize, int Overfill){
     int coresPerSM = _ConvertSMVer2Cores(devProp.major, devProp.minor);
     warps = coresPerSM/16;  //A warp runs on 16 cores
   }
-
 
   dim3 threads(warp_size*warps, 1, 1);
   dim3 grid(blocks, 1, 1);
@@ -110,12 +149,17 @@ void gemtcSetup(int QueueSize, int Overfill){
 
   cudaDeviceSynchronize();
 
+  //Launch thread to dump outBuffer
+  pthread_t bufferFlusher;
+  pthread_create(&bufferFlusher, NULL, bufferFlush, NULL);
+
 //Launch the super kernel
   superKernel<<< grid, threads, 8192, stream_kernel>>>  //8192 = 8kBytes of shared Memory
              (d_newJobs, d_finishedJobs, d_kill);
 }
 
 
+//This function is currently out of date
 extern "C"
 void gemtcBlockingRun(int Type, int Threads, int ID, void *d_params){
   //This funcyion will enqueue the given task to the device
@@ -175,53 +219,46 @@ void gemtcCleanup(){
   pthread_mutex_destroy(&enqueueLock);
   pthread_mutex_destroy(&dequeueLock);
   pthread_mutex_destroy(&memoryListLock);
+  printf("%d\n",copies);
 }
 
 extern "C"
 void gemtcPush(int taskType, int threads, int ID, void *d_parameters){
-  //Enqueue the given task to the device
-  //Returns as soon as the task is in Device Memory
-  JobPointer h_JobDescription = (JobPointer) malloc(sizeof(JobDescription));
-  h_JobDescription->JobType = taskType;
-  h_JobDescription->numThreads = threads;
-  h_JobDescription->params = d_parameters;
-  h_JobDescription->JobID = ID;
-
   pthread_mutex_lock(&enqueueLock);  //Start Critical Section
 
-  EnqueueJob(h_JobDescription, d_newJobs);
+  inBuffer[inSize].JobType = taskType;
+  inBuffer[inSize].numThreads = threads;
+  inBuffer[inSize].params = d_parameters;
+  inBuffer[inSize].JobID = ID;
+  inSize++;
 
+  timeStamp = getTime_usec();
+
+  if(inSize==inMax){
+    EnqueueJobBatch(inBuffer, inSize, d_newJobs);
+    inSize=0;
+  }
   pthread_mutex_unlock(&enqueueLock); //End Critical Section
 }
 
 extern "C"
 void gemtcPoll(int *ID, void **params){
-  //This function has no input parameters and two result parameters.
-  //  ID and params are used as references to where the result will be written
-
-  //This function will check the device queues for any tasks that finished
-  //If none are found:
-  //   Value at ID will be set to -1
-  //   Value at params will be set to NULL
-  //If a finished task is in the queue:
-  //   Value at ID will be that task's ID
-  //   Value at params will be a pointer to that tasks parameters
-
-  JobPointer h_JobDescription = (JobPointer) malloc(sizeof(JobDescription));
   pthread_mutex_lock(&dequeueLock);  //Start Critical Section
-  h_JobDescription = MaybeFandD(d_finishedJobs);//returns null if empty
-  pthread_mutex_unlock(&dequeueLock); //End Critical Section
-  if(h_JobDescription==NULL){
-    free(h_JobDescription);
+
+  if(outSize==0){
+    outSize = FrontAndDequeueBatch(outBuffer, outMax, d_finishedJobs);//returns null if empty
+  }
+  if(outSize==0){
     *ID=-1;
     *params=NULL;
+    pthread_mutex_unlock(&dequeueLock); //End Critical Section
     return;
+  }else{
+    outSize--;
+    *ID = outBuffer[outSize].JobID;
+    *params = outBuffer[outSize].params;
   }
-
-  *ID = h_JobDescription->JobID;
-  *params = h_JobDescription->params;
-
-  free(h_JobDescription);
+  pthread_mutex_unlock(&dequeueLock); //End Critical Section
 }
 
 extern "C"
