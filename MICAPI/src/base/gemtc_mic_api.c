@@ -123,10 +123,10 @@ void MIC_gemtcFree(void *loc) {
 
 
  // MIC-> PC
-void MIC_gemtcMemcpyDeviceToHost(void *host, void *device_ptr, int size) {
+void MIC_gemtcMemcpyDeviceToHost(int *host, void *device_ptr, int size) {
 	DataHeader_t *device = device_ptr;
 
-	#pragma offload target(mic:MIC_DEV) in(device) out(host)
+	#pragma offload target(mic:MIC_DEV) in(device) out(host:length(size))
 	{
 		memcpy(host, device->mic_payload, size);
 	}
