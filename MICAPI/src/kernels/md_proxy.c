@@ -3,7 +3,8 @@
 #pragma offload_attribute(push, target (mic))
 
 void MD_ComputeParticles(void* params){  
-  
+  printf("MD_ComputeParticles: Params: %p", params);
+  return; 
   //Params| &table | offset | 
   //Bytes |   8    |   4    | 
   
@@ -84,6 +85,8 @@ double r8_uniform_01(int *seed){
 }
 
 void MD_InitParticles(void* params){
+  printf("MD_InitParticles: Params: %p\n", params);
+ // return; 
   
   //Params| &table | box[] | seed |
   //Bytes |   8    | 8*nd  |  4   |
@@ -103,12 +106,15 @@ void MD_InitParticles(void* params){
   //Update values
   for ( j = 0; j < np ; j++){
     for ( i = 0; i < nd ; i++){
+      printf("MD_InitParticles: Writting to pos @ i=%d, j=%d, nd=%d: %d", i, j, nd, i+j*nd);
       pos[i+j*nd] = box[i] * r8_uniform_01(seed);
     }
   }
 }
 
 void MD_UpdatePosVelAccel(void* params){
+  printf("MD_UpdatePosVelAccel: Params: %p", params);
+  return;
  
   //Params: | &table |  dt  | offset | 
   //Bytes:  |    8   |   8  |   4    |
