@@ -49,6 +49,15 @@ JobPointer execute_job(JobDescription_t* currentJob) {
       case 0:
         kernel_add_sleep((void*)addr);
         break;
+      case 16:
+        MD_ComputeParticles((void*)addr);
+        break;
+      case 17:
+        MD_InitParticles((void*)addr);
+        break; 
+      case 18:
+        MD_UpdatePosVelAccel((void*)addr);
+        break;        
     }
   }
 
