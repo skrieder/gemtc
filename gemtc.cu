@@ -131,7 +131,7 @@ void gemtcSetup(int QueueSize, int Overfill){
     warps = coresPerSM/16;  //A warp runs on 16 cores
   }
 
-//Set to have one worker
+  printf("Workers:  %d\n", warps*blocks);
 
   dim3 threads(warp_size*warps, 1, 1);
   dim3 grid(blocks, 1, 1);
