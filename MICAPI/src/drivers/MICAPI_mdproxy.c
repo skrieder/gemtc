@@ -1,19 +1,22 @@
-#include "../../gemtc.cu"
 #include <stdio.h>
 #include <stdlib.h>
+#include "gemtc_mic_api.h"
+#include "gemtc_mic_adapter.h"
+#include "gemtc_memory.h"
+#include "kernels.h"
 #include <time.h>
 
-#define MAX_WORKERS 32 
+#define MAX_WORKERS 32
 int pushJobs(int num_tasks, void *h_params, void *offset_pointer, int mem_needed, int microkernel);
 void pullJobs(int kernel_calls); 
 double cpu_time();
 
 int main(int argc, char **argv){
-  gemtcSetup(100000,0);
+  gemtcSetup(100000,1);
 
-  const int np = 50; //Modify this variable.
+  const int np = 32; //Modify this variable.
   const int nd = 2; //This value should only be 2 or 3!
-  const int step_num = 1; 
+  const int step_num = 100; 
   const int seed = 123456789;
   const double mass = 1.0;
   const double dt = 0.0001;
@@ -34,7 +37,7 @@ int main(int argc, char **argv){
   //Bytes | 4  | 4  |   8  | a_mem | a_mem | a_mem | a_mem | a_mem | a_mem  |
 
   int mem_needed = sizeof(int) * 2 + sizeof(double) + a_mem*6; 
-  void *d_table = gemtcGPUMalloc(mem_needed); 
+  DataHeader_t* d_table = MIC_gemtcMalloc(mem_needed); 
   void *h_table = malloc(mem_needed); 
 
   memcpy( h_table                 , &np   , sizeof(int));  
@@ -45,8 +48,12 @@ int main(int argc, char **argv){
     memcpy( (((double*)h_table) + a_size*i + 2), darray, a_mem); 
   }
   //Copy Table onto Device Memory
-  gemtcMemcpyHostToDevice(d_table, h_table, mem_needed);
-  
+  printf("Sending data to MIC:\n");
+  MIC_gemtcMemcpyHostToDevice(d_table, h_table, mem_needed);
+  printf("Tryin to copy it back:\n");
+  MIC_gemtcMemcpyDeviceToHost(h_table, d_table, mem_needed);
+  printf("Data coppied\n");
+
   /////////////// Initialize ////////////////
   
   int init_mem_needed = sizeof(double) + sizeof(double)*nd + sizeof(int); 
@@ -60,9 +67,9 @@ int main(int argc, char **argv){
     box[i] = 10.0;
   }
 
-  memcpy( h_init_params                              , &d_table , sizeof(void*));
-  memcpy( ((double*)h_init_params)+1                 ,  box     , nd*sizeof(double));
-  memcpy( (int*)(((double*)h_init_params)+1+nd)      ,  &seed   , sizeof(int));
+  memcpy( h_init_params                              ,  &d_table->mic_payload , sizeof(void*));
+  memcpy( ((double*)h_init_params)+1                 ,  box                  , nd*sizeof(double));
+  memcpy( (int*)(((double*)h_init_params)+1+nd)      ,  &seed                 , sizeof(int));
    
   void *d_init_params = gemtcGPUMalloc(init_mem_needed);
   gemtcMemcpyHostToDevice(d_init_params, h_init_params, init_mem_needed);
@@ -91,7 +98,7 @@ int main(int argc, char **argv){
     int comp_mem_needed = sizeof(void*) + sizeof(int); 
     void *h_comp_params = malloc(comp_mem_needed);
 
-    memcpy(h_comp_params, &d_table, sizeof(void*));
+    memcpy(h_comp_params, &d_table->mic_payload, sizeof(void*));
 
     void *comp_offset_pointer = ((double*)h_comp_params) + 1; 
    
@@ -138,7 +145,7 @@ int main(int argc, char **argv){
     int upda_mem_needed = sizeof(void*) + sizeof(double) + sizeof(int);
 
     void *h_upda_params = malloc(upda_mem_needed); 
-    memcpy(h_upda_params               , &d_table, sizeof(void*));
+    memcpy(h_upda_params               ,   &d_table->mic_payload, sizeof(void*));
     memcpy(((double*)h_upda_params) + 1,   &dt   , sizeof(double));
     
     void *upda_offset_pointer = ((double*)h_upda_params) + 2; 

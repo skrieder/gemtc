@@ -1,4 +1,5 @@
 #include "gemtc_types.h"
+#include "gemtc_memory.h"
 #include "super_kernel.h"
 #include "QueueJobs.h"
 #include "kernels.h"
@@ -37,16 +38,26 @@ JobPointer execute_job(JobDescription_t* currentJob) {
 
   int JobType = currentJob->JobType;
 
-  void* params = currentJob->params;
-  int val = *((int*)params);
+  DataHeader_t* header = currentJob->params;
+
+  mic_mem_ref_t addr = header->mic_payload;
 
   // Offload Region
-  #pragma offload target(mic:MIC_DEV) in(val)
+  #pragma offload target(mic:MIC_DEV) in(JobType) in(addr)
   {
     switch(JobType){
       case 0:
-        kernel_add_sleep((void*)&val);
+        kernel_add_sleep((void*)addr);
         break;
+      case 16:
+        MD_ComputeParticles((void*)addr);
+        break;
+      case 17:
+        MD_InitParticles((void*)addr);
+        break; 
+      case 18:
+        MD_UpdatePosVelAccel((void*)addr);
+        break;        
     }
   }
 

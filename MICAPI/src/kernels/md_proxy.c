@@ -1,5 +1,10 @@
-__device__ void ComputeParticles(void* params){  
-  
+#include "kernels.h"
+
+#pragma offload_attribute(push, target (mic))
+
+void MD_ComputeParticles(void* params){  
+  printf("MD_ComputeParticles: Params: %p", params);
+  return; 
   //Params| &table | offset | 
   //Bytes |   8    |   4    | 
   
@@ -27,11 +32,13 @@ __device__ void ComputeParticles(void* params){
   double PI2 = 3.141592653589793 / 2.0;
   double rij[3];
  
-  int tid = threadIdx.x % 32; 
-  int k = offset + tid; 
+  // int tid = threadIdx.x % 32; 
+  int k; // = offset + tid; 
+
+  for ( k = 0; k < np; k++ ) {
   //Compute all the potential energy and forces.
       for(i=0; i<nd; i++){
-        f[i+k*nd] = 0.0;
+        f[i+(k+offset)*nd] = 0.0;
       }
      
       for(j=0; j<np; j++){
@@ -39,7 +46,7 @@ __device__ void ComputeParticles(void* params){
 
         d = 0.0; 
         for(i=0; i<nd; i++){
-          rij[i] = pos[k*nd+i] - pos[j*nd+i];
+          rij[i] = pos[(k+offset)*nd+i] - pos[(j+offset)*nd+i];
           d += pow(rij[i], 2); 
           d = rij[i];
         }
@@ -47,21 +54,22 @@ __device__ void ComputeParticles(void* params){
         d = sqrt(d); 
         d2 = d < PI2? d : PI2; 
 
-        pe[k] +=  0.5 * pow(sin(d2), 2);
+        pe[k+offset] +=  0.5 * pow(sin(d2), 2);
         
         for(i=0; i<nd; i++){
-          f[i+k*nd] -= rij[i] * sin(2.0 * d2) / d;
+          f[i+(k+offset)*nd] -= rij[i] * sin(2.0 * d2) / d;
         }
       }
 
       for(i=0; i < nd; i++){
-        ke[k] += vel[i+k*nd] * vel[i+k*nd];
+        ke[(k+offset)] += vel[i+(k+offset)*nd] * vel[i+(k+offset)*nd];
       }
 
-      ke[k] *= 0.5 * (*mass);
+    ke[k+offset] *= 0.5 * (*mass);
+  }
 }
 
-__device__ double r8_uniform_01(int *seed){
+double r8_uniform_01(int *seed){
   int k; 
   double r;
 
@@ -76,7 +84,9 @@ __device__ double r8_uniform_01(int *seed){
   return r; 
 }
 
-__device__ void InitParticles(void* params){
+void MD_InitParticles(void* params){
+  printf("MD_InitParticles: Params: %p\n", params);
+ // return; 
   
   //Params| &table | box[] | seed |
   //Bytes |   8    | 8*nd  |  4   |
@@ -96,12 +106,15 @@ __device__ void InitParticles(void* params){
   //Update values
   for ( j = 0; j < np ; j++){
     for ( i = 0; i < nd ; i++){
+      printf("MD_InitParticles: Writting to pos @ i=%d, j=%d, nd=%d: %d", i, j, nd, i+j*nd);
       pos[i+j*nd] = box[i] * r8_uniform_01(seed);
     }
   }
 }
 
-__device__ void UpdatePosVelAccel(void* params){
+void MD_UpdatePosVelAccel(void* params){
+  printf("MD_UpdatePosVelAccel: Params: %p", params);
+  return;
  
   //Params: | &table |  dt  | offset | 
   //Bytes:  |    8   |   8  |   4    |
@@ -127,17 +140,21 @@ __device__ void UpdatePosVelAccel(void* params){
   
   int i,j;
   double rmass = 1.0 / mass;
+  int index;
+  for ( j = 0; j < np; j++ ) {
+	  for ( i = 0 ; i < nd; i ++) {
+	  	index = (j + offset)*nd + i;
 
-  int tid = threadIdx.x % 32;
-  j = offset + tid; 
-
-  //Begin computation
-  for ( i = 0 ; i < nd; i ++){
-    pos[i+j*nd] += vel[i+j*nd] * dt + 0.5 * acc[i+j*nd] * dt * dt;   
-    vel[i+j*nd] += 0.5 * dt * (f[i+j*nd] * rmass + acc[i+j*nd]);
-    acc[i+j*nd] = f[i+j*nd] * rmass;
-    
-    pe[i+j*nd] = 0.0;
-    ke[i+j*nd] = 0.0;
-  }
+	    pos[index] += vel[index] * dt + 0.5 * acc[index] * dt * dt;   
+	    vel[index] += 0.5 * dt * (f[index] * rmass + acc[index]);
+	    acc[index] = f[index] * rmass;
+	    
+	    pe[index] = 0.0;
+	    ke[index] = 0.0;
+	  }
+	}
 }
+
+
+
+#pragma offload_attribute(pop)

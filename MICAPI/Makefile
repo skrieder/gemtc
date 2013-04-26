@@ -9,7 +9,7 @@ SRC       := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.c))
 OBJ       := $(patsubst src/%.c,build/%.o,$(SRC))
 INCLUDES  := $(addprefix -I,$(SRC_DIR))
 
-EXECUTABLE := gemtc_mic
+EXECUTABLE := mdproxy
 
 vpath %.c $(SRC_DIR)
 

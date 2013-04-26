@@ -118,13 +118,7 @@ __device__ JobPointer executeJob(JobPointer currentJob){
       UpdatePosVelAccel(currentJob->params);
       break;
     case 19:
-      UnpackTable(currentJob->params);
-      break;
-    case 20:
-      FakeInit(currentJob->params);
-      break;
-    case 21:
-      FakeUpdate(currentJob->params);
+      ComputeTest(currentJob->params);
       break; 
   }
   return currentJob;
