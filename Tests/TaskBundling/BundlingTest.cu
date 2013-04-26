@@ -4,20 +4,23 @@
 
 int main(int argc, char **argv){
 
-  int NUM_TASKS, SLEEP_TIME;
+  int NUM_TASKS, BUNDLE_SIZE, SLEEP_TIME;
 
   if(argc>2){
     NUM_TASKS = atoi(argv[1]);
-    SLEEP_TIME = atoi(argv[2]);
+    BUNDLE_SIZE = atoi(argv[2]);
   }else{
     printf("This test requires two parameters:\n");
-    printf("   int NUM_TASKS, SLEEP_TIME\n");
+    printf("   int NUM_TASKS, BUNDLE_SIZE\n");
     printf("where  NUM_TASKS is the total numer of tasks to be run, must be a multiple of 1000\n");
-    printf("       SLEEP_TIME is the parameter that will be passed to each AddSleep, in microseconds\n");
+    printf("       BUNDLE_SIZE is the max number of tasks to group into a single enqueue or dequeue\n");
+    printf("       SLEEP_TIME is always 0.\n");
     exit(1);
   }
 
-  gemtcSetup(32768,1);
+  SLEEP_TIME = 0;
+
+  gemtcSetup(32768,1, BUNDLE_SIZE);
 
   //We will Push 1000 tasks
   // Then Poll until we have 1000 results

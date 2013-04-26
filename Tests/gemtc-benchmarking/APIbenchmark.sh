@@ -1,24 +1,22 @@
 #! /bin/bash
-
-sleepTime=0
 threads=1
 
-for c in {1..4}
+for c in {1..2}
+do
+sleepTime=8
+
+for i in {1..7}
 do
 
-for i in {1..6}
-do
-jobs=10000
-    for k in $(eval echo {$i..8})
-#    for k in {$i..9)}
+    jobs=1000
+    for k in {1..7}
     do
 	echo "Threads: $threads    Jobs: $jobs    SleepTime: $sleepTime"
-	(/usr/bin/time -f "%e" ../../bin/APIThread $threads $jobs $sleepTime) 2>> ../../logs/logAPIThreadTest$c.txt
+	(/usr/bin/time -f "%e" ../../bin/APIThread $threads $jobs $sleepTime 4 1000) 2>> ../../logs/logAPIThreadTest$c.txt
 
         jobs=$(($jobs+$jobs))
     done
-    threads=$(($threads+$threads))
-#    sleepTime=$(($sleepTime+$sleepTime))
+    sleepTime=$(($sleepTime+$sleepTime))
 done
 
 done
