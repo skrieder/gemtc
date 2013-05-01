@@ -9,11 +9,11 @@ void pullJobs(int kernel_calls);
 double cpu_time();
 
 int main(int argc, char **argv){
-  gemtcSetup(100000,0);
+  gemtcSetup(100000,1);
 
-  const int np = 50; //Modify this variable.
-  const int nd = 2; //This value should only be 2 or 3!
-  const int step_num = 1; 
+  const int np = 1000; //Modify this variable.
+  const int nd = 3; //This value should only be 2 or 3!
+  const int step_num = 100; 
   const int seed = 123456789;
   const double mass = 1.0;
   const double dt = 0.0001;
@@ -106,11 +106,11 @@ int main(int argc, char **argv){
 
     double *pe = ((double*)comp_table) + 2 + 4 * a_size;
     double *ke = pe + a_size;
-
+/*
     for(i=0; i<a_size; i++){
       printf("%d: %f %f\n", i, pe[i], ke[i]);
     }
-    
+  */  
     double psum = 0.0;
     double ksum = 0.0; 
     
@@ -148,7 +148,7 @@ int main(int argc, char **argv){
   }
 
   ctime2 = cpu_time();
-  printf("Elapsed cpu time for main computation: %.2f\n", ctime2-ctime1);
+  printf("Elapsed cpu time for main computation: %f\n", ctime2-ctime1);
   
   gemtcCleanup(); 
   return 0; 
@@ -170,7 +170,7 @@ int pushJobs(int num_tasks, void *h_params, void *offset_pointer, int mem_needed
       //Copy params to device. 
       gemtcMemcpyHostToDevice(d_params, h_params, mem_needed); 
       //Push Job 
-      printf("gemtcPush(%d, %d, %d, d_params);\n", microkernel, threads, i*1000); 
+      //printf("gemtcPush(%d, %d, %d, d_params);\n", microkernel, threads, i*1000); 
       gemtcPush(microkernel, threads, i*1000, d_params); 
     }
   }
