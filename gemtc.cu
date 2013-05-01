@@ -109,12 +109,12 @@ void gemtcSetup(int QueueSize, int Overfill){
   pthread_mutex_init(&dequeueLock, NULL);
   pthread_mutex_init(&memoryListLock, NULL);
 
-  inMax = 2;
+  inMax = 100;
   inSize = 0;
   inBuffer = (JobDescription *) malloc(inMax*sizeof(JobDescription));
   timeStamp = 0;
 
-  outMax = 2;
+  outMax = 100;
   outSize = 0;
   outBuffer = (JobDescription *) malloc(outMax*sizeof(JobDescription));
 
@@ -130,6 +130,8 @@ void gemtcSetup(int QueueSize, int Overfill){
     int coresPerSM = _ConvertSMVer2Cores(devProp.major, devProp.minor);
     warps = coresPerSM/16;  //A warp runs on 16 cores
   }
+
+  printf("Workers:  %d\n", warps*blocks);
 
   dim3 threads(warp_size*warps, 1, 1);
   dim3 grid(blocks, 1, 1);
@@ -219,7 +221,6 @@ void gemtcCleanup(){
   pthread_mutex_destroy(&enqueueLock);
   pthread_mutex_destroy(&dequeueLock);
   pthread_mutex_destroy(&memoryListLock);
-  printf("%d\n",copies);
 }
 
 extern "C"

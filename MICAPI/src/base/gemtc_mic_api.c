@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <pthread.h>
+#include <assert.h>
 
 
 // TODO: Move all of this ======================
@@ -67,6 +68,7 @@ void MIC_gemtcPush(int taskType, int Threads, int ID, void *params) {
   job->params = params;
   job->JobID = ID;
 
+  printf("Pushed: %p, %p\n", job->params, ((DataHeader_t*)job->params)->mic_payload);
   Enqueue(job, newJobs);
 }
 void MIC_gemtcPoll(int *ID, void **params) {
@@ -80,6 +82,7 @@ void MIC_gemtcPoll(int *ID, void **params) {
 
 	} else {
 
+		printf("Params: %p, %p\n", job->params, ((DataHeader_t*)job->params)->mic_payload);
 		*ID = job->JobID;
 		*params = job->params;
 
@@ -99,12 +102,10 @@ void *MIC_gemtcMalloc(unsigned int payload_size) {
 			void* mem_ptr = malloc(payload_size);
 			
 			addr = mem_ptr;
-
-			printf("Hello: %p\n", mem_ptr);
 		}
 	}
-	printf("addr: %p\n", (void*)addr);
-
+	
+	printf("Malloc'd: %p\n", addr);
 	header->mic_payload = addr;
 
 	return header;
@@ -123,18 +124,35 @@ void MIC_gemtcFree(void *loc) {
 
 
  // MIC-> PC
-void MIC_gemtcMemcpyDeviceToHost(void *host, void *device_ptr, int size) {
+void MIC_gemtcMemcpyDeviceToHost(void *host_ptr, void *device_ptr, int size) {
 	DataHeader_t *device = device_ptr;
+	int* host = host_ptr;
 
-	#pragma offload target(mic:MIC_DEV) in(device) out(host)
+	assert(host_ptr != 0);
+	assert(device_ptr != 0);
+	assert(device->size != 0);
+	assert(device->mic_payload != 0);
+
+	
+	printf("Copying FROM mic: %p TO pc: %p (%d)\n", device->mic_payload, host, size);
+
+	#pragma offload target(mic:MIC_DEV) in(device: alloc_if(1) free_if(0)) out(host: alloc_if(1) free_if(0))
 	{
 		memcpy(host, device->mic_payload, size);
 	}
 }
 
  // PC -> MIC
-void MIC_gemtcMemcpyHostToDevice(void *device_ptr, int *host, int size) {
+void MIC_gemtcMemcpyHostToDevice(void *device_ptr, void *host_ptr, int size) {
 	DataHeader_t *device = device_ptr;
+	int* host = host_ptr;
+
+	assert(host_ptr != 0);
+	assert(device_ptr != 0);
+	assert(device->size != 0);
+	assert(device->mic_payload != 0);
+
+	printf("Copying TO mic: %p FROM pc: %p (%d)\n", device->mic_payload, host, size);
 
 	#pragma offload target(mic:MIC_DEV) in(host:length(size)) in(device) in(size)
 	{
