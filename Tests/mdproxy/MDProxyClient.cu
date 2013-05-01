@@ -1,7 +1,8 @@
 #include "../../gemtc.cu"
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+#include <sys/time.h>
+#include <sys/resource.h>
 
 #define MAX_WORKERS 32 
 int pushJobs(int num_tasks, void *h_params, void *offset_pointer, int mem_needed, int microkernel);
@@ -11,9 +12,9 @@ double cpu_time();
 int main(int argc, char **argv){
   gemtcSetup(100000,1);
 
-  const int np = 1000; //Modify this variable.
-  const int nd = 3; //This value should only be 2 or 3!
-  const int step_num = 100; 
+  const int np = 500; //Modify this variable.
+  const int nd = 2; //This value should only be 2 or 3!
+  const int step_num = 50; 
   const int seed = 123456789;
   const double mass = 1.0;
   const double dt = 0.0001;
@@ -129,7 +130,7 @@ int main(int argc, char **argv){
     if( j % print_step == 0){
       printf("%d\t%.2f\t\t%f\t\t%f\n", j, psum, ksum, (psum+ksum-e0)/e0);  
     }
-
+    
     ////////////////UPDATE/////////////////
 
     //Update Params | &Table |  dt | offset |
@@ -191,6 +192,7 @@ void pullJobs(int kernel_calls){
 }
 
 double cpu_time(){
-  double value = (double)clock() / (double)CLOCKS_PER_SEC;
-  return value;
+  struct timeval t;
+  gettimeofday(&t, NULL);
+  return t.tv_sec + t.tv_usec*1e-6;
 }
