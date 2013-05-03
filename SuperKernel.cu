@@ -120,6 +120,10 @@ __device__ JobPointer executeJob(JobPointer currentJob){
     case 19:
       ComputeTest(currentJob->params);
       break; 
+    case 20:
+      //Only use this kernel if you are doing multi-node.
+      MDProxy(currentJob->params);
+      break;
   }
   return currentJob;
 }
