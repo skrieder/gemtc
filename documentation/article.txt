@@ -13,69 +13,34 @@ index section titles are significant ('specialsections').
 
 :numbered!:
 [abstract]
-Example Abstract
+Abstract
 ----------------
-The optional abstract (one or more paragraphs) goes here.
-
-This document is an AsciiDoc article skeleton containing briefly
-annotated element placeholders plus a couple of example index entries
-and footnotes.
+GeMTC, is a CUDA based GPGPU framework to enable Many-Task Computing on NVIDIA GPUs.
 
 :numbered:
 
-The First Section
+C API
 -----------------
-Article sections start at level 1 and can be nested up to four levels
-deep.
-footnote:[An example footnote.]
-indexterm:[Example index entry]
+/*
+This file contains the functions that make up the API to gemtc
+They are:
+*** Initialize/Deconstruct ***
+  gemtcSetup()
+  gemtcCleanup()
 
-And now for something completely different: ((monkeys)), lions and
-tigers (Bengal and Siberian) using the alternative syntax index
-entries.
-(((Big cats,Lions)))
-(((Big cats,Tigers,Bengal Tiger)))
-(((Big cats,Tigers,Siberian Tiger)))
-Note that multi-entry terms generate separate index entries.
+*** EnQueue/DeQueue Tasks  ***
+  gemtcBlockingRun()
+  gemtcPush()
+  gemtcPoll()
 
-Here are a couple of image examples: an image:images/smallnew.png[]
-example inline image followed by an example block image:
+*** Memory Transfer Calls  ***
+  gemtcMemcpyHostToDevice()
+  gemtcMemcpyDeviceToHost()
 
-.Tiger block image
-image::images/tiger.png[Tiger image]
-
-Followed by an example table:
-
-.An example table
-[width="60%",options="header"]
-|==============================================
-| Option          | Description
-| -a 'USER GROUP' | Add 'USER' to 'GROUP'.
-| -R 'GROUP'      | Disables access to 'GROUP'.
-|==============================================
-
-.An example example
-===============================================
-Lorum ipum...
-===============================================
-
-[[X1]]
-Sub-section with Anchor
-~~~~~~~~~~~~~~~~~~~~~~
-Sub-section at level 2.
-
-A Nested Sub-section
-^^^^^^^^^^^^^^^^^^^^
-Sub-section at level 3.
-
-Yet another nested Sub-section
-++++++++++++++++++++++++++++++
-Sub-section at level 4.
-
-This is the maximum sub-section depth supported by the distributed
-AsciiDoc configuration.
-footnote:[A second example footnote.]
-
+****Memory Management Calls***
+  gemtcGPUMalloc()
+  gemtcGPUFree()
+ */
 
 The Second Section
 ------------------

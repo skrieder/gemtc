@@ -1,7 +1,9 @@
 #!/bin/bash
 echo "start"
-for i in {1..5}
+#var = $1
+for i in {1..65}
 do
-    time ./sleep 1 1350&
+    /usr/bin/time -f %e ./sleep 1 0&
+#    ./sleep 1 0&
 done
 echo "Done"

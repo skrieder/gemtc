@@ -860,89 +860,49 @@ writing simple sectionless documents consisting only of a preamble.</p></div>
 index section titles are significant (<em>specialsections</em>).</td>
 </tr></table>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_example_abstract">Example Abstract</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>The optional abstract (one or more paragraphs) goes here.</p></div>
-<div class="paragraph"><p>This document is an AsciiDoc article skeleton containing briefly
-annotated element placeholders plus a couple of example index entries
-and footnotes.</p></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_the_first_section">1. The First Section</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>Article sections start at level 1 and can be nested up to four levels
-deep.
-<span class="footnote"><br>[An example footnote.]<br></span></p></div>
-<div class="paragraph"><p>And now for something completely different: monkeys, lions and
-tigers (Bengal and Siberian) using the alternative syntax index
-entries.
-
-
-
-Note that multi-entry terms generate separate index entries.</p></div>
-<div class="paragraph"><p>Here are a couple of image examples: an <span class="image">
-<img src="images/smallnew.png" alt="images/smallnew.png">
-</span>
-example inline image followed by an example block image:</p></div>
-<div class="imageblock">
-<div class="content">
-<img src="images/tiger.png" alt="Tiger image">
-</div>
-<div class="title">Figure 1. Tiger block image</div>
-</div>
-<div class="paragraph"><p>Followed by an example table:</p></div>
-<table class="tableblock frame-all grid-all"
-style="
-width:60%;
-">
-<caption class="title">Table 1. An example table</caption>
-<col style="width:50%;">
-<col style="width:50%;">
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top" > Option          </th>
-<th class="tableblock halign-left valign-top" > Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">-a <em>USER GROUP</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Add <em>USER</em> to <em>GROUP</em>.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">-R <em>GROUP</em></p></td>
-<td class="tableblock halign-left valign-top" ><p class="tableblock">Disables access to <em>GROUP</em>.</p></td>
-</tr>
-</tbody>
-</table>
-<div class="exampleblock">
-<div class="title">Example 1. An example example</div>
-<div class="content">
-<div class="paragraph"><p>Lorum ipum&#8230;</p></div>
+<div class="quoteblock">
+<div class="content">Abstract</div>
+<div class="attribution">
 </div></div>
-<div class="sect2">
-<h3 id="X1">1.1. Sub-section with Anchor</h3>
-<div class="paragraph"><p>Sub-section at level 2.</p></div>
-<div class="sect3">
-<h4 id="_a_nested_sub_section">1.1.1. A Nested Sub-section</h4>
-<div class="paragraph"><p>Sub-section at level 3.</p></div>
-<div class="sect4">
-<h5 id="_yet_another_nested_sub_section">Yet another nested Sub-section</h5>
-<div class="paragraph"><p>Sub-section at level 4.</p></div>
-<div class="paragraph"><p>This is the maximum sub-section depth supported by the distributed
-AsciiDoc configuration.
-<span class="footnote"><br>[A second example footnote.]<br></span></p></div>
-</div>
-</div>
-</div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>GeMTC, is a CUDA based GPGPU framework to enable Many-Task Computing on NVIDIA GPUs.
+
+:numbered:
+
+C API</pre>
+</div></div>
+<div class="paragraph"><p>/*
+This file contains the functions that make up the API to gemtc
+They are:
+<strong>* Initialize/Deconstruct </strong>*
+  gemtcSetup()
+  gemtcCleanup()</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+EnQueue/DeQueue Tasks  <strong>*</strong>
+  gemtcBlockingRun()
+  gemtcPush()
+  gemtcPoll()
+</p>
+</li>
+<li>
+<p>
+Memory Transfer Calls  <strong>*</strong>
+  gemtcMemcpyHostToDevice()
+  gemtcMemcpyDeviceToHost()
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p><strong><strong>*Memory Management Calls</strong></strong>
+  gemtcGPUMalloc()
+  gemtcGPUFree()
+ */</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_the_second_section">2. The Second Section</h2>
+<h2 id="_the_second_section">The Second Section</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Article sections are at level 1 and can contain sub-sections nested up
 to four deep.</p></div>
@@ -1012,7 +972,7 @@ A second glossary term
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br>
-Last updated 2013-02-04 12:55:19 CST
+Last updated 2013-03-18 15:58:27 CDT
 </div>
 </div>
 </body>

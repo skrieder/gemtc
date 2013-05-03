@@ -15,7 +15,9 @@ __device__ int addSleep(void *p_us_time)
     //float AddPerUs = 17.69911504424; //Ben
     //float AddPerUs = 9.89759943623274; //Scott Mainh.cu
 
-    float AddPerUs = 4.732383702;
+    float AddPerUs = 1;
+
+    // float AddPerUs = 4.732383702;
 
     //float AddPerUs = 18.3952025; //Scott Main.c
     //float AddPerUs = 1; // Test
