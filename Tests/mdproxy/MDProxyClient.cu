@@ -12,9 +12,9 @@ double cpu_time();
 int main(int argc, char **argv){
   gemtcSetup(100000,1);
 
-  const int np = 500; //Modify this variable.
+  const int np = 2000; //Modify this variable.
   const int nd = 2; //This value should only be 2 or 3!
-  const int step_num = 50; 
+  const int step_num = atoi(argv[1]); 
   const int seed = 123456789;
   const double mass = 1.0;
   const double dt = 0.0001;

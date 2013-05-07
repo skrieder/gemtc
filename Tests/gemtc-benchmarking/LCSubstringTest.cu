@@ -2,18 +2,31 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+#define MIN(a,b) (a<b?a:b)
+
 int main(int argc, char **argv){
 
-  cudaDeviceProp props;
-  cudaGetDeviceProperties(&props, 0);
- 
+  char s1[32], s2[32];
+  printf("Enter the first string:\n");
+  scanf("%s", s1);
+
+  printf("Enter the second string:\n");
+  scanf("%s", s2);
+
+  int ls1 = (int)strlen(s1);
+  int ls2 = (int)strlen(s2);
+
+  int mem_needed = 2*sizeof(int) + ls1 + ls2 + 2 + MIN(ls1,ls2); 
+  
   gemtcSetup(25600, 0);
-  char* message = "Ben's Message"; //13 chars and a '\0'
-  void* d_memory = gemtcGPUMalloc(20*sizeof(char));
+  void* d_memory = gemtcGPUMalloc(mem_needed);
 
-  gemtcMemcpyHostToDevice(d_memory, &message, 14*sizeof(char));
+  gemtcMemcpyHostToDevice(d_memory, &ls1, sizeof(int));
+  gemtcMemcpyHostToDevice(((int*)d_memory)+1, &ls2, sizeof(int));
+  gemtcMemcpyHostToDevice(((int*)d_memory)+2, s1, ls1+1);
+  gemtcMemcpyHostToDevice(((char*)d_memory)+8+ls1+1, s2, ls2+1);
 
-  gemtcPush(15, 1, 12000, d_memory); 
+  gemtcPush(15, 32, 100, d_memory); 
 
   void *ret=NULL;
   int id;
@@ -22,17 +35,14 @@ int main(int argc, char **argv){
     gemtcPoll(&id, &ret);
   }
 
-  char* h_ret_message = (char *) malloc(14*sizeof(char));
-  gemtcMemcpyDeviceToHost(h_ret_message, (char*)ret+14, 6*sizeof(char));
-  printf("Received task %d\n", id);
-  printf("message = %s\n", h_ret_message);
+  void *h_ret = malloc(mem_needed);
+  gemtcMemcpyDeviceToHost(h_ret, ret, mem_needed);
 
-  gemtcGPUFree(ret);
-  ret = NULL;
+  char *common = ((char*)h_ret) + 8 + ls1 + ls2 + 2; 
+  printf("result = %s\n", common);
 
+  free(h_ret);
   gemtcCleanup();
-
-  free(h_ret_message);
 
   return 0;
 }
