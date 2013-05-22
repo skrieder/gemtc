@@ -1,0 +1,17 @@
+====== 5/22/2013 ======
+  * Attended Blue Waters training at Urbana Champaign
+====== 5/21/2013 ======
+  * Continued working on Blob integration.
+  * Blob calls into basic mdproxy test program completed
+  * developed swift program to call blobs and eventually call gemtc_mdproxy
+Meeting Notes: with Mike Wilde
+  * MDProxy (get this up and running through whole stack fast)
+  * performance, get new micro-kernels running on Raven (where are we performance-wise as of SC)
+  * yadu, ex-search, exaustive search, svn on midway, lung search (talk to yadu about new app)
+  * john grime, cg(corse grain)-engine, multi-scale (try out md code from grime)
+  * http://cmts.uchicago.edu/
+====== 5/20/2013 ======
+  * First day, set-up environment (exm stack on macbook vs. linux desktop)
+  * Examine Turbine Blob Interface
+  * Emailed Dave to check on Cray accounts
+  * Installed MacPorts, SWIG
