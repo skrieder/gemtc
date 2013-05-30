@@ -1,8 +1,47 @@
 GEMTC Guide
 ===========
-Author's Name <skrieder@iit.edu>
-v0.1, 2003-12
+Scott Krieder <skrieder@iit.edu>
+v0.1, 2013-05
 
+WARNING: This guide is incomplete and in-progress. Please contact skrieder@iit.edu or gemtc-dev@datasys.cs.iit.edu with any questions.
+
+Abstract
+-------
+GeMTC, is a CUDA based GPGPU framework to enable Many-Task Computing on NVIDIA GPUs.
+
+C API
+-------
+This file contains the functions that make up the API to gemtc
+They are:
+Initialize/Deconstruct:
+  gemtcSetup()
+  gemtcCleanup()
+
+EnQueue/DeQueue Tasks:
+  gemtcBlockingRun()
+  gemtcPush()
+  gemtcPoll()
+
+Memory Transfer Calls:
+  gemtcMemcpyHostToDevice()
+  gemtcMemcpyDeviceToHost()
+
+Memory Management Calls:
+  gemtcGPUMalloc()
+  gemtcGPUFree()
+
+
+Level 2
+~~~~~~~
+Text.
+
+Level 3
+^^^^^^^
+Text.
+
+Level 4
++++++++
+Text.
 
 This is the optional preamble (an untitled section body). Useful for
 writing simple sectionless documents consisting only of a preamble.
@@ -10,37 +49,11 @@ writing simple sectionless documents consisting only of a preamble.
 NOTE: The abstract, preface, appendix, bibliography, glossary and
 index section titles are significant ('specialsections').
 
-
-:numbered!:
-[abstract]
 Abstract
 ----------------
-GeMTC, is a CUDA based GPGPU framework to enable Many-Task Computing on NVIDIA GPUs.
 
-:numbered:
-
-C API
+The First Section - C API
 -----------------
-/*
-This file contains the functions that make up the API to gemtc
-They are:
-*** Initialize/Deconstruct ***
-  gemtcSetup()
-  gemtcCleanup()
-
-*** EnQueue/DeQueue Tasks  ***
-  gemtcBlockingRun()
-  gemtcPush()
-  gemtcPoll()
-
-*** Memory Transfer Calls  ***
-  gemtcMemcpyHostToDevice()
-  gemtcMemcpyDeviceToHost()
-
-****Memory Management Calls***
-  gemtcGPUMalloc()
-  gemtcGPUFree()
- */
 
 The Second Section
 ------------------
