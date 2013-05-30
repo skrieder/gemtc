@@ -1,3 +1,23 @@
+====== 5/30/2013 ======
+  * Got exsearch.py running
+  * Installed pycallgraph
+  * Tried pycallgraph (seems to be a good profilier for visualization)
+  * installed cProfile
+  * tried cProfiler (good for raw numbers)
+
+====== 5/29/2013 ======
+  * At IIT, sync up with Ioan meeting notes:
+  * https://docs.google.com/document/d/1Hy3FEJH88KKeozn6Wrwp0322FyG-d6_YnLA4zrnB9Qc/edit
+  * Start looking at Lungsearch code
+====== 5/28/2013 ======
+  * Hardcoded some MDProxy logic in worker.tcl
+  * Arrays/Blobs working .swift files into and out of worker.tcl
+  * Solution is incorrect, but data movement is accurate
+====== 5/24/2013 ======
+  * Meet with Mike and Justin at UChicago notes in gdoc
+  * https://docs.google.com/document/d/1CX-m9gNcKt2NYoSU2vrkbb4LuYBCmpVnm1JWFmVCsy4/edit
+====== 5/23/2013 ======
+  * Attended Blue Waters training at Urbana Champaign
 ====== 5/22/2013 ======
   * Attended Blue Waters training at Urbana Champaign
 ====== 5/21/2013 ======
