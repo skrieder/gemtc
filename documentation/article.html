@@ -837,10 +837,10 @@ asciidoc.install(2);
 <body class="article">
 <div id="header">
 <h1>GEMTC Guide</h1>
-<span id="author">Author's Name</span><br>
+<span id="author">Scott Krieder</span><br>
 <span id="email" class="monospaced">&lt;<a href="mailto:skrieder@iit.edu">skrieder@iit.edu</a>&gt;</span><br>
 <span id="revnumber">version 0.1,</span>
-<span id="revdate">2003-12</span>
+<span id="revdate">2013-05</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -849,6 +849,49 @@ asciidoc.install(2);
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="./images/icons/warning.png" alt="Warning">
+</td>
+<td class="content">This guide is incomplete and in-progress. Please contact <a href="mailto:skrieder@iit.edu">skrieder@iit.edu</a> or <a href="mailto:gemtc-dev@datasys.cs.iit.edu">gemtc-dev@datasys.cs.iit.edu</a> with any questions.</td>
+</tr></table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_abstract">Abstract</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>GeMTC, is a CUDA based GPGPU framework to enable Many-Task Computing on NVIDIA GPUs.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_c_api">C API</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This file contains the functions that make up the API to gemtc
+They are:
+Initialize/Deconstruct:
+  gemtcSetup()
+  gemtcCleanup()</p></div>
+<div class="paragraph"><p>EnQueue/DeQueue Tasks:
+  gemtcBlockingRun()
+  gemtcPush()
+  gemtcPoll()</p></div>
+<div class="paragraph"><p>Memory Transfer Calls:
+  gemtcMemcpyHostToDevice()
+  gemtcMemcpyDeviceToHost()</p></div>
+<div class="paragraph"><p>Memory Management Calls:
+  gemtcGPUMalloc()
+  gemtcGPUFree()</p></div>
+<div class="sect2">
+<h3 id="_level_2">Level 2</h3>
+<div class="paragraph"><p>Text.</p></div>
+<div class="sect3">
+<h4 id="_level_3">Level 3</h4>
+<div class="paragraph"><p>Text.</p></div>
+<div class="sect4">
+<h5 id="_level_4">Level 4</h5>
+<div class="paragraph"><p>Text.</p></div>
 <div class="paragraph"><p>This is the optional preamble (an untitled section body). Useful for
 writing simple sectionless documents consisting only of a preamble.</p></div>
 <div class="admonitionblock">
@@ -860,45 +903,14 @@ writing simple sectionless documents consisting only of a preamble.</p></div>
 index section titles are significant (<em>specialsections</em>).</td>
 </tr></table>
 </div>
-<div class="quoteblock">
-<div class="content">Abstract</div>
-<div class="attribution">
-</div></div>
+<div class="paragraph"><p>Abstract</p></div>
 <div class="listingblock">
 <div class="content monospaced">
-<pre>GeMTC, is a CUDA based GPGPU framework to enable Many-Task Computing on NVIDIA GPUs.
-
-:numbered:
-
-C API</pre>
+<pre>The First Section - C API</pre>
 </div></div>
-<div class="paragraph"><p>/*
-This file contains the functions that make up the API to gemtc
-They are:
-<strong>* Initialize/Deconstruct </strong>*
-  gemtcSetup()
-  gemtcCleanup()</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-EnQueue/DeQueue Tasks  <strong>*</strong>
-  gemtcBlockingRun()
-  gemtcPush()
-  gemtcPoll()
-</p>
-</li>
-<li>
-<p>
-Memory Transfer Calls  <strong>*</strong>
-  gemtcMemcpyHostToDevice()
-  gemtcMemcpyDeviceToHost()
-</p>
-</li>
-</ul></div>
-<div class="paragraph"><p><strong><strong>*Memory Management Calls</strong></strong>
-  gemtcGPUMalloc()
-  gemtcGPUFree()
- */</p></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -972,7 +984,7 @@ A second glossary term
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br>
-Last updated 2013-03-18 15:58:27 CDT
+Last updated 2013-05-30 11:21:45 CDT
 </div>
 </div>
 </body>
