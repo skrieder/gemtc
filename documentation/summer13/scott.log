@@ -1,9 +1,27 @@
+====== 06/05/2013 ======
+  * Fixed data issue in lungsearch, profiled complete app
+  * http://datasys.cs.iit.edu/~skrieder/complete_pycallgraph-100-10.png
+====== 06/04/2013 ======
+  * Installed CUBLAS
+  * Profiled example eigen
+====== 06/03/2013 ======
+  * Installed Swig from source, tested MAC issues (issues still exist w/ new swig install)
+  * Fixed MDProxy to work with many hard coded values
+====== 5/31/2013 ======
+  * Optimize work on Raven to streamline testing (scripts, sshfs technologies)
+  * SSHFS running on Raven
+  * Applied to HPDC, Think Chicago
+  * MDProxy, test functions
+
 ====== 5/30/2013 ======
   * Got exsearch.py running
   * Installed pycallgraph
   * Tried pycallgraph (seems to be a good profilier for visualization)
   * installed cProfile
   * tried cProfiler (good for raw numbers)
+  * Call graphs from exsearch.py
+  * http://datasys.cs.iit.edu/~skrieder/pycallgraph-1-1.png
+  * http://datasys.cs.iit.edu/~skrieder/pycallgraph-100-1.png
 
 ====== 5/29/2013 ======
   * At IIT, sync up with Ioan meeting notes:
