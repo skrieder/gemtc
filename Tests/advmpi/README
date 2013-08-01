@@ -1,0 +1,6 @@
+Examples for the advanced MPI class, 2013.
+2-D decomposition examples, with variations for different send modes.
+Designed to permit running multiple methods in a simple program to 
+simplify comparision tests.
+
+Based on the 2-d Life code, but with some changes.
