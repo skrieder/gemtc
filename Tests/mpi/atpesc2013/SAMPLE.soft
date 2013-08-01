@@ -1,0 +1,15 @@
+#
+# This is your SoftEnv configuration run control file.
+#
+#   It is used to tell SoftEnv how to customize your environment by
+#   setting up variables such as PATH and MANPATH.  To learn more
+#   about this file, do a "man softenv".
+
+
++mpiwrapper-xl
+
+@default
+# the end - do not put any keys after @default
+
+
+
