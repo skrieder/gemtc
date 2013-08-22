@@ -5,6 +5,7 @@
 #include <sys/resource.h>
 
 #define MAX_WORKERS 32 
+void safeDump(void* params);
 void dumpParams(void* params);
 double cpu_time();
 void pullJobs(int kernel_calls); 
@@ -12,29 +13,30 @@ void pullJobs(int kernel_calls);
 int main(int argc, char **argv){ //Modify this to take the correct parameters.
   gemtcSetup(100000,0);
 
-  const long int np = 250; //Modify this variable.
-  const long int nd = 3; //This value should only be 2 or 3! 
+  const long int np = 5; //Modify this variable.
+  const long int nd = 2; //This value should only be 2 or 3! 
   const double mass = 1.0;
   
   int a_size = np*nd;
   int a_mem = sizeof(double) * a_size; 
 
+  // declare the arrays
+  double position[a_size];
   double darray[a_size];
- 
-  int i;
   
   //Here, I am generating the random values for the position table. 
   //SCOTT: We will be able to remove the srand and position[i]... command
-
-  double position[a_size];
-  srand(123456789);
+  srand(123456789); // set srand  
+  int i; // i for the loop
   for(i=0; i<a_size; i++){
-    position[i] = ((double)rand())/52000;
-    darray[i] = 0.0;
+    position[i] = ((double)rand())/52000; // randomize the position array
+    //printf("setting position[%d]=%f\n", i, position[i]);
+    darray[i] = 0.0; // zero out the darray
   }
 
-  //Setup the Table we will constantly reference.
+  printf("LAST_PRINT:%f\n", position[a_size-1]);
 
+  //Setup the Table we will constantly reference.
   //Table | np | nd | mass | pos[] | vel[] | acc[] |  f[]  | pe[]  |  ke[]  |
   //Bytes | 8  | 8  |   8  | a_mem | a_mem | a_mem | a_mem | a_mem | a_mem  |
 
@@ -47,9 +49,23 @@ int main(int argc, char **argv){ //Modify this to take the correct parameters.
   memcpy( (((double*)h_table)+2)       , &mass , sizeof(double));
   memcpy( (((double*)h_table)+3)       , position, a_mem);
 
-  for(i=1; i<4; i++){
-    memcpy( (((double*)h_table) + a_size*i + 2), darray, a_mem); 
+  //DEBUG
+  double *test_mass = (((double*) h_table) +2);
+  double *test_pos = test_mass + 1;
+  for(int j=0;j<10;j++){
+    //    printf("test_pos[%d]=%f\n", j,test_pos[j]);
   }
+  //END DEBUG
+
+
+  for(i=1; i<6; i++){
+    memcpy( (((double*)h_table) + a_size*i + 3), darray, a_mem); 
+  }
+
+  //  safeDump(h_table);
+    dumpParams(h_table);
+
+  // copy host table into device
   gemtcMemcpyHostToDevice(d_table, h_table, mem_needed);
   
   //Begin Computation on the GPU.
@@ -70,6 +86,9 @@ int main(int argc, char **argv){ //Modify this to take the correct parameters.
   double *pos = ((double*)comp_table) + 3; //get the position array.
   printf("Elapsed Time: %f\n", ctime2-ctime1);
 
+  // dump params
+  dumpParams(comp_table);
+
   return 0; 
 }
 
@@ -83,6 +102,17 @@ void pullJobs(int kernel_calls){
       gemtcPoll(&id, &ret);
     } 
   }
+}
+
+void safeDump(void* params){
+  printf("===SafeDump===\n");
+  long int np = *((long int*) params);
+  long int safe_np;
+  memcpy((void *)safe_np, params, 8);
+  long int nd = *(((long int*) params)+1);
+  printf("safe_np = %ld", safe_np);
+
+  printf("NP: %ld\n ND: %ld\n", np, nd);
 }
 
 void dumpParams(void* params){
@@ -103,6 +133,7 @@ void dumpParams(void* params){
   printf("NP: %ld\n ND: %ld\n", np, nd);
 
   int i;
+  printf("#, pos, vel, acc, f\n");
   for(i=0; i<size; i++){
     printf("%d: %.2f %.2f %.2f %.2f\n", i, pos[i], vel[i], acc[i], f[i]);
   }
