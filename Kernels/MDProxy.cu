@@ -194,13 +194,13 @@ __device__ void ComputeParticles_Multi(void* params){
         }
       }
    }
-	for(k=0;k<np;k++){
-   // compute kinetic
-      for(i=0; i<nd; i++){
-        ke[k] += vel[i+k*nd] * vel[i+k*nd];
-      }
-      ke[k] *= 0.5 * (*mass);
-	}	
+   for(k=0;k<np;k++){
+     // compute kinetic
+     for(i=0; i<nd; i++){
+       ke[k] += vel[i+k*nd] * vel[i+k*nd];
+     }
+     ke[k] *= 0.5 * (*mass);
+   }	
 }
 __device__ void UpdatePosVelAccel_Multi(void* params){
   
