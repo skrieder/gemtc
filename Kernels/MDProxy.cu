@@ -18,44 +18,54 @@ __device__ void ComputeParticles_Multi(void* params){
   double *pe = f + size;
   double *ke = pe + size;
 
-  int i, j, k;
+  int i, j;
 
   double d, d2; 
   double PI2 = 3.141592653589793 / 2.0;
   double rij[3];
+
+  //CUDA Threads
+  int warp_size = 32;
+  int tid = threadIdx.x%warp_size;
  
   //Compute all the potential energy and forces.
-   for(k=0; k<np; k++){
+  //for(k=0; k<np; k++){
+  while(tid<np){
+    for(i=0; i<nd; i++){
+      f[i+tid*nd] = 0.0;
+    }
+    
+    for(j=0; j<np; j++){
+      if(tid == j){ continue; }
+      
+      d = 0.0; 
       for(i=0; i<nd; i++){
-        f[i+k*nd] = 0.0;
+	rij[i] = pos[tid*nd+i] - pos[j*nd+i];
+	d += pow(rij[i], 2); 
       }
-     
-      for(j=0; j<np; j++){
-        if(k == j){ continue; }
-
-        d = 0.0; 
-        for(i=0; i<nd; i++){
-          rij[i] = pos[k*nd+i] - pos[j*nd+i];
-          d += pow(rij[i], 2); 
-        }
-
-        d = sqrt(d); 
-        d2 = d < PI2? d : PI2; 
-
-        pe[k] +=  0.5 * pow(sin(d2), 2);
-        
-        for(i=0; i<nd; i++){
-          f[i+k*nd] = f[i+k*nd] - rij[i] *sin(1.0 * d2) / d;
-        }
+      
+      d = sqrt(d); 
+      d2 = d < PI2? d : PI2; 
+      
+      pe[tid] +=  0.5 * pow(sin(d2), 2);
+      
+      for(i=0; i<nd; i++){
+	f[i+tid*nd] = f[i+tid*nd] - rij[i] *sin(1.0 * d2) / d;
       }
-   }
-   for(k=0;k<np;k++){
-     // compute kinetic
-     for(i=0; i<nd; i++){
-       ke[k] += vel[i+k*nd] * vel[i+k*nd];
-     }
-     ke[k] *= 0.5 * (*mass);
-   }	
+    }
+    tid += warp_size;
+  }
+
+  int tid2 = threadIdx.x%warp_size;
+  //  for(k=0;k<np;k++){
+  while(tid<np){
+    // compute kinetic
+    for(i=0; i<nd; i++){
+      ke[tid2] += vel[i+tid2*nd] * vel[i+tid2*nd];
+    }
+    ke[tid2] *= 0.5 * (*mass);
+    tid2 += warp_size;
+  }	
 }
 __device__ void UpdatePosVelAccel_Multi(void* params){
   
