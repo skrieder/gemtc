@@ -109,13 +109,13 @@ __device__ JobPointer executeJob(JobPointer currentJob){
       LCSubstring(currentJob->params);
       break;
     case 16:
-      ComputeParticles(currentJob->params);
+      //ComputeParticles(currentJob->params);
       break;
     case 17:
-      InitParticles(currentJob->params);
+      //InitParticles(currentJob->params);
       break; 
     case 18:
-      UpdatePosVelAccel(currentJob->params);
+      //UpdatePosVelAccel(currentJob->params);
       break;
     case 19:
       ComputeTest(currentJob->params);
