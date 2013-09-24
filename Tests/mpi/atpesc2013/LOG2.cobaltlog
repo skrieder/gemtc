@@ -1,0 +1,25 @@
+/usr/bin/qsub.py -A ATPESC2013 -q Q.ATPESC2013 -t 10 -n 32 -O LOG2 --mode script ./jobscript.sh
+
+submitted with cwd set to: /gpfs/vesta-home/skrieder/atpesc2013
+
+skrieder/113668: Initiating boot at location VST-22440-33551-32.
+
+Command: '/gpfs/vesta-home/skrieder/atpesc2013/./jobscript.sh'
+
+Environment:
+SHELL=/bin/bash
+COBALT_NODEFILE=/tmp/tmpcAyOWK
+COBALT_PARTNAME=VST-22440-33551-32
+COBALT_JOBID=113668
+LOGNAME=skrieder
+USER=skrieder
+COBALT_PARTSIZE=32
+HOME=/home/skrieder
+COBALT_JOBSIZE=32
+
+Info: stdin received from /dev/null
+Info: stdout sent to /gpfs/vesta-home/skrieder/atpesc2013/LOG2.output
+Info: stderr sent to /gpfs/vesta-home/skrieder/atpesc2013/LOG2.error
+
+skrieder/113668: Block VST-22440-33551-32 for location VST-22440-33551-32 successfully booted (Initiating). 
+Info: task completed normally with an exit code of 0; initiating job cleanup and removal

@@ -1,0 +1,29 @@
+
+#CC=mpicc
+CC=mpixlc
+
+
+QUEUE=-q R.l2p
+
+CORE= --env BG_COREDUMPONEXIT=1
+
+
+hellompi: hellompi.c
+	which $(CC)
+	$(CC) -g -O0 -o hellompi hellompi.c
+
+
+hellompi2: hellompi2.c
+	which $(CC)
+	$(CC) -g -O0 -o $@ $<
+
+
+run:
+	qsub $(QUEUE) -t 10 -n 128 -O job --env BG_SHAREDMEMSIZE=32 $(CORE) hellompi
+
+
+clean:
+	/bin/rm -f job.error job.output job.cobaltlog core.*
+
+destroy: clean
+	/bin/rm -f hellompi hellompi2

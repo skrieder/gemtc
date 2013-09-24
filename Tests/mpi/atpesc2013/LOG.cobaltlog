@@ -1,0 +1,50 @@
+/usr/bin/qsub.py -A ATPESC2013 -q Q.ATPESC2013 -t 10 -n 32 -O LOG --mode script ./jobscript.sh
+
+submitted with cwd set to: /gpfs/vesta-home/skrieder/atpesc2013
+
+skrieder/113607: Initiating boot at location VST-20460-31571-32.
+
+Command: '/gpfs/vesta-home/skrieder/atpesc2013/./jobscript.sh'
+
+Environment:
+SHELL=/bin/bash
+COBALT_NODEFILE=/tmp/tmpb7Dpx3
+COBALT_PARTNAME=VST-20460-31571-32
+COBALT_JOBID=113607
+LOGNAME=skrieder
+USER=skrieder
+COBALT_PARTSIZE=32
+HOME=/home/skrieder
+COBALT_JOBSIZE=32
+
+Info: stdin received from /dev/null
+Info: stdout sent to /gpfs/vesta-home/skrieder/atpesc2013/LOG.output
+Info: stderr sent to /gpfs/vesta-home/skrieder/atpesc2013/LOG.error
+
+skrieder/113607: Block VST-20460-31571-32 for location VST-20460-31571-32 successfully booted (Initiating). 
+Info: task completed normally with an exit code of 0; initiating job cleanup and removal
+/usr/bin/qsub.py -A ATPESC2013 -q Q.ATPESC2013 -t 10 -n 32 -O LOG --mode script ./jobscript.sh
+
+submitted with cwd set to: /gpfs/vesta-home/skrieder/atpesc2013
+
+skrieder/113648: Initiating boot at location VST-22440-33551-32.
+
+Command: '/gpfs/vesta-home/skrieder/atpesc2013/./jobscript.sh'
+
+Environment:
+SHELL=/bin/bash
+COBALT_NODEFILE=/tmp/tmpZQEOyE
+COBALT_PARTNAME=VST-22440-33551-32
+COBALT_JOBID=113648
+LOGNAME=skrieder
+USER=skrieder
+COBALT_PARTSIZE=32
+HOME=/home/skrieder
+COBALT_JOBSIZE=32
+
+Info: stdin received from /dev/null
+Info: stdout sent to /gpfs/vesta-home/skrieder/atpesc2013/LOG.output
+Info: stderr sent to /gpfs/vesta-home/skrieder/atpesc2013/LOG.error
+
+skrieder/113648: Block VST-22440-33551-32 for location VST-22440-33551-32 successfully booted (Initiating). 
+Info: task completed normally with an exit code of 0; initiating job cleanup and removal
