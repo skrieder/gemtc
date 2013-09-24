@@ -129,7 +129,30 @@ tex)
 (/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
 (/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/etexcmds.sty)))
 (/usr/local/texlive/2011/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
-ABD: EveryShipout initializing macros (./paper.bbl)
+ABD: EveryShipout initializing macros
+Underfull \hbox (badness 2269) in paragraph at lines 73--75
+[]\OT1/ptm/b/it/9 Keywords\OT1/ptm/b/n/9 -Accelerators, Co-pro-ces-sors, GPGPGU
+, NVIDIA,
+
+Underfull \hbox (badness 5119) in paragraph at lines 97--98
+[]\OT1/ptm/m/n/10 The In-tel Xeon Phi is In-tel's an-swer to GPGPU
+[1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+(./paper.bbl
+Underfull \hbox (badness 1466) in paragraph at lines 39--42
+[]\OT1/ptm/m/n/8 AMD. (2012, May) Opencl zone | amd. [On-
+
+Underfull \hbox (badness 2875) in paragraph at lines 45--49
+[]\OT1/ptm/m/n/8 Intel. (2012, May) In-tel many in-te-grated core
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--49
+\OT1/ptm/m/n/8 ar-chi-tec-ture - ad-vanced. [On-line]. Avail-able:
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--49
+\OT1/ptm/m/n/8 http://www.intel.com/content/www/us/en/architecture-and-
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--49
+\OT1/ptm/m/n/8 technology/many-integrated-core/intel-many-integrated-core-
+)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -141,13 +164,12 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-(./paper.aux) )
+[2] (./paper.aux) )
 (see the transcript file for additional information){/usr/local/texlive/2011/te
 xmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2011/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2011/texmf-dist/fonts/ty
 pe1/urw/times/utmb8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/ti
 mes/utmbi8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmr8
 a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (1 page, 55437 bytes).
+Output written on paper.pdf (2 pages, 65918 bytes).
 Transcript written on paper.log.

@@ -21,9 +21,30 @@
 \providecommand{\BIBdecl}{\relax}
 \BIBdecl
 
-\bibitem{kriederSC12}
-S.~J. Krieder and I.~Raicu, ``Towards the support for many-task computing on
-  many-core computing platforms,'' Doctoral Showcase, IEEE/ACM
-  Supercomputing/SC, 2012.
+\bibitem{raicu2008toward}
+I.~Raicu, Z.~Zhang, M.~Wilde, I.~Foster, P.~Beckman, K.~Iskra, and B.~Clifford,
+  ``Toward loosely coupled programming on petascale systems,'' in
+  \emph{Proceedings of the 2008 ACM/IEEE conference on Supercomputing}.\hskip
+  1em plus 0.5em minus 0.4em\relax IEEE Press, 2008, p.~22.
+
+\bibitem{NVIDIA_Kepler}
+\BIBentryALTinterwordspacing
+NVIDIA. (2012, May) Nvidia kepler compute architecture | high performance
+  computing | nvidia. [Online]. Available: \url{NVIDIA Kepler -
+  http://www.nvidia.com/object/nvidia-kepler.html}
+\BIBentrySTDinterwordspacing
+
+\bibitem{AMD_web}
+\BIBentryALTinterwordspacing
+AMD. (2012, May) Opencl™ zone | amd. [Online]. Available:
+  \url{http://developer.amd.com/resources/heterogeneous-computing/opencl-zone/}
+\BIBentrySTDinterwordspacing
+
+\bibitem{Xeon_Phi_web}
+\BIBentryALTinterwordspacing
+Intel. (2012, May) Intel® many integrated core architecture - advanced.
+  [Online]. Available:
+  \url{http://www.intel.com/content/www/us/en/architecture-and-technology/many-integrated-core/intel-many-integrated-core-architecture.html}
+\BIBentrySTDinterwordspacing
 
 \end{thebibliography}
