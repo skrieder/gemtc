@@ -66,28 +66,38 @@ Ioan Raicu\IEEEauthorrefmark{1}\IEEEauthorrefmark{2}\\
 \maketitle
 
 \begin{abstract}
-Accelerator technologies are now quite common in Supercomputers, Clusters, Grids, and personal desktops. This work aims to provide an overview of the current technologies that are available today, and examine future accelerator technologies. This work examines the 3 major competitors in the Accelerator market including; nVIDIA, Intel, and AMD.
+Accelerator technologies are now quite common in Supercomputers, Clusters, Grids, and personal desktops. This work aims to provide an overview of the current technologies that are available today, and examine future accelerator technologies. This work examines the 3 major competitors in the Accelerator market including; NVIDIA, Intel, and AMD.
 \end{abstract}
 
 % no keywords
 \begin{IEEEkeywords}
-Keywords.
+Accelerators, Coprocessors, GPGPGU, NVIDIA, AMD, Intel Xeon Phi.
 \end{IEEEkeywords}
 
 \IEEEpeerreviewmaketitle
 
 \section{Introduction}
-Accelerators allow the machine to offload work from the CPU to the Accelerator. The Accelerator then completes the computation and returns the solution back to the host CPU. \cite{kriederSC12}
+Accelerators allow the machine to offload work from the CPU to the Accelerator. The Accelerator then completes the computation and returns the solution back to the host CPU. 
 
-\section{Updates}
+\section{Accelerators}
 
-\subsection{Swift/T}
+\subsection{NVIDIA GPGPUs}
+NVIDIA recently launched their newest GPU architecture called Kepler. \cite{NVIDIA_Kepler} Kepler provides many added benefits, but the 3 most noteworthy include: 1)SMX,  2)Dynamic Parallelism, and 3)Hyper Q.
 
-\subsection{GeMTC}
+Under the new architecture SMX compute elements can contain up to 192 cores per Streaming Multiprocessor compared to 32 cores per SM in previous architectures. This accounts for a 3X performance/watt.
 
-\section{Future Work}
+Dynamic Parallelism allows a thread on the GPU to spawn more threads. Under previous architectures a GPU thread had to be initiated from the host CPU resulting in increased communication back and forth across the PCI bus. Dynamic Parallelism allows for an extensive reduction in the number of communications across the PCI bus and therfore increased performance.
 
-\subsection{Applications}
+Finally, Hyper Q allows additional CPU cores to interact with the device. This eliminates host CPU idle time and adds to performance.
+
+\subsection{AMD GPGPUs}
+Text.\cite{AMD_web}
+
+\subsection{Intel Xeon Phi Coprocessor}
+Text.\cite{Xeon_Phi_web}
+
+\section{Conclusions and Future Work}
+In conclusion this work evaluates current generation hardware accelerators including the NVIDIA GPUs, AMD GPUs, and the Intel Xeon Phi. Running CUDA on NVIDIA GPUs is one of the most mature GPGPU solutions and provides high raw compuational performance, however this does require code ported to the CUDA platform. The Intel Xeon Phi suffers from a lack of availability, but once this device is highly available it should bring large improvements in regards to accelerator programmability due to the familiar x86 environment.
 
 \bibliographystyle{IEEEtran}
 \bibliography{ref}
