@@ -1,0 +1,97 @@
+\documentclass[conference]{IEEEtran}
+% *** GRAPHICS RELATED PACKAGES ***
+%
+\ifCLASSINFOpdf
+  \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../pdf/}{../jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+  \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.eps}
+\fi
+
+\usepackage{pgf}
+%\usepackage{tikz}
+%\usetikzlibrary{arrows,automata}
+
+\definecolor{darkgreen}{rgb}{0,0.7,0}
+
+\newif\ifdraft
+\drafttrue
+%\draftfalse
+\ifdraft
+ \newcommand{\katznote}[1]{ {\textcolor{blue} { ***Dan:   #1 }}}
+ \newcommand{\ketanote}[1]{{\textcolor{orange}  { ***Ketan:   #1 }}}
+ \newcommand{\kriedernote}[1]{ {\textcolor{darkgreen}  { ***Scott:   #1 }}}
+ \newcommand{\note}[1]{ {\textcolor{red}    {\bf #1 }}}
+\else
+ \newcommand{\katznote}[1]{}
+ \newcommand{\kriedernote}[1]{}
+ \newcommand{\note}[1]{}
+\fi
+% correct bad hyphenation here
+%\hyphenation{op-tical net-works semi-conduc-tor}
+
+\hyphenation{Queuing}
+
+\begin{document}
+%
+% can use linebreaks \\ within to get better formatting as desired
+\title{An Overview of Current and Future Computing Accelerator Architectures}
+
+%\author{\IEEEauthorblockN{Auth1\IEEEauthorrefmark{1},
+%Auth2\IEEEauthorrefmark{1}\IEEEauthorrefmark{1}, 
+%Auth3\IEEEauthorrefmark{1},
+%\IEEEauthorblockA{\IEEEauthorrefmark{1}Argonne National Laboratory}
+%}}
+
+\author{\IEEEauthorblockN{Michael Wilde\IEEEauthorrefmark{2}\IEEEauthorrefmark{3},
+Ioan Raicu\IEEEauthorrefmark{1},
+Justin M. Wozniak\IEEEauthorrefmark{2},
+Scott J. Krieder\IEEEauthorrefmark{1}
+\IEEEauthorblockA{
+\IEEEauthorrefmark{1}Department of Computer Science, Illinois Institute of Technology}
+\IEEEauthorrefmark{2}MCS Division, Argonne National Laboratory\\
+\IEEEauthorrefmark{3}Computation Institute,  University of Chicago \& Argonne National Laboratory}
+}
+
+
+\maketitle
+
+\begin{abstract}
+This project explores a programming model and runtime environment which addresses the urgent yet vexing problem of how to simplify the programming of complex hybrid systems architectures. As computing systems – from personal tablets to the largest extreme-scale systems – become increasingly parallel, and as performance gains are often made using hybrid architectures, the difficulty of programming such systems increases dramatically. The long-sought-after goal in programming model research is to make parallel programming automatic – freeing the programmer from having to explicitly code the intricate data passing and data sharing operations that are needed in common parallel programming models such as distributed and shared memory models. As hybrid architectures become increasingly turned-to as the means for further cost/performance improvements, the complexity increases with difficult orthogonal factors such as passing data across the CPU-GPU boundary.
+\end{abstract}
+
+% no keywords
+\begin{IEEEkeywords}
+Keywords.
+\end{IEEEkeywords}
+
+\IEEEpeerreviewmaketitle
+
+\section{Introduction}
+This is the intro. \cite{kriederSC12}
+
+\section{Updates}
+
+\subsection{Swift/T}
+
+\subsection{GeMTC}
+
+\section{Future Work}
+
+\subsection{Applications}
+
+\bibliographystyle{IEEEtran}
+\bibliography{ref}
+\end{document}
