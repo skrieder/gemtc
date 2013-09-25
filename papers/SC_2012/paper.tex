@@ -1,0 +1,91 @@
+\documentclass[conference]{IEEEtran}
+% *** GRAPHICS RELATED PACKAGES ***
+%
+\ifCLASSINFOpdf
+  \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../pdf/}{../jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+  \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.eps}
+\fi
+
+\usepackage{pgf}
+%\usepackage{tikz}
+%\usetikzlibrary{arrows,automata}
+
+\definecolor{darkgreen}{rgb}{0,0.7,0}
+
+\newif\ifdraft
+\drafttrue
+%\draftfalse
+\ifdraft
+ \newcommand{\katznote}[1]{ {\textcolor{blue} { ***Dan:   #1 }}}
+ \newcommand{\ketanote}[1]{{\textcolor{orange}  { ***Ketan:   #1 }}}
+ \newcommand{\kriedernote}[1]{ {\textcolor{darkgreen}  { ***Scott:   #1 }}}
+ \newcommand{\note}[1]{ {\textcolor{red}    {\bf #1 }}}
+\else
+ \newcommand{\katznote}[1]{}
+ \newcommand{\kriedernote}[1]{}
+ \newcommand{\note}[1]{}
+\fi
+% correct bad hyphenation here
+%\hyphenation{op-tical net-works semi-conduc-tor}
+
+\hyphenation{Queuing}
+
+\begin{document}
+%
+% can use linebreaks \\ within to get better formatting as desired
+\title{Towards the Support for Many-Task Computing on Many-Core Computing Platforms}
+
+%\author{\IEEEauthorblockN{Auth1\IEEEauthorrefmark{1},
+%Auth2\IEEEauthorrefmark{1}\IEEEauthorrefmark{1}, 
+%Auth3\IEEEauthorrefmark{1},
+%\IEEEauthorblockA{\IEEEauthorrefmark{1}Argonne National Laboratory}
+%}}
+
+\author{Scott J. Krieder\IEEEauthorrefmark{1},
+Ioan Raicu\IEEEauthorrefmark{1}\IEEEauthorrefmark{2}\\
+\IEEEauthorblockA{
+\IEEEauthorrefmark{1}Department of Computer Science, Illinois Institute of Technology}
+\IEEEauthorrefmark{2}MCS Division, Argonne National Laboratory
+}
+
+
+\maketitle
+
+
+\begin{abstract}
+Current software and hardware limitations prevent ManyTask Computing (MTC) from leveraging hardware accelerators (NVIDIA GPUs, Intel MIC) boasting Many-Core Computing architectures. Some broad application classes that t the MTC paradigm are work ows, MapReduce, highthroughput computing, and a subset of high-performance computing. MTC emphasizes using many computing resources over short periods of time to accomplish many computational tasks (i.e. including both dependent and independent tasks), where the primary metrics are measured in seconds. MTC has already proved successful in Grid Computing and Supercomputing on MIMD architectures, but SIMD architectures of today's accelerators pose many challenges in the efficient support of MTC workloads on accelerators. This work aims to address the programmability gap between MTC and accelerators, through an innovative middleware that will enable MIMD workloads to run on a SIMD architecture. This work will enable a broader class of applications to leverage the growing number of accelerated high-end computing systems.
+\end{abstract}
+
+% no keywords
+\begin{IEEEkeywords}
+Many-Task Computing, Swift, GPGPU, CUDA
+\end{IEEEkeywords}
+
+\IEEEpeerreviewmaketitle
+
+\section{Problem Statement}
+This work aims to provide an integration between data-flow driven parallel programming systems (e.g. Many-Task Computing - MTC) and hardware accelerators \cite{kriederGCASR12} (e.g. NVIDIA GPUs, AMD GPUs, and the Intel MIC). MTC aims to bridge the gap between two computing paradigms, high throughput computing (HTC) and high-performance computing (HPC). MTC emphasizes using many computing resources over short periods of time to accomplish many computational tasks (i.e. including both dependent and independent tasks), where the primary metrics are measured in seconds. \cite{raicu2008toward} Swift is a particular implementation of the MTC paradigm, and is a parallel programming system that has been successfully used in many large-scale computing applications. \cite{zhao2007swift} The scientific community has adopted Swift as a great way to increase productivity in running complex applications via a dataflow driven programming model, which intrinsically allows implicit parallelism to be harnessed based on data access patterns and dependencies. Swift is a parallel programming system that fits the MTC model, and has been shown to run well on tens of thousands of nodes with task graphs in the range of hundreds of thousands of tasks. This work aims to enable Swift to efficiently use accelerators (such as NVIDIA GPUs and Intel MIC) to further accelerate a wide range of applications, on a growing portion of high-end systems.
+\section{Description of Novel Approach}
+The most recent version of Swift, namely Swift/T, supports function calls.\cite{wozniak13swift} By plugging our middleware into the Swift/T accelerator API(which we are currently pursuing a collaboration to develop) we plan to have Swift call C wrapper functions to CUDA kernels/applications directly. Currently CUDA developers may only have a maximum of 16 kernels running concurrently, one kernel per streaming multiprocessor (SM). The problem is that all kernels have to start and end at the same time, causing extreme inefficiencies in heterogeneous workloads. By working at the warp level we trade local memory for concurrency and we expect to be able to run up to 96 concurrent kernels. Our work will develop a middleware that will allow independent kernels (MIMD style) to be launched and managed on many-core architectures that traditionally only support SIMD. \cite{kriederXSEDE12}
+
+We are also currently evaluating a real biochemistry application, namely the Open Protein Simulator (OOPS), which builds on the Protein Library (PL). OOPS is multipurpose and allows extensions to perform various simulation tasks relevant for life scientists, such as protein folding or protein structure prediction.\cite{OOPS} We have taken parts of this application and ported to NVIDIA GPUs via the CUDA programming language, in order to accelerate OOPS computations via Swift. We already have preliminary results in the costs associated with managing and launching concurrent kernels on NVIDIA FERMI GPUs, through the Swift system. We expect our results to be applicable to many HPC resources where GPUs are now common. For example the June 2012 Top 500 machines that are GPU enabled include Tianhe-1A, Jaguar, and Nebulae. Currently, Swift can only utilize the general processors on these machines to execute workloads and the GPUs are left idle. We will also explore many more applications from different domains, such as medicine, economics, astronomy, bioinformatics, physics, and many more.
+\section{Contributions}
+We plan to continue to push the performance envelope by enabling many MTC applications and systems to leverage the growing number of accelerated high-end computing systems. We also expect this work to enable other classes of applications to leverage accelerators, such as MapReduce and ensemble MPI. We also hope to influence future accelerator architectures by highlighting the need for hardware support for MIMD workloads.
+
+\bibliographystyle{IEEEtran}
+\bibliography{ref}
+\end{document}
