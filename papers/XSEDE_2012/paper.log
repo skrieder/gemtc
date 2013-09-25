@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  24 SEP 2013 18:28
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  24 SEP 2013 23:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -432,28 +432,63 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 ABD: EveryShipout initializing macros
-LaTeX Font Info:    Calculating math sizes for size <11> on input line 66.
+LaTeX Font Info:    Calculating math sizes for size <11> on input line 67.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <11> on input line 66.
+(Font)              <11> on input line 67.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7.69997> on input line 66.
+(Font)              <7.69997> on input line 67.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5.5> on input line 66.
+(Font)              <5.5> on input line 67.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 66.
+(Font)              <8> on input line 67.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 66.
+(Font)              <6> on input line 67.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 66.
+(Font)              <5> on input line 67.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 66.
+(Font)              <7> on input line 67.
 
-Underfull \hbox (badness 1946) in paragraph at lines 74--76
+Underfull \hbox (badness 1946) in paragraph at lines 75--77
 []\OT1/ptm/b/it/9 Keywords\OT1/ptm/b/n/9 -Many-Task Com-put-ing, Swift, GPGPU, 
 CUDA,
  []
 
-(./paper.bbl)
+[1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+
+
+]
+(./paper.bbl
+Missing character: There is no Â in font ptmr7t!
+Missing character: There is no ® in font ptmr7t!
+
+Underfull \hbox (badness 2875) in paragraph at lines 38--42
+[]\OT1/ptm/m/n/8 Intel. (2012, May) In-tel many in-te-grated core
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--42
+\OT1/ptm/m/n/8 ar-chi-tec-ture - ad-vanced. [On-line]. Avail-able:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--42
+\OT1/ptm/m/n/8 http://www.intel.com/content/www/us/en/architecture-and-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--42
+\OT1/ptm/m/n/8 technology/many-integrated-core/intel-many-integrated-core-
+ []
+
+Missing character: There is no â in font ptmr7t!
+Missing character: There is no „ in font ptmr7t!
+Missing character: There is no ¢ in font ptmr7t!
+
+Underfull \hbox (badness 1466) in paragraph at lines 50--53
+[]\OT1/ptm/m/n/8 AMD. (2012, May) Opencl zone | amd. [On-
+ []
+
+)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -465,29 +500,27 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+[2
 
-
-
-]
-(./paper.aux) ) 
+] (./paper.aux) ) 
 Here is how much of TeX's memory you used:
- 8665 strings out of 493633
- 162003 string characters out of 3143378
- 205369 words of memory out of 3000000
- 11800 multiletter control sequences out of 15000+200000
- 35117 words of font info for 71 fonts, out of 3000000 for 9000
+ 8671 strings out of 493633
+ 162082 string characters out of 3143378
+ 209387 words of memory out of 3000000
+ 11806 multiletter control sequences out of 15000+200000
+ 36253 words of font info for 72 fonts, out of 3000000 for 9000
  832 hyphenation exceptions out of 8191
- 49i,13n,53p,1190b,353s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/local/texlive/2011/texmf-dist/fonts/enc/dvips/base/8r.enc}
-</usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></
-usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/
-texlive/2011/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2
-011/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
-Output written on paper.pdf (1 page, 49506 bytes).
+ 49i,13n,53p,2189b,353s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/local/texlive/2011/texmf-dist/fonts/enc/dvips/base/8r.en
+c}</usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+</usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/loca
+l/texlive/2011/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive
+/2011/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2011/texm
+f-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on paper.pdf (2 pages, 66990 bytes).
 PDF statistics:
- 28 PDF objects out of 1000 (max. 8388607)
- 20 compressed objects within 1 object stream
+ 35 PDF objects out of 1000 (max. 8388607)
+ 25 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 

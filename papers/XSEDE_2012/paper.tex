@@ -79,8 +79,7 @@ Many-Task Computing, Swift, GPGPU, CUDA, OOPS
 \IEEEpeerreviewmaketitle
 
 \section{Introduction}
-Many-task computing (MTC) \cite{raicu2008toward} aims to bridge the gap between two computing paradigms, high throughput computing (HTC) and high-performance computing (HPC). MTC emphasizes using many computing resources over short periods of time to accomplish many computational tasks (i.e. including both dependent and independent tasks), where the primary metrics are measured in seconds. MTC denotes high-performance computations comprising multiple distinct activities, coupled via file system operations. Swift is a particular implementation of the MTC paradigm, and is a parallel programming system that has been successfully used in many large-scale computing applications across the TeraGrid and now XSEDE. It has been adopted by the scientific community as a great way to increase productivity in running complex applications via a dataflow driven programming model, which intrinsically allows implicit parallelism to be harnessed based on data access patterns and dependencies. Swift has been shown to run well on tens of thousands of nodes with task graphs in the range of hundreds of thousands of tasks. This work aims to enable Swift to efficiently use accelerators (such as NVIDIA GPUs and
-Intel MIC) to further accelerate a wide range of applications. This work evaluates a real biochemistry application, namely the the Open Protein Simulator (OOPS), which builds on the Protein Library (PL). OOPS is multipurpose and allows extensions to perform various simulation tasks relevant for life scientists, such as protein folding or protein structure prediction. We have taken parts of this application and ported to NVIDIA GPUs via the CUDA programming language, in order to accelerate OOPS computations via Swift. This work presents preliminary results in the costs associated with managing and launching concurrent kernels on NVIDIA FERMI GPUs, through the Swift system. We expect that our results to be applicable to several XSEDE resources, such as Forge, Keeneland, and Lonestar, where currently Swift can only use the general processors to execute workloads and the GPUs are left idle.
+Many-task computing (MTC) \cite{raicu2008toward} aims to bridge the gap between two computing paradigms, high throughput computing (HTC) and high-performance computing (HPC). MTC emphasizes using many computing resources over short periods of time to accomplish many computational tasks (i.e. including both dependent and independent tasks), where the primary metrics are measured in seconds. MTC denotes high-performance computations comprising multiple distinct activities, coupled via file system operations. Swift is a particular implementation of the MTC paradigm, and is a parallel programming system that has been successfully used in many large-scale computing applications across the TeraGrid and now XSEDE. \cite{zhao2007swift} It has been adopted by the scientific community as a great way to increase productivity in running complex applications via a dataflow driven programming model, which intrinsically allows implicit parallelism to be harnessed based on data access patterns and dependencies. Swift has been shown to run well on tens of thousands of nodes with task graphs in the range of hundreds of thousands of tasks. This work aims to enable Swift to efficiently use accelerators (such as NVIDIA GPUs and Intel Xeon Phi \cite{Xeon_Phi_web}) to further accelerate a wide range of applications. This work evaluates a real biochemistry application, namely the the Open Protein Simulator (OOPS) \cite{OOPS}, which builds on the Protein Library (PL). OOPS is multipurpose and allows extensions to perform various simulation tasks relevant for life scientists, such as protein folding or protein structure prediction. We have taken parts of this application and ported to NVIDIA GPUs via the CUDA programming language, in order to accelerate OOPS computations via Swift. This work presents preliminary results in the costs associated with managing and launching concurrent kernels on NVIDIA FERMI GPUs, through the Swift system. We expect that our results to be applicable to several XSEDE resources, such as Forge, Keeneland, and Lonestar, where currently Swift can only use the general processors to execute workloads and the GPUs are left idle.
 
 \section{Many-Task Computing}
 Many-task computing (MTC) aims to bridge the gap between two computing paradigms, high throughput computing (HTC) and high-performance computing (HPC). MTC emphasizes using many computing resources over short periods of time to accomplish many computational tasks (i.e. including both dependent and independent tasks), where the primary metrics are measured in seconds. MTC denotes high-performance computations comprising multiple distinct activities.
@@ -89,20 +88,28 @@ Many-task computing (MTC) aims to bridge the gap between two computing paradigms
 Swift is a particular implementation of the MTC paradigm, and is a parallel programming system that has been successfully used in many large-scale computing applications across the TeraGrid and now XSEDE. It has been adopted by the scientific community as a great way to increase productivity in running complex applications via a dataflow driven programming model, which intrinsically allows implicit parallelism to be harnessed based on data access patterns and dependencies.
 
 \section{Accelerators and Coprocessors}
-There are currently three major players in the hardware accelerator market including NVIDIA GPUs, AMD GPUs, and the Intel Xeon Phi. Running CUDA on NVIDIA GPUs is one of the most mature GPGPU solutions and provides high raw computational performance, however this does require code ported to the CUDA platform. The Intel Xeon Phi suffers from a lack of availability, but once this device is highly available it should bring large improvements in regards to accelerator programmability due to the familiar x86 environment. Finally, AMD GPUs provide a high level of openness in regards to programmability. AMD supports open standards such as OpenCL but may see difficulty in adoption within the HPC markets due to performance.\cite{kriederGCASR12}
+There are currently three major players in the hardware accelerator market including NVIDIA GPUs, AMD GPUs \cite{AMD_web}, and the Intel Xeon Phi. Running CUDA on NVIDIA GPUs is one of the most mature GPGPU solutions and provides high raw computational performance, however this does require code ported to the CUDA platform. The Intel Xeon Phi suffers from a lack of availability, but once this device is highly available it should bring large improvements in regards to accelerator programmability due to the familiar x86 environment. Finally, AMD GPUs provide a high level of openness in regards to programmability. AMD supports open standards such as OpenCL but may see difficulty in adoption within the HPC markets due to performance.\cite{kriederGCASR12}
 
 \section{Scheduler Architecture}
+- Without a scheduler, jobs run on the GPU following the pattern copycompute-copy.
+- Copy-compute-copy produces inefficiencies. Some of which are shown in the red area above.
+- Our scheduler sits in-between Swift and GPU. Handles multiple inputs from Swift and condenses these into single GPU calls.
+- Use of a scheduler allows for overlapping kernel execution
+- Our scheduler overlaps data transfers from last solution and next problem to increase efficiency.
 
 \section{Evaluation}
 
-\section{Future Work}
--Migrate scheduler into GPU (SuperKernel manages MicroKernels)
--Integrate GPGPU MTC Scheduler into Swift
--Explore Intel MIC as a co-processor to run MTC 
-workloads
 
-\section{Conclusions}
-Scheduler provides concurrent kernel execution from built in library of CUDA kernels • Scheduler overlaps memory transfers for increased performance • Concurrent kernels limited to up to 16 kernels • Kernel execution overheads limit workloads to coarse granularity kernels
+
+\section{Future Work}
+Future work aims to migrate our scheduler into the GPU, allowing a daemon SuperKernel to manage the MicroKernels, through the use of CUDA concurrent kernels. We also expect our performance to increase on the latest NVIDIA Kepler Architecture. \cite{NVIDIA_Kepler}
+
+By integrating our GPGPU MTC Scheduler into Swift we will be able to provide GPU support for MTC applications that utilize Swift. In addition this will apply the dataflow model to GPUs and provide implicit parallelism at the task level.
+
+Finally, we believe that the Intel Xeon Phi will provide an array of added benefits for running MTC workloads. Future work will examine how Intel Xeon Phi performs for MTC workflows.
+
+\section{Conclusion}
+In conclusion we presented a scheduler which provides concurrent kernel execution from built in library of CUDA kernels. This scheduler overlaps memory transfers for increased performance. The scheduler supports concurrent kernels limited only by CUDA contraints up to 16 kernels. Finally, our scheudler eliminates Kernel execution overheads and enables workloads with coarse granular kernels.
 
 \bibliographystyle{IEEEtran}
 \bibliography{ref}

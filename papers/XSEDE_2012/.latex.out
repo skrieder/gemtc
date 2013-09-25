@@ -130,10 +130,26 @@ tex)
 (/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/etexcmds.sty)))
 (/usr/local/texlive/2011/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
 ABD: EveryShipout initializing macros
-Underfull \hbox (badness 1946) in paragraph at lines 74--76
+Underfull \hbox (badness 1946) in paragraph at lines 75--77
 []\OT1/ptm/b/it/9 Keywords\OT1/ptm/b/n/9 -Many-Task Com-put-ing, Swift, GPGPU, 
 CUDA,
-(./paper.bbl)
+[1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+(./paper.bbl
+Underfull \hbox (badness 2875) in paragraph at lines 38--42
+[]\OT1/ptm/m/n/8 Intel. (2012, May) In-tel many in-te-grated core
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--42
+\OT1/ptm/m/n/8 ar-chi-tec-ture - ad-vanced. [On-line]. Avail-able:
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--42
+\OT1/ptm/m/n/8 http://www.intel.com/content/www/us/en/architecture-and-
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--42
+\OT1/ptm/m/n/8 technology/many-integrated-core/intel-many-integrated-core-
+
+Underfull \hbox (badness 1466) in paragraph at lines 50--53
+[]\OT1/ptm/m/n/8 AMD. (2012, May) Opencl zone | amd. [On-
+)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -145,13 +161,12 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-(./paper.aux) )
+[2] (./paper.aux) )
 (see the transcript file for additional information){/usr/local/texlive/2011/te
 xmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2011/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2011/texmf-dist/fonts/ty
 pe1/urw/times/utmb8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/ti
 mes/utmbi8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmr8
-a.pfb>
-Output written on paper.pdf (1 page, 49506 bytes).
+a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on paper.pdf (2 pages, 66990 bytes).
 Transcript written on paper.log.
