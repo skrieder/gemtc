@@ -158,8 +158,8 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-(./paper.bbl [2 <./imgs/blockdiagram.png> <./imgs/swiftt.png> <./imgs/1worker.p
-ng> <./imgs/84workers.png>]
+[2 <./imgs/blockdiagram.png> <./imgs/swiftt.png> <./imgs/1worker.png> <./imgs/8
+4workers.png>] (./paper.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 51--54
 []\OT1/ptm/m/n/8 NVIDIA, ``Nvidia ke-pler gk110 ar-chi-tec-ture whitepa-per,''
 
@@ -184,5 +184,5 @@ type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2011/texmf-dist/fonts/ty
 pe1/urw/times/utmb8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/ti
 mes/utmbi8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmr8
 a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (3 pages, 1614793 bytes).
+Output written on paper.pdf (3 pages, 1615274 bytes).
 Transcript written on paper.log.

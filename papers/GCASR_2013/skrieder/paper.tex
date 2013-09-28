@@ -109,14 +109,14 @@ Currently CUDA developers may only have a maximum of 16 kernels running concurre
 \end{figure}
 
 \section{Swift/T}
-The most recent version of Swift, namely Swift/T, supports function calls.\cite{wozniak13swift} This work also presents a novel API to allow interaction between GeMTC and Swift/T. By plugging our middleware into the Swift/T we are able to have Swift call C wrapper functions to CUDA kernels/applications directly. 
+Swift is an implicitly parallel scripting language. By operating on data-flow driven scheduling of parallel tasks Swift is capable of extracting parallelism out of an application. The distributed executor eliminates centralized bottlenecks and an optimized compiler detects errors ahead of runtime for improveds efficiency. Swift has been shown to scale over 100k cores and is portable to most MPI-based clusters. Finally, it's familiar C/Java like syntax makes it easy for developers to quickly understand language constructs. The diagram in Figure \ref{fig:swiftt} demonstrates the 4 portions of the Swift stack which contains (1)A high level Swift Script, (2)A compiler, namely STC, to generate (3)An intermediate code and (4)Execution of the intermediate code. The most recent version of Swift, namely Swift/T, supports function calls.\cite{wozniak13swift} This work also presents a novel API to allow interaction between GeMTC and Swift/T. By integrating the GeMTC middleware into the Swift/T stack Swift is capable of calling C wrapper functions to CUDA kernels/applications directly. 
 \begin{figure}[h]
 \centering\includegraphics[width=8cm]{imgs/swiftt.png}
 \caption{Overview of Swift/T toolchain.}
 \label{fig:swiftt}
 \end{figure}
 
-Implicitly Parallel Scripting Language • Data-ﬂow driven scheduling of parallel tasks • Distributed executor eliminates centralized bottlenecks • Optimizing compiler detects errors, improves efﬁciency • Scales to 100k cores • Portable to most MPI-based clusters • Syntax similar to C, Java
+
 
 \section{Preliminary Results}
 

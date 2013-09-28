@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  28 SEP 2013 13:58
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  28 SEP 2013 14:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -482,31 +482,6 @@ Underfull \vbox (badness 1132) has occurred while \output is active []
 
 
  <./imgs/big_picture.png> <./imgs/warps.png>]
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ¢ in font ptmr7t!
-Missing character: There is no Ô in font ptmr7t!
-Missing character: There is no ¨ in font ptmr7t!
-Missing character: There is no Ç in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ¢ in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ¢ in font ptmr7t!
-Missing character: There is no Ô in font ptmr7t!
-Missing character: There is no ¨ in font ptmr7t!
-Missing character: There is no Å in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ¢ in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ¢ in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ¢ in font ptmr7t!
-
 <imgs/1worker.png, id=17, 617.30624pt x 376.40625pt>
 File: imgs/1worker.png Graphic file (type png)
  <use imgs/1worker.png>
@@ -559,8 +534,8 @@ Missing character: There is no ¢ in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ¢ in font ptmr7t!
-(./paper.bbl [2 <./imgs/blockdiagram.png> <./imgs/swiftt.png> <./imgs/1worker.p
-ng> <./imgs/84workers.png>]
+[2 <./imgs/blockdiagram.png> <./imgs/swiftt.png> <./imgs/1worker.png> <./imgs/8
+4workers.png>] (./paper.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 51--54
 []\OT1/ptm/m/n/8 NVIDIA, ``Nvidia ke-pler gk110 ar-chi-tec-ture whitepa-per,''
  []
@@ -588,7 +563,7 @@ Before submitting the final camera ready copy, remember to:
 Here is how much of TeX's memory you used:
  8723 strings out of 493633
  163072 string characters out of 3143378
- 208454 words of memory out of 3000000
+ 210454 words of memory out of 3000000
  11848 multiletter control sequences out of 15000+200000
  36253 words of font info for 72 fonts, out of 3000000 for 9000
  832 hyphenation exceptions out of 8191
@@ -600,7 +575,7 @@ exmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2011/texmf-dist/
 fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/typ
 e1/urw/times/utmr8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/tim
 es/utmri8a.pfb>
-Output written on paper.pdf (3 pages, 1614793 bytes).
+Output written on paper.pdf (3 pages, 1615274 bytes).
 PDF statistics:
  46 PDF objects out of 1000 (max. 8388607)
  27 compressed objects within 1 object stream
