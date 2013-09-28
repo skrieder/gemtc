@@ -65,7 +65,7 @@ Ioan Raicu\IEEEauthorrefmark{1}\IEEEauthorrefmark{2}\\
 \IEEEauthorblockA{
 \IEEEauthorrefmark{1}Department of Computer Science, Illinois Institute of Technology}
 \IEEEauthorrefmark{2}MCS Division, Argonne National Laboratory\\
-\IEEEauthorrefmark{3}Computation Institute, Univeristy of Chicago
+\IEEEauthorrefmark{3}Computation Institute, University of Chicago
 }
 
 
@@ -87,10 +87,59 @@ Many-Task Computing, Swift, GPGPU, CUDA
 
 \section{GeMTC}
 
+\begin{figure}[h]
+\centering\includegraphics[width=8cm]{imgs/big_picture.png}
+\caption{Flow of a task through Swift/T and GeMTC.}
+\label{fig:big_pic}
+\end{figure}
+
+\begin{figure}[h]
+\centering\includegraphics[width=8cm]{imgs/warps.png}
+\caption{Worker interaction with incoming work queue.}
+\label{fig:warps}
+\end{figure}
+
+\begin{figure}[h]
+\centering\includegraphics[width=8cm]{imgs/blockdiagram.png}
+\caption{Kepler GK110 full chip block diagram.}
+\label{fig:block_diagram}
+\end{figure}
+
 \section{Swift/T}
+
+\begin{figure}[h]
+\centering\includegraphics[width=8cm]{imgs/swiftt.png}
+\caption{Overview of Swift/T toolchain.}
+\label{fig:swiftt}
+\end{figure}
+
 Implicitly Parallel Scripting Language • Data-ﬂow driven scheduling of parallel tasks • Distributed executor eliminates centralized bottlenecks • Optimizing compiler detects errors, improves efﬁciency • Scales to 100k cores • Portable to most MPI-based clusters • Syntax similar to C, Java
 
 \section{Preliminary Results}
+
+\begin{figure}[h]
+\centering\includegraphics[width=8cm]{imgs/1worker.png}
+\caption{GeMTC efficiency from launching a single worker on the GPU.}
+\label{fig:1worker}
+\end{figure}
+
+\begin{figure}[h]
+\centering\includegraphics[width=8cm]{imgs/84workers.png}
+\caption{GeMTC efficiency launching maximum workers on GTX680.}
+\label{fig:84workers}
+\end{figure}
+
+\begin{figure}[h]
+\centering\includegraphics[width=8cm]{imgs/multinode.png}
+\caption{GeMTC + Swift/T efficiency on 4 XK7 nodes.}
+\label{fig:multinode}
+\end{figure}
+
+\begin{figure}[h]
+\centering\includegraphics[width=8cm]{imgs/throughput4nodes.png}
+\caption{GeMTC + Swift/T throughput on 4 XK7 nodes.}
+\label{fig:throughput}
+\end{figure}
 
 \section{Conclusions and Future Work}
 Designed GeMTC Framework

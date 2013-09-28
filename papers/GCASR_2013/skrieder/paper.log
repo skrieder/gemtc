@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  27 SEP 2013 22:02
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  27 SEP 2013 23:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -450,6 +450,38 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 Missing character: There is no Ô in font ptmb7t!
 Missing character: There is no ¨ in font ptmb7t!
 Missing character: There is no Å in font ptmb7t!
+
+<imgs/big_picture.png, id=4, 737.75626pt x 279.0425pt>
+File: imgs/big_picture.png Graphic file (type png)
+
+<use imgs/big_picture.png>
+Package pdftex.def Info: imgs/big_picture.png used on input line 91.
+(pdftex.def)             Requested size: 227.62204pt x 86.09352pt.
+ <imgs/warps.png, id=5, 738.76pt x 425.59pt>
+File: imgs/warps.png Graphic file (type png)
+
+<use imgs/warps.png>
+Package pdftex.def Info: imgs/warps.png used on input line 97.
+(pdftex.def)             Requested size: 227.62204pt x 131.12627pt.
+ <imgs/blockdiagram.png, id=6, 956.57375pt x 677.53125pt>
+File: imgs/blockdiagram.png Graphic file (type png)
+
+<use imgs/blockdiagram.png>
+Package pdftex.def Info: imgs/blockdiagram.png used on input line 103.
+(pdftex.def)             Requested size: 227.62204pt x 161.21515pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<imgs/swiftt.png, id=7, 736.7525pt x 324.21124pt>
+File: imgs/swiftt.png Graphic file (type png)
+ <use imgs/swiftt.png>
+Package pdftex.def Info: imgs/swiftt.png used on input line 111.
+(pdftex.def)             Requested size: 227.62204pt x 100.16309pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ¢ in font ptmr7t!
@@ -474,25 +506,64 @@ Missing character: There is no ¢ in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ¢ in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ¢ in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ¢ in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ¢ in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ¢ in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ¢ in font ptmr7t!
- [1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+<imgs/1worker.png, id=8, 617.30624pt x 376.40625pt>
+File: imgs/1worker.png Graphic file (type png)
+ <use imgs/1worker.png>
+Package pdftex.def Info: imgs/1worker.png used on input line 121.
+(pdftex.def)             Requested size: 227.62204pt x 138.79141pt.
 
 
-] (./paper.bbl)
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<imgs/84workers.png, id=9, 666.49pt x 355.3275pt>
+File: imgs/84workers.png Graphic file (type png)
+ <use imgs/84workers.png>
+Package pdftex.def Info: imgs/84workers.png used on input line 127.
+(pdftex.def)             Requested size: 227.62204pt x 121.35193pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<imgs/multinode.png, id=10, 610.28pt x 378.41376pt>
+File: imgs/multinode.png Graphic file (type png)
+ <use imgs/multinode.png>
+Package pdftex.def Info: imgs/multinode.png used on input line 133.
+(pdftex.def)             Requested size: 227.62204pt x 141.14262pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<imgs/throughput4nodes.png, id=11, 673.51625pt x 375.4025pt>
+File: imgs/throughput4nodes.png Graphic file (type png)
+
+<use imgs/throughput4nodes.png>
+Package pdftex.def Info: imgs/throughput4nodes.png used on input line 139.
+(pdftex.def)             Requested size: 227.62204pt x 126.8733pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ¢ in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ¢ in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ¢ in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ¢ in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ¢ in font ptmr7t!
+[1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+
+
+ <./imgs/big_picture.png> <./imgs/warps.png> <./imgs/blockdiagram.png> <./imgs/
+swiftt.png>] [2 <./imgs/1worker.png> <./imgs/84workers.png> <./imgs/multinode.p
+ng> <./imgs/throughput4nodes.png>] (./paper.bbl)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -504,14 +575,14 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[2
+[3
 
 ] (./paper.aux) ) 
 Here is how much of TeX's memory you used:
- 8670 strings out of 493633
- 162076 string characters out of 3143378
- 210384 words of memory out of 3000000
- 11805 multiletter control sequences out of 15000+200000
+ 8721 strings out of 493633
+ 163052 string characters out of 3143378
+ 209448 words of memory out of 3000000
+ 11846 multiletter control sequences out of 15000+200000
  36253 words of font info for 72 fonts, out of 3000000 for 9000
  832 hyphenation exceptions out of 8191
  49i,13n,53p,1463b,353s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -521,10 +592,10 @@ c}</usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
 l/texlive/2011/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive
 /2011/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2011/texm
 f-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (2 pages, 66154 bytes).
+Output written on paper.pdf (3 pages, 1613818 bytes).
 PDF statistics:
- 35 PDF objects out of 1000 (max. 8388607)
- 25 compressed objects within 1 object stream
+ 46 PDF objects out of 1000 (max. 8388607)
+ 27 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 13 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 53 words of extra memory for PDF output out of 10000 (max. 10000000)
 

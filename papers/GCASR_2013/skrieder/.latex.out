@@ -129,8 +129,39 @@ tex)
 (/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
 (/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/etexcmds.sty)))
 (/usr/local/texlive/2011/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
-ABD: EveryShipout initializing macros [1{/usr/local/texlive/2011/texmf-var/font
-s/map/pdftex/updmap/pdftex.map}] (./paper.bbl)
+ABD: EveryShipout initializing macros
+<imgs/big_picture.png, id=4, 737.75626pt x 279.0425pt>
+<use imgs/big_picture.png> <imgs/warps.png, id=5, 738.76pt x 425.59pt>
+<use imgs/warps.png> <imgs/blockdiagram.png, id=6, 956.57375pt x 677.53125pt>
+<use imgs/blockdiagram.png>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<imgs/swiftt.png, id=7, 736.7525pt x 324.21124pt> <use imgs/swiftt.png>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<imgs/1worker.png, id=8, 617.30624pt x 376.40625pt> <use imgs/1worker.png>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<imgs/84workers.png, id=9, 666.49pt x 355.3275pt> <use imgs/84workers.png>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<imgs/multinode.png, id=10, 610.28pt x 378.41376pt> <use imgs/multinode.png>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<imgs/throughput4nodes.png, id=11, 673.51625pt x 375.4025pt>
+<use imgs/throughput4nodes.png>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./img
+s/big_picture.png> <./imgs/warps.png> <./imgs/blockdiagram.png> <./imgs/swiftt.
+png>] [2 <./imgs/1worker.png> <./imgs/84workers.png> <./imgs/multinode.png> <./
+imgs/throughput4nodes.png>] (./paper.bbl)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -142,12 +173,12 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[2] (./paper.aux) )
+[3] (./paper.aux) )
 (see the transcript file for additional information){/usr/local/texlive/2011/te
 xmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2011/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2011/texmf-dist/fonts/ty
 pe1/urw/times/utmb8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/ti
 mes/utmbi8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmr8
 a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (2 pages, 66154 bytes).
+Output written on paper.pdf (3 pages, 1613818 bytes).
 Transcript written on paper.log.
