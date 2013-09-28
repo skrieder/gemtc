@@ -137,29 +137,11 @@ ABD: EveryShipout initializing macros
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<imgs/swiftt.png, id=7, 736.7525pt x 324.21124pt> <use imgs/swiftt.png>
-Underfull \vbox (badness 1132) has occurred while \output is active [1{/usr/loc
-al/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./imgs/big_pictu
-re.png> <./imgs/warps.png>]
-<imgs/1worker.png, id=17, 617.30624pt x 376.40625pt> <use imgs/1worker.png>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<imgs/84workers.png, id=18, 666.49pt x 355.3275pt> <use imgs/84workers.png>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<imgs/multinode.png, id=19, 610.28pt x 378.41376pt> <use imgs/multinode.png>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<imgs/throughput4nodes.png, id=20, 673.51625pt x 375.4025pt>
-<use imgs/throughput4nodes.png>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[2 <./imgs/blockdiagram.png> <./imgs/swiftt.png> <./imgs/1worker.png> <./imgs/8
-4workers.png>] (./paper.bbl
+[1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./img
+s/big_picture.png> <./imgs/warps.png>]
+<imgs/swiftt.png, id=16, 736.7525pt x 324.21124pt> <use imgs/swiftt.png>
+<imgs/multinode.png, id=17, 610.28pt x 378.41376pt> <use imgs/multinode.png>
+(./paper.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 51--54
 []\OT1/ptm/m/n/8 NVIDIA, ``Nvidia ke-pler gk110 ar-chi-tec-ture whitepa-per,''
 
@@ -177,12 +159,13 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[3 <./imgs/multinode.png> <./imgs/throughput4nodes.png>] (./paper.aux) )
+[2 <./imgs/blockdiagram.png> <./imgs/swiftt.png> <./imgs/multinode.png>]
+(./paper.aux) )
 (see the transcript file for additional information){/usr/local/texlive/2011/te
 xmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2011/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2011/texmf-dist/fonts/ty
 pe1/urw/times/utmb8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/ti
 mes/utmbi8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmr8
 a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (3 pages, 1615274 bytes).
+Output written on paper.pdf (2 pages, 1472471 bytes).
 Transcript written on paper.log.
