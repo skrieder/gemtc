@@ -38,14 +38,24 @@ Y.~Zhao, M.~Hategan, B.~Clifford, I.~Foster, G.~Von~Laszewski, V.~Nefedova,
   coupled parallel computation,'' in \emph{Services, 2007 IEEE Congress
   on}.\hskip 1em plus 0.5em minus 0.4em\relax IEEE, 2007, pp. 199--206.
 
-\bibitem{wozniak13swift}
-J.~M. Wozniak, T.~G. Armstrong, M.~Wilde, D.~S. Katz, E.~Lusk, and I.~T.
-  Foster, ``Swift/t: Large-scale application composition via distributedmemory
-  data flow processing,'' in \emph{Proc. CCGrid}, vol.~13.
+\bibitem{kriederSC12}
+S.~J. Krieder and I.~Raicu, ``Towards the support for many-task computing on
+  many-core computing platforms,'' Doctoral Showcase, IEEE/ACM
+  Supercomputing/SC, 2012.
 
 \bibitem{kriederXSEDE12}
 S.~J. Krieder, B.~Grimmer, and I.~Raicu, ``Early experiences in running
   many-task computing workloads on gpgpus,'' XSEDE Poster Session, 2012.
+
+\bibitem{GK110}
+NVIDIA, ``Nvidia kepler gk110 architecture whitepaper,''
+  http://www.nvidia.com/content/PDF/kepler/NVIDIA-Kepler-GK110-Architecture-Whitepaper.pdf,
+  2012.
+
+\bibitem{wozniak13swift}
+J.~M. Wozniak, T.~G. Armstrong, M.~Wilde, D.~S. Katz, E.~Lusk, and I.~T.
+  Foster, ``Swift/t: Large-scale application composition via distributedmemory
+  data flow processing,'' in \emph{Proc. CCGrid}, vol.~13.
 
 \bibitem{OOPS}
 A.~N. Adhikari, J.~Peng, M.~Wilde, J.~Xu, K.~F. Freed, and T.~R. Sosnick,
