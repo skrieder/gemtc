@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  24 SEP 2013 23:23
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  25 SEP 2013 00:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -448,15 +448,37 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 67.
 
-Underfull \hbox (badness 1946) in paragraph at lines 75--77
-[]\OT1/ptm/b/it/9 Keywords\OT1/ptm/b/n/9 -Many-Task Com-put-ing, Swift, GPGPU, 
-CUDA,
- []
+<imgs/no_scheduler.png, id=4, 523.9575pt x 308.15125pt>
+File: imgs/no_scheduler.png Graphic file (type png)
 
-[1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+<use imgs/no_scheduler.png>
+Package pdftex.def Info: imgs/no_scheduler.png used on input line 95.
+(pdftex.def)             Requested size: 227.62204pt x 133.86603pt.
+ [1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
-]
+] <imgs/red.png, id=14, 530.98375pt x 305.14pt>
+File: imgs/red.png Graphic file (type png)
+
+<use imgs/red.png>
+Package pdftex.def Info: imgs/red.png used on input line 101.
+(pdftex.def)             Requested size: 227.62204pt x 130.8072pt.
+ <imgs/sleep.png, id=15, 509.905pt x 346.29375pt>
+File: imgs/sleep.png Graphic file (type png)
+
+<use imgs/sleep.png>
+Package pdftex.def Info: imgs/sleep.png used on input line 109.
+(pdftex.def)             Requested size: 227.62204pt x 154.58899pt.
+ <imgs/comm.png, id=16, 534.99875pt x 330.23375pt>
+File: imgs/comm.png Graphic file (type png)
+
+<use imgs/comm.png>
+Package pdftex.def Info: imgs/comm.png used on input line 115.
+(pdftex.def)             Requested size: 227.62204pt x 140.50116pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 (./paper.bbl
 Missing character: There is no Â in font ptmr7t!
 Missing character: There is no ® in font ptmr7t!
@@ -500,27 +522,26 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[2
-
-] (./paper.aux) ) 
+[2 <./imgs/no_scheduler.png> <./imgs/red.png> <./imgs/sleep.png> <./imgs/comm.p
+ng>] (./paper.aux) ) 
 Here is how much of TeX's memory you used:
- 8671 strings out of 493633
- 162082 string characters out of 3143378
- 209387 words of memory out of 3000000
- 11806 multiletter control sequences out of 15000+200000
+ 8698 strings out of 493633
+ 162501 string characters out of 3143378
+ 209417 words of memory out of 3000000
+ 11827 multiletter control sequences out of 15000+200000
  36253 words of font info for 72 fonts, out of 3000000 for 9000
  832 hyphenation exceptions out of 8191
- 49i,13n,53p,2189b,353s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/local/texlive/2011/texmf-dist/fonts/enc/dvips/base/8r.en
-c}</usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-</usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/loca
-l/texlive/2011/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive
-/2011/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2011/texm
-f-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (2 pages, 66990 bytes).
+ 49i,13n,53p,2188b,353s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/local/texlive/2011/texmf-dist/fonts/enc/dvips/base/8r
+.enc}</usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.p
+fb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/l
+ocal/texlive/2011/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texl
+ive/2011/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2011/t
+exmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on paper.pdf (2 pages, 173922 bytes).
 PDF statistics:
- 35 PDF objects out of 1000 (max. 8388607)
+ 39 PDF objects out of 1000 (max. 8388607)
  25 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 13 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 33 words of extra memory for PDF output out of 10000 (max. 10000000)
 

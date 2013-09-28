@@ -130,10 +130,15 @@ tex)
 (/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/etexcmds.sty)))
 (/usr/local/texlive/2011/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
 ABD: EveryShipout initializing macros
-Underfull \hbox (badness 1946) in paragraph at lines 75--77
-[]\OT1/ptm/b/it/9 Keywords\OT1/ptm/b/n/9 -Many-Task Com-put-ing, Swift, GPGPU, 
-CUDA,
-[1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+<imgs/no_scheduler.png, id=4, 523.9575pt x 308.15125pt>
+<use imgs/no_scheduler.png> [1{/usr/local/texlive/2011/texmf-var/fonts/map/pdft
+ex/updmap/pdftex.map}] <imgs/red.png, id=14, 530.98375pt x 305.14pt>
+<use imgs/red.png> <imgs/sleep.png, id=15, 509.905pt x 346.29375pt>
+<use imgs/sleep.png> <imgs/comm.png, id=16, 534.99875pt x 330.23375pt>
+<use imgs/comm.png>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 (./paper.bbl
 Underfull \hbox (badness 2875) in paragraph at lines 38--42
 []\OT1/ptm/m/n/8 Intel. (2012, May) In-tel many in-te-grated core
@@ -161,12 +166,13 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[2] (./paper.aux) )
+[2 <./imgs/no_scheduler.png> <./imgs/red.png> <./imgs/sleep.png> <./imgs/comm.p
+ng>] (./paper.aux) )
 (see the transcript file for additional information){/usr/local/texlive/2011/te
 xmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2011/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2011/texmf-dist/fonts/ty
 pe1/urw/times/utmb8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/ti
 mes/utmbi8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmr8
 a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (2 pages, 66990 bytes).
+Output written on paper.pdf (2 pages, 173922 bytes).
 Transcript written on paper.log.

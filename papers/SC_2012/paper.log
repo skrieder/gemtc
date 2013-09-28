@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  25 SEP 2013 10:03
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  25 SEP 2013 10:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -473,14 +473,14 @@ Here is how much of TeX's memory you used:
  11805 multiletter control sequences out of 15000+200000
  36253 words of font info for 72 fonts, out of 3000000 for 9000
  832 hyphenation exceptions out of 8191
- 49i,13n,53p,1464b,353s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 49i,13n,53p,1463b,353s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/local/texlive/2011/texmf-dist/fonts/enc/dvips/base/8r.en
 c}</usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
 </usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/loca
 l/texlive/2011/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive
 /2011/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2011/texm
 f-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (2 pages, 64872 bytes).
+Output written on paper.pdf (2 pages, 64871 bytes).
 PDF statistics:
  35 PDF objects out of 1000 (max. 8388607)
  25 compressed objects within 1 object stream
