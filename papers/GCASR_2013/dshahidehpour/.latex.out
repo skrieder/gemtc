@@ -130,24 +130,22 @@ tex)
 (/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/etexcmds.sty)))
 (/usr/local/texlive/2011/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
 ABD: EveryShipout initializing macros
-<imgs/big_picture.png, id=4, 737.75626pt x 279.0425pt>
-<use imgs/big_picture.png> <imgs/warps.png, id=5, 738.76pt x 425.59pt>
-<use imgs/warps.png> <imgs/blockdiagram.png, id=6, 956.57375pt x 677.53125pt>
-<use imgs/blockdiagram.png>
+Underfull \hbox (badness 1533) in paragraph at lines 75--77
+[]\OT1/ptm/b/it/9 Abstract\OT1/ptm/b/n/9 ---This work an-a-lyzes the per-for-ma
+nce in-creases
+<imgs/md_proxy_arch.png, id=4, 967.615pt x 450.68375pt>
+<use imgs/md_proxy_arch.png>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<imgs/cpu_gpu.png, id=5, 940.51375pt x 415.5525pt> <use imgs/cpu_gpu.png>
+<imgs/tasks_per_sec.png, id=6, 940.51375pt x 429.605pt>
+<use imgs/tasks_per_sec.png>
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./img
-s/big_picture.png> <./imgs/warps.png>]
-<imgs/swiftt.png, id=16, 736.7525pt x 324.21124pt> <use imgs/swiftt.png>
-<imgs/multinode.png, id=17, 610.28pt x 378.41376pt> <use imgs/multinode.png>
-(./paper.bbl
-Underfull \hbox (badness 10000) in paragraph at lines 51--54
-[]\OT1/ptm/m/n/8 NVIDIA, ``Nvidia ke-pler gk110 ar-chi-tec-ture whitepa-per,''
-
-Underfull \hbox (badness 10000) in paragraph at lines 51--54
-\OT1/ptm/m/n/8 http://www.nvidia.com/content/PDF/kepler/NVIDIA-Kepler-GK110-
-)
+s/md_proxy_arch.png> <./imgs/cpu_gpu.png>] (./paper.bbl)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -159,13 +157,12 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[2 <./imgs/blockdiagram.png> <./imgs/swiftt.png> <./imgs/multinode.png>]
-(./paper.aux) )
+[2 <./imgs/tasks_per_sec.png>] (./paper.aux) )
 (see the transcript file for additional information){/usr/local/texlive/2011/te
 xmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2011/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2011/texmf-dist/fonts/ty
 pe1/urw/times/utmb8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/ti
 mes/utmbi8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmr8
 a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (2 pages, 1472471 bytes).
+Output written on paper.pdf (2 pages, 265210 bytes).
 Transcript written on paper.log.

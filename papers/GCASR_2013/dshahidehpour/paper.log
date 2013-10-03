@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  28 SEP 2013 15:14
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  3 OCT 2013 14:03
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -448,24 +448,33 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 72.
 
-<imgs/big_picture.png, id=4, 737.75626pt x 279.0425pt>
-File: imgs/big_picture.png Graphic file (type png)
+Underfull \hbox (badness 1533) in paragraph at lines 75--77
+[]\OT1/ptm/b/it/9 Abstract\OT1/ptm/b/n/9 ---This work an-a-lyzes the per-for-ma
+nce in-creases
+ []
 
-<use imgs/big_picture.png>
-Package pdftex.def Info: imgs/big_picture.png used on input line 93.
-(pdftex.def)             Requested size: 227.62204pt x 86.09352pt.
- <imgs/warps.png, id=5, 738.76pt x 425.59pt>
-File: imgs/warps.png Graphic file (type png)
+<imgs/md_proxy_arch.png, id=4, 967.615pt x 450.68375pt>
+File: imgs/md_proxy_arch.png Graphic file (type png)
 
-<use imgs/warps.png>
-Package pdftex.def Info: imgs/warps.png used on input line 99.
-(pdftex.def)             Requested size: 227.62204pt x 131.12627pt.
- <imgs/blockdiagram.png, id=6, 956.57375pt x 677.53125pt>
-File: imgs/blockdiagram.png Graphic file (type png)
+<use imgs/md_proxy_arch.png>
+Package pdftex.def Info: imgs/md_proxy_arch.png used on input line 95.
+(pdftex.def)             Requested size: 227.62204pt x 106.01384pt.
 
-<use imgs/blockdiagram.png>
-Package pdftex.def Info: imgs/blockdiagram.png used on input line 105.
-(pdftex.def)             Requested size: 227.62204pt x 161.21515pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<imgs/cpu_gpu.png, id=5, 940.51375pt x 415.5525pt>
+File: imgs/cpu_gpu.png Graphic file (type png)
+ <use imgs/cpu_gpu.png>
+Package pdftex.def Info: imgs/cpu_gpu.png used on input line 109.
+(pdftex.def)             Requested size: 227.62204pt x 100.57162pt.
+
+<imgs/tasks_per_sec.png, id=6, 940.51375pt x 429.605pt>
+File: imgs/tasks_per_sec.png Graphic file (type png)
+
+<use imgs/tasks_per_sec.png>
+Package pdftex.def Info: imgs/tasks_per_sec.png used on input line 115.
+(pdftex.def)             Requested size: 227.62204pt x 103.9726pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -473,30 +482,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 [1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
- <./imgs/big_picture.png> <./imgs/warps.png>]
-<imgs/swiftt.png, id=16, 736.7525pt x 324.21124pt>
-File: imgs/swiftt.png Graphic file (type png)
- <use imgs/swiftt.png>
-Package pdftex.def Info: imgs/swiftt.png used on input line 114.
-(pdftex.def)             Requested size: 227.62204pt x 100.16309pt.
-
-<imgs/multinode.png, id=17, 610.28pt x 378.41376pt>
-File: imgs/multinode.png Graphic file (type png)
- <use imgs/multinode.png>
-Package pdftex.def Info: imgs/multinode.png used on input line 136.
-(pdftex.def)             Requested size: 227.62204pt x 141.14262pt.
-
-(./paper.bbl
-Underfull \hbox (badness 10000) in paragraph at lines 51--54
-[]\OT1/ptm/m/n/8 NVIDIA, ``Nvidia ke-pler gk110 ar-chi-tec-ture whitepa-per,''
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 51--54
-\OT1/ptm/m/n/8 http://www.nvidia.com/content/PDF/kepler/NVIDIA-Kepler-GK110-
- []
-
-)
+ <./imgs/md_proxy_arch.png> <./imgs/cpu_gpu.png>] (./paper.bbl)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -508,26 +494,27 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[2 <./imgs/blockdiagram.png> <./imgs/swiftt.png> <./imgs/multinode.png>]
-(./paper.aux) ) 
+[2
+
+ <./imgs/tasks_per_sec.png>] (./paper.aux) ) 
 Here is how much of TeX's memory you used:
- 8705 strings out of 493633
- 162691 string characters out of 3143378
- 210430 words of memory out of 3000000
- 11833 multiletter control sequences out of 15000+200000
+ 8690 strings out of 493633
+ 162475 string characters out of 3143378
+ 208405 words of memory out of 3000000
+ 11820 multiletter control sequences out of 15000+200000
  36253 words of font info for 72 fonts, out of 3000000 for 9000
  832 hyphenation exceptions out of 8191
- 49i,13n,53p,1463b,353s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/local/texlive/2011/texmf-dist/fonts/enc/dvips/base/8r.enc}
-</usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></
-usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/
-texlive/2011/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2
-011/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2011/texmf-
-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (2 pages, 1472471 bytes).
+ 49i,13n,53p,671b,353s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/local/texlive/2011/texmf-dist
+/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2011/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/
+times/utmb8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmb
+i8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></
+usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on paper.pdf (2 pages, 265210 bytes).
 PDF statistics:
- 40 PDF objects out of 1000 (max. 8388607)
+ 38 PDF objects out of 1000 (max. 8388607)
  25 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 38 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 28 words of extra memory for PDF output out of 10000 (max. 10000000)
 

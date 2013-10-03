@@ -14,45 +14,45 @@ Database file #1: ref.bib
 Warning--empty year in wozniak13swift
 
 Done.
-You've used 8 entries,
+You've used 5 entries,
             4039 wiz_defined-function locations,
-            856 strings with 8908 characters,
-and the built_in function-call counts, 5150 in all, are:
-= -- 371
-> -- 167
-< -- 22
-+ -- 84
-- -- 36
-* -- 246
-:= -- 776
-add.period$ -- 18
-call.type$ -- 8
-change.case$ -- 8
-chr.to.int$ -- 48
-cite$ -- 9
-duplicate$ -- 387
-empty$ -- 451
-format.name$ -- 43
-if$ -- 1163
+            838 strings with 8325 characters,
+and the built_in function-call counts, 3328 in all, are:
+= -- 224
+> -- 117
+< -- 11
++ -- 58
+- -- 26
+* -- 166
+:= -- 493
+add.period$ -- 12
+call.type$ -- 5
+change.case$ -- 5
+chr.to.int$ -- 24
+cite$ -- 6
+duplicate$ -- 250
+empty$ -- 303
+format.name$ -- 31
+if$ -- 750
 int.to.chr$ -- 0
-int.to.str$ -- 8
-missing$ -- 86
-newline$ -- 47
-num.names$ -- 8
-pop$ -- 232
+int.to.str$ -- 5
+missing$ -- 57
+newline$ -- 38
+num.names$ -- 5
+pop$ -- 160
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 390
+skip$ -- 247
 stack$ -- 0
-substring$ -- 124
-swap$ -- 278
-text.length$ -- 6
+substring$ -- 65
+swap$ -- 173
+text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 5
-type$ -- 8
+type$ -- 5
 warning$ -- 1
-while$ -- 17
-width$ -- 9
-write$ -- 91
+while$ -- 10
+width$ -- 6
+write$ -- 64
 (There was 1 warning)

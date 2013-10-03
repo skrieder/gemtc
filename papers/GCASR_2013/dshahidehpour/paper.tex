@@ -73,7 +73,7 @@ Ioan Raicu\IEEEauthorrefmark{1}\IEEEauthorrefmark{2}\\
 
 
 \begin{abstract}
-This work analyzes the performance increases gained from enabling SwiH applications to utilize the GPU through the GeMTC Framework. By identifying computationally intensive portions of SwiH applications, we can easily turn these code blocks into GeMTC microkernels. Users can then call these microkernels throughout the lifetime of their SwiH application. The GeMTC API handles task overlap and data movement, providing transparent GPU acceleration for the user. This work highlights preliminary performance results from the scientific application MDProxy. This application determines the energy of particles in a modeled universe as they move around in space.
+This work analyzes the performance increases gained from enabling Swift applications to utilize the GPU through the GeMTC Framework. By identifying computationally intensive portions of Swift applications, we can easily turn these code blocks into GeMTC microkernels. Users can then call these microkernels throughout the lifetime of their Swift application. The GeMTC API handles task overlap and data movement, providing transparent GPU acceleration for the user. This work highlights preliminary performance results from the scientific application MDProxy. This application determines the energy of particles in a modeled universe as they move around in space.
 \end{abstract}
 
 % no keywords
@@ -84,105 +84,45 @@ Many-Task Computing, Swift, GPGPU, CUDA
 \IEEEpeerreviewmaketitle
 
 \section{Background Information}
-GeMTC (GPU enabled Many-Task Computing), is a CUDA-based framework which provides eﬃcient support for Many-Task Computing workloads on accelerators. The GeMTC framework has been integrated into SwiH/T, a parallel programming framework from Argonne National Laboratory and the University of Chicago, providing GPU functionality for the Swift language.
+GeMTC (GPU enabled Many-Task Computing) \cite{kriederSC12}, is a CUDA-based framework which provides efficient support for Many-Task Computing \cite{raicu2008toward} workloads on accelerators. \cite{kriederGCASR12} The GeMTC framework has been integrated into Swift/T \cite{wozniak13swift}, a parallel programming framework from Argonne National Laboratory and the University of Chicago, providing GPU functionality for the Swift language. \cite{zhao2007swift}
 
-A microkernel is a traditional CUDA kernel that is modiﬁed to run in the GeMTC framework. A CUDA kernel is a user-deﬁned function that runs on a NVIDIA GPU.
+A microkernel is a traditional CUDA kernel that is modified to run in the GeMTC framework. A CUDA kernel is a user-defined function that runs on a NVIDIA GPU.
 
 \section{MDProxy Architecture}
+In Figure \ref{fig:md_proxy_arch} the call stack architecture is shown for MDProxy through Swift and GeMTC. The user writes a Swift script that will build an array of potential particles and calls GeMTC MDProxy with this array as a parameter. Each call to MDProxy creates it's own universe of particles and ships the universe to the GPU. Finally the MDProxy application consists of three functions 1) initialize the universe, 2) run the computation, and 3) update the result.
+
 \begin{figure}[h]
 \centering\includegraphics[width=8cm]{imgs/md_proxy_arch.png}
-\caption{Callstack architecture for MDProxy Implementation.}
+\caption{Call stack architecture for the MDProxy implementation.}
 \label{fig:md_proxy_arch}
 \end{figure}
 
 
 \section{Testing Environment}
-In this work we conduct our evaluation on a GTX 670 GPU with 7 Streaming Multiprocessors (SMXs). In addition this GPU contains 84 Warps(utilized as workers), 1344 CUDA Cores, and 2GB of DDR5 RAM.
+In this work we conduct our evaluation on a GTX 670 GPU with 7 Streaming Multiprocessors (SMXs). In addition this GPU contains 84 Warps(utilized as workers), 1344 CUDA Cores, and 2GB of DDR5 RAM. CPU results are tested on a 6 core 3Ghz AMD CPU.
 
 \section{MDProxy Evaluation}
+
+In Figure \ref{fig:cpu_gpu} the GeMTC MDProxy micro-kernel is evaluated with 2,688 particles and scaled up to 900 steps of computation from within the application. In addition, a comparison is drawn against a threaded CPU implementation of MDProxy with the GPU version showing a 10x speedup. Finally, Figure \ref{fig:tasks_per_sec} shows how tasks per second are calculated based on varying the number of particles per universe. This work achieves almost 12k tasks per second for workloads with 500 particles in a given universe.
+
 \begin{figure}[h]
 \centering\includegraphics[width=8cm]{imgs/cpu_gpu.png}
-\caption{MDProxy Evaluation of GPU vs. CPU Implementation.}
+\caption{MDProxy evaluation of the GPU vs. CPU implementations.}
 \label{fig:cpu_gpu}
 \end{figure}
 
 \begin{figure}[h]
-\centering\includegraphics[width=8cm]{imgs/cpu_gpu.png}
-\caption{MDProxy Evaluation of GPU vs. CPU Implementation.}
-\label{fig:cpu_gpu}
+\centering\includegraphics[width=8cm]{imgs/tasks_per_sec.png}
+\caption{Tasks per second achieved during MDProxy.}
+\label{fig:tasks_per_sec}
 \end{figure}
 
 
 \section{Conclusions}
-Evaluate Science Application • MDProxy highlights GeMTC potential • GeMTC 10x faster than threaded CPU
+In conclusion this work aimed to evaluate a real scientific application. While the MD code evaluated here is not a production code it provides a skeleton of data movement and compute that is performed by MD Codes. MDProxy highlights the GeMTC potential by launching small compute universes on each compute element in the GPU. Finally, our preliminary results show that GeMTC 10x faster than a threaded CPU implementation.
 
 \section{Future Work}
-Improve MD algorithm • Enable Multi-Node Performance • Investigate optimal MD Task Size • Compare performance against other GeMTC-enabled accelerators • Develop high level abstractions for the SwiH/T + GeMTC stack • Expand library of GeMTC microkernels
-
-
-\section{Introduction}
-This work aims to provide an integration between data-flow driven parallel programming systems (e.g. Many-Task Computing - MTC) and hardware accelerators \cite{kriederGCASR12} (e.g. NVIDIA GPUs, AMD GPUs, and the Intel MIC). MTC aims to bridge the gap between two computing paradigms, high throughput computing (HTC) and high-performance computing (HPC). MTC emphasizes using many computing resources over short periods of time to accomplish many computational tasks (i.e. including both dependent and independent tasks), where the primary metrics are measured in seconds.\cite{raicu2008toward} Swift is a particular implementation of the MTC paradigm, and is a parallel programming system that has been successfully used in many large-scale computing applications. \cite{zhao2007swift} The scientific community has adopted Swift as a great way to increase productivity in running complex applications via a dataflow driven programming model, which intrinsically allows implicit parallelism to be harnessed based on data access patterns and dependencies. Swift is a parallel programming system that fits the MTC model, and has been shown to run well on tens of thousands of nodes with task graphs in the range of hundreds of thousands of tasks. This work aims to enable Swift to efficiently use accelerators (such as NVIDIA GPUs and Intel MIC) to further accelerate a wide range of applications, on a growing portion of high-end systems.
-
-\section{GeMTC}
-
-Currently CUDA developers may only have a maximum of 16 kernels running concurrently, one kernel per streaming multiprocessor (SM). The problem is that all kernels have to start and end at the same time, causing extreme inefficiencies in heterogeneous workloads. By working at the warp level we trade local memory for concurrency and we are able to run up to 84 concurrent kernels. \cite{kriederSC12} This middleware allow independent kernels (MIMD style) to be launched and managed on many-core architectures that traditionally only support SIMD. \cite{kriederXSEDE12} In Figure \ref{fig:big_pic} Swift/T is calling the GeMTC API and passing tasks into memory on the device. Warp workers pick up those tasks, execute with the given parameters and place results on an outgoing result queue. This execution model is shown in further detail in Figure \ref{fig:warps}. Finally, Swift/T will poll the device return results from the result queue back to the appropriate task in the swift script. Figure \ref{fig:block_diagram} is a  GK110 block diagram as presented by NVIDIA. \cite{GK110} This diagram demonstrates how the current generation GPUs have O(10) Streaming Multiprocessors (SMX), O(100) Warps, and O(1000) cores.
-\begin{figure}[h]
-\centering\includegraphics[width=8cm]{imgs/big_picture.png}
-\caption{Flow of a task through Swift/T and GeMTC.}
-\label{fig:big_pic}
-\end{figure}
-
-\begin{figure}[h]
-\centering\includegraphics[width=8cm]{imgs/warps.png}
-\caption{Worker interaction with incoming work queue.}
-\label{fig:warps}
-\end{figure}
-
-\begin{figure}[h]
-\centering\includegraphics[width=8cm]{imgs/blockdiagram.png}
-\caption{Kepler GK110 full chip block diagram.}
-\label{fig:block_diagram}
-\end{figure}
-
-\section{Swift/T}
-Swift is an implicitly parallel scripting language. By operating on data-flow driven scheduling of parallel tasks Swift is capable of extracting parallelism out of an application. The distributed executor eliminates centralized bottlenecks and an optimized compiler detects errors ahead of runtime for improved efficiency. Swift has been shown to scale over 100k cores and is portable to most MPI-based clusters. Finally, it's familiar C/Java like syntax makes it easy for developers to quickly understand language constructs. The diagram in Figure \ref{fig:swiftt} demonstrates the 4 portions of the Swift stack which contains (1)A high level Swift Script, (2)A compiler, namely STC, to generate (3)An intermediate code and (4)Execution of the intermediate code. The most recent version of Swift, namely Swift/T, supports function calls.\cite{wozniak13swift} This work also presents a novel API to allow interaction between GeMTC and Swift/T. By integrating the GeMTC middleware into the Swift/T stack Swift is capable of calling C wrapper functions to CUDA kernels/applications directly. 
-
-\begin{figure}[h]
-\centering\includegraphics[width=8cm]{imgs/swiftt.png}
-\caption{Overview of the Swift/T tool chain.}
-\label{fig:swiftt}
-\end{figure}
-
-
-
-\section{Preliminary Results}
-In this section we present preliminary results from the integration of GeMTC and Swift/T. In Figure \ref{fig:multinode} we demonstrate the efficiency of Swift/T and GeMTC on 4 Cray XK7 nodes. Swift/T is launching 50k system wide tasks for which there are known completion times. Efficiency is set to actual run time / expected runtime. Evaluation takes place on 1 to 4 nodes of Cray XK7 machines with 156 GPU workers (the maximum) on each NVIDIA K20 GPU. Tasks lasting longer that 400ms are shown to have good efficiency and at 4-node scale we are capable of maintaining 4k tasks per second system wide.
-%\begin{figure}[h]
-%\centering\includegraphics[width=8cm]{imgs/1worker.png}
-%\caption{GeMTC efficiency from launching a single worker on the GPU.}
-%\label{fig:1worker}
-%\end{figure}
-
-%\begin{figure}[h]
-%\centering\includegraphics[width=8cm]{imgs/84workers.png}
-%\caption{GeMTC efficiency launching maximum workers on GTX680.}
-%\label{fig:84workers}
-%\end{figure}
-
-\begin{figure}[h]
-\centering\includegraphics[width=8cm]{imgs/multinode.png}
-\caption{GeMTC + Swift/T efficiency on 4 XK7 nodes.}
-\label{fig:multinode}
-\end{figure}
-
-%\begin{figure}[h]
-%\centering\includegraphics[width=8cm]{imgs/throughput4nodes.png}
-%\caption{GeMTC + Swift/T throughput on 4 XK7 nodes.}
-%\label{fig:throughput}
-%\end{figure}
-
-\section{Conclusions and Future Work}
-In this work we designed and implemented the GeMTC framework. A sub-allocator provides improved memory management for dynamic tasks. Integration between GeMTC + Swift/T provides application support, data-flow parallelism, and multi-node scalability. Finally, we evaluated synthetic benchmarks and demonstrated improved performance. Future work aims to abstract for additional accelerator support, evaluate real applications such as the Open Protein Simulator (OOPS) \cite{OOPS}, and improve current framework performance.
+Future work will aim to improve the MD algorithm, this will provide for a more through analysis of the potential improved performance that GeMTC can provide. We will also extend our evaluation by testing MDProxy at Multi-Node scale. MDProxy provides an array of input parameters that affect the computation, further investigation will aim to find optimal task sizes. Finally, we aim to compare performance against other GeMTC-enabled accelerators and develop high level abstractions for the Swift/T + GeMTC stack while Expanding the library of GeMTC microkernels.
 
 \bibliographystyle{IEEEtran}
 \bibliography{ref}
