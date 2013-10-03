@@ -73,7 +73,7 @@ Ioan Raicu\IEEEauthorrefmark{1}\IEEEauthorrefmark{2}\\
 
 
 \begin{abstract}
-Current software and hardware limitations prevent Many-Task Computing (MTC) workloads from leveraging hardware accelerators boasting Many Core Computing architectures. This work aims to address the programmability gap between MTC and accelerators, through the innovative CUDA middleware GeMTC. By working at the warp level, GeMTC enables heterogeneous task scheduling and 10x number of workers compared to CUDA. In order to span multiple accelerators across nodes, we have adopted the Swift parallel programming system, which can both support fine grained millisecond tasks and extreme scale supercomputers at 100K-cores.
+This work analyzes the performance increases gained from enabling SwiH applications to utilize the GPU through the GeMTC Framework. By identifying computationally intensive portions of SwiH applications, we can easily turn these code blocks into GeMTC microkernels. Users can then call these microkernels throughout the lifetime of their SwiH application. The GeMTC API handles task overlap and data movement, providing transparent GPU acceleration for the user. This work highlights preliminary performance results from the scientific application MDProxy. This application determines the energy of particles in a modeled universe as they move around in space.
 \end{abstract}
 
 % no keywords
