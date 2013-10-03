@@ -89,11 +89,29 @@ GeMTC (GPU enabled Many-Task Computing), is a CUDA-based framework which provide
 A microkernel is a traditional CUDA kernel that is modiﬁed to run in the GeMTC framework. A CUDA kernel is a user-deﬁned function that runs on a NVIDIA GPU.
 
 \section{MDProxy Architecture}
+\begin{figure}[h]
+\centering\includegraphics[width=8cm]{imgs/md_proxy_arch.png}
+\caption{Callstack architecture for MDProxy Implementation.}
+\label{fig:md_proxy_arch}
+\end{figure}
+
 
 \section{Testing Enironment}
 7 SMXs • 84 Warps • 1344 CUDA Cores • 2GB DDR5
 
 \section{MDProxy Evaluation}
+\begin{figure}[h]
+\centering\includegraphics[width=8cm]{imgs/cpu_gpu.png}
+\caption{MDProxy Evaluation of GPU vs. CPU Implementation.}
+\label{fig:cpu_gpu}
+\end{figure}
+
+\begin{figure}[h]
+\centering\includegraphics[width=8cm]{imgs/cpu_gpu.png}
+\caption{MDProxy Evaluation of GPU vs. CPU Implementation.}
+\label{fig:cpu_gpu}
+\end{figure}
+
 
 \section{Conclusions}
 Evaluate Science Application • MDProxy highlights GeMTC potential • GeMTC 10x faster than threaded CPU
