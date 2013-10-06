@@ -129,23 +129,10 @@ tex)
 (/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
 (/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/etexcmds.sty)))
 (/usr/local/texlive/2011/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
-ABD: EveryShipout initializing macros
-Underfull \hbox (badness 1533) in paragraph at lines 75--77
-[]\OT1/ptm/b/it/9 Abstract\OT1/ptm/b/n/9 ---This work an-a-lyzes the per-for-ma
-nce in-creases
-<imgs/md_proxy_arch.png, id=4, 967.615pt x 450.68375pt>
-<use imgs/md_proxy_arch.png>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<imgs/cpu_gpu.png, id=5, 940.51375pt x 415.5525pt> <use imgs/cpu_gpu.png>
-<imgs/tasks_per_sec.png, id=6, 940.51375pt x 429.605pt>
-<use imgs/tasks_per_sec.png>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./img
-s/md_proxy_arch.png> <./imgs/cpu_gpu.png>] (./paper.bbl)
+ABD: EveryShipout initializing macros [1{/usr/local/texlive/2011/texmf-var/font
+s/map/pdftex/updmap/pdftex.map}]
+<imgs/tasks_per_sec.png, id=14, 940.51375pt x 429.605pt>
+<use imgs/tasks_per_sec.png> (./paper.bbl)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -164,5 +151,5 @@ type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2011/texmf-dist/fonts/ty
 pe1/urw/times/utmb8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/ti
 mes/utmbi8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmr8
 a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (2 pages, 265210 bytes).
+Output written on paper.pdf (2 pages, 134023 bytes).
 Transcript written on paper.log.

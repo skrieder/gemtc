@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  3 OCT 2013 14:03
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  5 OCT 2013 22:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -432,57 +432,47 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 ABD: EveryShipout initializing macros
-LaTeX Font Info:    Calculating math sizes for size <11> on input line 72.
+LaTeX Font Info:    Calculating math sizes for size <11> on input line 71.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <11> on input line 72.
+(Font)              <11> on input line 71.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7.69997> on input line 72.
+(Font)              <7.69997> on input line 71.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5.5> on input line 72.
+(Font)              <5.5> on input line 71.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 72.
+(Font)              <8> on input line 71.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 72.
+(Font)              <6> on input line 71.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 72.
+(Font)              <5> on input line 71.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 72.
+(Font)              <7> on input line 71.
+Missing character: There is no â in font ptmb7t!
+Missing character: There is no € in font ptmb7t!
+Missing character: There is no ™ in font ptmb7t!
+Missing character: There is no â in font ptmb7t!
+Missing character: There is no € in font ptmb7t!
+Missing character: There is no ™ in font ptmb7t!
+Missing character: There is no â in font ptmb7t!
+Missing character: There is no € in font ptmb7t!
+Missing character: There is no ™ in font ptmb7t!
+Missing character: There is no â in font ptmr7t!
+Missing character: There is no € in font ptmr7t!
+Missing character: There is no ˜ in font ptmr7t!
+Missing character: There is no â in font ptmr7t!
+Missing character: There is no € in font ptmr7t!
+Missing character: There is no ™ in font ptmr7t!
+ [1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
-Underfull \hbox (badness 1533) in paragraph at lines 75--77
-[]\OT1/ptm/b/it/9 Abstract\OT1/ptm/b/n/9 ---This work an-a-lyzes the per-for-ma
-nce in-creases
- []
 
-<imgs/md_proxy_arch.png, id=4, 967.615pt x 450.68375pt>
-File: imgs/md_proxy_arch.png Graphic file (type png)
-
-<use imgs/md_proxy_arch.png>
-Package pdftex.def Info: imgs/md_proxy_arch.png used on input line 95.
-(pdftex.def)             Requested size: 227.62204pt x 106.01384pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<imgs/cpu_gpu.png, id=5, 940.51375pt x 415.5525pt>
-File: imgs/cpu_gpu.png Graphic file (type png)
- <use imgs/cpu_gpu.png>
-Package pdftex.def Info: imgs/cpu_gpu.png used on input line 109.
-(pdftex.def)             Requested size: 227.62204pt x 100.57162pt.
-
-<imgs/tasks_per_sec.png, id=6, 940.51375pt x 429.605pt>
+]
+<imgs/tasks_per_sec.png, id=14, 940.51375pt x 429.605pt>
 File: imgs/tasks_per_sec.png Graphic file (type png)
 
 <use imgs/tasks_per_sec.png>
-Package pdftex.def Info: imgs/tasks_per_sec.png used on input line 115.
+Package pdftex.def Info: imgs/tasks_per_sec.png used on input line 111.
 (pdftex.def)             Requested size: 227.62204pt x 103.9726pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
-
-
- <./imgs/md_proxy_arch.png> <./imgs/cpu_gpu.png>] (./paper.bbl)
+ (./paper.bbl)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -494,27 +484,25 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[2
-
- <./imgs/tasks_per_sec.png>] (./paper.aux) ) 
+[2 <./imgs/tasks_per_sec.png>] (./paper.aux) ) 
 Here is how much of TeX's memory you used:
- 8690 strings out of 493633
- 162475 string characters out of 3143378
- 208405 words of memory out of 3000000
- 11820 multiletter control sequences out of 15000+200000
- 36253 words of font info for 72 fonts, out of 3000000 for 9000
+ 8676 strings out of 493633
+ 162185 string characters out of 3143378
+ 210380 words of memory out of 3000000
+ 11807 multiletter control sequences out of 15000+200000
+ 37389 words of font info for 73 fonts, out of 3000000 for 9000
  832 hyphenation exceptions out of 8191
- 49i,13n,53p,671b,353s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/local/texlive/2011/texmf-dist
-/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2011/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/
-times/utmb8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmb
-i8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></
-usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (2 pages, 265210 bytes).
+ 49i,13n,53p,1809b,353s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/local/texlive/2011/texmf-di
+st/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2011/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/ur
+w/times/utmb8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/ut
+mbi8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
+</usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on paper.pdf (2 pages, 134023 bytes).
 PDF statistics:
- 38 PDF objects out of 1000 (max. 8388607)
+ 36 PDF objects out of 1000 (max. 8388607)
  25 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 28 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 18 words of extra memory for PDF output out of 10000 (max. 10000000)
 

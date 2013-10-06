@@ -32,20 +32,4 @@ I.~Raicu, Z.~Zhang, M.~Wilde, I.~Foster, P.~Beckman, K.~Iskra, and B.~Clifford,
   \emph{Proceedings of the 2008 ACM/IEEE conference on Supercomputing}.\hskip
   1em plus 0.5em minus 0.4em\relax IEEE Press, 2008, p.~22.
 
-\bibitem{kriederGCASR12}
-S.~J. Krieder and I.~Raicu, ``An overview of current and future computing
-  accelerator architectures,'' 1st Greater Chicago Area System Research
-  Workshop Poster Session, 2012.
-
-\bibitem{wozniak13swift}
-J.~M. Wozniak, T.~G. Armstrong, M.~Wilde, D.~S. Katz, E.~Lusk, and I.~T.
-  Foster, ``Swift/t: Large-scale application composition via distributedmemory
-  data flow processing,'' in \emph{Proc. CCGrid}, vol.~13.
-
-\bibitem{zhao2007swift}
-Y.~Zhao, M.~Hategan, B.~Clifford, I.~Foster, G.~Von~Laszewski, V.~Nefedova,
-  I.~Raicu, T.~Stef-Praun, and M.~Wilde, ``Swift: Fast, reliable, loosely
-  coupled parallel computation,'' in \emph{Services, 2007 IEEE Congress
-  on}.\hskip 1em plus 0.5em minus 0.4em\relax IEEE, 2007, pp. 199--206.
-
 \end{thebibliography}
