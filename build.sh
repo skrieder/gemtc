@@ -1,7 +1,25 @@
 # Compile the GEMTC framework into a shared library
 echo 'Compiling the framework with NVCC'
 nvcc -arch=sm_20 -o libgemtc.so --shared -Xcompiler -fPIC gemtc.cu
-
+echo"TESTING!!!!"
+echo"TESTING!!!!"
+echo"TESTING!!!!"
+echo"TESTING!!!!"
+echo"TESTING!!!!"
+echo"TESTING!!!!"
+echo"TESTING!!!!"
+echo"TESTING!!!!"
+echo"TESTING!!!!"
+echo"TESTING!!!!"
+echo"TESTING!!!!"
+echo"TESTING!!!!"
+echo"TESTING!!!!"
+echo"TESTING!!!!"
+echo"TESTING!!!!"
+echo"TESTING!!!!"
+echo"TESTING!!!!"
+echo"TESTING!!!!"
+echo"TESTING!!!!"
 #echo 'Compiling the different wrapper functions'
 # Compile the gemtc_setup wrapper
 #gcc -std=c99 -I/usr/local/cuda/include -o bin/gemtc_setup -L. -ltest c_wrappers/gemtc_setup.c
