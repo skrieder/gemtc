@@ -331,13 +331,11 @@ void compute ( int np, int nd, double pos[], double vel[],
 
         for ( i = 0; i < nd; i++ )
         {
-          f[i+k*nd] = f[i+k*nd] - rij[i] * sin ( 2.0 * d2 ) / d;
+          f[i+k*nd] -= rij[i] * sin ( 2.0 * d2 ) / d;
         }
       }
     }
-/*
-  Compute the kinetic energy.
-*/
+    //  Compute the kinetic energy.
     for ( i = 0; i < nd; i++ )
     {
       ke = ke + vel[i+k*nd] * vel[i+k*nd];

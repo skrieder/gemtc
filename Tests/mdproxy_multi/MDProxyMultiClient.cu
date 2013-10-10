@@ -88,6 +88,8 @@ int main(int argc, char **argv){ //Modify this to take the correct parameters.
 
   // dump params
   dumpParams(comp_table);
+  
+  gemtcCleanup();
 
   return 0; 
 }
@@ -135,7 +137,7 @@ void dumpParams(void* params){
   int i;
   printf("#, pos, vel, acc, f\n");
   for(i=0; i<size; i++){
-    printf("%d: %.2f %.2f %.2f %.2f\n", i, pos[i], vel[i], acc[i], f[i]);
+    printf("%d: %.16f %.2f %.2f %.2f\n", i, pos[i], vel[i], acc[i], f[i]);
   }
 }
 

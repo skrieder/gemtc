@@ -1,4 +1,13 @@
-#1
-nvcc -arch=sm_11  APIThreadTest.cu -o ../../bin/APIThread
-
-#nvcc -arch=sm_11 -o libtest.so --shared -Xcompiler -fPIC gemtc.cu
+#!/bin/sh
+/usr/local/cuda-5.0/bin/nvcc -arch=sm_11  APIThreadTest.cu -o ../../bin/APIThread
+echo "Testing!!!!"
+echo "Testing!!!!"
+echo "Testing!!!!"
+echo "Testing!!!!"
+echo "Testing!!!!"
+echo "Testing!!!!"
+echo "Testing!!!!"
+echo "Testing!!!!"
+echo "Testing!!!!"
+echo "Testing!!!!"
+exit

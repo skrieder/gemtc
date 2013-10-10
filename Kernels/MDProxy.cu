@@ -81,7 +81,8 @@ __device__ void UpdatePosVelAccel_Multi(void* params){
   double *vel = pos + size;
   double *acc = vel + size; 
   double *f = acc + size;  
-  double dt = .0001; 
+  double dt = 1; //changes results
+  //double dt = .0001; 
   int i,j;
   double rmass = 1.0 / mass;
 
@@ -89,7 +90,9 @@ __device__ void UpdatePosVelAccel_Multi(void* params){
   //Begin computation
   for(j=0; j<np; j++){
     for ( i = 0 ; i < nd; i ++){
-      pos[i+j*nd] += vel[i+j*nd] * dt + 0.5 * acc[i+j*nd] * dt * dt;   
+      pos[i+j*nd] = pos[i+j*nd] + vel[i+j*nd] * dt + 0.5 * acc[i+j*nd] * dt * dt;
+      //pos[i+j*nd] += vel[i+j*nd] * dt + 0.5 * acc[i+j*nd] * dt * dt;   
+      //pos[i+j*nd] = 0;
       vel[i+j*nd] += 0.5 * dt * (f[i+j*nd] * rmass + acc[i+j*nd]);
       acc[i+j*nd] = f[i+j*nd] * rmass;
     }
@@ -97,6 +100,10 @@ __device__ void UpdatePosVelAccel_Multi(void* params){
 }
 
 __device__ void MDProxy(void* params){
-  ComputeParticles_Multi(params);
-  UpdatePosVelAccel_Multi(params);
+  int i;
+  int num_steps = 2;
+  for(i=0; i<num_steps; i++){
+    ComputeParticles_Multi(params);
+    UpdatePosVelAccel_Multi(params);
+  }
 }
