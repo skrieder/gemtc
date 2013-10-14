@@ -1,6 +1,6 @@
-all: mem-test
+all: memtest
 
-mem-test:
-	nvcc -o mem-test hostToDevAsync.cu
+memtest:
+	nvcc -o memtest memtest.cu
 clean:
-	rm mem-test
+	rm memtest
