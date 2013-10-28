@@ -1,5 +1,4 @@
 #include <stdio.h>
-
 #include "Kernels/gemtcKernelLib.cu"
 #include "Kernels/AddSleep.cu"
 #include "Kernels/Square.cu"
