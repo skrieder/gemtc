@@ -2,8 +2,10 @@
 
 #include "Kernels/gemtcKernelLib.cu"
 #include "Kernels/AddSleep.cu"
+#include "Kernels/Square.cu"
 #include "Kernels/VecAdd.cu"
 #include "Kernels/VecDot.cu"
+#include "Kernels/VecSqrt.cu"
 #include "Kernels/MatrixSquare.cu"
 #include "Kernels/MatrixMultiply.cu"
 #include "Kernels/MatrixTranspose.cu"
@@ -123,6 +125,15 @@ __device__ JobPointer executeJob(JobPointer currentJob){
     case 20:
       //Only use this kernel if you are doing multi-node.
       MDProxy(currentJob->params);
+      break;
+    case 21:
+      VecSqrt(currentJob->params);
+      break;
+    case 22:
+      VecSqrt(currentJob->params);
+      break;
+    case 23:
+      Square(currentJob->params);
       break;
   }
   return currentJob;
