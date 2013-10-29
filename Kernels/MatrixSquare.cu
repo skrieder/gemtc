@@ -52,16 +52,21 @@ a and b are used to number these large blocks:
 Within a block of BSxBS, thread i will process the elements at loc[k][i] for k:0..31
    */
 
+  // hard coded warp size
+    int WarpSize = 32;
 
+  // unbox params
     float *input = (float *) param;
 
+    //    int MW = (int)*input;
 
     int MW = (int)input[0];   //Matrix Width
-    float* matrix = input+1;
-    float* matrixOut = matrix + MW*MW;
+    float* matrix = input+1; // A pointer to where the input matrix starts
+    float* matrixOut = matrix + MW*MW; // matrixout pointer
 #if 1 
-    int WarpSize = 32;
+    //8 * 8 = 64 elements in each block, one block per warp at a time
     int BS = 8;  //Block Side length, If changed, fix the size of values array below;
+
 
     int ID = gemtcThreadID();
     int IDx = ID%BS;
@@ -69,12 +74,17 @@ Within a block of BSxBS, thread i will process the elements at loc[k][i] for k:0
     int numY = WarpSize/BS;  //If BS is 8, then numY is 4, because there is row 0,1,2 and 3
     int ElePerThr = BS*BS/WarpSize; //Elements per block to be processed by each thread
 
+    // values[x] = BS * BS / threads in warp (32) 
     float values[2];  //Used to be ElePerThr but needs to have constant
+
+    // zero out the memory
     for(int c=0;c<ElePerThr;c++){
       values[c]=0;
     }
 
+    // shared memory for all threads in warp
     float *shared1 = (float *) gemtcSharedMemory();
+    // a second shared memory pointer
     float *shared2 = shared1 + sizeof(float)*BS*BS;
 
     int astep = BS;
@@ -94,6 +104,7 @@ Within a block of BSxBS, thread i will process the elements at loc[k][i] for k:0
 	    shared2[IDx+IDy*BS+WarpSize*c] = matrix[b+k*BS+IDx+(IDy+c*numY)*MW];
 	  }
 
+	  // sum
 	  for(int c=0;c<ElePerThr;c++){
 	    //update running values for result
 	    for(int i=0;i<BS;i++){
@@ -101,6 +112,7 @@ Within a block of BSxBS, thread i will process the elements at loc[k][i] for k:0
 	    }
 	  }
 	}
+	// write result to outmatrix
 	for(int c=0;c<ElePerThr;c++){
 	  matrixOut[a+b+IDx+(IDy+c*numY)*MW] = values[c];
 	}

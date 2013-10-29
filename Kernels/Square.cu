@@ -8,7 +8,12 @@ __device__ int Square(void *x)
   //  int *temp = (int *) malloc(sizeof(int));
 
   // which is equivalent to sleeping for kernel_time microseconds
-  *time = 1337;
+  
+  int i = *time;
+
+  int j = i * i;
+
+  *time = j;
 
   //x = (void *) temp;
 

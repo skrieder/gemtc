@@ -2,6 +2,35 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+void printStart(void *param){
+
+  printf("in print\n");
+  float *input = (float *) param;
+
+  //    int MW = (int)*input;                                                                          
+
+  int MW = (int)input[0];   //Matrix Width                                                             
+
+  printf("width %d\n", MW);
+
+  float* matrix = input+1; // A pointer to where the input matrix starts                               
+  float* matrixOut = matrix + MW*MW;
+
+  int i;
+  for(i=0; i<(MW*MW); i++){
+    printf("%f ", matrix[i]);
+    if (i%32 == 0)
+	   printf("\n");
+  }
+
+  for(i=0; i<(MW*MW); i++){
+    printf("%f ", matrixOut[i]);
+    if (i%32 == 0)
+	   printf("\n");
+  }
+
+}
+
 int main(int argc, char **argv){
   int NUM_TASKS, LOOP_SIZE, MATRIX_SIZE;
 
@@ -27,6 +56,9 @@ int main(int argc, char **argv){
     h_params[j]= ((float) rand())/INT_MAX;
   }
 
+  // 
+  printStart(h_params);
+
   for(j=0; j<NUM_TASKS/LOOP_SIZE; j++){
     int i;
     for(i=0; i<LOOP_SIZE; i++){
@@ -50,6 +82,7 @@ int main(int argc, char **argv){
       ret = NULL;
     }
   }
+  printStart(h_params);
   gemtcCleanup();
   free(h_params);
   return 0;

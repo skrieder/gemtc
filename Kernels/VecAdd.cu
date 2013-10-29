@@ -1,7 +1,13 @@
 #include <stdio.h>
 __device__ void VecAdd ( void* param1)
 {
+   // warp hard coded
+   int warp_size = 32;
+
+   // unbox params
    float* mem = (float*)param1;
+
+
    int size = (int)mem[0];
 
    int As   = (int)mem[1];
@@ -9,7 +15,6 @@ __device__ void VecAdd ( void* param1)
 
    float* C = A + As*size;
 
-   int warp_size = 32;
    //C[tid] = A1[tid] + A2[tid] + A3[tid] + ...;
 
    int i;

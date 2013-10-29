@@ -29,11 +29,11 @@ void *Work(void *param){
       while(ret==NULL){
         gemtcPoll(&id, &ret);
       }
-      void *comp_table = malloc(sizeof(MALLOC_SIZE));
-      gemtcMemcpyDeviceToHost(comp_table, ret, MALLOC_SIZE);
-      int *p = (int *)comp_table;
-      int j = *p;
-      printf("Final number is: %i\n", *p);
+      //void *comp_table = malloc(sizeof(MALLOC_SIZE));
+      gemtcMemcpyDeviceToHost(h_sleepTime, ret, MALLOC_SIZE);
+      //      int *p = (int *)comp_table;
+      //int j = *p;
+      printf("Final number is: %i\n", *h_sleepTime);
       gemtcGPUFree(ret);
       ret = NULL;
     }
