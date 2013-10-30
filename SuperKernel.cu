@@ -19,6 +19,8 @@
 #include "Kernels/LCSubstring.cu"
 #include "Kernels/MDProxy.cu"
 #include "Kernels/MDFake.cu"
+#include "Kernels/ArrayAtomic.cu"
+#include "Kernels/ArrayRotate.cu"
 //#include "Kernels/Sort.cu"
 
 
@@ -133,6 +135,12 @@ __device__ JobPointer executeJob(JobPointer currentJob){
       break;
     case 23:
       Square(currentJob->params);
+      break;
+    case 24:
+      ArrayAtomic(currentJob->params);
+      break;
+    case 25:
+      ArrayRotate(currentJob->params);
       break;
   }
   return currentJob;
