@@ -3,6 +3,10 @@
 ///////////////////////////////////////////////////
 
 __device__ void ComputeParticles_Multi(void* params){  
+
+  //CUDA Threads
+  int warp_size = 32;
+  int tid = threadIdx.x%warp_size;
   
   //Extract all the values. 
   long int np = *((long int*) params);
@@ -24,10 +28,6 @@ __device__ void ComputeParticles_Multi(void* params){
   double PI2 = 3.141592653589793 / 2.0;
   double rij[3];
 
-  //CUDA Threads
-  int warp_size = 32;
-  int tid = threadIdx.x%warp_size;
- 
   //Compute all the potential energy and forces.
   //for(k=0; k<np; k++){
   while(tid<np){
@@ -58,7 +58,7 @@ __device__ void ComputeParticles_Multi(void* params){
 
   int tid2 = threadIdx.x%warp_size;
   //  for(k=0;k<np;k++){
-  while(tid<np){
+  while(tid2<np){
     // compute kinetic
     for(i=0; i<nd; i++){
       ke[tid2] += vel[i+tid2*nd] * vel[i+tid2*nd];
@@ -75,6 +75,8 @@ __device__ void UpdatePosVelAccel_Multi(void* params){
   
   int size = np * nd;
 
+  int warp_size = 32;
+
   double mass = *(((double*)params) + 2); 
    
   double *pos = ((double*)params) + 3;
@@ -86,13 +88,13 @@ __device__ void UpdatePosVelAccel_Multi(void* params){
   int i,j;
   double rmass = 1.0 / mass;
 
+  //  int tid2 = threadIdx.x%warp_size;
+
   //O(np*nd)
   //Begin computation
   for(j=0; j<np; j++){
-    for ( i = 0 ; i < nd; i ++){
+    for ( i = threadIdx.x%warp_size; i < nd; i += warp_size){
       pos[i+j*nd] = pos[i+j*nd] + vel[i+j*nd] * dt + 0.5 * acc[i+j*nd] * dt * dt;
-      //pos[i+j*nd] += vel[i+j*nd] * dt + 0.5 * acc[i+j*nd] * dt * dt;   
-      //pos[i+j*nd] = 0;
       vel[i+j*nd] += 0.5 * dt * (f[i+j*nd] * rmass + acc[i+j*nd]);
       acc[i+j*nd] = f[i+j*nd] * rmass;
     }
@@ -101,7 +103,7 @@ __device__ void UpdatePosVelAccel_Multi(void* params){
 
 __device__ void MDProxy(void* params){
   int i;
-  int num_steps = 2;
+  int num_steps = 8;
   for(i=0; i<num_steps; i++){
     ComputeParticles_Multi(params);
     UpdatePosVelAccel_Multi(params);
