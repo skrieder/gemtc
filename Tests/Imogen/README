@@ -1,0 +1,83 @@
+(I)Notes:-
+
+This directory contains 4 subdirectories and 1 compilation file "build.sh"
+
+1) Sub-directory "cuda_src" contains source code for benchmarking GeMTC.
+   Files inside "cuda_src" are :-
+   a) ArrayAtomicTest.cu:-
+      It contains Benchmarking code for Imogen's ported kernel from "gpuImogen/gpuclass/cudaArrayAtomic.cu"
+      The corresponding Kernel file is "gemtc/Kernels/ArrayAtomic.cu"
+          Purpose of "gemtc/Kernels/ArrayAtomic.cu":- 
+          To perform operation on single array. Useful when parameters like density
+          are required to be kept to have certain minimum value or certain maximum value
+          or require NaNs to be replaced by zeros.
+
+   b) ArrayRotateTest.cu:-
+      It contains Benchmarking code for Imogen's ported kernel from "gpuImogen/gpuclass/cudaArrayRotate.cu"
+      The corresponding Kernel file is "gemtc/Kernels/ArrayRotate.cu"
+          Purpose of "gemtc/Kernels/ArrayRotate.cu":-
+          To perform array rotation
+
+   c) FluidTVDTest.cu:-
+      It contains Benchmarking code for Imogen's ported cukern_TVDStep_hydro_uniform() kernel from "gpuImogen/gpuclass/cudaFluidTVD.cu"
+      The corresponding Kernel file is "gemtc/Kernels/FluidTVD.cu"
+          Purpose of "gemtc/Kernels/FluidTVD.cu":-
+          It implements Cuda Fluid TVD function. It takes a single forward-time step, CFD  of the conserved-transport
+          part of the fluid equations using a total variation diminishing scheme to perform a non-oscillatory update. We
+          migrated only purehyro kernel, hence magnetic parameters are all 0.
+
+   d) FluidWTest.cu:-
+      It contains Benchmarking code for Imogen's ported cukern_Wstep_hydro_uniform() kernel from "gpuImogen/gpuclass/cudaFluidW.cu"
+      The corresponding Kernel file is "gemtc/Kernels/FluidW.cu"
+          Purpose of "gemtc/Kernels/FluidW.cu":-
+          This function calculates a first order accurate half-step of the conserved transport part of the fluid equations (CFD)
+          which is used as the predictor input to the matching TVD function. The kernel implemented is purehydro implying magnetic
+          parameters are zero.
+
+   e) freezeAndPtotTest.cu:-
+      It contains Benchmarking code for Imogen's ported cukern_FreezeSpeed_hydro() kernel from "gpuImogen/gpuclass/freezeAndPtot.cu"
+      The corresponding Kernel file is "gemtc/Kernels/freezeAndPtot.cu"
+          Purpose of "gemtc/Kernels/freezeAndPtot.cu":-
+          This function is used to derive pressure and freeze parameters to enforce minimum pressure
+
+   f) Pi.cu:-
+      It is NOT an Imogen application but was built for demo purpose.
+      The corresponding Kernel file is "gemtc/Kernels/Pi.cu"
+          Purpose of "gemtc/Kernels/Pi.cu":-
+          xiProgram to compute Pi using Monte Carlo method.
+
+   g) memory_bugger.cu:-
+      It is NOT an Imogen application bust was built to find the GeMTC memory leak bug.
+      There is NO kernel file for it.
+
+2) Sub-directory "host_src" contains host code for all kernels in cuda_src with same file name.
+   Purpose is for comparing comparision gemtc benchmark with host equivalent.
+
+3) Sub-directory "gemtc_imogen_bin" is the directory where "build.sh" will genetate binaries for "cuda_src"
+
+4) Sub-directory "host_bin" is the directory where "build.sh" will genetate binaries for "host_src"
+
+5) Sub-directory "data' contains data inputs for "FluidTVDTest.cu" all other have the data genetator function inbuilt inside the benchmarking program.
+=====================================================================================================================================================
+
+
+(II)COMPILING:-
+  Run ./build.sh
+=====================================================================================================================================================
+
+
+(III)EXECUTING:-
+=====================================================================================================================================================
+  Goto respective bin directory "emtc_imogen_bin" or "host_bin"
+and run ./<program_name> it will pop further usage guidance.
+
+For example:-
+[dgahlot@jarvis Imogen]$ cd gemtc_imogen_bin
+[dgahlot@jarvis gemtc_imogen_bin]$ ./ArrayAtomicTest
+This test requires three parameters:
+int NUM_TASKS, int LOOP_SIZE, int ARRAY_SIZE
+where
+NUM_TASKS is the total number ArrayAtomic tasks to be sent to gemtc
+LOOP_SIZE is the number of tasks should be sent to gemtc before waiting for results
+ARRAY_SIZE is the side length of the matrix that is going to be squared
+

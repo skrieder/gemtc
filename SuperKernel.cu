@@ -21,6 +21,11 @@
 #include "Kernels/MDFake.cu"
 #include "Kernels/ArrayAtomic.cu"
 #include "Kernels/ArrayRotate.cu"
+#include "Kernels/SciColSim.cu"
+#include "Kernels/FluidW.cu"
+#include "Kernels/freezeAndPtot.cu"
+#include "Kernels/FluidTVD.cu"
+#include "Kernels/Pi.cu"
 //#include "Kernels/Sort.cu"
 
 
@@ -137,10 +142,47 @@ __device__ JobPointer executeJob(JobPointer currentJob){
       Square(currentJob->params);
       break;
     case 24:
+      /*
+       * Imogen's ported kernel from "gpuImogen/gpuclass/cudaArrayAtomic.cu"
+       */
       ArrayAtomic(currentJob->params);
       break;
     case 25:
+      /*
+       * Imogen's ported kernel from "gpuImogen/gpuclass/cudaArrayRotate.cu"
+       */
       ArrayRotate(currentJob->params);
+      break;
+    case 26:
+      /*
+       * SciColSim's expensive function update_probabilities_all_visible() from 
+       * "scicolsim-2013-03-07/src/optimizer.cpp"
+       */
+      gemtc_scicolsim(currentJob->params);
+      break;
+    case 27:
+      /*
+       * Imogen's ported cukern_Wstep_hydro_uniform() kernel from "gpuImogen/gpuclass/cudaFluidW.cu"
+       */
+      cukern_Wstep_hydro_uniform(currentJob->params);
+      break;
+    case 28:
+      /*
+       * Imogen's ported cukern_FreezeSpeed_hydro() kernel from "gpuImogen/gpuclass/freezeAndPtot.cu"
+       */
+      cukern_FreezeSpeed_hydro(currentJob->params);
+      break;
+    case 29:
+      /*
+       * Imogen's ported cukern_TVDStep_hydro_uniform() kernel from "gpuImogen/gpuclass/cudaFluidTVD.cu"
+       */
+      cukern_TVDStep_hydro_uniform(currentJob->params);
+      break;
+    case 30:
+      /*
+       * Calculates PI using Monte Carlo simulation 
+       */
+      gemtc_pi(currentJob->params);
       break;
   }
   return currentJob;

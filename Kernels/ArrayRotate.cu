@@ -1,41 +1,74 @@
 /*
- * Application:- Imogen
+ * Application:- Imogen's ported kernel from "gpuImogen/gpuclass/cudaArrayRotate.cu"
  * Purpose:-
  *     To perform array rotation.
  */
 
 /*
- * Maximum size of the array which can be entertained is 32*32
- * In case more thant that is needed we need to increase the below
- * definition
+ * Shader frequency of GTX 480 
+ * Better will be to deriver this in case we are simulation in a different GPU
+ * But calling function to derive frequncy so many times will be still expensive
+ * Tip:- Get this from the caller as input parameter.
  */
+#define SHADER_CLOCK 1401000
+
 /*
  * Transpose 2D array
  */
 __device__ void ArrayTranspose2D(void *params)
 {
-    /*
-     * Declare shared array, this is shared between all threads
-     */
-    double *tmp = (double *) gemtcSharedMemory();
+    int j;
 
     /*
-     * Get input parameters
+     * Kernel Benchmarking parameters
+     * Uncomment to benchmark inside CUDA kernel.
+     * Don't uncomment otherwise else it will lead to unnecessary console logs.
+     */
+    //clock_t start, stop;
+    //start = clock();
+    //printf("Initiating\n");
+
+    /*
+     * Declare shared array, this is shared between all threads
+     * Do NOT use it, it will restrict the maximum data-set on which we can work.
+     * Till mid-semester report we were using it.
+     */
+    //double *tmp = (double *) gemtcSharedMemory();
+
+    /*
+     * Get input parameters, Unpack parameters
      */
     double* paramsIn = (double*)params;
 
     /*
      * First argument is basis of getting into this function
+     * Remmeber that while unpacking we will be deriving offsets.
+     * These offsets are the positions where we will find input parameters.
+     * Be careful on pointer arithmetic. If you get segmentation-faul this is 
+     * the first place to check for.
      */
     paramsIn = paramsIn + 1;
+    
+    /*
+     * Get nx (x-dimension)
+     */
     int nx = (int)paramsIn[0];
     
+    /*
+     * Get ny (y-dimension)
+     */
     paramsIn = paramsIn + 1;
     int ny = (int)paramsIn[0];
 
+    /*
+     * Get source 2D array
+     */
     paramsIn = paramsIn + 1;
     double* src = (double*)paramsIn;
 
+    /*
+     * Get destination 2D array
+     */
     paramsIn = paramsIn + nx*ny;
     double* dst = (double*)paramsIn;
 
@@ -43,51 +76,31 @@ __device__ void ArrayTranspose2D(void *params)
      * CUDA Threads
      */
     int warp_size = 32;
+    /*
+     * Get thread tid (we should keep it from 0-31 range only)
+     */
     int tid = threadIdx.x % warp_size;
 
     /*
-     * Local parameters
+     * Fill the destination 2-D array in rotated fashion.
+     * One thread incharge of 1 row, hence skip next 32 entries 
+     * for each thread.
      */
-    int myx    = tid;
-    int myy    = threadIdx.y;
-    int myAddr = myx*ny + myy;
-
-    /*
-     * Each thread has to copy data from source into shared memory 
-     */
-    while (myx < nx) {
-        myy = threadIdx.y;
-        while (myy < ny) {
-            myAddr = myx*ny + myy;
-            tmp[myy*ny + myx] = src[myAddr];
-            myy++;
+    for (; tid < nx; tid+=warp_size) {
+        for (j = 0; j < ny; j++) {
+            dst[tid*ny + j] = src[j*nx + tid];
         }
-        myx += warp_size;
     }
 
     /*
-     * No need to sync within warp? Sync up
-     * http://stackoverflow.com/questions/10205245/cuda-syncthreads-usage-within-a-warp ?
+     * Kernel Benchmarking parameters
+     * Uncomment to benchmark inside CUDA kernel.
+     * Don't uncomment otherwise else it will lead to unnecessary console logs.
      */
-    //__syncthreads();
-#if 1
-    myx    = tid;
-    myy    = threadIdx.y;
-    myAddr = myx*ny + myy;
-
-    /*
-     * Transpose using the shared memory 
-     */
-    while (myx < nx) {
-        myy = threadIdx.y;
-        while (myy < ny) {
-            myAddr = myx*ny + myy;
-            dst[myAddr] = tmp[myx*ny + myy];
-            myy++;
-        }
-        myx += warp_size;
-    }
-#endif
+    //printf("DONE\n");
+    //stop = clock();
+    //float time = (float)(stop - start)/(float)SHADER_CLOCK;
+    //printf("Time taken %f ms\n", time);    
 }
 
 __device__ void ArrayExchangeY(void *params)
@@ -265,17 +278,32 @@ __device__ void ArrayExchangeZ(void *params)
     }
 }
 
+/*
+ * Sub-kernel selection function, Superkernel will call this function only
+ */
 __device__ void ArrayRotate(void *params)
 {
+    /*
+     * Get the selection option
+     */
     double *operation = (double*)params;
 
     switch((int)*operation) {
+    /*
+     * Call exchange y for selection option 1
+     */
     case 1:
         ArrayExchangeY(params);
         break;
+    /*
+     * Call exchange z for selection option 1
+     */
     case 2:
         ArrayExchangeZ(params);
         break;
+    /*
+     * Call exchange transpose2D for selection option 1
+     */
     case 3:
         ArrayTranspose2D(params);
         break;

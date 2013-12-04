@@ -1,0 +1,56 @@
+SciColSim:-
+
+Notes:-
+There are 4 modified files for porting expensive function inside GeMTC.
+1) build.sh
+   This file contains the inclusion of gemtc shared object file while compiling SciColSim.
+
+2) optimizer.cpp
+   This file contains the modifed update_probabilities_all_visible() to make push task to
+   gemtc.
+
+3) optimizer-multi-loss.cpp
+   This file contains the gemtcSetup() call.
+
+4) test-annealing-exm.sh
+   This file contains modified launch parameters to make scicolsim run with GeMTC.
+
+How to run scicolsim:-
+======================
+I want ot avoid unnecessary wastage of space by uploading "scicolsim-2013-03-07.tar.gz" inside gemtc git
+
+Hence only relavant files are present in gemtc's SciColSim folder.
+
+Here are the steps:-
+1) Download gemtc from git repository.
+
+2) Choose the kernel you wish to simulate inside Kernels directory.
+   a) File name of the kernel must be "SciColSim.cu" which will get compiled by gemtc's build.sh
+   b) By default SciColSim.cu contains 1 warp kernel
+   c) SciColSim_Single.cu contains code for 1 thread execution.
+   d) By default 1 warp kernel will be compiled.
+   e) To use 1 thread kernel follow the instructions in "SciColSim_Single.cu".
+
+3) Build gemtc with "build.sh" in gemtc root directory.
+
+4) Copy "scicolsim-2013-03-07.tar.gz" from "https://sites.google.com/site/gemtcproject/applications/scicolsim?pli=1"
+
+5) Unpackage scicolsim-2013-03-07.tar.gz inside "gemtc/Tests"
+
+6) Copy the files from this directory to "gemtc/Tests/scicolsim-2013-03-07" in following manner:-
+   a) Copy build.sh into "gemtc/Tests/scicolsim-2013-03-07/"
+   b) Copy test-annealing-exm.sh into "gemtc/Tests/scicolsim-2013-03-07/"
+   c) Copy optimizer.cpp into "gemtc/Tests/scicolsim-2013-03-07/src/optimizer.cpp"
+   d) Copy optimizer-multi-loss.cpp into "gemtc/Tests/scicolsim-2013-03-07/src"
+  
+7) Goto "gemtc/Tests/scicolsim-2013-03-07/" 
+
+8) Run ./getboost.sh
+
+9) Compile scicolsim by ./build.sh
+
+10) Test scicolsim by running ./test-annealing-exm.sh
+
+11) Reults will appear in "gemtc/Tests/scicolsim-2013-03-07/test" directory
+ 
+
