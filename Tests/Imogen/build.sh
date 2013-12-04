@@ -1,6 +1,7 @@
 CC=nvcc
 CFLAGS=-arch=sm_20
 
+mkdir -p gemtc_imogen_bin
 $CC $CFLAGS -o gemtc_imogen_bin/ArrayAtomicTest cuda_src/ArrayAtomicTest.cu
 $CC $CFLAGS -o gemtc_imogen_bin/ArrayRotateTest cuda_src/ArrayRotateTest.cu
 $CC $CFLAGS -o gemtc_imogen_bin/FluidWTest cuda_src/FluidWTest.cu
