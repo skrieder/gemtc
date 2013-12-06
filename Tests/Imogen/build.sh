@@ -10,6 +10,7 @@ $CC $CFLAGS -o gemtc_imogen_bin/FluidTVDTest cuda_src/FluidTVDTest.cu
 $CC $CFLAGS -o gemtc_imogen_bin/memory_bugger cuda_src/memory_bugger.cu
 $CC $CFLAGS -o gemtc_imogen_bin/Pi cuda_src/Pi.cu
 
+mkdir -p host_bin
 
 $CC $CFLAGS -o host_bin/ArrayAtomic host_src/ArrayAtomic.c
 $CC $CFLAGS -o host_bin/ArrayRotate host_src/ArrayRotate.c

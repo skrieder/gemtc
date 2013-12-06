@@ -47,9 +47,9 @@ int main(int argc, char **argv){
              */
             gemtcMemcpyHostToDevice(d_params, h_params, 90778952);
             /*
-             * TaskType 30 is absent in Gemtc, hence will return immediately
+             * TaskType (GEMTC_MAX_KERNELS + 1)  will be absent in Gemtc, hence will return immediately
              */
-            gemtcPush(30, 32, i+j*10, d_params);
+            gemtcPush((GEMTC_MAX_KERNELS + 1), 32, i+j*10, d_params);
             printf("Submitting job %d\n", (i+j*10));
         }
         printf(" Submission for iteration %d complete\n", j);

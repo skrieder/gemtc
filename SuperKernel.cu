@@ -28,6 +28,10 @@
 #include "Kernels/Pi.cu"
 //#include "Kernels/Sort.cu"
 
+/*
+ * Update this value whenever we add new kernel
+ */
+#define GEMTC_MAX_KERNELS 30
 
 __device__ JobPointer executeJob(volatile JobPointer currentJob);
 
