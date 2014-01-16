@@ -13,7 +13,7 @@ void printStart(void *param){
   printf("\n Matrix - width %d\n", MW);
 
   float* matrix = input+1; // A pointer to where the input matrix starts                               
-  float* matrixOut = matrix + MW*MW;
+  float* matrixOut = matrix + 2*MW*MW;
 
   int i;
   for(i=0; i<(MW*MW); i++){
@@ -28,7 +28,8 @@ void printStart(void *param){
   
   printf("%f ", matrixOut[i]);
   }
-
+  // Add some asserts here
+  // print 'TRUE/SUCCESS'
 }
 
 int main(int argc, char **argv){
@@ -49,10 +50,12 @@ int main(int argc, char **argv){
 
   gemtcSetup(25600, 1);
 
+  int size = sizeof(float)*(1+3*MATRIX_SIZE*MATRIX_SIZE);
+
   int j;
-  float *h_params = (float *) malloc(sizeof(float)*(1+2*MATRIX_SIZE*MATRIX_SIZE));
+  float *h_params = (float *) malloc(size);
   h_params[0] = MATRIX_SIZE;
-  for(j=1; j<MATRIX_SIZE*MATRIX_SIZE+1; j++){
+  for(j=1; j<2*MATRIX_SIZE*MATRIX_SIZE+1; j++){
     h_params[j]= 2; //((float) rand())/INT_MAX;
   }
 
@@ -62,9 +65,9 @@ int main(int argc, char **argv){
   for(j=0; j<NUM_TASKS/LOOP_SIZE; j++){
     int i;
     for(i=0; i<LOOP_SIZE; i++){
-      float *d_params = (float *) gemtcGPUMalloc(sizeof(float)*(1+2*MATRIX_SIZE*MATRIX_SIZE));
+      float *d_params = (float *) gemtcGPUMalloc(size);
 
-      gemtcMemcpyHostToDevice(d_params, h_params, sizeof(float)*(1+2*MATRIX_SIZE*MATRIX_SIZE));
+      gemtcMemcpyHostToDevice(d_params, h_params, size);
       gemtcPush(5, 32, i+j*LOOP_SIZE, d_params);
     }
 
@@ -72,14 +75,20 @@ int main(int argc, char **argv){
       void *ret=NULL;
       int id;
       while(ret==NULL){
-        gemtcPoll(&id, &ret);
-	printf("\nVlaue Returned\n");
+	//        printf("Calling GeMTC Poll...");
+	gemtcPoll(&id, &ret);
+	//printf("complete.\n");
+	
       }
-      gemtcMemcpyDeviceToHost(h_params, 
-                              ret, 
-                              sizeof(float)*(1+2*MATRIX_SIZE*MATRIX_SIZE));
+      printf("Value Returned\n");
+      // Copy back the results
+      gemtcMemcpyDeviceToHost(h_params, ret, size);
 
+      // Free the device pointer
       gemtcGPUFree(ret);
+      //      gemtcGPUFree(&d_params);
+
+      // Do we need to do this?
       ret = NULL;
     }
   }
