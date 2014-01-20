@@ -56,13 +56,15 @@ int main(int argc, char **argv){
     MATRIX_ELEMENT = atoi(argv[4]);
     
   }else{
-    printf("This test requires three parameters:\n");
-    printf("   int NUM_TASKS, int LOOP_SIZE, int MATRIX_SIZE\n");
+    printf("This test requires four parameters:\n");
+    printf("   int NUM_TASKS, int LOOP_SIZE, int MATRIX_SIZE, int STATIC_VALUE\n");
     printf("where  NUM_TASKS is the total numer of vector add tasks to be sent to gemtc\n");
     printf("       LOOP_SIZE is the number of tasks should be sent to gemtc before waiting for results\n");
     printf("       MATRIX_SIZE is the side length of the matrix\n");
     printf("       MATRIX_ELEMENT is the element to be used in the matrix\n");
+    printf("       STATIC_VALUE is the integer value used as all elements in the matrix.\n");
     
+
     exit(1);
   }
 
