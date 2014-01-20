@@ -26,6 +26,7 @@
 #include "Kernels/freezeAndPtot.cu"
 #include "Kernels/FluidTVD.cu"
 #include "Kernels/Pi.cu"
+#include "Kernels/MatrixDet.cu"
 //#include "Kernels/Sort.cu"
 
 /*
@@ -188,6 +189,10 @@ __device__ JobPointer executeJob(JobPointer currentJob){
        */
       gemtc_pi(currentJob->params);
       break;
+    case 31:
+      //Matrix Determinant ... Newly added by Karthik
+      MatrixDeterminant(currentJob->params);
+      break;	
   }
   return currentJob;
 }
