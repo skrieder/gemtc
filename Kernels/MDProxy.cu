@@ -5,7 +5,7 @@
 __device__ void ComputeParticles_Multi(void* params){  
 
   //CUDA Threads
-  int warp_size = 32;
+  int warp_size = 2;
   int tid = threadIdx.x%warp_size;
   
   //Extract all the values. 
@@ -75,7 +75,7 @@ __device__ void UpdatePosVelAccel_Multi(void* params){
   
   int size = np * nd;
 
-  int warp_size = 32;
+  int warp_size = 2;
 
   double mass = *(((double*)params) + 2); 
    

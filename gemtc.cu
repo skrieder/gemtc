@@ -150,6 +150,7 @@ void gemtcSetup(int QueueSize, int Overfill){
   }
   if(Overfill==2){
     warps=1;
+    blocks=1;
   }
 
   printf("GeMTC Launched Workers:  %d\n", warps*blocks);
