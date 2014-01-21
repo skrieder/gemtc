@@ -7,8 +7,14 @@ __device__ void MatrixMultiply(void *input)
     float* inputIn = (float*)input;
     int matrixWidth = inputIn[0];
     float *matrixA = inputIn+1;
+    
+    float *matrixB = matrixA + matrixWidth*matrixWidth;
+    float *matrixOut = matrixA + 2*matrixWidth*matrixWidth;
+    
+    // Inlcude the oommented for printing the input and output
+   /* 
     int i;
-
+     
     // If master thread, print details
     printf("My thread id is: %d\n", thread);
     if(thread == 0){
@@ -22,7 +28,6 @@ __device__ void MatrixMultiply(void *input)
     }
 
     // Print B
-    float *matrixB = matrixA + matrixWidth*matrixWidth;
 
     if(thread == 0){
       printf("Matrix Width is: %d\n", matrixWidth);
@@ -35,7 +40,6 @@ __device__ void MatrixMultiply(void *input)
     }
 
     // Print C, i.e., The out Matrix
-    float *matrixOut = matrixA + 2*matrixWidth*matrixWidth;
     if(thread == 0){
       printf("Matrix Width is: %d\n", matrixWidth);
       printf("Printing Matrix C:\n");
@@ -45,7 +49,7 @@ __device__ void MatrixMultiply(void *input)
 	printf("%f ", matrixOut[i]);
       }
     }
-        
+   */        
     for (unsigned int i = thread; i < matrixWidth; i=i+32)
     {
       for (unsigned int j = 0; j < matrixWidth; j++) {
