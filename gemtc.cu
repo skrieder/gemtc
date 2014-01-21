@@ -117,6 +117,8 @@ void gemtcSetup(int QueueSize, int Overfill){
 //  1  means  launch the maximum number of warps per SM
 //            Highest Throughput
 //            Extra warps will be "Hyperthreaded"
+//  2  means  DEBUG MODE, only a single warp will be active
+
 
   //initialize locks
   pthread_mutex_init(&memcpyLock, NULL);
@@ -139,14 +141,20 @@ void gemtcSetup(int QueueSize, int Overfill){
   int warp_size = devProp.warpSize;  //Always 32
   int warps;
   int blocks = devProp.multiProcessorCount;
-  if(Overfill){
+  if(Overfill==1){
     warps = devProp.maxThreadsPerBlock/32;
-  }else{
+  }
+  if(Overfill==0){
     int coresPerSM = _ConvertSMVer2Cores(devProp.major, devProp.minor);
     warps = coresPerSM/16;  //A warp runs on 16 cores
   }
+  if(Overfill==2){
+    warps=1;
+  }
 
-  printf("Workers:  %d\n", warps*blocks);
+  printf("GeMTC Launched Workers:  %d\n", warps*blocks);
+  printf("Total Warps Running: %d\n", warps);
+  printf("Total Blocks Launched: %d\n", blocks);
 
   dim3 threads(warp_size*warps, 1, 1);
   dim3 grid(blocks, 1, 1);
