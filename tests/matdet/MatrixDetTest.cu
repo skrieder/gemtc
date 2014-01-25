@@ -6,9 +6,9 @@
 void printStart(void *param,int flag){
   float *input = (float *) param;
   int MW = (int)input[0];   //Matrix Width                                                             
-  printf("Matrix Width %d \n",MW);
+  printf("\nMatrix Width %d \n",MW);
   float* matrixA = input+1; // A pointer to where the input matrix starts 
-  float* resultDet = input + MW*MW;
+  float* resultDet = matrixA + MW*MW;
   int i;
   if(flag ==0){
     printf("Printing Input\nMatrix A: \n");
@@ -24,21 +24,19 @@ void printStart(void *param,int flag){
  }
 }
 int main(int argc, char **argv){
-  int NUM_TASKS, LOOP_SIZE, MATRIX_SIZE,MATRIX_ELEMENT;
+  int NUM_TASKS, LOOP_SIZE, MATRIX_SIZE;
 
-  if(argc>4){
+  if(argc>3){
     NUM_TASKS = atoi(argv[1]);
     LOOP_SIZE = atoi(argv[2]);
     MATRIX_SIZE = atoi(argv[3]);
-    MATRIX_ELEMENT = atoi(argv[4]);
     
   }else{
     printf("This test requires three parameters:\n");
     printf("   int NUM_TASKS, int LOOP_SIZE, int MATRIX_SIZE\n");
     printf("where  NUM_TASKS is the total numer of vector add tasks to be sent to gemtc\n");
     printf("       LOOP_SIZE is the number of tasks should be sent to gemtc before waiting for results\n");
-    printf("       MATRIX_SIZE is the side length of the matrix\n");
-    printf("       MATRIX_ELEMENT is the element to be used in the matrix\n");
+    printf("       MATRIX_SIZE is the side length of the matrix. Either 1 or 2 or 3\n");
     
     exit(1);
   }
@@ -46,7 +44,6 @@ int main(int argc, char **argv){
   gemtcSetup(25600, 1);
 
   int size = sizeof(float)*(2+MATRIX_SIZE*MATRIX_SIZE);
-  printf("MAtrix Sixe %d \n", MATRIX_SIZE);
   int j;
   float *h_params = (float *) malloc(size);
   h_params[0] = MATRIX_SIZE;
