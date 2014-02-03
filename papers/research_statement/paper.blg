@@ -16,43 +16,43 @@ Warning--empty year in wozniak13swift
 Done.
 You've used 9 entries,
             4039 wiz_defined-function locations,
-            861 strings with 9017 characters,
-and the built_in function-call counts, 5502 in all, are:
-= -- 400
-> -- 171
-< -- 22
-+ -- 86
-- -- 37
-* -- 256
-:= -- 841
-add.period$ -- 20
+            860 strings with 8935 characters,
+and the built_in function-call counts, 5207 in all, are:
+= -- 384
+> -- 155
+< -- 21
++ -- 78
+- -- 33
+* -- 238
+:= -- 809
+add.period$ -- 19
 call.type$ -- 9
 change.case$ -- 9
 chr.to.int$ -- 48
 cite$ -- 10
-duplicate$ -- 418
-empty$ -- 488
-format.name$ -- 44
-if$ -- 1240
+duplicate$ -- 395
+empty$ -- 457
+format.name$ -- 40
+if$ -- 1163
 int.to.chr$ -- 0
 int.to.str$ -- 9
-missing$ -- 93
+missing$ -- 88
 newline$ -- 50
 num.names$ -- 9
-pop$ -- 251
+pop$ -- 238
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 420
+skip$ -- 399
 stack$ -- 0
-substring$ -- 125
-swap$ -- 295
-text.length$ -- 6
+substring$ -- 121
+swap$ -- 277
+text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 5
 type$ -- 9
 warning$ -- 1
-while$ -- 18
+while$ -- 17
 width$ -- 10
-write$ -- 99
+write$ -- 98
 (There was 1 warning)

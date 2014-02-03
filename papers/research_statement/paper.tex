@@ -47,7 +47,7 @@
 \begin{document}
 %
 % can use linebreaks \\ within to get better formatting as desired
-\title{Research Statement}
+\title{Statement of Research}
 
 %\author{\IEEEauthorblockN{Auth1\IEEEauthorrefmark{1},
 %Auth2\IEEEauthorrefmark{1}\IEEEauthorrefmark{1}, 
@@ -64,78 +64,18 @@ Department of Computer Science, Illinois Institute of Technology}
 \IEEEpeerreviewmaketitle
 
 \section{Funding History}
-As a 3rd year PhD student I have been supported as both a Teaching and Research Assistant in the Department of Computer Science. As a Teaching Assistant, I have worked with students in multiple courses including: Computer Organization, Systems Programming, Operating Systems, and Advanced Operating Systems. In addition, I was awarded a 2013 Starr/Fieldhouse Fellowship \cite{Starr} from the Illinois Institute of Technology to pursue a collaboration with Argonne National Laboratory and the Computation Institute at the University of Chicago for my work titled “Towards the Support for Many-Task Computing on Many-Core Computing Platforms”.
+As a 3rd year PhD student I have been supported as both a Teaching and Research Assistant in the Department of Computer Science. As a Teaching Assistant, I have mentored students in multiple courses including: Computer Organization, Systems Programming, Operating Systems, Advanced Operating Systems, and Data-Intensive Computing. In addition, I am supported this calendar year by a 2013 Starr/Fieldhouse Fellowship \cite{Starr} from the Illinois Institute of Technology to pursue a collaboration with Argonne National Laboratory and the Computation Institute at the University of Chicago for my work titled ``Towards the Support for Many-Task Computing on Many-Core Computing Platforms''. \cite{kriederGCASR12}\cite{kriederXSEDE12}\cite{kriederSC12}\cite{grimmerEUROSYS13}
 
-\section{Requirements for Laboratory equipment and space and other resources}
-\section{Research and Industrial Collaborations}
 \section{Research Contributions}
-\section{Future Direction}
-
-\section{Current Research Focus}
-I am a 2nd year PhD student in the Data Intensive Distributed Systems Laboratory (DataSys) at the Illinois Institute of Technology. My research involves the enabling of accelerators[3] to efficiently support the Many-Task Computing (MTC) paradigm. My collaborators and I have created a CUDA based GPU framework to allow for the efficient support of MTC workloads on NVIDIA GPUs. [1][2][4] I am also collaborating with the ExM team at the University of Chicago and Argonne National Laboratory to integrate this framework, namely GeMTC, with the parallel scripting system Swift/T to allow applications written in Swift to run computationally intensive portions of their code on accelerators, such as NVIDIA GPGPUs. Finally, I am also collaborating with Northwestern University and evaluating a second approach of this solution which is to virtualize accelerators. [5] I believe that a virtualized accelerator could provide many contributions such as running MIMD workloads on what is traditionally considered SIMD hardware.
-\section{Future Work}
-This work aims to provide an integration between data-flow driven parallel programming systems (e.g. Many-Task Computing - MTC) and hardware accelerators \cite{kriederGCASR12} (e.g. NVIDIA GPUs, AMD GPUs, and the Intel MIC). MTC aims to bridge the gap between two computing paradigms, high throughput computing (HTC) and high-performance computing (HPC). MTC emphasizes using many computing resources over short periods of time to accomplish many computational tasks (i.e. including both dependent and independent tasks), where the primary metrics are measured in seconds.\cite{raicu2008toward} Swift is a particular implementation of the MTC paradigm, and is a parallel programming system that has been successfully used in many large-scale computing applications. \cite{zhao2007swift} The scientific community has adopted Swift as a great way to increase productivity in running complex applications via a dataflow driven programming model, which intrinsically allows implicit parallelism to be harnessed based on data access patterns and dependencies. Swift is a parallel programming system that fits the MTC model, and has been shown to run well on tens of thousands of nodes with task graphs in the range of hundreds of thousands of tasks. This work aims to enable Swift to efficiently use accelerators (such as NVIDIA GPUs and Intel MIC) to further accelerate a wide range of applications, on a growing portion of high-end systems.
-
-\section{GeMTC}
-
-Currently CUDA developers may only have a maximum of 16 kernels running concurrently, one kernel per streaming multiprocessor (SM). The problem is that all kernels have to start and end at the same time, causing extreme inefficiencies in heterogeneous workloads. By working at the warp level we trade local memory for concurrency and we are able to run up to 84 concurrent kernels. \cite{kriederSC12} This middleware allow independent kernels (MIMD style) to be launched and managed on many-core architectures that traditionally only support SIMD. \cite{kriederXSEDE12} In Figure \ref{fig:big_pic} Swift/T is calling the GeMTC API and passing tasks into memory on the device. Warp workers pick up those tasks, execute with the given parameters and place results on an outgoing result queue. This execution model is shown in further detail in Figure \ref{fig:warps}. Finally, Swift/T will poll the device return results from the result queue back to the appropriate task in the swift script. Figure \ref{fig:block_diagram} is a  GK110 block diagram as presented by NVIDIA. \cite{GK110} This diagram demonstrates how the current generation GPUs have O(10) Streaming Multiprocessors (SMX), O(100) Warps, and O(1000) cores.
+Current software and hardware limitations prevent Many-Task Computing (MTC) workloads from leveraging hardware accelerators boasting Many Core Computing architectures. Current work aims to address the programmability gap between MTC and accelerators, through the innovative CUDA middleware GeMTC. By working at the warp level, GeMTC enables heterogeneous task scheduling and 10x number of workers compared to CUDA. In order to span multiple accelerators across nodes, this work has adopted the Swift parallel programming system \cite{zhao2007swift}, which can both support fine grained millisecond tasks and extreme scale supercomputers at 100K-cores. Currently CUDA developers may only have a maximum of 16 kernels running concurrently, one kernel per streaming multiprocessor (SM). The problem is that all kernels have to start and end at the same time, causing extreme inefficiencies in heterogeneous workloads. By working at the warp level and trading local memory for concurrency the GeMTC framework is able to run up to 84 concurrent kernels. \cite{kriederSC12} This middleware allows independent kernels (MIMD style) to be launched and managed on many-core architectures that traditionally only support SIMD. \cite{kriederXSEDE12} As shown in \ref{fig:big_pic} Swift/T \cite{wozniak13swift} makes calls to the GeMTC API and passes tasks into memory on the device. Warp workers pick up tasks from the in memory queue, execute the task with the given parameters and place results on an outgoing result queue. Finally, Swift/T will poll the device and return results from the result queue back to the appropriate task in the swift script. The worker count is dependent on hardware architectures, where current generation GPUs have O(10) Streaming Multiprocessors (SMX), O(100) Warps, and O(1000) cores. \cite{GK110}
 \begin{figure}[h]
 \centering\includegraphics[width=8cm]{imgs/big_picture.png}
 \caption{Flow of a task through Swift/T and GeMTC.}
 \label{fig:big_pic}
 \end{figure}
 
-\begin{figure}[h]
-\centering\includegraphics[width=8cm]{imgs/warps.png}
-\caption{Worker interaction with incoming work queue.}
-\label{fig:warps}
-\end{figure}
-
-\begin{figure}[h]
-\centering\includegraphics[width=8cm]{imgs/blockdiagram.png}
-\caption{Kepler GK110 full chip block diagram.}
-\label{fig:block_diagram}
-\end{figure}
-
-\section{Swift/T}
-Swift is an implicitly parallel scripting language. By operating on data-flow driven scheduling of parallel tasks Swift is capable of extracting parallelism out of an application. The distributed executor eliminates centralized bottlenecks and an optimized compiler detects errors ahead of runtime for improved efficiency. Swift has been shown to scale over 100k cores and is portable to most MPI-based clusters. Finally, it's familiar C/Java like syntax makes it easy for developers to quickly understand language constructs. The diagram in Figure \ref{fig:swiftt} demonstrates the 4 portions of the Swift stack which contains (1)A high level Swift Script, (2)A compiler, namely STC, to generate (3)An intermediate code and (4)Execution of the intermediate code. The most recent version of Swift, namely Swift/T, supports function calls.\cite{wozniak13swift} This work also presents a novel API to allow interaction between GeMTC and Swift/T. By integrating the GeMTC middleware into the Swift/T stack Swift is capable of calling C wrapper functions to CUDA kernels/applications directly. 
-
-\begin{figure}[h]
-\centering\includegraphics[width=8cm]{imgs/swiftt.png}
-\caption{Overview of the Swift/T tool chain.}
-\label{fig:swiftt}
-\end{figure}
-
-
-
-\section{Preliminary Results}
-In this section we present preliminary results from the integration of GeMTC and Swift/T. In Figure \ref{fig:multinode} we demonstrate the efficiency of Swift/T and GeMTC on 4 Cray XK7 nodes. Swift/T is launching 50k system wide tasks for which there are known completion times. Efficiency is set to actual run time / expected runtime. Evaluation takes place on 1 to 4 nodes of Cray XK7 machines with 156 GPU workers (the maximum) on each NVIDIA K20 GPU. Tasks lasting longer that 400ms are shown to have good efficiency and at 4-node scale we are capable of maintaining 4k tasks per second system wide.
-%\begin{figure}[h]
-%\centering\includegraphics[width=8cm]{imgs/1worker.png}
-%\caption{GeMTC efficiency from launching a single worker on the GPU.}
-%\label{fig:1worker}
-%\end{figure}
-
-%\begin{figure}[h]
-%\centering\includegraphics[width=8cm]{imgs/84workers.png}
-%\caption{GeMTC efficiency launching maximum workers on GTX680.}
-%\label{fig:84workers}
-%\end{figure}
-
-\begin{figure}[h]
-\centering\includegraphics[width=8cm]{imgs/multinode.png}
-\caption{GeMTC + Swift/T efficiency on 4 XK7 nodes.}
-\label{fig:multinode}
-\end{figure}
-
-%\begin{figure}[h]
-%\centering\includegraphics[width=8cm]{imgs/throughput4nodes.png}
-%\caption{GeMTC + Swift/T throughput on 4 XK7 nodes.}
-%\label{fig:throughput}
-%\end{figure}
-
-\section{Conclusions and Future Work}
-In this work we designed and implemented the GeMTC framework. A sub-allocator provides improved memory management for dynamic tasks. Integration between GeMTC + Swift/T provides application support, data-flow parallelism, and multi-node scalability. Finally, we evaluated synthetic benchmarks and demonstrated improved performance. Future work aims to abstract for additional accelerator support, evaluate real applications such as the Open Protein Simulator (OOPS) \cite{OOPS}, and improve current framework performance.
+\section{Future Direction}
+Current work designed and implemented the GeMTC framework. A sub-allocator provides improved memory management for dynamic tasks. Integration between GeMTC + Swift/T provides application support, data-flow parallelism, and multi-node scalability. Future work aims to abstract for additional accelerator support (Intel Xeon Phi, AMD GPUs), evaluate real applications such as the Open Protein Simulator (OOPS) \cite{OOPS}, and improve current framework performance.
 
 \bibliographystyle{IEEEtran}
 \bibliography{ref}

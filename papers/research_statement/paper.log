@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  14 OCT 2013 12:48
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  14 OCT 2013 13:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -432,59 +432,23 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 ABD: EveryShipout initializing macros
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ú in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ù in font ptmr7t!
-
 <imgs/big_picture.png, id=4, 737.75626pt x 279.0425pt>
 File: imgs/big_picture.png Graphic file (type png)
 
 <use imgs/big_picture.png>
-Package pdftex.def Info: imgs/big_picture.png used on input line 83.
+Package pdftex.def Info: imgs/big_picture.png used on input line 72.
 (pdftex.def)             Requested size: 227.62204pt x 86.09352pt.
- <imgs/warps.png, id=5, 738.76pt x 425.59pt>
-File: imgs/warps.png Graphic file (type png)
-
-<use imgs/warps.png>
-Package pdftex.def Info: imgs/warps.png used on input line 89.
-(pdftex.def)             Requested size: 227.62204pt x 131.12627pt.
- [1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
-
-
- <./imgs/big_picture.png>]
-<imgs/blockdiagram.png, id=12, 956.57375pt x 677.53125pt>
-File: imgs/blockdiagram.png Graphic file (type png)
-
-<use imgs/blockdiagram.png>
-Package pdftex.def Info: imgs/blockdiagram.png used on input line 95.
-(pdftex.def)             Requested size: 227.62204pt x 161.21515pt.
- <imgs/swiftt.png, id=13, 736.7525pt x 324.21124pt>
-File: imgs/swiftt.png Graphic file (type png)
-
-<use imgs/swiftt.png>
-Package pdftex.def Info: imgs/swiftt.png used on input line 104.
-(pdftex.def)             Requested size: 227.62204pt x 100.16309pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<imgs/multinode.png, id=14, 610.28pt x 378.41376pt>
-File: imgs/multinode.png Graphic file (type png)
- <use imgs/multinode.png>
-Package pdftex.def Info: imgs/multinode.png used on input line 126.
-(pdftex.def)             Requested size: 227.62204pt x 141.14262pt.
-
-(./paper.bbl [2 <./imgs/warps.png> <./imgs/blockdiagram.png> <./imgs/swiftt.png
-> <./imgs/multinode.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 55--58
+(./paper.bbl
+Underfull \hbox (badness 10000) in paragraph at lines 58--61
 []\OT1/ptm/m/n/8 NVIDIA, ``Nvidia ke-pler gk110 ar-chi-tec-ture whitepa-per,''
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 55--58
+Underfull \hbox (badness 10000) in paragraph at lines 58--61
 \OT1/ptm/m/n/8 http://www.nvidia.com/content/PDF/kepler/NVIDIA-Kepler-GK110-
  []
 
@@ -500,24 +464,26 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[3
+[1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
-] (./paper.aux) ) 
+
+ <./imgs/big_picture.png>] (./paper.aux) ) 
 Here is how much of TeX's memory you used:
- 8671 strings out of 493633
- 162242 string characters out of 3143378
- 209433 words of memory out of 3000000
- 11807 multiletter control sequences out of 15000+200000
+ 8647 strings out of 493633
+ 161790 string characters out of 3143378
+ 209401 words of memory out of 3000000
+ 11787 multiletter control sequences out of 15000+200000
  30804 words of font info for 60 fonts, out of 3000000 for 9000
  832 hyphenation exceptions out of 8191
- 49i,9n,53p,1463b,293s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/local/texlive/2011/texmf-dist/fonts/enc/dvips/base/8r.en
-c}</usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/lo
-cal/texlive/2011/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (3 pages, 1444735 bytes).
+ 49i,9n,53p,1844b,293s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/local/texlive/2011/texmf-dist/f
+onts/enc/dvips/base/8r.enc}</usr/local/texlive/2011/texmf-dist/fonts/type1/urw/
+times/utmr8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmr
+i8a.pfb>
+Output written on paper.pdf (1 page, 127209 bytes).
 PDF statistics:
- 31 PDF objects out of 1000 (max. 8388607)
- 18 compressed objects within 1 object stream
+ 21 PDF objects out of 1000 (max. 8388607)
+ 14 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 38 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 18 words of extra memory for PDF output out of 10000 (max. 10000000)
 

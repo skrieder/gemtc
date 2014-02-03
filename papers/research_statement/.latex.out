@@ -131,22 +131,15 @@ tex)
 (/usr/local/texlive/2011/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
 ABD: EveryShipout initializing macros
 <imgs/big_picture.png, id=4, 737.75626pt x 279.0425pt>
-<use imgs/big_picture.png> <imgs/warps.png, id=5, 738.76pt x 425.59pt>
-<use imgs/warps.png> [1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updm
-ap/pdftex.map} <./imgs/big_picture.png>]
-<imgs/blockdiagram.png, id=12, 956.57375pt x 677.53125pt>
-<use imgs/blockdiagram.png> <imgs/swiftt.png, id=13, 736.7525pt x 324.21124pt>
-<use imgs/swiftt.png>
+<use imgs/big_picture.png>
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<imgs/multinode.png, id=14, 610.28pt x 378.41376pt> <use imgs/multinode.png>
-(./paper.bbl [2 <./imgs/warps.png> <./imgs/blockdiagram.png> <./imgs/swiftt.png
-> <./imgs/multinode.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 55--58
+(./paper.bbl
+Underfull \hbox (badness 10000) in paragraph at lines 58--61
 []\OT1/ptm/m/n/8 NVIDIA, ``Nvidia ke-pler gk110 ar-chi-tec-ture whitepa-per,''
 
-Underfull \hbox (badness 10000) in paragraph at lines 55--58
+Underfull \hbox (badness 10000) in paragraph at lines 58--61
 \OT1/ptm/m/n/8 http://www.nvidia.com/content/PDF/kepler/NVIDIA-Kepler-GK110-
 )
 
@@ -160,10 +153,11 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[3] (./paper.aux) )
+[1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./img
+s/big_picture.png>] (./paper.aux) )
 (see the transcript file for additional information){/usr/local/texlive/2011/te
 xmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2011/texmf-dist/fonts/
 type1/urw/times/utmr8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/
 times/utmri8a.pfb>
-Output written on paper.pdf (3 pages, 1444735 bytes).
+Output written on paper.pdf (1 page, 127209 bytes).
 Transcript written on paper.log.
