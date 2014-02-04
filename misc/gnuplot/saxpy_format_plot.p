@@ -15,7 +15,7 @@ set format y "%'g"
 unset label
 set title "SAXPY Runtime with Varied Input and Thread Count"
 set xlabel "Vector Size (# of elements)"
-set ylabel "Wall Time (microseconds)"
+set ylabel "Wall Time (milliseconds)"
 set key outside
 
 # set output file
