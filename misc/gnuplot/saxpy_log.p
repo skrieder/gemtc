@@ -1,8 +1,12 @@
-set   autoscale
-unset   log
+unset logscale
+set logscale x
 unset label
-set xtic auto
-set ytic auto
+set title "SAXPY Runtime with Varied Input and Thread Count"
+set xlabel "Vector Size (# of elements)"
+set ylabel "Wall Time (microseconds)"
+set terminal png size 1200,900 enhanced font "Helvetica,20"
+set key outside
+set output 'output.png'
 plot "saxpy_log.dat" using 1:2 title '1 Thread' w linespoints, \
 "saxpy_log.dat" using 1:3 title '2 Threads' w linespoints, \
 "saxpy_log.dat" using 1:4 title '4 Threads' w linespoints, \
