@@ -31,10 +31,9 @@ do
     total_problem_size_bytes=$(($total_problem_size*4))
 done
 TMP_DIR=$PWD
-cp logs/saxpy_log.dat /home/skrieder/gemtc/misc/gnuplot
-cd /home/skrieder/gemtc/misc/gnuplot
-git add saxpy_log.dat
-git commit -m "auto commit - new plot data"
-git push
+
+gnuplot format_saxpy_mflops.p
+
+
 cd $TMP_DIR
 exit
