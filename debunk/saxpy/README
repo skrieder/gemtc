@@ -1,0 +1,7 @@
+Test 1 is a saxpy with hardcoded inputs.
+
+Test 2 adds command line args.
+
+Test 3 uses command line args.
+
+saxpy.cu is a basic CUDA benchmark.
