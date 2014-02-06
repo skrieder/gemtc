@@ -1,8 +1,13 @@
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
 #include "../saxpy/saxpy.c"
+#include "../../utils/logger.h"
+#include "../../utils/logger.c"
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/time.h>
+//#define DEBUG 0
+
 #define CHECK_ERR(x)                                    \
   if (x != cudaSuccess) {                               \
     fprintf(stderr,"%s in %s at line %d\n",             \
@@ -17,7 +22,7 @@ float value =0;
 int start = threadId - (mask_width/2);
 int index;
 //this function includes 2 floating point operations
-for(int i=0; i<width;i++){
+for(int i=0; i<mask_width;i++){
 	index= start + i;
 	if(index >=0 && index <width)
 		value = value + N[index] * M[i];
@@ -35,21 +40,25 @@ printf("\n");
 
 int main(int argc, char *argv[]){
 //mask_width, filter width
-int IMAGE_WIDTH, MASK_WIDTH;
+int IMAGE_WIDTH, MASK_WIDTH,NUM_THREADS;
 float *h_M, *h_N, *h_C;
 float *d_M, *d_N, *d_C;
 size_t size_M,size_N;
 cudaError_t err;
-if(argc!=3)
+if(argc!=4)
 {
 	printf("This test requires two parameters:\n");
-    printf("   int IMAGE_WIDTH, int MASK_WIDTH \n");
+    printf("   int IMAGE_WIDTH, int MASK_WIDTH, int NUM_THREADS \n");
     printf("where  IMAGE_WIDTH is the number of pixels in an image in one dimensional\n");
     printf("       MASK_WIDTH is the width of the mask to be applied on the image\n");
+    printf("       NUM_THREADS is the number of threads to be executed in parallel\n");
+
 	exit(1);
 }
+srand (time(NULL));
 IMAGE_WIDTH = atoi(argv[1]);
 MASK_WIDTH  = atoi(argv[2]);
+NUM_THREADS = atoi(argv[3]);
 size_M = sizeof(float) * MASK_WIDTH;
 size_N = sizeof(float) * IMAGE_WIDTH;
 h_N = (float *) malloc(size_N);
@@ -65,29 +74,38 @@ CHECK_ERR(err);
 
 populateRandomFloatArray(IMAGE_WIDTH,h_N);
 populateRandomFloatArray(MASK_WIDTH,h_M);
-
+#ifdef DEBUG
 print(h_N,IMAGE_WIDTH);
 print(h_M, MASK_WIDTH);
+#endif
+// Start the timer
+  struct timeval tim;
+  gettimeofday(&tim, NULL);
+  double t1=tim.tv_sec+(tim.tv_usec/1000000.0);
 
 err = cudaMemcpy(d_M,h_M,size_M,cudaMemcpyHostToDevice);
 CHECK_ERR(err);
 err = cudaMemcpy(d_N,h_N,size_N, cudaMemcpyHostToDevice);
 CHECK_ERR(err);
 
-image_1D_convolution<<<1,256>>>(d_M,d_N,d_C,MASK_WIDTH,IMAGE_WIDTH);
+image_1D_convolution<<<1,NUM_THREADS>>>(d_M,d_N,d_C,MASK_WIDTH,IMAGE_WIDTH);
 cudaDeviceSynchronize();
 
 //Copy back the results from the device
 err = cudaMemcpy(h_C,d_C,size_N,cudaMemcpyDeviceToHost);
 CHECK_ERR(err);
+#ifdef DEBUG
 print(h_C,IMAGE_WIDTH);
+#endif
 cudaFree(d_C);
 cudaFree(d_M);
 cudaFree(d_N);
-
+// Print timing information
+  gettimeofday(&tim, NULL);
+  double t2=tim.tv_sec+(tim.tv_usec/1000000.0);
+  printf("Time: %.6lf\n", (((2*IMAGE_WIDTH)/(t2-t1))/1000000)); 
 
 free(h_M);
 free(h_N);
 free(h_C);
-printf("Number of floating point operations: %d\n", IMAGE_WIDTH*2);
 }
