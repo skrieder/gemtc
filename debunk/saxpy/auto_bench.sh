@@ -14,7 +14,7 @@ echo "Total Problem Size (bytes): $total_problem_size_bytes"
 printf "#problem_size\ttime...\n"> logs/saxpy_log.dat
 
 # loop over Problem size
-for j in {1..22} #22 is max on 670
+for j in {1..20} #22 is max on 670
 do
     threads=1
     # Loop over threads

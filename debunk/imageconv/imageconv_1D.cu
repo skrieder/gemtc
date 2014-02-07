@@ -27,7 +27,7 @@ for(int i=0; i<mask_width;i++){
 	if(index >=0 && index <width)
 		value = value + N[index] * M[i];
 }
-C[threadId] = value;	
+C[threadId] = value;
 }
 
 void print(float* result,int size){
@@ -103,7 +103,7 @@ cudaFree(d_N);
 // Print timing information
   gettimeofday(&tim, NULL);
   double t2=tim.tv_sec+(tim.tv_usec/1000000.0);
-  printf("Time: %.6lf\n", (((2*IMAGE_WIDTH)/(t2-t1))/1000000)); 
+  printf("%.6lf\t", (((2*IMAGE_WIDTH)/(t2-t1))/1000000)); 
 
 free(h_M);
 free(h_N);
