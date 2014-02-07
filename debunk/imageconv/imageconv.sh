@@ -21,7 +21,7 @@ cd $TMP_DIR
 count=$(grep "460" device.txt -c)
 if [ $count > 1 ]
  then
-  max=20
+  max=13
 else
   max=22
 fi
