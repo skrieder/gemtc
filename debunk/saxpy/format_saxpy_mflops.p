@@ -15,7 +15,7 @@ set format y "%'g"
 
 # set labels
 unset label
-set title "SAXPY MFLOPS with Varied Input and Thread Count"
+set title "SAXPY MFLOPS with Varied Input and Thread Count - GTX 670"
 set xlabel "Total Problem Size (bytes)"
 set ylabel "MFLOPS"
 set key outside
