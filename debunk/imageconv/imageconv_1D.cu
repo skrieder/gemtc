@@ -15,19 +15,24 @@
     exit(-1);                                           \
   }   
 
-__global__ void image_1D_convolution(float *M, float *N, float *C, int mask_width, int width)
+__global__ void image_1D_convolution(float *M, float *N, float *C, int mask_width, int width,int num_threads)
 {
 int threadId = blockIdx.x * blockDim.x + threadIdx.x;
 float value =0;
-int start = threadId - (mask_width/2);
+int start;
 int index;
 //this function includes 2 floating point operations
+while(threadId < width)
+{
+start = threadId - (mask_width/2);
 for(int i=0; i<mask_width;i++){
-	index= start + i;
-	if(index >=0 && index <width)
-		value = value + N[index] * M[i];
+        index= start + i;
+        if(index >=0 && index <width)
+                value = value + N[index] * M[i];
 }
-C[threadId] = value;	
+threadId = threadId + num_threads;
+C[threadId] = value;
+}
 }
 
 void print(float* result,int size){
@@ -88,7 +93,7 @@ CHECK_ERR(err);
 err = cudaMemcpy(d_N,h_N,size_N, cudaMemcpyHostToDevice);
 CHECK_ERR(err);
 
-image_1D_convolution<<<1,NUM_THREADS>>>(d_M,d_N,d_C,MASK_WIDTH,IMAGE_WIDTH);
+image_1D_convolution<<<1,NUM_THREADS>>>(d_M,d_N,d_C,MASK_WIDTH,IMAGE_WIDTH,NUM_THREADS);
 cudaDeviceSynchronize();
 
 //Copy back the results from the device
@@ -103,7 +108,7 @@ cudaFree(d_N);
 // Print timing information
   gettimeofday(&tim, NULL);
   double t2=tim.tv_sec+(tim.tv_usec/1000000.0);
-  printf("Time: %.6lf\n", (((2*IMAGE_WIDTH)/(t2-t1))/1000000)); 
+  printf("%.6lf\t", (((2*IMAGE_WIDTH)/(t2-t1))/1000000)); 
 
 free(h_M);
 free(h_N);
