@@ -21,7 +21,7 @@ do
     printf "$total_problem_size_bytes\t" >> logs/saxpy_log.dat
     for i in {1..11} # 11 = 1024
     do
-	./cuda_saxpy $problem_size $threads >> logs/saxpy_log.dat 
+	aprun ./cuda_saxpy $problem_size $threads >> logs/saxpy_log.dat 
 	threads=$(($threads*2))
     done
     # print a new line
