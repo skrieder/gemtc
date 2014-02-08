@@ -22,7 +22,7 @@ set key outside
 
 # set output file
 set terminal png size 1600,900 enhanced font "Helvetica,20"
-   set output 'plots/saxpy_mflops_data_incl_460.png'
+   set output 'plots/saxpy_mflops_data_incl_K20X.png'
 
 # plot data
 plot "logs/saxpy_log.dat" using 1:2 title '1 Thread' w linespoints, \

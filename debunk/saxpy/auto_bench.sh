@@ -14,7 +14,7 @@ echo "Total Problem Size (bytes): $total_problem_size_bytes"
 printf "#problem_size\ttime...\n"> logs/saxpy_log.dat
 
 # loop over Problem size
-for j in {1..22} #22 is max on 670
+for j in {1..23} #? is max on K20X
 do
     threads=1
     # Loop over threads
@@ -33,7 +33,7 @@ done
 TMP_DIR=$PWD
 
 gnuplot format_saxpy_mflops.p
-scp plots/saxpy_mflops_data_incl.png skrieder@datasys.cs.iit.edu:~/public_html/scratch/saxpy
+scp plots/saxpy_mflops_data_incl_K20X.png skrieder@datasys.cs.iit.edu:~/public_html/scratch/saxpy
 
 cd $TMP_DIR
 exit
