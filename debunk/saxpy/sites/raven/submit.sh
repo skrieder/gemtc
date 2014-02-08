@@ -1,4 +1,12 @@
 #!/bin/bash 
+
+# Scott J. Krieder
+# Illinois Institute of Technology
+# skrieder@iit.edu
+
+# usage: from gemtc/debunk/saxpy
+# qsub sites/raven/submit.sh
+
 #PBS -j oe 
 #PBS -N GeMTC
 #PBS -q gpu_nodes
