@@ -45,18 +45,19 @@ printf("\n");
 
 int main(int argc, char *argv[]){
 //mask_width, filter width
-int IMAGE_WIDTH, MASK_WIDTH,NUM_THREADS;
+int IMAGE_WIDTH, MASK_WIDTH,NUM_THREADS,FLAG;
 float *h_M, *h_N, *h_C;
 float *d_M, *d_N, *d_C;
 size_t size_M,size_N;
 cudaError_t err;
-if(argc!=4)
+if(argc!=5)
 {
 	printf("This test requires two parameters:\n");
     printf("   int IMAGE_WIDTH, int MASK_WIDTH, int NUM_THREADS \n");
     printf("where  IMAGE_WIDTH is the number of pixels in an image in one dimensional\n");
     printf("       MASK_WIDTH is the width of the mask to be applied on the image\n");
     printf("       NUM_THREADS is the number of threads to be executed in parallel\n");
+    printf("       FLAG to decide flops including data copy or not. 1 for flops with data copy and 0 for only execution of gpu function.\n");
 
 	exit(1);
 }
@@ -64,6 +65,8 @@ srand (time(NULL));
 IMAGE_WIDTH = atoi(argv[1]);
 MASK_WIDTH  = atoi(argv[2]);
 NUM_THREADS = atoi(argv[3]);
+FLAG = atoi(argv[4]);
+
 size_M = sizeof(float) * MASK_WIDTH;
 size_N = sizeof(float) * IMAGE_WIDTH;
 h_N = (float *) malloc(size_N);
@@ -84,17 +87,28 @@ print(h_N,IMAGE_WIDTH);
 print(h_M, MASK_WIDTH);
 #endif
 // Start the timer
-  struct timeval tim;
-  gettimeofday(&tim, NULL);
-  double t1=tim.tv_sec+(tim.tv_usec/1000000.0);
+struct timeval tim;
+double t1,t2;
+if(FLAG){
+gettimeofday(&tim, NULL);
+t1=tim.tv_sec+(tim.tv_usec/1000000.0);
+}
 
 err = cudaMemcpy(d_M,h_M,size_M,cudaMemcpyHostToDevice);
 CHECK_ERR(err);
 err = cudaMemcpy(d_N,h_N,size_N, cudaMemcpyHostToDevice);
 CHECK_ERR(err);
 
+if(!FLAG){
+gettimeofday(&tim, NULL);
+t1=tim.tv_sec+(tim.tv_usec/1000000.0);
+}
 image_1D_convolution<<<1,NUM_THREADS>>>(d_M,d_N,d_C,MASK_WIDTH,IMAGE_WIDTH,NUM_THREADS);
 cudaDeviceSynchronize();
+if(!FLAG){
+gettimeofday(&tim, NULL);
+t2=tim.tv_sec+(tim.tv_usec/1000000.0);
+}
 
 //Copy back the results from the device
 err = cudaMemcpy(h_C,d_C,size_N,cudaMemcpyDeviceToHost);
@@ -105,12 +119,17 @@ print(h_C,IMAGE_WIDTH);
 cudaFree(d_C);
 cudaFree(d_M);
 cudaFree(d_N);
+
+if(FLAG){
+gettimeofday(&tim, NULL);
+t2=tim.tv_sec+(tim.tv_usec/1000000.0);
+}
+
 // Print timing information
-  gettimeofday(&tim, NULL);
-  double t2=tim.tv_sec+(tim.tv_usec/1000000.0);
-  printf("%.6lf\t", (((2*IMAGE_WIDTH)/(t2-t1))/1000000)); 
+printf("%.6lf\t", (((2*IMAGE_WIDTH)/(t2-t1))/1000000));
 
 free(h_M);
 free(h_N);
 free(h_C);
+
 }

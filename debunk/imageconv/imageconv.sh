@@ -6,6 +6,7 @@
 TMP_DIR=$PWD
 image_width=100
 mask_width=5
+FLAG=0
 echo "Image width in 1-D: $image_width"
 echo "Mask width: $mask_width"
 total_problem_size=$(($image_width*2+$mask_width))
@@ -35,7 +36,7 @@ do
     # Loop over threads
     for i in {1..11} # 11 = 1024
     do
-	./imageconv $image_width $mask_width $threads >> logs/imageconv.dat 
+	./imageconv $image_width $mask_width $threads $FLAG >> logs/imageconv.dat 
 	threads=$(($threads*2))
     done
     # print a new line
