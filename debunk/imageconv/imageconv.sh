@@ -5,11 +5,11 @@
 # Illinois Institute of Technology
 TMP_DIR=$PWD
 image_width=100
-mask_width=5
-FLAG=1
+mask_width=50
+FLAG=$1
 echo "Image width in 1-D: $image_width"
 echo "Mask width: $mask_width"
-total_problem_size=$(($image_width*2+$mask_width))
+total_problem_size=$(($image_width+$mask_width))
 echo "Total Problem Size (array elements): $total_problem_size"
 total_problem_size_bytes=$(($total_problem_size*4)) # 4 because 4 bytes in a float
 echo "Total Problem Size (bytes): $total_problem_size_bytes"
@@ -42,13 +42,17 @@ do
     # print a new line
     printf "\n" >> logs/imageconv.dat
     image_width=$(($image_width*2))
-    total_problem_size=$(($image_width*2+$mask_width))
+    total_problem_size=$(($image_width+$mask_width))
     total_problem_size_bytes=$(($total_problem_size*4))
 done
 
-gnuplot format_imageconv_mflops.p
-scp plots/imageconv_mflops_data_incl_460.png karthik@datasys.cs.iit.edu:~/public_html/
-scp plots/imageconv_mflops_data_incl_460_onlygpu.png karthik@datasys.cs.iit.edu:~/public_html/
-
+if [$FLAG -eq 1]
+then
+  gnuplot format_imageconv_mflops.p
+  scp plots/imageconv_mflops_data_incl_460.png karthik@datasys.cs.iit.edu:~/public_html/
+else
+  gnuplot format_imageconv_mflops_do.p
+  scp plots/imageconv_mflops_data_incl_460_onlygpu.png karthik@datasys.cs.iit.edu:~/public_html/
+fi
 cd $TMP_DIR
 exit

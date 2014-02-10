@@ -15,14 +15,14 @@ set format y "%'g"
 
 # set labels
 unset label
-set title "Image Convolution MFLOPS with Varied Input and Thread Count"
+set title "Image Convolution MFLOPS with Varied Input and Thread Count - Data Omitted"
 set xlabel "Total Problem Size (bytes)"
 set ylabel "GFLOPS"
 set key outside
 
 # set output file
 set terminal png size 1600,900 enhanced font "Helvetica,20"
-   set output 'plots/imageconv_mflops_data_incl_460.png'
+   set output 'plots/imageconv_mflops_data_incl_460_onlygpu.png'
 
 # plot data
 plot "logs/imageconv.dat" using 1:2 title '1 Thread' w linespoints, \
