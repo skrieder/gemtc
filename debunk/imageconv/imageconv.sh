@@ -6,7 +6,7 @@
 TMP_DIR=$PWD
 image_width=100
 mask_width=5
-FLAG=0
+FLAG=1
 echo "Image width in 1-D: $image_width"
 echo "Mask width: $mask_width"
 total_problem_size=$(($image_width*2+$mask_width))

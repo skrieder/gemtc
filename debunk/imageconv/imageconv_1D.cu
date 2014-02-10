@@ -126,7 +126,7 @@ t2=tim.tv_sec+(tim.tv_usec/1000000.0);
 }
 
 // Print timing information
-printf("%.6lf\t", (((2*IMAGE_WIDTH)/(t2-t1))/1000000));
+printf("%.6lf\t", (((2*MASK_WIDTH*IMAGE_WIDTH)/(t2-t1))/1000000));
 
 free(h_M);
 free(h_N);
