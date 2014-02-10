@@ -47,7 +47,8 @@ do
 done
 
 gnuplot format_imageconv_mflops.p
-#scp plots/saxpy_mflops_data_incl.png skrieder@datasys.cs.iit.edu:~/public_html/scratch/saxpy
+scp plots/imageconv_mflops_data_incl_460.png karthik@datasys.cs.iit.edu:~/public_html/
+scp plots/imageconv_mflops_data_incl_460_onlygpu.png karthik@datasys.cs.iit.edu:~/public_html/
 
 cd $TMP_DIR
 exit
