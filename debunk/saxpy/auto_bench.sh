@@ -32,7 +32,7 @@ do
 done
 TMP_DIR=$PWD
 
-gnuplot format_saxpy_mflops.p
+gnuplot plots/format_saxpy_mflops.p
 scp plots/saxpy_mflops_data_incl_K20X.png skrieder@datasys.cs.iit.edu:~/public_html/scratch/saxpy
 
 cd $TMP_DIR
