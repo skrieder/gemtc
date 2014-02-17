@@ -27,6 +27,7 @@
 #include "Kernels/FluidTVD.cu"
 #include "Kernels/Pi.cu"
 #include "Kernels/MatrixDet.cu"
+#include "Kernels/ImageConv.cu"
 //#include "Kernels/Sort.cu"
 
 /*
@@ -193,6 +194,11 @@ __device__ JobPointer executeJob(JobPointer currentJob){
       //Matrix Determinant ... Newly added by Karthik
       MatrixDeterminant(currentJob->params);
       break;	
+    case 32:
+      //Image Convolution for debunk test... Newly added by Karthik
+      imageconvolution(currentJob->params);
+      break;
+
   }
   return currentJob;
 }
