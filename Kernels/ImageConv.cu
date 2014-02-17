@@ -12,7 +12,7 @@ int threadId = threadIdx.x % warp_size;
 float value =0;
 int start;
 int index;
-printf("%d - %d \n", MW, IW);
+//printf("%d - %d \n", MW, IW);
 //this function includes 2 floating point operations
 while(threadId < IW)
 {
@@ -22,9 +22,9 @@ for(int i=0; i<MW;i++){
         if(index >=0 && index < IW)
                 value = value + image[index] * mask[i];
 }
-threadId = threadId + warp_size;
 imageout[threadId] = value;
-printf("%d - %f \n", threadId, imageout[threadId]);
+//printf("%d - %f \n", threadId, imageout[threadId]);
+threadId = threadId + warp_size;
 }
 }
 

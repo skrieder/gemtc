@@ -24,7 +24,7 @@ void printStart(void *param,int flag){
   for(i=0; i<MW; i++){
       if (i%MW == 0 && i!=0)
         printf("\n");
-    printf("%f - %d ", mask[i],i);
+   printf("%f", mask[i]);
   }
  }
  if(flag ==1){
