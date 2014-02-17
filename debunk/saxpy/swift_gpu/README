@@ -1,0 +1,8 @@
+# rm tcl file
+rm test-sleep-1.tcl
+
+# recompile
+stc test-sleep-1.swift
+
+# run turbine
+turbine test-sleep-1.tcl -sleepTime=0
