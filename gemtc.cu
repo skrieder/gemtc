@@ -13,6 +13,7 @@
  * limitations under the License
  */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <cuda_runtime.h>
 #include <pthread.h>
@@ -153,10 +154,18 @@ void gemtcSetup(int QueueSize, int Overfill){
     blocks=1;
   }
 
-  printf("GeMTC Launched Workers:  %d\n", warps*blocks);
-  printf("Total Warps Running: %d\n", warps);
-  printf("Total Blocks Launched: %d\n", blocks);
+  char *GEMTC_INFO = getenv("GEMTC_INFO");
 
+  int GEMTC_VAR;
+
+  if(GEMTC_INFO!="null"){
+    GEMTC_VAR = atoi(GEMTC_INFO);  
+    if(GEMTC_VAR==1){
+      printf("GeMTC Launched Workers:  %d\n", warps*blocks);
+      printf("Total Warps Running: %d\n", warps);
+      printf("Total Blocks Launched: %d\n", blocks);
+    }
+  }
   dim3 threads(warp_size*warps, 1, 1);
   dim3 grid(blocks, 1, 1);
 
