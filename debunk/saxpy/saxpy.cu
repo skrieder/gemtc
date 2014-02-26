@@ -16,6 +16,7 @@ void cuda_saxpy(int num_threads, int n, float a, float *d_x, float *d_y)
   }
 }
 
+extern "C"
 int cuda_saxpy_launcher(int num_elements, int num_threads){
   // Var for error handling
   cudaError_t err = cudaSuccess;
