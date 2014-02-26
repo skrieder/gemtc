@@ -1,0 +1,11 @@
+# Test md launched from Swift.
+
+# Build the code
+./build.sh
+
+# source the ENV
+source ENV
+
+# Run the test
+turbine test-g-n.tcl -num_sims=1 -np=1 -nd=1 -mass=1
+

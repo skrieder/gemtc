@@ -16,34 +16,27 @@ void cuda_saxpy(int num_threads, int n, float a, float *d_x, float *d_y)
   }
 }
 
-int main(int argc, char *argv[]){
-  if ( argc != 3 ) /* argc should be 3 for correct execution */
-    {
-      /* We print argv[0] assuming it is the program name */
-      printf( "usage: %s (int) <elements_in_vector> (int) <num_threads>\n", argv[0] );
-      return 1;
-    }
-
+int cuda_saxpy_launcher(int num_elements, int num_threads){
   // Var for error handling
   cudaError_t err = cudaSuccess;
 
-  int n = atoi(argv[1]);
-  int num_threads = atoi(argv[2]);
+  //  int num_elements = atoi(argv[1]);
+  //  int num_threads = atoi(argv[2]);
   float a = 2.0;
 
   // Size for memory transfers
-  int size = sizeof(float)*n;
+  int size = sizeof(float)*num_elements;
 
   // Seed rand
   srand (time(NULL));
 
   // Allocate arrays
-  float *x = (float *)malloc(sizeof(float)*n);
-  float *y = (float *)malloc(sizeof(float)*n);
+  float *x = (float *)malloc(sizeof(float)*num_elements);
+  float *y = (float *)malloc(sizeof(float)*num_elements);
 
   // Generate Random Arrays
-  populateRandomFloatArray(n, x);
-  populateRandomFloatArray(n, y);
+  populateRandomFloatArray(num_elements, x);
+  populateRandomFloatArray(num_elements, y);
 
   // Start the timer
   struct timeval tim;
@@ -61,7 +54,7 @@ int main(int argc, char *argv[]){
   // Allocate device memory
   float *d_x;
   float *d_y;
-  err = cudaMalloc((void **) &d_x, sizeof(float)*n);
+  err = cudaMalloc((void **) &d_x, sizeof(float)*num_elements);
   //  printf("DEBUG: cudaMalloc d_x size = %d\n", sizeof(float)*n);
   
   if (err != cudaSuccess){
@@ -69,7 +62,7 @@ int main(int argc, char *argv[]){
     exit(EXIT_FAILURE);
   }
 
-  err = cudaMalloc((void **) &d_y, sizeof(float)*n);
+  err = cudaMalloc((void **) &d_y, sizeof(float)*num_elements);
 
   if (err != cudaSuccess){
     fprintf(stderr, "Failed to allocate device vector d_y (error code %s)!\n", cudaGetErrorString(err));
@@ -91,7 +84,7 @@ int main(int argc, char *argv[]){
   }
 
   // Perform CUDA SAXPY
-  cuda_saxpy<<<1,num_threads>>>(num_threads, n, a, d_x, d_y);
+  cuda_saxpy<<<1,num_threads>>>(num_threads, num_elements, a, d_x, d_y);
   cudaDeviceSynchronize();
   
   // Copy result back
@@ -105,7 +98,7 @@ int main(int argc, char *argv[]){
   // Print timing information
   gettimeofday(&tim, NULL);
   double t2=tim.tv_sec+(tim.tv_usec/1000000.0);
-  printf("%.6lf\t", (((2*n)/(t2-t1))/1000000)); // 1000000000 = 10^9, 1000000 = 10^6
+  printf("%.6lf\t", (((2*num_elements)/(t2-t1))/1000000)); // 1000000000 = 10^9, 1000000 = 10^6
   //printf("%d\t%d\t%.6lf\t", num_threads, n, t2-t1);
 
   // cpu free
@@ -124,4 +117,6 @@ int main(int argc, char *argv[]){
     fprintf(stderr, "Failed to free device memory d_y (error code %s)!\n", cudaGetErrorString(err));
     exit(EXIT_FAILURE);
   }
+
+  return 0;
 }
