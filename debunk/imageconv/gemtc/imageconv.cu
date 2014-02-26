@@ -1,7 +1,8 @@
 #include "../../../gemtc.cu"
 #include<stdio.h>
 #include<stdlib.h>
-
+#include<sys/time.h>
+//#define DEBUG 1
 // flag == 0 Input, flag ==1 Output
 void printStart(void *param,int flag){
   float *input = (float *) param;
@@ -77,8 +78,14 @@ int main(int argc, char **argv){
     h_params[j] = r;
   }
   //0 for printing inputs
+  #ifdef DEBUG
   printStart(h_params,0);
-
+  #endif
+  //Starting timing
+  struct timeval tim;
+  double t1,t2;
+  gettimeofday(&tim, NULL);
+  t1=tim.tv_sec+(tim.tv_usec/1000000.0);
   for(j=0; j<NUM_TASKS/LOOP_SIZE; j++){
     int i;
     for(i=0; i<LOOP_SIZE; i++){
@@ -96,7 +103,8 @@ int main(int argc, char **argv){
       }
      
       gemtcMemcpyDeviceToHost(h_params, ret, size);
-
+      gettimeofday(&tim, NULL);
+      t2=tim.tv_sec+(tim.tv_usec/1000000.0);  
       // Free the device pointer
       gemtcGPUFree(ret);
       //      gemtcGPUFree(&d_params);
@@ -106,7 +114,10 @@ int main(int argc, char **argv){
     }
   }
   // 1 for printing output
+  #ifdef DEBUG
   printStart(h_params,1);
+  #endif
+  printf("%.6lf\t", (((2*MASK_WIDTH*IMAGE_WIDTH)/(t2-t1))/1000000));
   gemtcCleanup();
   free(h_params);
   return 0;
