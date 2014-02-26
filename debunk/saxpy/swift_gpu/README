@@ -14,3 +14,6 @@ stc test-sleep-1.swift
 # run turbine
 turbine test-sleep-1.tcl -sleepTime=0
 
+#### OTHER ####
+Compile with gcc and link against .so
+gcc -I /usr/local/cuda/include -L. -lsaxpy

@@ -1,16 +1,12 @@
-#include <string.h>
-#include <stdlib.h>
-#include <time.h>
+#include <stdio.h>
+#include "saxpy.h"
 
-void saxpy(int n, float a, float *x, float *y)
-{
-  for (int i = 0; i < n; ++i)
-    y[i] = a*x[i] + y[i];
+
+int cuda_wrapper(){
+
+  printf("Calling sleep_wrapper\n");
+  cuda_saxpy_launcher(1, 1);
+  printf("End sleep_wrapper\n");
+
 }
 
-void populateRandomFloatArray(int n, float *x){
-  for(int i = 0; i <n; i++){
-    float r = (float)(rand() % 100);
-    x[i] = r;
-  }
-}

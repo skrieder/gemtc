@@ -18,7 +18,7 @@ CC=${CC:-gcc}
 # This could be a Makefile but I think it is better
 # to use bash as a reference example. -Justin
 
-LEAF_PKG=sleep
+LEAF_PKG=saxpy
 LEAF_I=${LEAF_PKG}.i
 LEAF_SO=libtcl${LEAF_PKG}.so
 LEAF_A=libtcl${LEAF_PKG}.a
@@ -95,7 +95,7 @@ CFLAGS="-g -I . -I ${C_UTILS} -Wall"
 if (( ! GEMTC_STATIC )); then
   CFLAGS="-fPIC $CFLAGS"
 fi
-SCOTTFLAGS="-std=c99 -I${CUDA_INCLUDE_DIR} -L. -lsleep"
+SCOTTFLAGS="-std=c99 -I${CUDA_INCLUDE_DIR} -L. -lsaxpy"
 
 # Compile the data implementation
 ${CC} ${CFLAGS} ${SCOTTFLAGS} -c ${LEAF_C} -o ${LEAF_O}
@@ -106,7 +106,7 @@ swig -includeall -tcl ${LEAF_I}
 check
 
 # TODO: Figure out why this is necessary:
-sed -i 's/Sleep_Init/Tclsleep_Init/' ${WRAP_C}
+sed -i 's/Saxpy_Init/Tclsaxpy_Init/' ${WRAP_C}
 
 # Compile the Tcl extension
 ${CC} ${CFLAGS} ${SCOTTFLAGS} ${TCL_INCLUDE_SPEC} -c ${WRAP_C}
@@ -119,7 +119,7 @@ then
 else
   # Build the Tcl extension as a shared library
   ${CC} -shared -o ${LEAF_SO} ${LEAF_PKG}_wrap.o ${LEAF_O} \
-    -L ${PWD} -l sleep -Wl,-rpath -Wl,${PWD} -Wl,-rpath -Wl,${CUDA_LIB_DIR}
+    -L ${PWD} -l saxpy -Wl,-rpath -Wl,${PWD} -Wl,-rpath -Wl,${CUDA_LIB_DIR}
   check
   echo "created library: ${LEAF_SO}"
 
