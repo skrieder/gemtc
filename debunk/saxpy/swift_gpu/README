@@ -1,3 +1,10 @@
+# source the ENV
+source ENV
+
+# compile
+./compileCuda.sh
+./build.sh
+
 # rm tcl file
 rm test-sleep-1.tcl
 
@@ -6,3 +13,4 @@ stc test-sleep-1.swift
 
 # run turbine
 turbine test-sleep-1.tcl -sleepTime=0
+
