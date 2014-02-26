@@ -1,6 +1,6 @@
 #include "saxpy.cu"
 
-int main(int argc, int argv[]){
+int main(int argc, char * argv[]){
 
   printf("In test saxpy.\n");
 
@@ -15,7 +15,15 @@ int main(int argc, int argv[]){
       num_threads = 1;
       num_elements = 1000;
     }
+  else if(argc == 3){
+    printf("in arg\n");
+    num_elements = atoi(argv[1]);
+    num_threads = atoi(argv[2]);
 
+    //    printf("%d\n %d\n", num_elements, num_threads);
+  }
+
+  cuda_saxpy_launcher(num_elements, num_threads);
 
   return 0;
 }
