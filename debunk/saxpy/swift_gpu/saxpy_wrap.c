@@ -1702,6 +1702,24 @@ SWIG_AsVal_int SWIG_TCL_DECL_ARGS_2(Tcl_Obj * obj, int *val)
   return res;
 }
 
+
+SWIGINTERNINLINE Tcl_Obj* 
+SWIG_From_long  (long value)
+{
+  if (((long) INT_MIN <= value) && (value <= (long) INT_MAX)) {
+    return Tcl_NewIntObj((int)(value));
+  } else {
+    return Tcl_NewLongObj(value);
+  }
+}
+
+
+SWIGINTERNINLINE Tcl_Obj *
+SWIG_From_int  (int value)
+{    
+  return SWIG_From_long  (value);
+}
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -1710,6 +1728,7 @@ _wrap_c_saxpy(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tc
   int arg1 ;
   int val1 ;
   int ecode1 = 0 ;
+  int result;
   
   if (SWIG_GetArgs(interp, objc, objv,"o:c_saxpy i ",(void *)0) == TCL_ERROR) SWIG_fail;
   ecode1 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[1], &val1);
@@ -1717,8 +1736,8 @@ _wrap_c_saxpy(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tc
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "c_saxpy" "', argument " "1"" of type '" "int""'");
   } 
   arg1 = (int)(val1);
-  c_saxpy(arg1);
-  
+  result = (int)c_saxpy(arg1);
+  Tcl_SetObjResult(interp,SWIG_From_int((int)(result)));
   return TCL_OK;
 fail:
   return TCL_ERROR;
