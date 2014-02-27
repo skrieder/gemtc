@@ -9,7 +9,4 @@
 
 package require saxpy 0.0
 
-### GEMTC
-puts GEMTC
-
-c_saxpy 5
+c_saxpy 100000 1

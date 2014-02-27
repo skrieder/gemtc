@@ -1726,17 +1726,25 @@ extern "C" {
 SWIGINTERN int
 _wrap_c_saxpy(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
   int arg1 ;
+  int arg2 ;
   int val1 ;
   int ecode1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
   int result;
   
-  if (SWIG_GetArgs(interp, objc, objv,"o:c_saxpy i ",(void *)0) == TCL_ERROR) SWIG_fail;
+  if (SWIG_GetArgs(interp, objc, objv,"oo:c_saxpy i j ",(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
   ecode1 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[1], &val1);
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "c_saxpy" "', argument " "1"" of type '" "int""'");
   } 
   arg1 = (int)(val1);
-  result = (int)c_saxpy(arg1);
+  ecode2 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[2], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "c_saxpy" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
+  result = (int)c_saxpy(arg1,arg2);
   Tcl_SetObjResult(interp,SWIG_From_int((int)(result)));
   return TCL_OK;
 fail:
