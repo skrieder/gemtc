@@ -1,5 +1,22 @@
 These are the files and dirs in the gemtc project:
 
+/Swift Integration
+===
+Adding a GeMTC app into swift is a multistep process.
+Before adding into Swift make sure that you have a C driver program testing the GeMTC code.
+
+1. Create GeMTC <app> driven by C
+2. Add GeMTC <app> to gemtc large switch statement
+
+Some notes that need to cleaned up:
+# Notes on adding new apps
+# Adding new APPS step #1 add to switch on subcommand
+I create a new entry in the switch command by duplicating the sleep catch:
+These lines need to change:
+set sup [ gemtc::gemtc_sleep_begin {*}$args ]
+if { [ catch { gemtc_put_sleep $rule_id $command $sup } e ] } {
+===
+
 /CPUAPI
 ===
 Same idea as dummy api. CPU may actually launch tasks on CPU, need to double check on this.
