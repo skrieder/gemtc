@@ -29,7 +29,7 @@ printf "#image_width\ttotal_problem_size\t#threads\ttime...\n"> logs/imageconv.d
   #max=22
 #fi
 #rm device.txt
-max=22
+max=21
 # loop over Problem size
 for j in $(seq 1 $max) #20 is max on 460
 do
@@ -49,7 +49,7 @@ do
 done
 
  gnuplot format_imageconv_mflops.p
-# scp plots/imageconv_mflops_data_incl_460.png karthik@datasys.cs.iit.edu:~/public_html/imageconv_mflops_data_incl_460_gemtc.png
+ scp plots/imageconv_mflops_data_incl_460.png karthik@datasys.cs.iit.edu:~/public_html/imageconv_mflops_data_incl_460_gemtc.png
 #if [$FLAG -eq 1]
 #then
  # gnuplot format_imageconv_mflops.p

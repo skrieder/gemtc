@@ -39,9 +39,6 @@ void printStart(void *param,int flag){
   }
 }
 
-void populateRandomFloatArray(int n, float *x){
-  
-}
 int main(int argc, char **argv){
   int NUM_TASKS, LOOP_SIZE, IMAGE_WIDTH, MASK_WIDTH;
 
@@ -62,14 +59,14 @@ int main(int argc, char **argv){
 
     exit(1);
   }
-
   gemtcSetup(25600, 1);
-
   int size = sizeof(float)*(2+2 * IMAGE_WIDTH + MASK_WIDTH);
 
   int j;
   int temp_size = IMAGE_WIDTH + MASK_WIDTH;
+
   float *h_params = (float *) malloc(size);
+
   h_params[0] = IMAGE_WIDTH;
   h_params[1] = MASK_WIDTH;
   
@@ -103,8 +100,8 @@ int main(int argc, char **argv){
       }
      
       gemtcMemcpyDeviceToHost(h_params, ret, size);
-      gettimeofday(&tim, NULL);
-      t2=tim.tv_sec+(tim.tv_usec/1000000.0);  
+     gettimeofday(&tim, NULL);
+   t2=tim.tv_sec+(tim.tv_usec/1000000.0);
       // Free the device pointer
       gemtcGPUFree(ret);
       //      gemtcGPUFree(&d_params);
@@ -113,6 +110,7 @@ int main(int argc, char **argv){
       ret = NULL;
     }
   }
+
   // 1 for printing output
   #ifdef DEBUG
   printStart(h_params,1);
