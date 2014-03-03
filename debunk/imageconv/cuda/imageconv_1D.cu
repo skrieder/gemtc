@@ -1,8 +1,8 @@
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
-#include "../saxpy/saxpy.c"
-#include "../../utils/logger.h"
-#include "../../utils/logger.c"
+#include "../../saxpy/saxpy.c"
+#include "../../../utils/logger.h"
+#include "../../../utils/logger.c"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>

@@ -6,7 +6,7 @@
 TMP_DIR=$PWD
 image_width=100
 mask_width=50
-FLAG=$1
+FLAG=1
 echo "Image width in 1-D: $image_width"
 echo "Mask width: $mask_width"
 total_problem_size=$(($image_width+$mask_width))
@@ -16,18 +16,18 @@ echo "Total Problem Size (bytes): $total_problem_size_bytes"
 
 printf "#image_width\ttotal_problem_size\t#threads\ttime...\n"> logs/imageconv.dat
 
-cd ../../../utils/
-./deviceQuery > $TMP_DIR/device.txt
+#cd ../../../utils/
+#./deviceQuery > $TMP_DIR/device.txt
 cd $TMP_DIR
-count=$(grep "460" device.txt -c)
-if [ $count > 1 ]
- then
-  max=13
-else
-  max=22
-fi
-rm device.txt
-
+#count=$(grep "460" device.txt -c)
+#if [ $count > 1 ]
+ #then
+  #max=13
+#else
+  #max=22
+#fi
+#rm device.txt
+max=22
 # loop over Problem size
 for j in $(seq 1 $max) #20 is max on 460
 do
