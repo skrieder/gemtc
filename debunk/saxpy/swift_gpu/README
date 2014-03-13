@@ -2,7 +2,7 @@
 source ENV
 
 # compile
-./compileCuda.sh
+./compile_cuda.sh
 ./build.sh
 
 # rm tcl file

@@ -75,7 +75,7 @@ CUDA_LIB_DIR=${CUDA_HOME}/lib64
 CUDA_INCLUDE_DIR=${CUDA_HOME}/include
 echo "using CUDA in ${CUDA_HOME}"
 
-TCL_CONFIG=${TCL_HOME}/lib/tclConfig.sh
+TCL_CONFIG=${TCL_HOME}/unix/tclConfig.sh
 # TCL_CONFIG=${TCL_HOME}/lib64/tclConfig.sh
 
 [[ -f ${TCL_CONFIG} ]]

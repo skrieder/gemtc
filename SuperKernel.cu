@@ -28,12 +28,13 @@
 #include "Kernels/Pi.cu"
 #include "Kernels/MatrixDet.cu"
 #include "Kernels/ImageConv.cu"
+#include "Kernels/saxpy.cu"
 //#include "Kernels/Sort.cu"
 
 /*
  * Update this value whenever we add new kernel
  */
-#define GEMTC_MAX_KERNELS 30
+#define GEMTC_MAX_KERNELS 31
 
 __device__ JobPointer executeJob(volatile JobPointer currentJob);
 
@@ -194,11 +195,14 @@ __device__ JobPointer executeJob(JobPointer currentJob){
       //Matrix Determinant ... Newly added by Karthik
       MatrixDeterminant(currentJob->params);
       break;	
-    case 32:
-      //Image Convolution for debunk test... Newly added by Karthik
-      imageconvolution(currentJob->params);
-      break;
-
+  case 32:
+    //Image Convolution for debunk test... Newly added by Karthik
+    imageconvolution(currentJob->params);
+    break;
+  case 33:
+    // SAXPY
+    saxpy(currentJob->params);
+    break;
   }
   return currentJob;
 }
