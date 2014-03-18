@@ -1,10 +1,14 @@
 #!/bin/bash
 
+# SAXPY_Benchmark - A simple GPU SAXPY benchmark.
+#
 # Scott J. Krieder
 # skrieder@iit.edu
+# @skrieder
+# http://datasys.cs.iit.edu/~skrieder
 # Illinois Institute of Technology
 
-problem_size=100
+problem_size=1
 echo "Vector Size (array elements): $problem_size"
 total_problem_size=$(($problem_size*2))
 echo "Total Problem Size (array elements): $total_problem_size"
@@ -21,7 +25,7 @@ do
     printf "$total_problem_size_bytes\t" >> logs/saxpy_log.dat
     for i in {1..11} # 11 = 1024
     do
-	aprun ./cuda_saxpy $problem_size $threads >> logs/saxpy_log.dat 
+	./cuda_saxpy $problem_size $threads >> logs/saxpy_log.dat 
 	threads=$(($threads*2))
     done
     # print a new line
