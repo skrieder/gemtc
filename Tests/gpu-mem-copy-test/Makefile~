@@ -1,6 +1,0 @@
-all: mem-test
-
-mem-test:
-	nvcc -o mem-test hostToDevAsync.c
-clean:
-	rm mem-test
