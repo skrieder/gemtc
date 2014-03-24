@@ -18,6 +18,7 @@ int main( int argc, char* argv[] )
 {
   // Size of vectors
   int n = 100000;
+  cudaError_t err;
  
   // Host input vectors
   double *h_a;
@@ -40,9 +41,13 @@ int main( int argc, char* argv[] )
   h_c = (double*)malloc(bytes);
  
   // Allocate memory for each vector on GPU
-  cudaMalloc(&d_a, bytes);
-  cudaMalloc(&d_b, bytes);
-  cudaMalloc(&d_c, bytes);
+  err = cudaMalloc((void**)&d_a, bytes);
+  if (err != cudaSuccess) {
+     printf("%s in %s at line %d\n", cudaGetErrorString(err), __FILE__, __LINE__);
+     exit(EXIT_FAILURE);
+     }
+  cudaMalloc((void**)&d_b, bytes);
+  cudaMalloc((void**)&d_c, bytes);
  
   int i;
   // Initialize vectors on host
@@ -65,6 +70,7 @@ int main( int argc, char* argv[] )
  
   // Execute the kernel
   vecAdd<<<gridSize, blockSize>>>(d_a, d_b, d_c, n);
+  cudaDeviceSynchronize();
  
   // Copy array back to host
   cudaMemcpy( h_c, d_c, bytes, cudaMemcpyDeviceToHost );

@@ -1,4 +1,4 @@
 #!/bin/bash
 echo "Compiling CUDA"
-nvcc vadd.cu -o vadd
+nvcc saxpy.cu -g -o saxpy
 exit 0
