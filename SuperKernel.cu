@@ -28,7 +28,8 @@
 #include "Kernels/Pi.cu"
 #include "Kernels/MatrixDet.cu"
 #include "Kernels/ImageConv.cu"
-#include "Kernels/saxpy.cu"
+#include "Kernels/histogram.cu"
+//#include "Kernels/saxpy.cu"
 //#include "Kernels/Sort.cu"
 
 /*
@@ -201,7 +202,11 @@ __device__ JobPointer executeJob(JobPointer currentJob){
     break;
   case 33:
     // SAXPY
-    saxpy(currentJob->params);
+    //saxpy(currentJob->params);
+    break;
+  case 34:
+    //histogram
+    histogram(currentJob->params);
     break;
   }
   return currentJob;
