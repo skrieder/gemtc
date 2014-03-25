@@ -67,8 +67,8 @@ int main(int argc, char **argv){
   sdkStopTimer(&hTimer);
 
   double dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer) / 1.0;
-  printf("Throughput = %.4f MB/s, Time = %.5f s, Size = %u Bytes\n",
-                        (1.0e-6 * (double)byteCount / dAvgSecs), dAvgSecs, byteCount);
+  printf("%u\t%.4f\t%.5f\n",
+                        byteCount,(1.0e-6 * (double)byteCount / dAvgSecs), dAvgSecs);
   byteCount *= 10;
   }
   printf("Completed\n");
