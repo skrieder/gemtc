@@ -3,8 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
-#include <helper_cuda.h>
-#include <helper_functions.h>
 #define BIN_COUNT 256
 #define NUM_RUNS 6 
 #define CHECK_ERR(x)                                    \
@@ -46,13 +44,16 @@ int main(int argc, char *argv[])
  unsigned int byteCount = 1024;
  size_t size; 
  cudaError_t err;
- StopWatchInterface *hTimer = NULL;
- int iter; 
- sdkCreateTimer(&hTimer);
+ //StopWatchInterface *hTimer = NULL;
+ int iter;
+ struct timeval tim;
+  double t1,t2; 
+ //sdkCreateTimer(&hTimer);
  for(iter =0 ; iter< NUM_RUNS;iter++){
-  
-  sdkResetTimer(&hTimer);
-  sdkStartTimer(&hTimer);
+  gettimeofday(&tim, NULL);
+    t1=tim.tv_sec+(tim.tv_usec/1000000.0);
+  //sdkResetTimer(&hTimer);
+  //sdkStartTimer(&hTimer);
   srand (time(NULL));
  size = sizeof(unsigned char) * byteCount;
  h_data = (unsigned char *) malloc(sizeof(unsigned char) * byteCount);
@@ -72,7 +73,8 @@ int main(int argc, char *argv[])
  CHECK_ERR(err);
 
  cudaDeviceProp prop;
- checkCudaErrors( cudaGetDeviceProperties( &prop, 0 ) );
+ err =  cudaGetDeviceProperties( &prop, 0 );
+ CHECK_ERR(err);
  int blocks = prop.multiProcessorCount;
 
  histogram<<<blocks*2,BIN_COUNT>>>(d_data,byteCount,d_histogram);
@@ -86,16 +88,19 @@ int main(int argc, char *argv[])
  cudaFree(d_data);
  cudaFree(d_histogram);
  free(h_data);
- sdkStopTimer(&hTimer);
- 
- double dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer) / 1.0;
- printf("Throughput = %.4f MB/s, Time = %.5f s, Size = %u Bytes\n",
-                        (1.0e-6 * (double)byteCount / dAvgSecs), dAvgSecs, byteCount);
+ //sdkStopTimer(&hTimer);
+ gettimeofday(&tim, NULL);
+    t2=tim.tv_sec+(tim.tv_usec/1000000.0);
+printf("%u\t%.5lf\t%.6lf\t\n",byteCount,(1.0e-6 * (double)byteCount / (t2 - t1)),(t2-t1));
+
+ //double dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer) / 1.0;
+ //printf("%u\t%.4f\t%.5f\n",
+  //                      byteCount,(1.0e-6 * (double)byteCount / dAvgSecs), dAvgSecs);
  byteCount = byteCount * 10;
  
  }
 // Print timing information
 
-  sdkDeleteTimer(&hTimer);
+ // sdkDeleteTimer(&hTimer);
 }
 

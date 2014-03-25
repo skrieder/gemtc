@@ -1,4 +1,4 @@
 all:
-	nvcc -arch=sm_20 -I /usr/local/cuda-5.0/samples/common/inc/ -o histogram histogram.cu
+	nvcc -arch=sm_20 -I ../../../samples_include/inc/ -o histogram histogram.cu
 clean:
 	rm histogram
