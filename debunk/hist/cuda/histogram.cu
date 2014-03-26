@@ -6,7 +6,7 @@
 #include <helper_cuda.h>
 #include <helper_functions.h>
 #define BIN_COUNT 256
-#define NUM_RUNS 6 
+#define NUM_RUNS 8 
 #define CHECK_ERR(x)                                    \
   if (x != cudaSuccess) {                               \
     fprintf(stderr,"%s in %s at line %d\n",             \
