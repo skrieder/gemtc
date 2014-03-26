@@ -18,4 +18,5 @@ echo
 echo "Program Output begins: " 
 cd ${PBS_O_WORKDIR} 
 
-aprun ./histogram 1 1 
+aprun ./execute.sh 
+#aprun ./histogram
