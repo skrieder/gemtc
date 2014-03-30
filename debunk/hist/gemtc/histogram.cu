@@ -2,7 +2,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #define BIN_COUNT 256
-#define NUM_RUNS 6
+#define NUM_RUNS 5 
 #include <helper_functions.h>
 
 int main(int argc, char **argv){
@@ -22,15 +22,14 @@ int main(int argc, char **argv){
   StopWatchInterface *hTimer = NULL; 
   int iter;
    sdkCreateTimer(&hTimer);   
-  for(iter=0; iter < NUM_RUNS; iter++) {
-  sdkResetTimer(&hTimer);
-  sdkStartTimer(&hTimer); 
   gemtcSetup(25600, 1);
+  for(iter=0; iter < NUM_RUNS; iter++) {
 
   int d_size = sizeof(unsigned int) * byteCount;
   int h_size = sizeof(int) * BIN_COUNT;
   int size = 1 + d_size + h_size;
   int j;
+  int k;
   uint *h_params = (uint *) malloc(size);
 
    srand(2009);
@@ -39,7 +38,9 @@ int main(int argc, char **argv){
    {
         h_params[i] = rand() % 256;
    }
-
+  sdkResetTimer(&hTimer);
+  sdkStartTimer(&hTimer); 
+   for(k=0; k < 10 ; k++) {
    for(j=0; j<NUM_TASKS/LOOP_SIZE; j++){
         int i;
         for(i=0; i<LOOP_SIZE; i++){
@@ -62,15 +63,16 @@ int main(int argc, char **argv){
                 gemtcGPUFree(ret);
         }
   }
-  gemtcCleanup();
+  }
   free(h_params);
   sdkStopTimer(&hTimer);
-
-  double dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer) / 1.0;
+  double dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer) / 10.0;
+  printf("Time : %.4f\n", dAvgSecs);
   printf("%u\t%.4f\t%.5f\n",
                         byteCount,(1.0e-6 * (double)byteCount / dAvgSecs), dAvgSecs);
   byteCount *= 10;
   }
+  gemtcCleanup();
   printf("Completed\n");
   sdkDeleteTimer(&hTimer);
   return 0;

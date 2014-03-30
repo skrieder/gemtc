@@ -28,6 +28,7 @@ histogram( unsigned char *buffer,long size,unsigned int *histo ) {
   }
   __syncthreads();
   atomicAdd( &(histo[threadIdx.x]), temp[threadIdx.x] );
+  
 }
 
 void print(unsigned int *histo){
@@ -49,31 +50,33 @@ int main(int argc, char *argv[])
  StopWatchInterface *hTimer = NULL;
  int iter; 
  sdkCreateTimer(&hTimer);
+
+ cudaDeviceProp prop;
+ checkCudaErrors( cudaGetDeviceProperties( &prop, 0 ) );
+ int blocks = prop.multiProcessorCount;
+
  for(iter =0 ; iter< NUM_RUNS;iter++){
   
-  sdkResetTimer(&hTimer);
-  sdkStartTimer(&hTimer);
   srand (time(NULL));
  size = sizeof(unsigned char) * byteCount;
  h_data = (unsigned char *) malloc(sizeof(unsigned char) * byteCount);
-
+ for (unsigned int i = 0; i < byteCount; i++)
+ {
+        h_data[i] = rand() % 256;
+ }
+  sdkResetTimer(&hTimer);
+  sdkStartTimer(&hTimer);
+ int j;
+ for(j=0; j < 10; j++) {
  err=cudaMalloc((void **) &d_data, size);
  CHECK_ERR(err);
  err=cudaMalloc((void **) &d_histogram, sizeof(unsigned int) * BIN_COUNT);
  CHECK_ERR(err);
 
- for (unsigned int i = 0; i < byteCount; i++)
- {
-	h_data[i] = rand() % 256;
- } 
  err = cudaMemcpy(d_data,h_data,size,cudaMemcpyHostToDevice);
  CHECK_ERR(err);
  err = cudaMemcpy(d_histogram,h_histogram,sizeof(unsigned int) * BIN_COUNT, cudaMemcpyHostToDevice);
  CHECK_ERR(err);
-
- cudaDeviceProp prop;
- checkCudaErrors( cudaGetDeviceProperties( &prop, 0 ) );
- int blocks = prop.multiProcessorCount;
 
  histogram<<<blocks*2,BIN_COUNT>>>(d_data,byteCount,d_histogram);
  cudaDeviceSynchronize();
@@ -85,10 +88,10 @@ int main(int argc, char *argv[])
 //print(h_histogram);
  cudaFree(d_data);
  cudaFree(d_histogram);
- free(h_data);
+ }
  sdkStopTimer(&hTimer);
- 
- double dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer) / 1.0;
+ free(h_data); 
+ double dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer) / 10.0;
  printf("%u\t%.4f\t%.5f\n",
                         byteCount,(1.0e-6 * (double)byteCount / dAvgSecs), dAvgSecs);
  byteCount = byteCount * 10;
