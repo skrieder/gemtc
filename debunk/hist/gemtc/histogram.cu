@@ -67,7 +67,6 @@ int main(int argc, char **argv){
   free(h_params);
   sdkStopTimer(&hTimer);
   double dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer) / 10.0;
-  printf("Time : %.4f\n", dAvgSecs);
   printf("%u\t%.4f\t%.5f\n",
                         byteCount,(1.0e-6 * (double)byteCount / dAvgSecs), dAvgSecs);
   byteCount *= 10;
