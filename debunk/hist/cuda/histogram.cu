@@ -6,7 +6,8 @@
 #include <helper_cuda.h>
 #include <helper_functions.h>
 #define BIN_COUNT 256
-#define NUM_RUNS 6 
+#define NUM_RUNS 1 
+#define NUM_TEST 1.0
 #define CHECK_ERR(x)                                    \
   if (x != cudaSuccess) {                               \
     fprintf(stderr,"%s in %s at line %d\n",             \
@@ -67,7 +68,7 @@ int main(int argc, char *argv[])
   sdkResetTimer(&hTimer);
   sdkStartTimer(&hTimer);
  int j;
- for(j=0; j < 10; j++) {
+ for(j=0; j < NUM_TEST; j++) {
  err=cudaMalloc((void **) &d_data, size);
  CHECK_ERR(err);
  err=cudaMalloc((void **) &d_histogram, sizeof(unsigned int) * BIN_COUNT);
@@ -91,7 +92,7 @@ int main(int argc, char *argv[])
  }
  sdkStopTimer(&hTimer);
  free(h_data); 
- double dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer) / 10.0;
+ double dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer) / NUM_TEST;
  printf("%u\t%.4f\t%.5f\n",
                         byteCount,(1.0e-6 * (double)byteCount / dAvgSecs), dAvgSecs);
  byteCount = byteCount * 10;
