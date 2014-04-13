@@ -43,9 +43,8 @@ __global__ void superKernel(volatile Queue incoming,
                             volatile Queue results, volatile int *kill)
 { 
     int warp_size = 32;
-
     int threadID = threadIdx.x % warp_size;
-    int warpID = threadIdx.x / warp_size;   //add depenency on block?
+    int warpID = threadIdx.x /warp_size;   //add depenency on block?
 
     //Init shared memory to hold Task descriptions
     __shared__ JobPointer currentJobs[32];
@@ -64,7 +63,7 @@ __global__ void superKernel(volatile Queue incoming,
       //execute the task
       volatile JobPointer retval;
       if(threadID<(currentJobs[warpID]->numThreads)) 
-          retval = executeJob(currentJobs[warpID]);
+	retval = executeJob(currentJobs[warpID]);
       if(*kill)return;
       //enqueue the result
       if(threadID==0) EnqueueResult(retval, results, kill);

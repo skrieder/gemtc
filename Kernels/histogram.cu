@@ -11,14 +11,14 @@ __device__ void histogram(
 
         uint *d_Data = inputIn +1;
         uint *d_Histogram = d_Data + byteCount;
-
-
+printf("Thread #: %d\n",threadIdx.x);
 		int i = threadIdx.x %32;
 		
 	
 		while (i < byteCount)
 		{
-				atomicAdd( &(d_Histogram[d_Data[i]]), 1 );
+				//atomicAdd( &(d_Histogram[d_Data[i]]), 1 );
+				d_Histogram[d_Data[i]]++;
 				i+= 32;
 		}
 
