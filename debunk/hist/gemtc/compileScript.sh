@@ -1,5 +1,5 @@
 make
-./histogram 1 1 > histogram.dat
+./histogram > histogram.dat
 gnuplot format_histogram_time_670.p
 gnuplot format_histogram_thrgh_670.p
 scp plots/hist_throughput_GemTC_670.png karthik@datasys.cs.iit.edu:/home/karthik/public_html/hist_throughput_GemTC_670.png

@@ -41,6 +41,7 @@ void print(unsigned int *histo){
 }
 int main(int argc, char *argv[])
 {
+    int Overfill = 0;
     unsigned char * h_data;
     unsigned int h_histogram[BIN_COUNT];
     unsigned char * d_data;
@@ -53,8 +54,25 @@ int main(int argc, char *argv[])
     sdkCreateTimer(&hTimer);
     cudaDeviceProp prop;
     checkCudaErrors( cudaGetDeviceProperties( &prop, 0 ) );
+    int warps;
     int blocks = prop.multiProcessorCount;
+    if(Overfill==1){
+       warps = prop.maxThreadsPerBlock/32;
+    }
+    if(Overfill==0){
+       int coresPerSM = _ConvertSMVer2Cores(prop.major, prop.minor);
+       warps = coresPerSM/16;  //A warp runs on 16 cores
+    }
+    if(Overfill==2){
+        warps =1;
+        blocks = 1;
+    }	
+    int NUM_TASKS = warps * blocks;
+    
     for(iter =0 ; iter < NUM_RUNS;iter++){
+    
+    	byteCount  = byteCount / NUM_TASKS;
+	
         srand (time(NULL));
         size = sizeof(unsigned char) * byteCount;
         h_data = (unsigned char *) malloc(sizeof(unsigned char) * byteCount);
@@ -65,7 +83,7 @@ int main(int argc, char *argv[])
         sdkResetTimer(&hTimer);
         sdkStartTimer(&hTimer);
         int j;
-        for(j=0; j <  NUM_TEST; j++) {
+        for(j=0; j <  NUM_TASKS; j++) {
             err=cudaMalloc((void **) &d_data, size);
             CHECK_ERR(err);
             err=cudaMalloc((void **) &d_histogram, sizeof(unsigned int) * BIN_COUNT);
@@ -85,11 +103,11 @@ int main(int argc, char *argv[])
         }
         sdkStopTimer(&hTimer);
         free(h_data);
-        unsigned int problem_size = byteCount * 4;
-        double dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer) / NUM_TEST;
+        unsigned int problem_size = byteCount * 4 * NUM_TASKS;
+        double dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer);// / NUM_TEST;
         printf("%u\t%.4f\t%.5f\n",
         problem_size,(1.0e-6 * (double)problem_size / dAvgSecs), dAvgSecs);
-        byteCount = byteCount * 10;
+        byteCount = problem_size /4  * 10;
     }
     // Print timing information
     sdkDeleteTimer(&hTimer);
