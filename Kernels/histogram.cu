@@ -6,12 +6,12 @@ __device__ void histogram(
         void *input
 )
 {
-        uint * inputIn = (uint *) input;
+	uint * inputIn = (uint *) input;
         uint byteCount = inputIn[0];
 
         uint *d_Data = inputIn +1;
         uint *d_Histogram = d_Data + byteCount;
-printf("Thread #: %d\n",threadIdx.x);
+	//printf("Thread #: %d\n",threadIdx.x);
 		int i = threadIdx.x %32;
 		
 	
