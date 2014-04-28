@@ -29,6 +29,8 @@
 #include "Kernels/MatrixDet.cu"
 #include "Kernels/ImageConv.cu"
 #include "Kernels/histogram.cu"
+#include "Kernels/filtering.cu"
+
 //#include "Kernels/saxpy.cu"
 //#include "Kernels/Sort.cu"
 
@@ -47,7 +49,7 @@ __global__ void superKernel(volatile Queue incoming,
     int warpID = threadIdx.x /warp_size;   //add depenency on block?
 
     //Init shared memory to hold Task descriptions
-    __shared__ JobPointer currentJobs[32];
+    __shared__ JobPointer currentJobs[36];
 
     //Init general purpose shared memory
     // TODO: make this work correctly
@@ -206,6 +208,9 @@ __device__ JobPointer executeJob(JobPointer currentJob){
   case 34:
     //histogram
     histogram(currentJob->params);
+    break;
+  case 35:
+    bilateralFilter(currentJob->params);
     break;
   }
   return currentJob;
