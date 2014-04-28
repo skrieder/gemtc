@@ -21,7 +21,7 @@ float gaussian2d(float x, float y, float sigma)
 __device__
 void bilateralFilter(void *inp)
 {
-        const unsigned int idx = threadIdx.x % 32;
+        unsigned int idx = threadIdx.x % 32;
 	float3* input;
 	float3* output;
 	uint2 dims;
@@ -41,7 +41,8 @@ void bilateralFilter(void *inp)
 
 	input = in + 3;
 	output = input + size;
-
+	while(idx < size) {
+//	printf("Thread : %d\n",idx);
         uint2 pos = idx_to_co(idx,dims);
         int img_x = pos.x;
         int img_y = pos.y;
@@ -85,4 +86,6 @@ void bilateralFilter(void *inp)
         res.y /= normalization.y;
         res.z /= normalization.z;
         output[idx] = res;
+	idx +=32;
+	}
 }

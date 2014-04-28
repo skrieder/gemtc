@@ -7,7 +7,7 @@
 #include "../helper/uint_util.hcu"
 #include "../helper/float_util.hcu"
 #define NUM_TEST 10
-#define TEST_RUN 7 
+#define TEST_RUN 4 
 //#include "common/error.h"
 
 #include <math.h>
