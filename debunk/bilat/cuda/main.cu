@@ -6,8 +6,6 @@
 #include <helper_functions.h>
 #include "../helper/uint_util.hcu"
 #include "../helper/float_util.hcu"
-#define NUM_TEST 10
-#define TEST_RUN 4 
 //#include "common/error.h"
 
 #include <math.h>
@@ -145,20 +143,21 @@ return colors;
 }
 */
 int main(int argc, char** argv) {
-    if (argc != 5){
-        printf("invalid parameters, use:  <channels> <neighborhood radius> <spatial sigma> <range sigma>\n");
+    if (argc != 3){
+        printf("invalid parameters, use: <NUM_INPUTS> <NUM_TEST>\n");
     return -1;
     }
-   
-    const unsigned int channels = atoi(argv[1]);
+    
+        //const unsigned int channels = 1;//atoi(argv[1]);
 	StopWatchInterface *hTimer = NULL;
 	unsigned int width = IMAGE_SIZE;
 	unsigned int height = IMAGE_SIZE;
 	sdkCreateTimer(&hTimer);
-        radius = atoi(argv[2]);
-        sigma_spatial = (float)atof(argv[3]);
-        sigma_range = (float)atof(argv[4]);
-
+        radius = 1;//atoi(argv[2]);
+        sigma_spatial = 1.0; //(float)atof(argv[3]);
+        sigma_range = 1.0; //(float)atof(argv[4]);
+	int TEST_RUN = atoi(argv[1]);
+	int NUM_TEST = atoi(argv[2]);
         for(int i = 0; i < TEST_RUN; i++)
         {
 			RGB *data=(RGB *) malloc (sizeof(RGB) * width * height);

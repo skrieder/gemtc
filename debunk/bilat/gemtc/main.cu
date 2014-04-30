@@ -3,8 +3,8 @@
 #include<stdlib.h>
 #include <helper_functions.h>
 #include <cuda_runtime.h>
-#define NUM_TEST 1
-#define TEST_RUN 4 
+//#define NUM_TEST 1
+//#define TEST_RUN 4 
 #define IMAGE_SIZE 1024
 
 typedef struct {
@@ -18,14 +18,14 @@ int main(int argc, char **argv){
 
     int NUM_TASKS=1, LOOP_SIZE=1;
     int Overfill = 0;
-    if (argc != 5){
-        printf("invalid parameters, use:  <channels> <neighborhood radius> <spatial sigma> <range sigma>\n");
+    if (argc != 3){
+        printf("invalid parameters, use:  <NUM_INPUTS> <NUM_TEST>\n");
         return -1;
     }
-    const unsigned int channels = atoi(argv[1]);
-    unsigned int radius = atoi(argv[2]);
-    float sigma_spatial = (float)atof(argv[3]);
-    float sigma_range = (float)atof(argv[4]);
+    const unsigned int channels = 1;//atoi(argv[1]);
+    unsigned int radius = 1;//atoi(argv[2]);
+    float sigma_spatial = 1.0;//(float)atof(argv[3]);
+    float sigma_range = 1.0;//(float)atof(argv[4]);
 
     unsigned int width = IMAGE_SIZE;
     unsigned int height = IMAGE_SIZE;
@@ -34,6 +34,8 @@ int main(int argc, char **argv){
     cudaGetDeviceProperties(&devProp, 0);
     StopWatchInterface *hTimer = NULL;
     sdkCreateTimer(&hTimer);
+    int TEST_RUN = atoi(argv[1]);
+    int NUM_TEST = atoi(argv[2]);
 
     /*int warps;
     int blocks = devProp.multiProcessorCount;
@@ -85,13 +87,14 @@ int main(int argc, char **argv){
 			data[j] = c;
 		 }
 
-		gemtcSetup(25600, Overfill);
+		//gemtcSetup(25600, Overfill);
 
 
 		sdkResetTimer(&hTimer);
 		sdkStartTimer(&hTimer);
 
 		for(int k=0; k < NUM_TEST ; k++) {
+			gemtcSetup(25600, Overfill);
 			for(int j=0; j <NUM_TASKS/LOOP_SIZE; j++){
 				int x;
 				for(x=0; x < LOOP_SIZE; x++){
@@ -110,12 +113,13 @@ int main(int argc, char **argv){
 					gemtcGPUFree(ret);
 				}
 			}
+			gemtcCleanup();
 		}
 		free(data);
 		sdkStopTimer(&hTimer);
 		double dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer) / (double) NUM_TEST;
 		printf("%u\t%.5f\n",width*height, dAvgSecs);
-		gemtcCleanup();
+		//gemtcCleanup();
 		width *= 2;
 
 	}

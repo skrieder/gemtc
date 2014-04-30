@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include <math.h>
-#define NUM_TEST 1
-#define TEST_RUN 4
+//#define NUM_TEST 1
+//#define TEST_RUN 4
 //#include "common/error.h"
 
 
@@ -144,20 +144,22 @@ void CPUbilateralFiltering(RGB* data, int width, int height,int radius, float si
 
 
 int main(int argc, char** argv) {
-    if (argc != 5){
-        printf("invalid parameters, use:  <channels> <neighborhood radius> <spatial sigma> <range sigma>\n");
+    if (argc != 3){
+        printf("invalid parameters, use:  <NUM_INPUTS> <NUM_TEST>\n");
     return -1;
     }
 
-		const unsigned int channels = atoi(argv[1]);
+	const unsigned int channels = atoi(argv[1]);
         unsigned int width = IMAGE_SIZE;
         unsigned int height = IMAGE_SIZE;
-        radius = atoi(argv[2]);
-        sigma_spatial = (float)atof(argv[3]);
-        sigma_range = (float)atof(argv[4]);
-		srand (2009);
+        radius = 1;//atoi(argv[2]);
+        sigma_spatial = 1.0;//(float)atof(argv[3]);
+        sigma_range = 1.0; //(float)atof(argv[4]);
+	srand (2009);
 	struct timeval tim;
-	 double t1,t2;
+	double t1,t2;
+	int TEST_RUN = atoi(argv[1]);
+	int NUM_TEST = atoi(argv[2]);
         for(int i = 0; i < TEST_RUN; i++)
         {
         	RGB *data=(RGB *) malloc (sizeof(RGB) * width * height);

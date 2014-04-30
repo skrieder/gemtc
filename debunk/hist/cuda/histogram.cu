@@ -6,8 +6,8 @@
 #include <helper_cuda.h>
 #include <helper_functions.h>
 #define BIN_COUNT 256
-#define NUM_RUNS 5 
-#define NUM_TEST 10.0
+//#define NUM_RUNS 5 
+//#define NUM_TEST 10.0
 #define BYTE_COUNT 25600
 #define CHECK_ERR(x)                                    \
   if (x != cudaSuccess) {                               \
@@ -41,6 +41,10 @@ void print(unsigned int *histo){
 }
 int main(int argc, char *argv[])
 {
+    if (argc != 3){
+        printf("invalid parameters, use: <NUM_INPUTS> <NUM_TEST>\n");
+    return -1;
+    }
     unsigned char * h_data;
     unsigned int h_histogram[BIN_COUNT];
     unsigned char * d_data;
@@ -48,6 +52,10 @@ int main(int argc, char *argv[])
     unsigned int byteCount = BYTE_COUNT;
     size_t size;
     cudaError_t err;
+
+    int NUM_RUNS = atoi(argv[1]);
+    int NUM_TEST = atoi(argv[2]);
+
     StopWatchInterface *hTimer = NULL;
     int iter;
     sdkCreateTimer(&hTimer);
@@ -86,7 +94,7 @@ int main(int argc, char *argv[])
         sdkStopTimer(&hTimer);
         free(h_data);
         unsigned int problem_size = byteCount * 4;
-        double dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer) / NUM_TEST;
+        double dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer) / (double) NUM_TEST;
         printf("%u\t%.4f\t%.5f\n",
         problem_size,(1.0e-6 * (double)problem_size / dAvgSecs), dAvgSecs);
         byteCount = byteCount * 10;

@@ -1,8 +1,6 @@
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
 #include "../../saxpy/saxpy.c"
-#include "../../../utils/logger.h"
-#include "../../../utils/logger.c"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
@@ -118,13 +116,13 @@ int main(int argc, char *argv[]){
   }
 
   //Copy back the results from the device
-  printf("%x %x %d\n", h_C, d_C, size_N);
+  //printf("%x %x %d\n", h_C, d_C, size_N);
   
   float * temp = (float *)malloc(size_N);
   //  err = cudaMemcpy((void *)h_C, (void *)d_C, size_N, cudaMemcpyDeviceToHost);
   err = cudaMemcpy((void *)temp, (void *)d_C, size_N, cudaMemcpyDeviceToHost);
   CHECK_ERR(err);
-  printf("AFTER COPY BACK!\n");
+  //printf("AFTER COPY BACK!\n");
 
 #ifdef DEBUG
   print(h_C,IMAGE_WIDTH);
