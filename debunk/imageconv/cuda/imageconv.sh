@@ -39,10 +39,10 @@ done
 if [$FLAG -eq 1]
 then
   gnuplot format_imageconv_mflops.p
-  scp plots/imageconv_mflops_data_incl_460.png karthik@datasys.cs.iit.edu:~/public_html/
+  scp plots/imageconv_mflops_data_incl_670.png karthik@datasys.cs.iit.edu:~/public_html/
 else
   gnuplot format_imageconv_mflops_do.p
-  scp plots/imageconv_mflops_data_incl_460_onlygpu.png karthik@datasys.cs.iit.edu:~/public_html/
+  scp plots/imageconv_mflops_data_incl_670_onlygpu.png karthik@datasys.cs.iit.edu:~/public_html/
 fi
 cd $TMP_DIR
 exit
