@@ -18,6 +18,4 @@ echo
 echo "Program Output begins: " 
 cd ${PBS_O_WORKDIR} 
 
-#aprun ./imageconv_r.sh
-aprun ./imageconv 1 1 100 50 
-#aprun ./MatrixMul 1 1 9 1
+aprun ./imageconv_r.sh
