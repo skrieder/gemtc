@@ -1,0 +1,6 @@
+module load cudatoolkit/5.0.35
+export TCLLIBPATH=$PWD
+export LD_LIBRARY_PATH=$PWD:/usr/local/cuda/lib64
+export TURBINE_USER_LIB=$PWD
+export TURBINE_LOG=1
+export ADLB_PRINT_TIME=1

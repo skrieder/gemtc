@@ -1,0 +1,15 @@
+# build
+./build.sh
+
+# rm tcl file
+rm test-sleep-1.tcl
+
+# recompile
+stc test-sleep-1.swift
+
+# source ENV
+source ENV
+
+# run turbine
+turbine test-sleep-1.tcl -sleepTime=0
+
