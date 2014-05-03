@@ -6,8 +6,9 @@
 #include <helper_cuda.h>
 #include <helper_functions.h>
 #define BIN_COUNT 256
-#define NUM_RUNS 1 
-#define NUM_TEST 1.0
+//#define NUM_RUNS 5 
+//#define NUM_TEST 10.0
+#define BYTE_COUNT 25600
 #define CHECK_ERR(x)                                    \
   if (x != cudaSuccess) {                               \
     fprintf(stderr,"%s in %s at line %d\n",             \
@@ -33,73 +34,71 @@ histogram( unsigned char *buffer,long size,unsigned int *histo ) {
 }
 
 void print(unsigned int *histo){
-int i;
-for(i=0;i<BIN_COUNT;i++){
-printf("%d\t",histo[i]);
+    int i;
+    for(i=0;i<BIN_COUNT;i++){
+        printf("%d\t",histo[i]);
+    }
 }
-}
-
 int main(int argc, char *argv[])
 {
- unsigned char * h_data;
- unsigned int h_histogram[BIN_COUNT];
- unsigned char * d_data;
- unsigned int * d_histogram;
- unsigned int byteCount = 1024;
- size_t size; 
- cudaError_t err;
- StopWatchInterface *hTimer = NULL;
- int iter; 
- sdkCreateTimer(&hTimer);
+    if (argc != 3){
+        printf("invalid parameters, use: <NUM_INPUTS> <NUM_TEST>\n");
+    return -1;
+    }
+    unsigned char * h_data;
+    unsigned int h_histogram[BIN_COUNT];
+    unsigned char * d_data;
+    unsigned int * d_histogram;
+    unsigned int byteCount = BYTE_COUNT;
+    size_t size;
+    cudaError_t err;
 
- cudaDeviceProp prop;
- checkCudaErrors( cudaGetDeviceProperties( &prop, 0 ) );
- int blocks = prop.multiProcessorCount;
+    int NUM_RUNS = atoi(argv[1]);
+    int NUM_TEST = atoi(argv[2]);
 
- for(iter =0 ; iter< NUM_RUNS;iter++){
-  
-  srand (time(NULL));
- size = sizeof(unsigned char) * byteCount;
- h_data = (unsigned char *) malloc(sizeof(unsigned char) * byteCount);
- for (unsigned int i = 0; i < byteCount; i++)
- {
-        h_data[i] = rand() % 256;
- }
-  sdkResetTimer(&hTimer);
-  sdkStartTimer(&hTimer);
- int j;
- for(j=0; j < NUM_TEST; j++) {
- err=cudaMalloc((void **) &d_data, size);
- CHECK_ERR(err);
- err=cudaMalloc((void **) &d_histogram, sizeof(unsigned int) * BIN_COUNT);
- CHECK_ERR(err);
-
- err = cudaMemcpy(d_data,h_data,size,cudaMemcpyHostToDevice);
- CHECK_ERR(err);
- err = cudaMemcpy(d_histogram,h_histogram,sizeof(unsigned int) * BIN_COUNT, cudaMemcpyHostToDevice);
- CHECK_ERR(err);
-
- histogram<<<blocks*2,BIN_COUNT>>>(d_data,byteCount,d_histogram);
- cudaDeviceSynchronize();
-
-//Copy back the results from the device
- err = cudaMemcpy(h_histogram,d_histogram,sizeof(unsigned int) * BIN_COUNT,cudaMemcpyDeviceToHost);
- CHECK_ERR(err);
-
-//print(h_histogram);
- cudaFree(d_data);
- cudaFree(d_histogram);
- }
- sdkStopTimer(&hTimer);
- free(h_data); 
- double dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer) / NUM_TEST;
- printf("%u\t%.4f\t%.5f\n",
-                        byteCount,(1.0e-6 * (double)byteCount / dAvgSecs), dAvgSecs);
- byteCount = byteCount * 10;
- 
- }
-// Print timing information
-
-  sdkDeleteTimer(&hTimer);
+    StopWatchInterface *hTimer = NULL;
+    int iter;
+    sdkCreateTimer(&hTimer);
+    cudaDeviceProp prop;
+    checkCudaErrors( cudaGetDeviceProperties( &prop, 0 ) );
+    int blocks = prop.multiProcessorCount;
+    for(iter =0 ; iter < NUM_RUNS;iter++){
+        srand (time(NULL));
+        size = sizeof(unsigned char) * byteCount;
+        h_data = (unsigned char *) malloc(sizeof(unsigned char) * byteCount);
+        for (unsigned int i = 0; i < byteCount; i++)
+        {
+            h_data[i] = rand() % 256;
+        }
+        sdkResetTimer(&hTimer);
+        sdkStartTimer(&hTimer);
+        int j;
+        for(j=0; j <  NUM_TEST; j++) {
+            err=cudaMalloc((void **) &d_data, size);
+            CHECK_ERR(err);
+            err=cudaMalloc((void **) &d_histogram, sizeof(unsigned int) * BIN_COUNT);
+            CHECK_ERR(err);
+            err = cudaMemcpy(d_data,h_data,size,cudaMemcpyHostToDevice);
+            CHECK_ERR(err);
+            err = cudaMemcpy(d_histogram,h_histogram,sizeof(unsigned int) * BIN_COUNT, cudaMemcpyHostToDevice);
+            CHECK_ERR(err);
+            histogram<<<blocks,BIN_COUNT>>>(d_data,byteCount,d_histogram);
+            cudaDeviceSynchronize();
+            //Copy back the results from the device
+            err = cudaMemcpy(h_histogram,d_histogram,sizeof(unsigned int) * BIN_COUNT,cudaMemcpyDeviceToHost);
+            CHECK_ERR(err);
+            //print(h_histogram);
+            cudaFree(d_data);
+            cudaFree(d_histogram);
+        }
+        sdkStopTimer(&hTimer);
+        free(h_data);
+        unsigned int problem_size = byteCount * 4;
+        double dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer) / (double) NUM_TEST;
+        printf("%u\t%.4f\t%.5f\n",
+        problem_size,(1.0e-6 * (double)problem_size / dAvgSecs), dAvgSecs);
+        byteCount = byteCount * 10;
+    }
+    // Print timing information
+    sdkDeleteTimer(&hTimer);
 }
-

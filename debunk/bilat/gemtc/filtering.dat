@@ -1,0 +1,14 @@
+1048576	1.71173
+2097152	0.28804
+4194304	0.47865
+GEMTC Error:   the launch timed out and was terminated   at FandDJob, Updating Queue
+GEMTC Error:   the launch timed out and was terminated   at DeviceToHost API call
+GEMTC Error:   the launch timed out and was terminated   at Reading size of freed memory
+GEMTC Error:   the launch timed out and was terminated   at Writing the kill command to SuperKernel
+GEMTC Error:   the launch timed out and was terminated   at DisposeQueue, Copying Queue to get array pointer
+GEMTC Error:   the launch timed out and was terminated   at Reading size of freed memory
+GEMTC Error:   the launch timed out and was terminated   at Reading size of freed memory
+GEMTC Error:   the launch timed out and was terminated   at DisposeQueue, Copying Queue to get array pointer
+GEMTC Error:   the launch timed out and was terminated   at Reading size of freed memory
+GEMTC Error:   the launch timed out and was terminated   at Reading size of freed memory
+8388608	8.56776

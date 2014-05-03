@@ -29,6 +29,8 @@
 #include "Kernels/MatrixDet.cu"
 #include "Kernels/ImageConv.cu"
 #include "Kernels/histogram.cu"
+#include "Kernels/filtering.cu"
+
 //#include "Kernels/saxpy.cu"
 //#include "Kernels/Sort.cu"
 
@@ -206,6 +208,9 @@ __device__ JobPointer executeJob(JobPointer currentJob){
   case 34:
     //histogram
     histogram(currentJob->params);
+    break;
+  case 35:
+    bilateralFilter(currentJob->params);
     break;
   }
   return currentJob;
