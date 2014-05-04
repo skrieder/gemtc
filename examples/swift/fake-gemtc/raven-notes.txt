@@ -1,0 +1,21 @@
+
+SWIFT/T INSTALLATION
+
+PATH entries:
+~p01577/Public/stc/bin
+~p01577/Public/turbine/bin
+~p01577/Public/turbine/scripts/submit/cray
+
+Set:
+
+export QUEUE=gpu_nodes
+
+Raven has 8 GPU nodes
+
+For now, do:
+
+export NODES=8 PPN=1
+This gives you 6 workers and 2 nodes for control
+export TURBINE_USER_LIB=$PWD
+export TURBINE_OUTPUT=~/turbine-output
+export TURBINE_LOG=0
