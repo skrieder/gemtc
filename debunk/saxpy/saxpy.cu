@@ -5,11 +5,10 @@
 #include <sys/time.h>
 
 __global__
-void cuda_saxpy(int num_threads, int n, float a, float *d_x, float *d_y)
+void cuda_saxpy(int num_threads, 
+   int n, float a, float *d_x, float *d_y)
 {
   int i = threadIdx.x;
-
-  // This loop performs 3 floating point ops per iteration.
   while(i<n){
     d_y[i] = a*d_x[i] + d_y[i];
     i = i+num_threads;

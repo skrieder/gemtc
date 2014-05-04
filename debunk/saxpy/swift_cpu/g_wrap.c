@@ -1717,21 +1717,6 @@ SWIG_From_int  (int value)
   return SWIG_From_long  (value);
 }
 
-
-SWIGINTERN int
-SWIG_AsVal_double SWIG_TCL_DECL_ARGS_2(Tcl_Obj *obj, double *val)
-{
-  double v;
-  if (Tcl_GetDoubleFromObj(0, obj, &v) == TCL_OK) {
-    if (val) *val = v;
-    return SWIG_OK;
-  }
-  return SWIG_TypeError;
-}
-
-
-  #define SWIG_From_double   Tcl_NewDoubleObj 
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -1764,80 +1749,9 @@ fail:
 }
 
 
-SWIGINTERN int
-_wrap_mdproxy_wrapper(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
-  long arg1 ;
-  long arg2 ;
-  double arg3 ;
-  long val1 ;
-  int ecode1 = 0 ;
-  long val2 ;
-  int ecode2 = 0 ;
-  double val3 ;
-  int ecode3 = 0 ;
-  int result;
-  
-  if (SWIG_GetArgs(interp, objc, objv,"ooo:mdproxy_wrapper np nd mass ",(void *)0,(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
-  ecode1 = SWIG_AsVal_long SWIG_TCL_CALL_ARGS_2(objv[1], &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "mdproxy_wrapper" "', argument " "1"" of type '" "long""'");
-  } 
-  arg1 = (long)(val1);
-  ecode2 = SWIG_AsVal_long SWIG_TCL_CALL_ARGS_2(objv[2], &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "mdproxy_wrapper" "', argument " "2"" of type '" "long""'");
-  } 
-  arg2 = (long)(val2);
-  ecode3 = SWIG_AsVal_double SWIG_TCL_CALL_ARGS_2(objv[3], &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "mdproxy_wrapper" "', argument " "3"" of type '" "double""'");
-  } 
-  arg3 = (double)(val3);
-  result = (int)mdproxy_wrapper(arg1,arg2,arg3);
-  Tcl_SetObjResult(interp,SWIG_From_int((int)(result)));
-  return TCL_OK;
-fail:
-  return TCL_ERROR;
-}
-
-
-SWIGINTERN int
-_wrap_dumpParams(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
-  void *arg1 = (void *) 0 ;
-  int res1 ;
-  
-  if (SWIG_GetArgs(interp, objc, objv,"o:dumpParams params ",(void *)0) == TCL_ERROR) SWIG_fail;
-  res1 = SWIG_ConvertPtr(objv[1],SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "dumpParams" "', argument " "1"" of type '" "void *""'"); 
-  }
-  dumpParams(arg1);
-  
-  return TCL_OK;
-fail:
-  return TCL_ERROR;
-}
-
-
-SWIGINTERN int
-_wrap_cpu_time(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
-  double result;
-  
-  if (SWIG_GetArgs(interp, objc, objv,":cpu_time ") == TCL_ERROR) SWIG_fail;
-  result = (double)cpu_time();
-  Tcl_SetObjResult(interp,SWIG_From_double((double)(result)));
-  return TCL_OK;
-fail:
-  return TCL_ERROR;
-}
-
-
 
 static swig_command_info swig_commands[] = {
     { SWIG_prefix "g", (swig_wrapper_func) _wrap_g, NULL},
-    { SWIG_prefix "mdproxy_wrapper", (swig_wrapper_func) _wrap_mdproxy_wrapper, NULL},
-    { SWIG_prefix "dumpParams", (swig_wrapper_func) _wrap_dumpParams, NULL},
-    { SWIG_prefix "cpu_time", (swig_wrapper_func) _wrap_cpu_time, NULL},
     {0, 0, 0}
 };
 
