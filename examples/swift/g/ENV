@@ -1,0 +1,9 @@
+export TCLLIBPATH=$PWD
+export LD_LIBRARY_PATH=$PWD:/usr/local/cuda/lib64
+export TURBINE_USER_LIB=$PWD
+export TURBINE_LOG=0
+export ADLB_PRINT_TIME=1
+export LEAF_PKG=g
+LEAF_SO 
+LEAF_TCL 
+LEAF_VERSION
