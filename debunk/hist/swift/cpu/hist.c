@@ -1,19 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/time.h>
+#include "hist.h"
 #define BIN_COUNT 256
-//#define NUM_RUNS 6 
 
-void print(unsigned int *histo){
-int i;
-for(i=0;i<BIN_COUNT;i++){
-printf("%d\t",histo[i]);
-}
-}
-
-int main(int argc, char *argv[])
-{
- 	unsigned char * h_data;
+void hist(int inputs){
+unsigned char * h_data;
  	unsigned int h_histogram[BIN_COUNT];
  	unsigned char * d_data;
  	unsigned int * d_histogram;
@@ -22,11 +11,7 @@ int main(int argc, char *argv[])
  	struct timeval tim;
  	double t1,t2;
  	int iter, i;
- 	if (argc != 2){
-        	printf("invalid parameters, use: <NUM_INPUTS>\n");
-    		return -1;
-    	}
-	int NUM_RUNS = atoi(argv[1]);
+ 	int NUM_RUNS = inputs;
  	
 	for(iter =0 ; iter< NUM_RUNS;iter++){
  	srand (2009);
@@ -52,14 +37,12 @@ int main(int argc, char *argv[])
  	free(h_data); 
  	
 	double dAvgSecs = (t2-t1);
-	
+
 	unsigned int problem_size = byteCount * 4;
         printf("%u\t%.4f\t%.5f\n",
         problem_size,(1.0e-6 * (double)problem_size / dAvgSecs), dAvgSecs);
  	byteCount = byteCount * 10;
  
  	}
-// Print timing information
 
 }
-
