@@ -1619,16 +1619,22 @@ SWIG_Tcl_GetArgs(Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[], const char
 
 /* -------- TYPES TABLE (BEGIN) -------- */
 
-#define SWIGTYPE_p_char swig_types[0]
-static swig_type_info *swig_types[2];
-static swig_module_info swig_module = {swig_types, 1, 0, 0, 0, 0};
+#define SWIGTYPE_p_GEMTC_S swig_types[0]
+#define SWIGTYPE_p_ResultPair swig_types[1]
+#define SWIGTYPE_p_char swig_types[2]
+#define SWIGTYPE_p_double swig_types[3]
+#define SWIGTYPE_p_int swig_types[4]
+#define SWIGTYPE_p_p_void swig_types[5]
+#define SWIGTYPE_p_void swig_types[6]
+static swig_type_info *swig_types[8];
+static swig_module_info swig_module = {swig_types, 7, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
 /* -------- TYPES TABLE (END) -------- */
 
-#define SWIG_init    G_Init
-#define SWIG_name    "g"
+#define SWIG_init    Tclgemtc_Init
+#define SWIG_name    "gemtc"
 #define SWIG_prefix  ""
 #define SWIG_version "0.0"
 
@@ -1660,6 +1666,9 @@ SWIGEXPORT int SWIG_init(Tcl_Interp *);
 #define SWIG_TCL_STUBS_VERSION "8.1"
 #endif
 
+
+
+#include "gemtc.h"
 
 
 #include <limits.h>
@@ -1717,32 +1726,1534 @@ SWIG_From_int  (int value)
   return SWIG_From_long  (value);
 }
 
+
+SWIGINTERN int
+SWIG_AsCharPtrAndSize(Tcl_Obj *obj, char** cptr, size_t* psize, int *alloc)
+{ 
+  int len = 0;
+  char *cstr = Tcl_GetStringFromObj(obj, &len);
+  if (cstr) {
+    if (cptr)  *cptr = cstr;
+    if (psize) *psize = len + 1;
+    if (alloc) *alloc = SWIG_OLDOBJ;
+    return SWIG_OK;
+  }
+  return SWIG_TypeError;
+}
+
+
+
+
+
+SWIGINTERN int
+SWIG_AsVal_double SWIG_TCL_DECL_ARGS_2(Tcl_Obj *obj, double *val)
+{
+  double v;
+  if (Tcl_GetDoubleFromObj(0, obj, &v) == TCL_OK) {
+    if (val) *val = v;
+    return SWIG_OK;
+  }
+  return SWIG_TypeError;
+}
+
+
+  #define SWIG_From_double   Tcl_NewDoubleObj 
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 SWIGINTERN int
-_wrap_g(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+_wrap_ResultPair_ID_set(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  struct ResultPair *arg1 = (struct ResultPair *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"oo:ResultPair_ID_set self ID ",(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1], &argp1,SWIGTYPE_p_ResultPair, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ResultPair_ID_set" "', argument " "1"" of type '" "struct ResultPair *""'"); 
+  }
+  arg1 = (struct ResultPair *)(argp1);
+  ecode2 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[2], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ResultPair_ID_set" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
+  if (arg1) (arg1)->ID = arg2;
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_ResultPair_ID_get(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  struct ResultPair *arg1 = (struct ResultPair *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int result;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:ResultPair_ID_get self ",(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1], &argp1,SWIGTYPE_p_ResultPair, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ResultPair_ID_get" "', argument " "1"" of type '" "struct ResultPair *""'"); 
+  }
+  arg1 = (struct ResultPair *)(argp1);
+  result = (int) ((arg1)->ID);
+  Tcl_SetObjResult(interp,SWIG_From_int((int)(result)));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_ResultPair_params_set(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  struct ResultPair *arg1 = (struct ResultPair *) 0 ;
+  void *arg2 = (void *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"oo:ResultPair_params_set self params ",(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1], &argp1,SWIGTYPE_p_ResultPair, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ResultPair_params_set" "', argument " "1"" of type '" "struct ResultPair *""'"); 
+  }
+  arg1 = (struct ResultPair *)(argp1);
+  res2 = SWIG_ConvertPtr(objv[2],SWIG_as_voidptrptr(&arg2), 0, SWIG_POINTER_DISOWN);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ResultPair_params_set" "', argument " "2"" of type '" "void *""'"); 
+  }
+  if (arg1) (arg1)->params = arg2;
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_ResultPair_params_get(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  struct ResultPair *arg1 = (struct ResultPair *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *result = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:ResultPair_params_get self ",(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1], &argp1,SWIGTYPE_p_ResultPair, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ResultPair_params_get" "', argument " "1"" of type '" "struct ResultPair *""'"); 
+  }
+  arg1 = (struct ResultPair *)(argp1);
+  result = (void *) ((arg1)->params);
+  Tcl_SetObjResult(interp, SWIG_NewInstanceObj( SWIG_as_voidptr(result), SWIGTYPE_p_void,0));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_new_ResultPair(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  struct ResultPair *result = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,":new_ResultPair ") == TCL_ERROR) SWIG_fail;
+  result = (struct ResultPair *)calloc(1, sizeof(struct ResultPair));
+  Tcl_SetObjResult(interp, SWIG_NewInstanceObj( SWIG_as_voidptr(result), SWIGTYPE_p_ResultPair,0));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_delete_ResultPair(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  struct ResultPair *arg1 = (struct ResultPair *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:delete_ResultPair self ",(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1], &argp1,SWIGTYPE_p_ResultPair, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_ResultPair" "', argument " "1"" of type '" "struct ResultPair *""'"); 
+  }
+  arg1 = (struct ResultPair *)(argp1);
+  free((char *) arg1);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN void swig_delete_ResultPair(void *obj) {
+struct ResultPair *arg1 = (struct ResultPair *) obj;
+free((char *) arg1);
+}
+static swig_method swig_ResultPair_methods[] = {
+    {0,0}
+};
+static swig_attribute swig_ResultPair_attributes[] = {
+    { "-ID",_wrap_ResultPair_ID_get, _wrap_ResultPair_ID_set},
+    { "-params",_wrap_ResultPair_params_get, _wrap_ResultPair_params_set},
+    {0,0,0}
+};
+static swig_class *swig_ResultPair_bases[] = {0};
+static const char * swig_ResultPair_base_names[] = {0};
+static swig_class _wrap_class_ResultPair = { "ResultPair", &SWIGTYPE_p_ResultPair,_wrap_new_ResultPair, swig_delete_ResultPair, swig_ResultPair_methods, swig_ResultPair_attributes, swig_ResultPair_bases,swig_ResultPair_base_names, &swig_module };
+SWIGINTERN int
+_wrap_PrintArray(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void *arg1 = (void *) 0 ;
+  int arg2 ;
+  int res1 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"oo:PrintArray ptr num_elements ",(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1],SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "PrintArray" "', argument " "1"" of type '" "void *""'"); 
+  }
+  ecode2 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[2], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "PrintArray" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
+  PrintArray(arg1,arg2);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_gemtcSetup(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
   int arg1 ;
   int arg2 ;
   int val1 ;
   int ecode1 = 0 ;
   int val2 ;
   int ecode2 = 0 ;
-  int result;
   
-  if (SWIG_GetArgs(interp, objc, objv,"oo:g i1 i2 ",(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  if (SWIG_GetArgs(interp, objc, objv,"oo:gemtcSetup int int ",(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
   ecode1 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[1], &val1);
   if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "g" "', argument " "1"" of type '" "int""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "gemtcSetup" "', argument " "1"" of type '" "int""'");
   } 
   arg1 = (int)(val1);
   ecode2 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[2], &val2);
   if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "g" "', argument " "2"" of type '" "int""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "gemtcSetup" "', argument " "2"" of type '" "int""'");
   } 
   arg2 = (int)(val2);
-  result = (int)g(arg1,arg2);
+  gemtcSetup(arg1,arg2);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_gemtcCleanup(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  if (SWIG_GetArgs(interp, objc, objv,":gemtcCleanup ") == TCL_ERROR) SWIG_fail;
+  gemtcCleanup();
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_gemtcBlockingRun(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  int arg1 ;
+  int arg2 ;
+  int arg3 ;
+  void *arg4 = (void *) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  int res4 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"oooo:gemtcBlockingRun Type Threads ID d_params ",(void *)0,(void *)0,(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  ecode1 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[1], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "gemtcBlockingRun" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  ecode2 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[2], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "gemtcBlockingRun" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
+  ecode3 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[3], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "gemtcBlockingRun" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = (int)(val3);
+  res4 = SWIG_ConvertPtr(objv[4],SWIG_as_voidptrptr(&arg4), 0, 0);
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "gemtcBlockingRun" "', argument " "4"" of type '" "void *""'"); 
+  }
+  gemtcBlockingRun(arg1,arg2,arg3,arg4);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_gemtcPush(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  int arg1 ;
+  int arg2 ;
+  int arg3 ;
+  void *arg4 = (void *) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  int res4 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"oooo:gemtcPush taskType threads ID d_parameters ",(void *)0,(void *)0,(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  ecode1 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[1], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "gemtcPush" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  ecode2 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[2], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "gemtcPush" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
+  ecode3 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[3], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "gemtcPush" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = (int)(val3);
+  res4 = SWIG_ConvertPtr(objv[4],SWIG_as_voidptrptr(&arg4), 0, 0);
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "gemtcPush" "', argument " "4"" of type '" "void *""'"); 
+  }
+  gemtcPush(arg1,arg2,arg3,arg4);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_gemtcPoll(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  int *arg1 = (int *) 0 ;
+  void **arg2 = (void **) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"oo:gemtcPoll ID params ",(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1], &argp1,SWIGTYPE_p_int, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "gemtcPoll" "', argument " "1"" of type '" "int *""'"); 
+  }
+  arg1 = (int *)(argp1);
+  res2 = SWIG_ConvertPtr(objv[2], &argp2,SWIGTYPE_p_p_void, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "gemtcPoll" "', argument " "2"" of type '" "void **""'"); 
+  }
+  arg2 = (void **)(argp2);
+  gemtcPoll(arg1,arg2);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_gemtcMemcpyHostToDevice(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void *arg1 = (void *) 0 ;
+  void *arg2 = (void *) 0 ;
+  int arg3 ;
+  int res1 ;
+  int res2 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"ooo:gemtcMemcpyHostToDevice device host size ",(void *)0,(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1],SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "gemtcMemcpyHostToDevice" "', argument " "1"" of type '" "void *""'"); 
+  }
+  res2 = SWIG_ConvertPtr(objv[2],SWIG_as_voidptrptr(&arg2), 0, 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "gemtcMemcpyHostToDevice" "', argument " "2"" of type '" "void *""'"); 
+  }
+  ecode3 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[3], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "gemtcMemcpyHostToDevice" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = (int)(val3);
+  gemtcMemcpyHostToDevice(arg1,arg2,arg3);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_gemtcMemcpyDeviceToHost(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void *arg1 = (void *) 0 ;
+  void *arg2 = (void *) 0 ;
+  int arg3 ;
+  int res1 ;
+  int res2 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"ooo:gemtcMemcpyDeviceToHost host device size ",(void *)0,(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1],SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "gemtcMemcpyDeviceToHost" "', argument " "1"" of type '" "void *""'"); 
+  }
+  res2 = SWIG_ConvertPtr(objv[2],SWIG_as_voidptrptr(&arg2), 0, 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "gemtcMemcpyDeviceToHost" "', argument " "2"" of type '" "void *""'"); 
+  }
+  ecode3 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[3], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "gemtcMemcpyDeviceToHost" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = (int)(val3);
+  gemtcMemcpyDeviceToHost(arg1,arg2,arg3);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_gemtcGPUMalloc(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  void *result = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:gemtcGPUMalloc size ",(void *)0) == TCL_ERROR) SWIG_fail;
+  ecode1 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[1], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "gemtcGPUMalloc" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  result = (void *)gemtcGPUMalloc(arg1);
+  Tcl_SetObjResult(interp, SWIG_NewInstanceObj( SWIG_as_voidptr(result), SWIGTYPE_p_void,0));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_gemtcGPUFree(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void *arg1 = (void *) 0 ;
+  int res1 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:gemtcGPUFree p ",(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1],SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "gemtcGPUFree" "', argument " "1"" of type '" "void *""'"); 
+  }
+  gemtcGPUFree(arg1);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_IntFromStr(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  int result;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:IntFromStr str ",(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_AsCharPtrAndSize(objv[1], &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IntFromStr" "', argument " "1"" of type '" "char *""'");
+  }
+  arg1 = (char *)(buf1);
+  result = (int)IntFromStr(arg1);
   Tcl_SetObjResult(interp,SWIG_From_int((int)(result)));
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return TCL_OK;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_CPUMallocInt(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  int *result = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:GEMTC_CPUMallocInt size ",(void *)0) == TCL_ERROR) SWIG_fail;
+  ecode1 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[1], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "GEMTC_CPUMallocInt" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  result = (int *)GEMTC_CPUMallocInt(arg1);
+  Tcl_SetObjResult(interp, SWIG_NewInstanceObj( SWIG_as_voidptr(result), SWIGTYPE_p_int,0));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_SetVoidPointerWithOffset(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void *arg1 = (void *) 0 ;
+  void *arg2 = (void *) 0 ;
+  int arg3 ;
+  int arg4 ;
+  int res1 ;
+  int res2 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  int val4 ;
+  int ecode4 = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"oooo:SetVoidPointerWithOffset ptr value writeSize offset ",(void *)0,(void *)0,(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1],SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SetVoidPointerWithOffset" "', argument " "1"" of type '" "void *""'"); 
+  }
+  res2 = SWIG_ConvertPtr(objv[2],SWIG_as_voidptrptr(&arg2), 0, 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "SetVoidPointerWithOffset" "', argument " "2"" of type '" "void *""'"); 
+  }
+  ecode3 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[3], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "SetVoidPointerWithOffset" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = (int)(val3);
+  ecode4 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[4], &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "SetVoidPointerWithOffset" "', argument " "4"" of type '" "int""'");
+  } 
+  arg4 = (int)(val4);
+  SetVoidPointerWithOffset(arg1,arg2,arg3,arg4);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GetHardCodedResult(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void *arg1 = (void *) 0 ;
+  void *arg2 = (void *) 0 ;
+  int arg3 ;
+  int arg4 ;
+  int res1 ;
+  int res2 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  int val4 ;
+  int ecode4 = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"oooo:GetHardCodedResult ptr value writeSize offset ",(void *)0,(void *)0,(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1],SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GetHardCodedResult" "', argument " "1"" of type '" "void *""'"); 
+  }
+  res2 = SWIG_ConvertPtr(objv[2],SWIG_as_voidptrptr(&arg2), 0, 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GetHardCodedResult" "', argument " "2"" of type '" "void *""'"); 
+  }
+  ecode3 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[3], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GetHardCodedResult" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = (int)(val3);
+  ecode4 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[4], &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "GetHardCodedResult" "', argument " "4"" of type '" "int""'");
+  } 
+  arg4 = (int)(val4);
+  GetHardCodedResult(arg1,arg2,arg3,arg4);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_FillPositionArray(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void *arg1 = (void *) 0 ;
+  int arg2 ;
+  int res1 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"oo:GEMTC_FillPositionArray position num_elements ",(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1],SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GEMTC_FillPositionArray" "', argument " "1"" of type '" "void *""'"); 
+  }
+  ecode2 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[2], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GEMTC_FillPositionArray" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
+  GEMTC_FillPositionArray(arg1,arg2);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_dumpParams(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void *arg1 = (void *) 0 ;
+  int res1 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:dumpParams params ",(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1],SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "dumpParams" "', argument " "1"" of type '" "void *""'"); 
+  }
+  dumpParams(arg1);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_CPUMallocVPP(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  void **result = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:GEMTC_CPUMallocVPP size ",(void *)0) == TCL_ERROR) SWIG_fail;
+  ecode1 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[1], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "GEMTC_CPUMallocVPP" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  result = (void **)GEMTC_CPUMallocVPP(arg1);
+  Tcl_SetObjResult(interp, SWIG_NewInstanceObj( SWIG_as_voidptr(result), SWIGTYPE_p_p_void,0));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_CPUMallocVP(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  void *result = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:GEMTC_CPUMallocVP size ",(void *)0) == TCL_ERROR) SWIG_fail;
+  ecode1 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[1], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "GEMTC_CPUMallocVP" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  result = (void *)GEMTC_CPUMallocVP(arg1);
+  Tcl_SetObjResult(interp, SWIG_NewInstanceObj( SWIG_as_voidptr(result), SWIGTYPE_p_void,0));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_CPUMalloc(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  void *result = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:GEMTC_CPUMalloc size ",(void *)0) == TCL_ERROR) SWIG_fail;
+  ecode1 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[1], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "GEMTC_CPUMalloc" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  result = (void *)GEMTC_CPUMalloc(arg1);
+  Tcl_SetObjResult(interp, SWIG_NewInstanceObj( SWIG_as_voidptr(result), SWIGTYPE_p_void,0));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_VPFromVPP(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void **arg1 = (void **) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *result = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:VPFromVPP ptr ",(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1], &argp1,SWIGTYPE_p_p_void, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "VPFromVPP" "', argument " "1"" of type '" "void **""'"); 
+  }
+  arg1 = (void **)(argp1);
+  result = (void *)VPFromVPP(arg1);
+  Tcl_SetObjResult(interp, SWIG_NewInstanceObj( SWIG_as_voidptr(result), SWIGTYPE_p_void,0));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_CPUFreeVP(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void *arg1 = (void *) 0 ;
+  int res1 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:GEMTC_CPUFreeVP p ",(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1],SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GEMTC_CPUFreeVP" "', argument " "1"" of type '" "void *""'"); 
+  }
+  GEMTC_CPUFreeVP(arg1);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_CPU_SetInt(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void *arg1 = (void *) 0 ;
+  int arg2 ;
+  int res1 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"oo:GEMTC_CPU_SetInt ptr value ",(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1],SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GEMTC_CPU_SetInt" "', argument " "1"" of type '" "void *""'"); 
+  }
+  ecode2 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[2], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GEMTC_CPU_SetInt" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
+  GEMTC_CPU_SetInt(arg1,arg2);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_CPU_SetLongInt(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void *arg1 = (void *) 0 ;
+  long arg2 ;
+  int res1 ;
+  long val2 ;
+  int ecode2 = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"oo:GEMTC_CPU_SetLongInt ptr value ",(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1],SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GEMTC_CPU_SetLongInt" "', argument " "1"" of type '" "void *""'"); 
+  }
+  ecode2 = SWIG_AsVal_long SWIG_TCL_CALL_ARGS_2(objv[2], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GEMTC_CPU_SetLongInt" "', argument " "2"" of type '" "long""'");
+  } 
+  arg2 = (long)(val2);
+  GEMTC_CPU_SetLongInt(arg1,arg2);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_CPU_SetDouble(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void *arg1 = (void *) 0 ;
+  double arg2 ;
+  int res1 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"oo:GEMTC_CPU_SetDouble ptr value ",(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1],SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GEMTC_CPU_SetDouble" "', argument " "1"" of type '" "void *""'"); 
+  }
+  ecode2 = SWIG_AsVal_double SWIG_TCL_CALL_ARGS_2(objv[2], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GEMTC_CPU_SetDouble" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = (double)(val2);
+  GEMTC_CPU_SetDouble(arg1,arg2);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_ZeroDoubleArray(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void *arg1 = (void *) 0 ;
+  int arg2 ;
+  int res1 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"oo:GEMTC_ZeroDoubleArray ptr num_elements ",(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1],SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GEMTC_ZeroDoubleArray" "', argument " "1"" of type '" "void *""'"); 
+  }
+  ecode2 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[2], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GEMTC_ZeroDoubleArray" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
+  GEMTC_ZeroDoubleArray(arg1,arg2);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_GetDoubleArray(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  double *result = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:GEMTC_GetDoubleArray num_elements ",(void *)0) == TCL_ERROR) SWIG_fail;
+  ecode1 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[1], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "GEMTC_GetDoubleArray" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  result = (double *)GEMTC_GetDoubleArray(arg1);
+  Tcl_SetObjResult(interp, SWIG_NewInstanceObj( SWIG_as_voidptr(result), SWIGTYPE_p_double,0));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_GetPositionArray(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  double *result = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:GEMTC_GetPositionArray num_elements ",(void *)0) == TCL_ERROR) SWIG_fail;
+  ecode1 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[1], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "GEMTC_GetPositionArray" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  result = (double *)GEMTC_GetPositionArray(arg1);
+  Tcl_SetObjResult(interp, SWIG_NewInstanceObj( SWIG_as_voidptr(result), SWIGTYPE_p_double,0));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_CPU_GetInt(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void *arg1 = (void *) 0 ;
+  int res1 ;
+  int result;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:GEMTC_CPU_GetInt ptr ",(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1],SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GEMTC_CPU_GetInt" "', argument " "1"" of type '" "void *""'"); 
+  }
+  result = (int)GEMTC_CPU_GetInt(arg1);
+  Tcl_SetObjResult(interp,SWIG_From_int((int)(result)));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_CPU_GetLongInt(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void *arg1 = (void *) 0 ;
+  int res1 ;
+  long result;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:GEMTC_CPU_GetLongInt ptr ",(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1],SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GEMTC_CPU_GetLongInt" "', argument " "1"" of type '" "void *""'"); 
+  }
+  result = (long)GEMTC_CPU_GetLongInt(arg1);
+  Tcl_SetObjResult(interp,SWIG_From_long((long)(result)));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_CPU_GetDouble(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void *arg1 = (void *) 0 ;
+  int res1 ;
+  double result;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:GEMTC_CPU_GetDouble ptr ",(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1],SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GEMTC_CPU_GetDouble" "', argument " "1"" of type '" "void *""'"); 
+  }
+  result = (double)GEMTC_CPU_GetDouble(arg1);
+  Tcl_SetObjResult(interp,SWIG_From_double((double)(result)));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_IntFromVP(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void *arg1 = (void *) 0 ;
+  int res1 ;
+  int result;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:IntFromVP params ",(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1],SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IntFromVP" "', argument " "1"" of type '" "void *""'"); 
+  }
+  result = (int)IntFromVP(arg1);
+  Tcl_SetObjResult(interp,SWIG_From_int((int)(result)));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_CPU_GetResult(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void *arg1 = (void *) 0 ;
+  int res1 ;
+  int result;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:GEMTC_CPU_GetResult ptr ",(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1],SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GEMTC_CPU_GetResult" "', argument " "1"" of type '" "void *""'"); 
+  }
+  result = (int)GEMTC_CPU_GetResult(arg1);
+  Tcl_SetObjResult(interp,SWIG_From_int((int)(result)));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_PrintIntFromPointer(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  int *arg1 = (int *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:PrintIntFromPointer ID ",(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1], &argp1,SWIGTYPE_p_int, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "PrintIntFromPointer" "', argument " "1"" of type '" "int *""'"); 
+  }
+  arg1 = (int *)(argp1);
+  PrintIntFromPointer(arg1);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_PrintIntFromVPP(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void **arg1 = (void **) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:PrintIntFromVPP params ",(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1], &argp1,SWIGTYPE_p_p_void, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "PrintIntFromVPP" "', argument " "1"" of type '" "void **""'"); 
+  }
+  arg1 = (void **)(argp1);
+  PrintIntFromVPP(arg1);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_PrintIntFromVP(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void *arg1 = (void *) 0 ;
+  int res1 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:PrintIntFromVP params ",(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1],SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "PrintIntFromVP" "', argument " "1"" of type '" "void *""'"); 
+  }
+  PrintIntFromVP(arg1);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_S_i_set(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  struct GEMTC_S *arg1 = (struct GEMTC_S *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"oo:GEMTC_S_i_set self i ",(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1], &argp1,SWIGTYPE_p_GEMTC_S, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GEMTC_S_i_set" "', argument " "1"" of type '" "struct GEMTC_S *""'"); 
+  }
+  arg1 = (struct GEMTC_S *)(argp1);
+  ecode2 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[2], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GEMTC_S_i_set" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
+  if (arg1) (arg1)->i = arg2;
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_S_i_get(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  struct GEMTC_S *arg1 = (struct GEMTC_S *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int result;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:GEMTC_S_i_get self ",(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1], &argp1,SWIGTYPE_p_GEMTC_S, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GEMTC_S_i_get" "', argument " "1"" of type '" "struct GEMTC_S *""'"); 
+  }
+  arg1 = (struct GEMTC_S *)(argp1);
+  result = (int) ((arg1)->i);
+  Tcl_SetObjResult(interp,SWIG_From_int((int)(result)));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_S_d_set(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  struct GEMTC_S *arg1 = (struct GEMTC_S *) 0 ;
+  void *arg2 = (void *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"oo:GEMTC_S_d_set self d ",(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1], &argp1,SWIGTYPE_p_GEMTC_S, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GEMTC_S_d_set" "', argument " "1"" of type '" "struct GEMTC_S *""'"); 
+  }
+  arg1 = (struct GEMTC_S *)(argp1);
+  res2 = SWIG_ConvertPtr(objv[2],SWIG_as_voidptrptr(&arg2), 0, SWIG_POINTER_DISOWN);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GEMTC_S_d_set" "', argument " "2"" of type '" "void *""'"); 
+  }
+  if (arg1) (arg1)->d = arg2;
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_S_d_get(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  struct GEMTC_S *arg1 = (struct GEMTC_S *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *result = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:GEMTC_S_d_get self ",(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1], &argp1,SWIGTYPE_p_GEMTC_S, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GEMTC_S_d_get" "', argument " "1"" of type '" "struct GEMTC_S *""'"); 
+  }
+  arg1 = (struct GEMTC_S *)(argp1);
+  result = (void *) ((arg1)->d);
+  Tcl_SetObjResult(interp, SWIG_NewInstanceObj( SWIG_as_voidptr(result), SWIGTYPE_p_void,0));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_new_GEMTC_S(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  struct GEMTC_S *result = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,":new_GEMTC_S ") == TCL_ERROR) SWIG_fail;
+  result = (struct GEMTC_S *)calloc(1, sizeof(struct GEMTC_S));
+  Tcl_SetObjResult(interp, SWIG_NewInstanceObj( SWIG_as_voidptr(result), SWIGTYPE_p_GEMTC_S,0));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_delete_GEMTC_S(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  struct GEMTC_S *arg1 = (struct GEMTC_S *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:delete_GEMTC_S self ",(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1], &argp1,SWIGTYPE_p_GEMTC_S, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_GEMTC_S" "', argument " "1"" of type '" "struct GEMTC_S *""'"); 
+  }
+  arg1 = (struct GEMTC_S *)(argp1);
+  free((char *) arg1);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN void swig_delete_GEMTC_S(void *obj) {
+struct GEMTC_S *arg1 = (struct GEMTC_S *) obj;
+free((char *) arg1);
+}
+static swig_method swig_GEMTC_S_methods[] = {
+    {0,0}
+};
+static swig_attribute swig_GEMTC_S_attributes[] = {
+    { "-i",_wrap_GEMTC_S_i_get, _wrap_GEMTC_S_i_set},
+    { "-d",_wrap_GEMTC_S_d_get, _wrap_GEMTC_S_d_set},
+    {0,0,0}
+};
+static swig_class *swig_GEMTC_S_bases[] = {0};
+static const char * swig_GEMTC_S_base_names[] = {0};
+static swig_class _wrap_class_GEMTC_S = { "GEMTC_S", &SWIGTYPE_p_GEMTC_S,_wrap_new_GEMTC_S, swig_delete_GEMTC_S, swig_GEMTC_S_methods, swig_GEMTC_S_attributes, swig_GEMTC_S_bases,swig_GEMTC_S_base_names, &swig_module };
+SWIGINTERN int
+_wrap_GEMTC_SizeOfInt(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  int result;
+  
+  if (SWIG_GetArgs(interp, objc, objv,":GEMTC_SizeOfInt ") == TCL_ERROR) SWIG_fail;
+  result = (int)GEMTC_SizeOfInt();
+  Tcl_SetObjResult(interp,SWIG_From_int((int)(result)));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_SizeOfLongInt(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  int result;
+  
+  if (SWIG_GetArgs(interp, objc, objv,":GEMTC_SizeOfLongInt ") == TCL_ERROR) SWIG_fail;
+  result = (int)GEMTC_SizeOfLongInt();
+  Tcl_SetObjResult(interp,SWIG_From_int((int)(result)));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_SizeOfDouble(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  int result;
+  
+  if (SWIG_GetArgs(interp, objc, objv,":GEMTC_SizeOfDouble ") == TCL_ERROR) SWIG_fail;
+  result = (int)GEMTC_SizeOfDouble();
+  Tcl_SetObjResult(interp,SWIG_From_int((int)(result)));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_GetVoidPointer(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void *result = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,":GEMTC_GetVoidPointer ") == TCL_ERROR) SWIG_fail;
+  result = (void *)GEMTC_GetVoidPointer();
+  Tcl_SetObjResult(interp, SWIG_NewInstanceObj( SWIG_as_voidptr(result), SWIGTYPE_p_void,0));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_GetIntPointer(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  int *result = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,":GEMTC_GetIntPointer ") == TCL_ERROR) SWIG_fail;
+  result = (int *)GEMTC_GetIntPointer();
+  Tcl_SetObjResult(interp, SWIG_NewInstanceObj( SWIG_as_voidptr(result), SWIGTYPE_p_int,0));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_GetVoidPointerWithSize(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  void *result = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:GEMTC_GetVoidPointerWithSize size ",(void *)0) == TCL_ERROR) SWIG_fail;
+  ecode1 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[1], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "GEMTC_GetVoidPointerWithSize" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  result = (void *)GEMTC_GetVoidPointerWithSize(arg1);
+  Tcl_SetObjResult(interp, SWIG_NewInstanceObj( SWIG_as_voidptr(result), SWIGTYPE_p_void,0));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_f(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  int arg1 ;
+  struct GEMTC_S *arg2 = (struct GEMTC_S *) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"oo:GEMTC_f j s ",(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  ecode1 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[1], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "GEMTC_f" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  res2 = SWIG_ConvertPtr(objv[2], &argp2,SWIGTYPE_p_GEMTC_S, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GEMTC_f" "', argument " "2"" of type '" "struct GEMTC_S *""'"); 
+  }
+  arg2 = (struct GEMTC_S *)(argp2);
+  GEMTC_f(arg1,arg2);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_Setup(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:GEMTC_Setup queueSize ",(void *)0) == TCL_ERROR) SWIG_fail;
+  ecode1 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[1], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "GEMTC_Setup" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  GEMTC_Setup(arg1);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_Cleanup(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  if (SWIG_GetArgs(interp, objc, objv,":GEMTC_Cleanup ") == TCL_ERROR) SWIG_fail;
+  GEMTC_Cleanup();
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_BlockingRun(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  int arg1 ;
+  int arg2 ;
+  int arg3 ;
+  void *arg4 = (void *) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  int res4 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"oooo:GEMTC_BlockingRun Type Threads ID d_params ",(void *)0,(void *)0,(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  ecode1 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[1], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "GEMTC_BlockingRun" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  ecode2 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[2], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GEMTC_BlockingRun" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
+  ecode3 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[3], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GEMTC_BlockingRun" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = (int)(val3);
+  res4 = SWIG_ConvertPtr(objv[4],SWIG_as_voidptrptr(&arg4), 0, 0);
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "GEMTC_BlockingRun" "', argument " "4"" of type '" "void *""'"); 
+  }
+  GEMTC_BlockingRun(arg1,arg2,arg3,arg4);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_Push(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  int arg1 ;
+  int arg2 ;
+  int arg3 ;
+  void *arg4 = (void *) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  int res4 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"oooo:GEMTC_Push Type Threads ID d_params ",(void *)0,(void *)0,(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  ecode1 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[1], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "GEMTC_Push" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  ecode2 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[2], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GEMTC_Push" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
+  ecode3 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[3], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GEMTC_Push" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = (int)(val3);
+  res4 = SWIG_ConvertPtr(objv[4],SWIG_as_voidptrptr(&arg4), 0, 0);
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "GEMTC_Push" "', argument " "4"" of type '" "void *""'"); 
+  }
+  GEMTC_Push(arg1,arg2,arg3,arg4);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_Poll(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  int *arg1 = (int *) 0 ;
+  void **arg2 = (void **) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"oo:GEMTC_Poll ID params ",(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1], &argp1,SWIGTYPE_p_int, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GEMTC_Poll" "', argument " "1"" of type '" "int *""'"); 
+  }
+  arg1 = (int *)(argp1);
+  res2 = SWIG_ConvertPtr(objv[2], &argp2,SWIGTYPE_p_p_void, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GEMTC_Poll" "', argument " "2"" of type '" "void **""'"); 
+  }
+  arg2 = (void **)(argp2);
+  GEMTC_Poll(arg1,arg2);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_GPUMalloc(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  void *result = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:GEMTC_GPUMalloc size ",(void *)0) == TCL_ERROR) SWIG_fail;
+  ecode1 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[1], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "GEMTC_GPUMalloc" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  result = (void *)GEMTC_GPUMalloc(arg1);
+  Tcl_SetObjResult(interp, SWIG_NewInstanceObj( SWIG_as_voidptr(result), SWIGTYPE_p_void,0));
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_GPUFree(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void *arg1 = (void *) 0 ;
+  int res1 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"o:GEMTC_GPUFree p ",(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1],SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GEMTC_GPUFree" "', argument " "1"" of type '" "void *""'"); 
+  }
+  GEMTC_GPUFree(arg1);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_MemcpyHostToDevice(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void *arg1 = (void *) 0 ;
+  void *arg2 = (void *) 0 ;
+  int arg3 ;
+  int res1 ;
+  int res2 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"ooo:GEMTC_MemcpyHostToDevice device host size ",(void *)0,(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1],SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GEMTC_MemcpyHostToDevice" "', argument " "1"" of type '" "void *""'"); 
+  }
+  res2 = SWIG_ConvertPtr(objv[2],SWIG_as_voidptrptr(&arg2), 0, 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GEMTC_MemcpyHostToDevice" "', argument " "2"" of type '" "void *""'"); 
+  }
+  ecode3 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[3], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GEMTC_MemcpyHostToDevice" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = (int)(val3);
+  GEMTC_MemcpyHostToDevice(arg1,arg2,arg3);
+  
+  return TCL_OK;
+fail:
+  return TCL_ERROR;
+}
+
+
+SWIGINTERN int
+_wrap_GEMTC_MemcpyDeviceToHost(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
+  void *arg1 = (void *) 0 ;
+  void *arg2 = (void *) 0 ;
+  int arg3 ;
+  int res1 ;
+  int res2 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  
+  if (SWIG_GetArgs(interp, objc, objv,"ooo:GEMTC_MemcpyDeviceToHost host device size ",(void *)0,(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
+  res1 = SWIG_ConvertPtr(objv[1],SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GEMTC_MemcpyDeviceToHost" "', argument " "1"" of type '" "void *""'"); 
+  }
+  res2 = SWIG_ConvertPtr(objv[2],SWIG_as_voidptrptr(&arg2), 0, 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GEMTC_MemcpyDeviceToHost" "', argument " "2"" of type '" "void *""'"); 
+  }
+  ecode3 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[3], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GEMTC_MemcpyDeviceToHost" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = (int)(val3);
+  GEMTC_MemcpyDeviceToHost(arg1,arg2,arg3);
+  
   return TCL_OK;
 fail:
   return TCL_ERROR;
@@ -1751,7 +3262,71 @@ fail:
 
 
 static swig_command_info swig_commands[] = {
-    { SWIG_prefix "g", (swig_wrapper_func) _wrap_g, NULL},
+    { SWIG_prefix "ResultPair_ID_set", (swig_wrapper_func) _wrap_ResultPair_ID_set, NULL},
+    { SWIG_prefix "ResultPair_ID_get", (swig_wrapper_func) _wrap_ResultPair_ID_get, NULL},
+    { SWIG_prefix "ResultPair_params_set", (swig_wrapper_func) _wrap_ResultPair_params_set, NULL},
+    { SWIG_prefix "ResultPair_params_get", (swig_wrapper_func) _wrap_ResultPair_params_get, NULL},
+    { SWIG_prefix "new_ResultPair", (swig_wrapper_func) _wrap_new_ResultPair, NULL},
+    { SWIG_prefix "delete_ResultPair", (swig_wrapper_func) _wrap_delete_ResultPair, NULL},
+    { SWIG_prefix "ResultPair", (swig_wrapper_func) SWIG_ObjectConstructor, (ClientData)&_wrap_class_ResultPair},
+    { SWIG_prefix "PrintArray", (swig_wrapper_func) _wrap_PrintArray, NULL},
+    { SWIG_prefix "gemtcSetup", (swig_wrapper_func) _wrap_gemtcSetup, NULL},
+    { SWIG_prefix "gemtcCleanup", (swig_wrapper_func) _wrap_gemtcCleanup, NULL},
+    { SWIG_prefix "gemtcBlockingRun", (swig_wrapper_func) _wrap_gemtcBlockingRun, NULL},
+    { SWIG_prefix "gemtcPush", (swig_wrapper_func) _wrap_gemtcPush, NULL},
+    { SWIG_prefix "gemtcPoll", (swig_wrapper_func) _wrap_gemtcPoll, NULL},
+    { SWIG_prefix "gemtcMemcpyHostToDevice", (swig_wrapper_func) _wrap_gemtcMemcpyHostToDevice, NULL},
+    { SWIG_prefix "gemtcMemcpyDeviceToHost", (swig_wrapper_func) _wrap_gemtcMemcpyDeviceToHost, NULL},
+    { SWIG_prefix "gemtcGPUMalloc", (swig_wrapper_func) _wrap_gemtcGPUMalloc, NULL},
+    { SWIG_prefix "gemtcGPUFree", (swig_wrapper_func) _wrap_gemtcGPUFree, NULL},
+    { SWIG_prefix "IntFromStr", (swig_wrapper_func) _wrap_IntFromStr, NULL},
+    { SWIG_prefix "GEMTC_CPUMallocInt", (swig_wrapper_func) _wrap_GEMTC_CPUMallocInt, NULL},
+    { SWIG_prefix "SetVoidPointerWithOffset", (swig_wrapper_func) _wrap_SetVoidPointerWithOffset, NULL},
+    { SWIG_prefix "GetHardCodedResult", (swig_wrapper_func) _wrap_GetHardCodedResult, NULL},
+    { SWIG_prefix "GEMTC_FillPositionArray", (swig_wrapper_func) _wrap_GEMTC_FillPositionArray, NULL},
+    { SWIG_prefix "dumpParams", (swig_wrapper_func) _wrap_dumpParams, NULL},
+    { SWIG_prefix "GEMTC_CPUMallocVPP", (swig_wrapper_func) _wrap_GEMTC_CPUMallocVPP, NULL},
+    { SWIG_prefix "GEMTC_CPUMallocVP", (swig_wrapper_func) _wrap_GEMTC_CPUMallocVP, NULL},
+    { SWIG_prefix "GEMTC_CPUMalloc", (swig_wrapper_func) _wrap_GEMTC_CPUMalloc, NULL},
+    { SWIG_prefix "VPFromVPP", (swig_wrapper_func) _wrap_VPFromVPP, NULL},
+    { SWIG_prefix "GEMTC_CPUFreeVP", (swig_wrapper_func) _wrap_GEMTC_CPUFreeVP, NULL},
+    { SWIG_prefix "GEMTC_CPU_SetInt", (swig_wrapper_func) _wrap_GEMTC_CPU_SetInt, NULL},
+    { SWIG_prefix "GEMTC_CPU_SetLongInt", (swig_wrapper_func) _wrap_GEMTC_CPU_SetLongInt, NULL},
+    { SWIG_prefix "GEMTC_CPU_SetDouble", (swig_wrapper_func) _wrap_GEMTC_CPU_SetDouble, NULL},
+    { SWIG_prefix "GEMTC_ZeroDoubleArray", (swig_wrapper_func) _wrap_GEMTC_ZeroDoubleArray, NULL},
+    { SWIG_prefix "GEMTC_GetDoubleArray", (swig_wrapper_func) _wrap_GEMTC_GetDoubleArray, NULL},
+    { SWIG_prefix "GEMTC_GetPositionArray", (swig_wrapper_func) _wrap_GEMTC_GetPositionArray, NULL},
+    { SWIG_prefix "GEMTC_CPU_GetInt", (swig_wrapper_func) _wrap_GEMTC_CPU_GetInt, NULL},
+    { SWIG_prefix "GEMTC_CPU_GetLongInt", (swig_wrapper_func) _wrap_GEMTC_CPU_GetLongInt, NULL},
+    { SWIG_prefix "GEMTC_CPU_GetDouble", (swig_wrapper_func) _wrap_GEMTC_CPU_GetDouble, NULL},
+    { SWIG_prefix "IntFromVP", (swig_wrapper_func) _wrap_IntFromVP, NULL},
+    { SWIG_prefix "GEMTC_CPU_GetResult", (swig_wrapper_func) _wrap_GEMTC_CPU_GetResult, NULL},
+    { SWIG_prefix "PrintIntFromPointer", (swig_wrapper_func) _wrap_PrintIntFromPointer, NULL},
+    { SWIG_prefix "PrintIntFromVPP", (swig_wrapper_func) _wrap_PrintIntFromVPP, NULL},
+    { SWIG_prefix "PrintIntFromVP", (swig_wrapper_func) _wrap_PrintIntFromVP, NULL},
+    { SWIG_prefix "GEMTC_S_i_set", (swig_wrapper_func) _wrap_GEMTC_S_i_set, NULL},
+    { SWIG_prefix "GEMTC_S_i_get", (swig_wrapper_func) _wrap_GEMTC_S_i_get, NULL},
+    { SWIG_prefix "GEMTC_S_d_set", (swig_wrapper_func) _wrap_GEMTC_S_d_set, NULL},
+    { SWIG_prefix "GEMTC_S_d_get", (swig_wrapper_func) _wrap_GEMTC_S_d_get, NULL},
+    { SWIG_prefix "new_GEMTC_S", (swig_wrapper_func) _wrap_new_GEMTC_S, NULL},
+    { SWIG_prefix "delete_GEMTC_S", (swig_wrapper_func) _wrap_delete_GEMTC_S, NULL},
+    { SWIG_prefix "GEMTC_S", (swig_wrapper_func) SWIG_ObjectConstructor, (ClientData)&_wrap_class_GEMTC_S},
+    { SWIG_prefix "GEMTC_SizeOfInt", (swig_wrapper_func) _wrap_GEMTC_SizeOfInt, NULL},
+    { SWIG_prefix "GEMTC_SizeOfLongInt", (swig_wrapper_func) _wrap_GEMTC_SizeOfLongInt, NULL},
+    { SWIG_prefix "GEMTC_SizeOfDouble", (swig_wrapper_func) _wrap_GEMTC_SizeOfDouble, NULL},
+    { SWIG_prefix "GEMTC_GetVoidPointer", (swig_wrapper_func) _wrap_GEMTC_GetVoidPointer, NULL},
+    { SWIG_prefix "GEMTC_GetIntPointer", (swig_wrapper_func) _wrap_GEMTC_GetIntPointer, NULL},
+    { SWIG_prefix "GEMTC_GetVoidPointerWithSize", (swig_wrapper_func) _wrap_GEMTC_GetVoidPointerWithSize, NULL},
+    { SWIG_prefix "GEMTC_f", (swig_wrapper_func) _wrap_GEMTC_f, NULL},
+    { SWIG_prefix "GEMTC_Setup", (swig_wrapper_func) _wrap_GEMTC_Setup, NULL},
+    { SWIG_prefix "GEMTC_Cleanup", (swig_wrapper_func) _wrap_GEMTC_Cleanup, NULL},
+    { SWIG_prefix "GEMTC_BlockingRun", (swig_wrapper_func) _wrap_GEMTC_BlockingRun, NULL},
+    { SWIG_prefix "GEMTC_Push", (swig_wrapper_func) _wrap_GEMTC_Push, NULL},
+    { SWIG_prefix "GEMTC_Poll", (swig_wrapper_func) _wrap_GEMTC_Poll, NULL},
+    { SWIG_prefix "GEMTC_GPUMalloc", (swig_wrapper_func) _wrap_GEMTC_GPUMalloc, NULL},
+    { SWIG_prefix "GEMTC_GPUFree", (swig_wrapper_func) _wrap_GEMTC_GPUFree, NULL},
+    { SWIG_prefix "GEMTC_MemcpyHostToDevice", (swig_wrapper_func) _wrap_GEMTC_MemcpyHostToDevice, NULL},
+    { SWIG_prefix "GEMTC_MemcpyDeviceToHost", (swig_wrapper_func) _wrap_GEMTC_MemcpyDeviceToHost, NULL},
     {0, 0, 0}
 };
 
@@ -1765,16 +3340,40 @@ static swig_const_info swig_constants[] = {
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
+static swig_type_info _swigt__p_GEMTC_S = {"_p_GEMTC_S", "struct GEMTC_S *|GEMTC_S *", 0, 0, (void*)&_wrap_class_GEMTC_S, 0};
+static swig_type_info _swigt__p_ResultPair = {"_p_ResultPair", "struct ResultPair *|ResultPair *", 0, 0, (void*)&_wrap_class_ResultPair, 0};
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_double = {"_p_double", "double *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_int = {"_p_int", "int *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_p_void = {"_p_p_void", "void **", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_void = {"_p_void", "void *", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
+  &_swigt__p_GEMTC_S,
+  &_swigt__p_ResultPair,
   &_swigt__p_char,
+  &_swigt__p_double,
+  &_swigt__p_int,
+  &_swigt__p_p_void,
+  &_swigt__p_void,
 };
 
+static swig_cast_info _swigc__p_GEMTC_S[] = {  {&_swigt__p_GEMTC_S, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ResultPair[] = {  {&_swigt__p_ResultPair, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_double[] = {  {&_swigt__p_double, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_int[] = {  {&_swigt__p_int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_p_void[] = {  {&_swigt__p_p_void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_void[] = {  {&_swigt__p_void, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
+  _swigc__p_GEMTC_S,
+  _swigc__p_ResultPair,
   _swigc__p_char,
+  _swigc__p_double,
+  _swigc__p_int,
+  _swigc__p_p_void,
+  _swigc__p_void,
 };
 
 
@@ -2108,7 +3707,7 @@ SWIGEXPORT int SWIG_init(Tcl_Interp *interp) {
   
   return TCL_OK;
 }
-SWIGEXPORT int G_SafeInit(Tcl_Interp *interp) {
+SWIGEXPORT int Gemtc_SafeInit(Tcl_Interp *interp) {
   return SWIG_init(interp);
 }
 

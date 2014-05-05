@@ -1,0 +1,28 @@
+# For reorder
+# export MPICH_RANK_REORDER_METHOD=3
+
+Run the install worker file
+    or run the scott-install worker
+
+source ENV
+       // adds relevant path variables
+
+scan.tcl
+	// shows functions available
+
+test_gemtc.tcl
+	// runs some sample gemtc functionality
+
+
+################################################
+
+To run a simple tcl test:
+
+# build the code
+./build.sh
+
+# source the env
+source ENV
+
+# run the test
+turbine test_gemtc_MD_blob.tcl

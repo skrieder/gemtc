@@ -1,0 +1,114 @@
+package provide gemtc 0.0
+
+namespace eval gemtc {
+
+    proc gemtc_sleep { result inputs } {
+        turbine::rule $inputs "gemtc_sleep $result $inputs" \
+            name gemtc_sleep-$result type $turbine::WORK
+    }
+
+    proc gemtc_sleep_begin { result inputs } {
+
+        turbine::log "gemtc_sleep_begin: $result $inputs"
+        set i [ retrieve_integer $inputs ]
+        return $i;
+    }
+
+    proc gemtc_sleep_end { result inputs value } {
+
+        turbine::log "gemtc_sleep_end: $result $inputs $value"
+        store_integer $result $value
+    }
+
+    proc gemtc_mdproxy { result inputs } {
+
+        turbine::rule $inputs "gemtc_mdproxy $result $inputs" \
+            name gemtc_mdproxy-$result type $turbine::WORK
+    }
+
+    proc gemtc_mdproxy_begin { result input1 input2 } {
+
+	#puts "gemtc_mdproxy_begin"
+	#puts "result: $result"
+	#puts "input1: $input1"
+	#puts "input2: $input2"
+        turbine::log "gemtc_mdproxy_begin: $result $input1 $input2"
+
+	set np [ retrieve_integer $input1 ]
+	#puts "np: $np"
+	
+	set part [ retrieve_blob $input2 ]
+	#puts "part: $part"
+
+	set sup [ concat $np $part ]
+	#puts "sup: $sup"
+
+	return $sup;
+    }
+
+    proc gemtc_mdproxy_end { result inputs value sup} {
+	#puts "In GEMTC_MDPROXY_END"
+	#puts "result: $result"
+	#puts "inputs: $inputs"
+	puts "value: $value"
+	#puts "sup: $sup"
+
+	# extract the np from swift user parameters
+	set np [lindex $sup 0]
+        turbine::log "gemtc_mdproxy_end: $result $inputs $value"
+
+	# need to do some bit shifting to get the correct result
+<<<<<<< .mine
+	# np size = nd * np * 8 fields // 3 is coming from hard coded nd
+	set np_size [expr $np * 8 * 3]
+        
+	# Build the value list
+	set value_list [ list [blobutils_cast_to_long_long $value] $np_size ]
+
+	# store_blob(int id, value), value[0] = ptr and value[1]=length
+	store_blob $result $value_list
+=======
+	# 3 is the hard coded nd
+	set np_size [expr $np * 8 * 3]
+	# maybe int64 here
+	set longlong [ blobutils_cast_to_long_long $value ] 
+	# Should be a simple integer 1234
+	puts "tcl longlong: $longlong"
+        store_blob $result [ list $longlong $np_size ]
+>>>>>>> .r10844
+    }
+
+    proc mdproxy_create_random_vector { n } {
+
+	# set the length equal to the size_of = (number_elements * sizeof(float))
+        set length [ expr $n * [blobutils_sizeof_float] ]
+
+	# set and malloc p
+        set p [ blobutils_malloc $length ]
+
+	# cast p to double ptr
+	set p [ blobutils_cast_to_dbl_ptr $p ]
+
+	# loop through the elements and set values
+        for { set i 0 } { $i < $n } { incr i } {
+
+	    # get a random double
+	    set x [ expr { rand() * 100 } ]
+
+	    # set the random double, (pointer, location, value)
+            blobutils_set_float $p $i $x
+        }
+
+<<<<<<< .mine
+	# Maybe int64
+=======
+	# maybe int64 here
+>>>>>>> .r10844
+        set result [ list [ blobutils_cast_to_int $p ] $length ]
+	puts "set was fine"
+	puts "result: $result"
+        return $result
+	#puts "result was $result"
+    }
+}
+

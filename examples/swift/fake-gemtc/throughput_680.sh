@@ -1,0 +1,8 @@
+#!/bin/bash
+bound=1000
+for i in {1..10..1}
+do
+    echo $bound
+/usr/bin/time -f %e turbine test_gemtc_parallel.tcl -bound=$bound -sleeptime=0
+bound=$(($bound*2))
+done
