@@ -1620,8 +1620,9 @@ SWIG_Tcl_GetArgs(Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[], const char
 /* -------- TYPES TABLE (BEGIN) -------- */
 
 #define SWIGTYPE_p_char swig_types[0]
-static swig_type_info *swig_types[2];
-static swig_module_info swig_module = {swig_types, 1, 0, 0, 0, 0};
+#define SWIGTYPE_p_double swig_types[1]
+static swig_type_info *swig_types[3];
+static swig_module_info swig_module = {swig_types, 2, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -1704,26 +1705,27 @@ extern "C" {
 #endif
 SWIGINTERN int
 _wrap_hist(ClientData clientData SWIGUNUSED, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]) {
-  int arg1 ;
+  double *arg1 = (double *) 0 ;
   int arg2 ;
-  int val1 ;
-  int ecode1 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
   int val2 ;
   int ecode2 = 0 ;
+  double *result = 0 ;
   
   if (SWIG_GetArgs(interp, objc, objv,"oo:hist a b ",(void *)0,(void *)0) == TCL_ERROR) SWIG_fail;
-  ecode1 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[1], &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "hist" "', argument " "1"" of type '" "int""'");
-  } 
-  arg1 = (int)(val1);
+  res1 = SWIG_ConvertPtr(objv[1], &argp1,SWIGTYPE_p_double, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "hist" "', argument " "1"" of type '" "double *""'"); 
+  }
+  arg1 = (double *)(argp1);
   ecode2 = SWIG_AsVal_int SWIG_TCL_CALL_ARGS_2(objv[2], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "hist" "', argument " "2"" of type '" "int""'");
   } 
   arg2 = (int)(val2);
-  hist(arg1,arg2);
-  
+  result = (double *)hist(arg1,arg2);
+  Tcl_SetObjResult(interp, SWIG_NewInstanceObj( SWIG_as_voidptr(result), SWIGTYPE_p_double,0));
   return TCL_OK;
 fail:
   return TCL_ERROR;
@@ -1747,15 +1749,19 @@ static swig_const_info swig_constants[] = {
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_double = {"_p_double", "double *", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_char,
+  &_swigt__p_double,
 };
 
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_double[] = {  {&_swigt__p_double, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_char,
+  _swigc__p_double,
 };
 
 

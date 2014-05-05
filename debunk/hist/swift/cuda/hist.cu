@@ -19,7 +19,7 @@
   }
 
 __global__ void
-histogram( unsigned char *buffer,long size,unsigned int *histo ) {
+histogram(double *buffer,long size,unsigned int *histo ) {
   __shared__ unsigned int temp[256];
   temp[threadIdx.x] = 0;
    __syncthreads();
@@ -27,7 +27,7 @@ histogram( unsigned char *buffer,long size,unsigned int *histo ) {
   int stride = blockDim.x * gridDim.x;
   while (i < size)
   {
-          atomicAdd( &(temp[buffer[i]]), 1 );
+          atomicAdd( &(temp[(int)buffer[i]]), 1 );
               i += stride;
   }
   __syncthreads();
@@ -35,18 +35,18 @@ histogram( unsigned char *buffer,long size,unsigned int *histo ) {
   
 }
 
-void hist(int a, int b)
+double* hist(double *h_data, int byteCount)
 {
-    unsigned char * h_data;
+    //unsigned char * h_data;
     unsigned int h_histogram[BIN_COUNT];
-    unsigned char * d_data;
+    double * d_data;
     unsigned int * d_histogram;
-    unsigned int byteCount = BYTE_COUNT;
+    //unsigned int byteCount = BYTE_COUNT;
     size_t size;
     cudaError_t err;
 
-    int NUM_RUNS = a;
-    int NUM_TEST =b;
+    int NUM_RUNS = 1;
+    int NUM_TEST =10;
 
     StopWatchInterface *hTimer = NULL;
     int iter;
@@ -56,12 +56,12 @@ void hist(int a, int b)
     int blocks = prop.multiProcessorCount;
     for(iter =0 ; iter < NUM_RUNS;iter++){
         srand (time(NULL));
-        size = sizeof(unsigned char) * byteCount;
-        h_data = (unsigned char *) malloc(sizeof(unsigned char) * byteCount);
+        size = sizeof(double) * byteCount;
+        /*h_data = (unsigned char *) malloc(sizeof(unsigned char) * byteCount);
         for (unsigned int i = 0; i < byteCount; i++)
         {
             h_data[i] = rand() % 256;
-        }
+        }*/
         sdkResetTimer(&hTimer);
         sdkStartTimer(&hTimer);
         int j;
@@ -84,8 +84,8 @@ void hist(int a, int b)
             cudaFree(d_histogram);
         }
         sdkStopTimer(&hTimer);
-        free(h_data);
-        unsigned int problem_size = byteCount * 4;
+        //free(h_data);
+        unsigned int problem_size = byteCount * 8;
         double dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer) / (double) NUM_TEST;
         printf("%u\t%.4f\t%.5f\n",
         problem_size,(1.0e-6 * (double)problem_size / dAvgSecs), dAvgSecs);
@@ -93,4 +93,7 @@ void hist(int a, int b)
     }
     // Print timing information
     sdkDeleteTimer(&hTimer);
+    double* result = (double *)malloc(sizeof(double));
+    result[0] = 0;
+    return result;
 }

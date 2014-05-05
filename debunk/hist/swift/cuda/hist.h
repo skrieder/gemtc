@@ -1,2 +1,2 @@
 extern "C"
-void hist(int a, int b);
+double*  hist(double *a, int b);

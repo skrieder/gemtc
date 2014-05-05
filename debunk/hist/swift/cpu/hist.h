@@ -2,4 +2,4 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-void hist(int inputs);
+double* hist(double *h_data,int byteCount);

@@ -1,9 +1,15 @@
-@dispatch=WORKER
-(void s) hist(int i,int j) "hist" "0.0"
-[ "set <<s>> [ hist <<i>> <<j>> ]" ];
+import blob;
+import io;
+
+(blob sum) hist(blob v) "hist" "0.0"
+[ "set <<sum>> [ hist::hist_tcl <<v>> ]" ];
 
 main {
-//	foreach i in [1:5] {
-	  void s = hist(5,1);
-//	}
+  file data = input_file("input.data");
+  blob v = blob_read(data);
+foreach i in [1:5] { 
+ blob s = hist(v);
+  floats_from_blob(s);
+  }
 }
+
