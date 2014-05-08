@@ -7,9 +7,11 @@ import io;
 main {
   file data = input_file("input.data");
   blob v = blob_read(data);
-foreach i in [1:5] { 
- blob s = hist(v);
-  floats_from_blob(s);
+  int TEST = 10;
+  //for(int i=0; i< TEST; i++){
+  foreach i in [1:TEST] { 
+    blob s = hist(v);
+    floats_from_blob(s);
   }
 }
 

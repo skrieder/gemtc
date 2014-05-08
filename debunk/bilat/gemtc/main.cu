@@ -95,15 +95,15 @@ int main(int argc, char **argv){
 
 		for(int k=0; k < NUM_TEST ; k++) {
 			gemtcSetup(25600, Overfill);
+			int x;
 			for(int j=0; j <NUM_TASKS/LOOP_SIZE; j++){
-				int x;
 				for(x=0; x < LOOP_SIZE; x++){
 					float3 *d_params = (float3 *) gemtcGPUMalloc(size);
 					gemtcMemcpyHostToDevice(d_params, data, size);
 					gemtcPush(35, 32, i+j*LOOP_SIZE, d_params);
 				}
 
-				for(x=0; x < LOOP_SIZE; x++){
+				/*for(x=0; x < LOOP_SIZE; x++){
 					void *ret=NULL;
 					int id;
 					while(ret==NULL){
@@ -111,8 +111,20 @@ int main(int argc, char **argv){
 					}
 					gemtcMemcpyDeviceToHost(data, ret, size);
 					gemtcGPUFree(ret);
-				}
+				}*/
 			}
+
+
+                                for(x=0; x < LOOP_SIZE; x++){
+                                        void *ret=NULL;
+                                        int id;
+                                        while(ret==NULL){
+                                                gemtcPoll(&id, &ret);
+                                        }
+                                        gemtcMemcpyDeviceToHost(data, ret, size);
+                                        gemtcGPUFree(ret);
+                                }
+
 			gemtcCleanup();
 		}
 		free(data);

@@ -4,7 +4,7 @@
 #define BIN_COUNT 256
 //#define NUM_RUNS  5
 //#define AVG_RUNS 10.0 
-#define BYTE_COUNT 25600
+#define BYTE_COUNT 1000
 #include <helper_functions.h>
 #include <cuda_runtime.h>
 
@@ -20,18 +20,6 @@ int main(int argc, char **argv){
     int AVG_RUNS = atoi(argv[2]);    
 
 
-	/*if(argc&gt;2){
-        NUM_TASKS = atoi(argv[1]);
-        LOOP_SIZE = atoi(argv[2]);
-        
-        }else{
-        printf("This test requires four parameters:\n");
-        printf("   int NUM_TASKS, int LOOP_SIZE, int MATRIX_SIZE, int STATIC_VALUE\n");
-        printf("where  NUM_TASKS is the total numer of vector add tasks to be sent to gemtc\n");
-        printf("       LOOP_SIZE is the number of tasks should be sent to gemtc before waiting for results\n");
-        exit(1);
-    }*/
-    
     cudaDeviceProp devProp;
     cudaGetDeviceProperties(&devProp, 0);
     StopWatchInterface *hTimer = NULL;
@@ -52,7 +40,7 @@ int main(int argc, char **argv){
             warps =1;
             blocks = 1;
         }
-        NUM_TASKS = warps * blocks;
+        NUM_TASKS = warps * blocks*AVG_RUNS;
         LOOP_SIZE = 1;
         byteCount = byteCount / NUM_TASKS;
         
@@ -75,16 +63,15 @@ int main(int argc, char **argv){
         }
         sdkResetTimer(&hTimer);
         sdkStartTimer(&hTimer);
-        for(k=0; k < AVG_RUNS ; k++) {
-            for(j=0; j <NUM_TASKS/LOOP_SIZE; j++){
-                int i;
-                for(i=0; i < LOOP_SIZE; i++){
+        //for(k=0; k < AVG_RUNS ; k++) {
+            for(j=0; j <NUM_TASKS; j++){
+                //for(i=0; i < LOOP_SIZE; i++){
                     uint *d_params = (uint *) gemtcGPUMalloc(size);
                     gemtcMemcpyHostToDevice(d_params, h_params, size);
-                    gemtcPush(34, 32, i+j*LOOP_SIZE, d_params);
-                }
+                    gemtcPush(34, 32, j*LOOP_SIZE, d_params);
+                //}
                 
-                for(i=0; i < LOOP_SIZE; i++){
+                /*for(i=0; i < LOOP_SIZE; i++){
                     void *ret=NULL;
                     int id;
                     while(ret==NULL){
@@ -92,12 +79,20 @@ int main(int argc, char **argv){
                     }
                     gemtcMemcpyDeviceToHost(h_params, ret, size);
                     gemtcGPUFree(ret);
-                }
+                }*/
             }
-        }
+		    void *ret=NULL;
+                    int id;
+                    while(ret==NULL){
+                        gemtcPoll(&id, &ret);
+                    }
+                    gemtcMemcpyDeviceToHost(h_params, ret, size);
+                    gemtcGPUFree(ret);
+
+        //}
         free(h_params);
         sdkStopTimer(&hTimer);
-        dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer)/(double) AVG_RUNS;
+        dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer);///(double) AVG_RUNS;
         unsigned int problem_size = (byteCount * 4) * NUM_TASKS;
         
         //dAvgSecs = dAvgSecs/(NUM_TASKS/LOOP_SIZE);
