@@ -4,14 +4,14 @@
 #define BIN_COUNT 256
 //#define NUM_RUNS  5
 //#define AVG_RUNS 10.0 
-#define BYTE_COUNT 1000
+#define BYTE_COUNT 25600
 #include <helper_functions.h>
 #include <cuda_runtime.h>
 
 int main(int argc, char **argv){
     int NUM_TASKS, LOOP_SIZE;
     uint byteCount = BYTE_COUNT;
-    int Overfill = 0;
+    int Overfill = 2;
     if (argc != 3){
         printf("invalid parameters, use: <NUM_INPUTS> <NUM_TEST>\n");
     return -1;
