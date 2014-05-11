@@ -139,7 +139,7 @@ int main(int argc, char *argv[]){
   }
   
   // Print timing information
-  printf("%.6lf\t", (((2*MASK_WIDTH*IMAGE_WIDTH)/(t2-t1))/1000000000));
+  printf("%.4lf\t",(t2-t1));
 
   // free cpu
   free(h_M);

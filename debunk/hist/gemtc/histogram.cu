@@ -11,7 +11,7 @@
 int main(int argc, char **argv){
     int NUM_TASKS, LOOP_SIZE;
     uint byteCount = BYTE_COUNT;
-    int Overfill = 2;
+    int Overfill = 0;
     if (argc != 3){
         printf("invalid parameters, use: <NUM_INPUTS> <NUM_TEST>\n");
     return -1;
@@ -40,16 +40,16 @@ int main(int argc, char **argv){
             warps =1;
             blocks = 1;
         }
-        NUM_TASKS = warps * blocks*AVG_RUNS;
+        NUM_TASKS = warps * blocks;
         LOOP_SIZE = 1;
         byteCount = byteCount / NUM_TASKS;
         
-        gemtcSetup(25600, Overfill);
+        //gemtcSetup(25600, Overfill);
         int d_size = sizeof(unsigned int) * byteCount;
         int h_size = sizeof(int) * BIN_COUNT;
         int size = 1 + d_size + h_size;
         int j;
-        int k;
+        //int k;
         uint *h_params = (uint *) malloc(size);
         double dAvgSecs;
         
@@ -61,9 +61,11 @@ int main(int argc, char **argv){
         {
             h_params[i] = rand() % 256;
         }
+        gemtcSetup(25600, Overfill);
         sdkResetTimer(&hTimer);
         sdkStartTimer(&hTimer);
-        //for(k=0; k < AVG_RUNS ; k++) {
+        for(k=0; k < AVG_RUNS ; k++) {
+	   	
             for(j=0; j <NUM_TASKS; j++){
                 //for(i=0; i < LOOP_SIZE; i++){
                     uint *d_params = (uint *) gemtcGPUMalloc(size);
@@ -71,15 +73,6 @@ int main(int argc, char **argv){
                     gemtcPush(34, 32, j*LOOP_SIZE, d_params);
                 //}
                 
-                /*for(i=0; i < LOOP_SIZE; i++){
-                    void *ret=NULL;
-                    int id;
-                    while(ret==NULL){
-                        gemtcPoll(&id, &ret);
-                    }
-                    gemtcMemcpyDeviceToHost(h_params, ret, size);
-                    gemtcGPUFree(ret);
-                }*/
             }
 		    void *ret=NULL;
                     int id;
@@ -89,10 +82,10 @@ int main(int argc, char **argv){
                     gemtcMemcpyDeviceToHost(h_params, ret, size);
                     gemtcGPUFree(ret);
 
-        //}
+        }
         free(h_params);
         sdkStopTimer(&hTimer);
-        dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer);///(double) AVG_RUNS;
+        dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer)/(double) AVG_RUNS;
         unsigned int problem_size = (byteCount * 4) * NUM_TASKS;
         
         //dAvgSecs = dAvgSecs/(NUM_TASKS/LOOP_SIZE);

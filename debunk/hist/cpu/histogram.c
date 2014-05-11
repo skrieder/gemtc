@@ -26,19 +26,24 @@ int main(int argc, char *argv[])
         	printf("invalid parameters, use: <NUM_INPUTS>\n");
     		return -1;
     	}
-	int NUM_RUNS = atoi(argv[1]);
- 	
-	for(iter =0 ; iter< NUM_RUNS;iter++){
+	//int NUM_RUNS = atoi(argv[1]);
+ 	//int NUM_TASK = atoi(argv[2]);
+	byteCount = atoi(argv[1]);
+        
+	//for(iter =0 ; iter< NUM_RUNS;iter++){
  	srand (2009);
  	size = sizeof(unsigned char) * byteCount;
  	h_data = (unsigned char *) malloc(sizeof(unsigned char) * byteCount);
- 	for (i = 0; i < byteCount; i++)
+        gettimeofday(&tim, NULL);
+        t1=tim.tv_sec+(tim.tv_usec/1000000.0); 
+	for (i = 0; i < byteCount; i++)
  	{
         	h_data[i] = rand() % 256;
  	}
- 	
-	gettimeofday(&tim, NULL);
- 	t1=tim.tv_sec+(tim.tv_usec/1000000.0);
+ 	gettimeofday(&tim, NULL);
+        t2=tim.tv_sec+(tim.tv_usec/1000000.0);
+	//gettimeofday(&tim, NULL);
+ 	//t1=tim.tv_sec+(tim.tv_usec/1000000.0);
 	int j,k;
  	
 	//for(j=0; j < TEST_RUN; j++) {
@@ -47,18 +52,17 @@ int main(int argc, char *argv[])
 	}
  	//}	
   	
-	gettimeofday(&tim, NULL);
-  	t2=tim.tv_sec+(tim.tv_usec/1000000.0);
+	//gettimeofday(&tim, NULL);
+  	//t2=tim.tv_sec+(tim.tv_usec/1000000.0);
  	free(h_data); 
  	
 	double dAvgSecs = (t2-t1);
 	
-	unsigned int problem_size = byteCount * 4;
-        printf("%u\t%.4f\t%.5f\n",
-        problem_size,(1.0e-6 * (double)problem_size / dAvgSecs), dAvgSecs);
+	//unsigned int problem_size = byteCount * 4;
+       printf("%.5f\n", dAvgSecs);
  	byteCount = byteCount * 10;
  
- 	}
+ 	//}
 // Print timing information
 
 }

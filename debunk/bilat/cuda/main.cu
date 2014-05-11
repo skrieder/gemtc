@@ -96,7 +96,7 @@ void bilateralFilterGPU_v1(float3* input, float3* output, uint2 dims, int radius
         output[idx] = res;
 }
 
-void bilateralFiltering_v1(RGB* data, int width, int height ,int radius, float sigma_spatial, float sigma_range) {
+void bilateralFiltering_v1(RGB* data, int width, int height ,int radius, float sigma_spatial, float sigma_range,int NUM_THREADS) {
     unsigned int numElements = width * height;
     cudaError_t err;
     // copy data to device
@@ -112,7 +112,7 @@ void bilateralFiltering_v1(RGB* data, int width, int height ,int radius, float s
     CHECK_ERR(err);
 
     // setup dimensions of grid/blocks.
-    dim3 blockDim(512,1,1);
+    dim3 blockDim(NUM_THREADS,1,1);
     dim3 gridDim((unsigned int) ceil((double)(numElements/blockDim.x)), 1, 1 );
 
     // invoke kernel
@@ -143,23 +143,24 @@ return colors;
 }
 */
 int main(int argc, char** argv) {
-    if (argc != 3){
-        printf("invalid parameters, use: <NUM_INPUTS> <NUM_TEST>\n");
+    if (argc != 4){
+        printf("invalid parameters, use: <WIDTH> <HEIGHT> <NUM_THREADS>\n");
     return -1;
     }
     
         //const unsigned int channels = 1;//atoi(argv[1]);
 	StopWatchInterface *hTimer = NULL;
-	unsigned int width = IMAGE_SIZE;
-	unsigned int height = IMAGE_SIZE;
+	unsigned int width = atoi(argv[1]);
+	unsigned int height = atoi(argv[2]);
 	sdkCreateTimer(&hTimer);
         radius = 1;//atoi(argv[2]);
         sigma_spatial = 1.0; //(float)atof(argv[3]);
         sigma_range = 1.0; //(float)atof(argv[4]);
-	int TEST_RUN = atoi(argv[1]);
-	int NUM_TEST = atoi(argv[2]);
-        for(int i = 0; i < TEST_RUN; i++)
-        {
+	//int TEST_RUN = atoi(argv[1]);
+	int NUM_THREADS = atoi(argv[3]);
+	int NUM_TEST =10;// atoi(argv[2]);
+        //for(int i = 0; i < TEST_RUN; i++)
+        //{
 			RGB *data=(RGB *) malloc (sizeof(RGB) * width * height);
 			for(int j = 0; j < (width * height); j++)
 			{
@@ -175,15 +176,15 @@ int main(int argc, char** argv) {
 			sdkStartTimer(&hTimer);
 			for(int k = 0; k < NUM_TEST; k++)
 			{
-				bilateralFiltering_v1(data,width,height,radius,sigma_spatial,sigma_range);
+				bilateralFiltering_v1(data,width,height,radius,sigma_spatial,sigma_range,NUM_THREADS);
 			}
 			sdkStopTimer(&hTimer);
 			double dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer) / (double) NUM_TEST;
-			printf("%u\t%.5f\n",width*height, dAvgSecs);
+			printf("%.5f\t", dAvgSecs);
 			free(data);
 			
 			width *= 2;
-		}
+	//	}
 		
 	sdkDeleteTimer(&hTimer);
     return EXIT_SUCCESS;

@@ -41,21 +41,21 @@ void print(unsigned int *histo){
 }
 int main(int argc, char *argv[])
 {
-    if (argc != 3){
-        printf("invalid parameters, use: <NUM_ELEMENTS> <NUM_THREADS>\n");
+    if (argc != 5){
+        printf("invalid parameters, use: <NUM_ELEMENTS> <NUM_THREADS> <NUM_TASKS> <NUM_TEST> \n");
     return -1;
     }
     unsigned char * h_data;
     unsigned int h_histogram[BIN_COUNT];
     unsigned char * d_data;
     unsigned int * d_histogram;
-    unsigned int byteCount = atoi(argv[1]);//BYTE_COUNT;
+    unsigned int byteCount = atoi(argv[1])/atoi(argv[3]);//BYTE_COUNT;
     size_t size;
     cudaError_t err;
 
     //int NUM_RUNS = atoi(argv[1]);
     int NUM_THREADS = atoi(argv[2]);
-    int NUM_TEST = 10;//atoi(argv[2]);
+    int NUM_TEST = atoi(argv[4]);
     
     StopWatchInterface *hTimer = NULL;
     //int iter;
