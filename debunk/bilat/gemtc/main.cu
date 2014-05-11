@@ -37,7 +37,7 @@ int main(int argc, char **argv){
     int TEST_RUN = atoi(argv[1]);
     int NUM_TEST = atoi(argv[2]);
 
-    /*int warps;
+    int warps;
     int blocks = devProp.multiProcessorCount;
 
         if(Overfill==1){
@@ -51,7 +51,8 @@ int main(int argc, char **argv){
                 warps =1;
                 blocks = 1;
         }
-     */
+    NUM_TASKS = warps * blocks;
+    width = width/ NUM_TASKS; 
 	for(int i = 0; i < TEST_RUN; i++)
     	{
 		int d_size = sizeof(RGB) * width * height;
@@ -130,7 +131,7 @@ int main(int argc, char **argv){
 		free(data);
 		sdkStopTimer(&hTimer);
 		double dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer) / (double) NUM_TEST;
-		printf("%u\t%.5f\n",width*height, dAvgSecs);
+		printf("%u\t%.5f\n",width*NUM_TASKS*height, dAvgSecs);
 		//gemtcCleanup();
 		width *= 2;
 

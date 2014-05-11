@@ -8,10 +8,10 @@
 TMP_DIR=$PWD
 WIDTH=1024
 HEIGHT=1024
+NUM_TASKS=84
 LOG_DIR="filtering.dat"
-TEMP_LOG_DIR="filtering_bkp.dat"
 echo "Width : $WIDTH Height: $HEIGHT"
-
+WIDTH=$(($WIDTH/NUM_TASKS))
 total_problem_size=$(($WIDTH * $HEIGHT))
 echo "Total Problem Size (array elements): $total_problem_size"
 total_problem_size_bytes=$(($total_problem_size*12)) # 4 because 4 bytes in a float
