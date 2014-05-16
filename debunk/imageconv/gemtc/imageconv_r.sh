@@ -18,11 +18,8 @@ total_problem_size_bytes=$(($total_problem_size*4)) # 4 because 4 bytes in a flo
 echo "Total Problem Size (bytes): $total_problem_size_bytes"
 
 printf "#image_width\ttotal_problem_size\t#threads\ttime...\n"> $LOG_DIR/imageconv_G.dat
-<<<<<<< HEAD:debunk/imageconv/gemtc/imageconv_r.sh
 
-=======
 make
->>>>>>> ca7ea83addeadd10ce7364774777998a17dc6e03:debunk/imageconv/gemtc/imageconv_r.sh
 max=7
 # loop over Problem size
 for j in $(seq 1 $max) 
@@ -32,7 +29,6 @@ do
     ./imageconv $image_width $mask_width >> $LOG_DIR/imageconv_G.dat 
     printf "\n" >> $LOG_DIR/imageconv_G.dat
     image_width=$(($image_width*10))
-<<<<<<< HEAD:debunk/imageconv/gemtc/imageconv_r.sh
     total_problem_size=$(($image_width+$mask_width))
     total_problem_size_bytes=$(($total_problem_size*4))
 done
