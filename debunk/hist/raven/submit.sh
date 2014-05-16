@@ -18,4 +18,4 @@ echo
 echo "Program Output begins: " 
 cd ${PBS_O_WORKDIR} 
 
-aprun ./compileScript.sh 
+aprun ./execute.sh 

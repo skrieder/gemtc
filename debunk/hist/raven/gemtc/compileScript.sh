@@ -3,8 +3,6 @@
 # Karthik Balasubramanian
 # kbalasu3@hawk.iit.edu
 # Illinois Institute of Technology
-make
-./histogram 5 1 > /lus/scratch/p01956/histogram.dat
 mv /lus/scratch/p01956/histogram.dat histogram.dat
 gnuplot format_histogram_time_raven.p
 gnuplot format_histogram_thrgh_raven.p
