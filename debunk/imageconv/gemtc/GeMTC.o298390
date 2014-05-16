@@ -1,0 +1,11 @@
+Running on: 
+nid00008
+
+Program Output begins: 
+Image width in 1-D: 100
+Mask width: 50
+Total Problem Size (array elements): 150
+Total Problem Size (bytes): 600
+aprun: Apid 751776: Caught signal Terminated, sending to application
+Application 751776 exit signals: Terminated
+Application 751776 resources: utime ~0s, stime ~0s, Rss ~6016, inblocks ~33, outblocks ~3
