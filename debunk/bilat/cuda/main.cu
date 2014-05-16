@@ -116,7 +116,7 @@ void bilateralFiltering_v1(RGB* data, int width, int height ,int radius, float s
     dim3 gridDim((unsigned int) ceil((double)(numElements/blockDim.x)), 1, 1 );
 
     // invoke kernel
-        bilateralFilterGPU_v1<<< gridDim, blockDim >>>( d_data, d_result, make_uint2(width,height), radius, sigma_spatial, sigma_range);
+        bilateralFilterGPU_v1<<< 7, NUM_THREADS >>>( d_data, d_result, make_uint2(width,height), radius, sigma_spatial, sigma_range);
 
     // copy data to host
     err= cudaMemcpy( data, d_result, numElements*sizeof(RGB), cudaMemcpyDeviceToHost );

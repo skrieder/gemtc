@@ -49,7 +49,7 @@ int main(int argc, char **argv){
         int h_size = sizeof(int) * BIN_COUNT;
         int size = 1 + d_size + h_size;
         int j;
-        //int k;
+        int k;
         uint *h_params = (uint *) malloc(size);
         double dAvgSecs;
         
