@@ -4,7 +4,7 @@
 # kbalasu3@hawk.iit.edu
 # Illinois Institute of Technology
 TMP_DIR=$PWD
-image_width=25599
+image_width=25600
 mask_width=50
 FLAG=1
 NUM_TASK=84
