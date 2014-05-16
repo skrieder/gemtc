@@ -1,0 +1,104 @@
+package provide gemtc 0.0
+
+namespace eval gemtc {
+
+    proc gemtc_sleep { result inputs } {
+        turbine::rule $inputs "gemtc_sleep $result $inputs" \
+            name gemtc_sleep-$result type $turbine::WORK
+    }
+
+    proc gemtc_sleep_begin { result inputs } {
+
+        turbine::log "gemtc_sleep_begin: $result $inputs"
+        set i [ retrieve_integer $inputs ]
+        return $i;
+    }
+
+    proc gemtc_sleep_end { result inputs value } {
+
+        turbine::log "gemtc_sleep_end: $result $inputs $value"
+        store_integer $result $value
+    }
+
+    proc gemtc_mdproxy { result inputs } {
+
+        turbine::rule $inputs "gemtc_mdproxy $result $inputs" \
+            name gemtc_mdproxy-$result type $turbine::WORK
+    }
+
+    proc gemtc_mdproxy_begin { result input1 input2 } {
+
+	#puts "gemtc_mdproxy_begin"
+	#puts "result: $result"
+	#puts "input1: $input1"
+	#puts "input2: $input2"
+        turbine::log "gemtc_mdproxy_begin: $result $input1 $input2"
+
+	set np [ retrieve_integer $input1 ]
+	#puts "np: $np"
+	
+	set part [ retrieve_blob $input2 ]
+	#puts "part: $part"
+
+	set sup [ concat $np $part ]
+	#puts "sup: $sup"
+
+	return $sup;
+    }
+
+    proc gemtc_mdproxy_end { result inputs value sup} {
+	#puts "In GEMTC_MDPROXY_END"
+	#puts "result: $result"
+	#puts "inputs: $inputs"
+	#puts "value: $value"
+	#puts "sup: $sup"
+
+	set np [lindex $sup 0]
+        turbine::log "gemtc_mdproxy_end: $result $inputs $value"
+
+	# need to do some bit shifting to get the correct result
+
+	#puts "IN END"
+	#PrintArray $value 200
+
+#	set result_blob [ new_turbine_blob ]
+#	turbine_blob_pointer_set $result_blob $value
+#	turbine_blob_length_set $result_blob 160
+
+	# HARD CODED VALUE HERE
+	#puts "hard coded value in gemtc_md_proxy_end"
+	# 2 is coming from hard coded nd
+	set np_size [expr $np * 8 * 2]
+        store_blob $result [ list [ blobutils_cast_to_int $value ] $np_size ]
+    }
+
+    proc mdproxy_create_random_vector { n } {
+
+	# set the length equal to the size_of = (number_elements * sizeof(float))
+        set length [ expr $n * [blobutils_sizeof_float] ]
+
+	# set and malloc p
+        set p [ blobutils_malloc $length ]
+
+	set p [ blobutils_cast_to_dbl_ptr $p ]
+
+	# loop through the elements and set values
+        for { set i 0 } { $i < $n } { incr i } {
+
+	    # reset the srand
+#	    set ticks [clock seconds]
+#	    expr { srand($ticks) }
+
+	    # get a random double
+	    set x [ expr { rand() * 100 } ]
+
+	    # set the random double, (pointer, location, value)
+            blobutils_set_float $p $i $x
+        }
+
+        set result [ list [ blobutils_cast_to_int $p ] $length ]
+        return $result
+    }
+
+}
+

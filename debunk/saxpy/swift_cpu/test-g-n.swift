@@ -1,22 +1,21 @@
 @dispatch=WORKER
   (int sum) g(int i1, int i2) "g" "0.0"
   [ "set <<sum>> [ g <<i1>> <<i2>> ]" ];
-  (int sum2) mdproxy_wrapper(int i1, int i2, float d1) "g" "0.0"
-  [ "set <<sum2>> [ mdproxy_wrapper <<i1>> <<i2>> <<d1>>]" ];
+
+  (blob b) saxpy(int n, float a, float *x, float *y) "saxpy" "0.0"
+  [ "set <<b>> [ saxpy <<n>> <<a>> <<*x>> <<*y>> ]"];
+
 
 import sys;
 
 main {
-  //  foreach i in [0:5] {
-  //  int sum = g(i, 5-i);
-  //}
-  int num_sims = toint(argv("num_sims"));
-  int np = toint(argv("np"));
-  int nd = toint(argv("nd"));
-  float mass = tofloat(argv("mass"));
-  
-  foreach i in [0:num_sims] {
-    int sum = mdproxy_wrapper(np, nd, mass);
-  }
 
+  n = 1;
+  a = 2;
+
+  x = [1,2];
+
+  y = [3,4];
+
+  blob b = saxpy(n, a, x, y);
 }

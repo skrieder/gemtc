@@ -37,7 +37,7 @@ int main(int argc, char **argv){
     int TEST_RUN = atoi(argv[1]);
     int NUM_TEST = atoi(argv[2]);
 
-    /*int warps;
+    int warps;
     int blocks = devProp.multiProcessorCount;
 
         if(Overfill==1){
@@ -51,7 +51,8 @@ int main(int argc, char **argv){
                 warps =1;
                 blocks = 1;
         }
-     */
+    NUM_TASKS = warps * blocks;
+    width = width/ NUM_TASKS; 
 	for(int i = 0; i < TEST_RUN; i++)
     	{
 		int d_size = sizeof(RGB) * width * height;
@@ -95,15 +96,15 @@ int main(int argc, char **argv){
 
 		for(int k=0; k < NUM_TEST ; k++) {
 			gemtcSetup(25600, Overfill);
+			int x;
 			for(int j=0; j <NUM_TASKS/LOOP_SIZE; j++){
-				int x;
 				for(x=0; x < LOOP_SIZE; x++){
 					float3 *d_params = (float3 *) gemtcGPUMalloc(size);
 					gemtcMemcpyHostToDevice(d_params, data, size);
 					gemtcPush(35, 32, i+j*LOOP_SIZE, d_params);
 				}
 
-				for(x=0; x < LOOP_SIZE; x++){
+				/*for(x=0; x < LOOP_SIZE; x++){
 					void *ret=NULL;
 					int id;
 					while(ret==NULL){
@@ -111,14 +112,26 @@ int main(int argc, char **argv){
 					}
 					gemtcMemcpyDeviceToHost(data, ret, size);
 					gemtcGPUFree(ret);
-				}
+				}*/
 			}
+
+
+                                for(x=0; x < LOOP_SIZE; x++){
+                                        void *ret=NULL;
+                                        int id;
+                                        while(ret==NULL){
+                                                gemtcPoll(&id, &ret);
+                                        }
+                                        gemtcMemcpyDeviceToHost(data, ret, size);
+                                        gemtcGPUFree(ret);
+                                }
+
 			gemtcCleanup();
 		}
 		free(data);
 		sdkStopTimer(&hTimer);
 		double dAvgSecs = 1.0e-3 * (double)sdkGetTimerValue(&hTimer) / (double) NUM_TEST;
-		printf("%u\t%.5f\n",width*height, dAvgSecs);
+		printf("%u\t%.5f\n",width*NUM_TASKS*height, dAvgSecs);
 		//gemtcCleanup();
 		width *= 2;
 

@@ -14,7 +14,8 @@ __device__ void histogram(
 	//printf("Thread #: %d\n",threadIdx.x);
 		int i = threadIdx.x %32;
 		
-	
+                //if(i==0)
+		 //printf("Thread #: %d\n",i);	
 		while (i < byteCount)
 		{
 				//atomicAdd( &(d_Histogram[d_Data[i]]), 1 );

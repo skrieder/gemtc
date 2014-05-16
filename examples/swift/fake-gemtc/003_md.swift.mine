@@ -1,0 +1,57 @@
+/*
+	Test program for evaluating the gemtc worker and the MDProxy Application. -Scott
+*/
+import sys;
+import io;
+import gemtc;
+
+main
+{
+  // setup
+  int np = toint(argv("array_size"));    // number of particles
+  int loopCount = toint(argv("bound"));
+  int nd = 3;       // number of dimensions
+  int n = np * nd;  // total size
+  float mass = 1.1; // mass
+  float A[][];
+  blob B[];
+  blob R[];
+  float F[][];
+  float T[];
+
+  //  foreach i in [1:n:1]{
+  T = constructArray(n);
+    //}
+ 
+  foreach i in [0:n-1:1]{
+    printf("T[%d] = %f", i, T[i]);
+  }
+
+  printf("Setting A to T");
+  A[0] = T;
+  printf("Complete");
+
+  printf("Setting B to blob of A");
+  B[0] = blob_from_floats(A[0]);
+  printf("Complete");
+
+  printf("Duplicate B");
+  // convert float arrays to blobs
+  foreach i in [1:loopCount:1]{
+    B[i] = B[0];
+  }
+  printf("Complete");
+
+  printf("run gemtc");
+  // obtain a new blob result array
+  foreach i in [1:loopCount:1]{
+    R[i] = gemtc_mdproxy(np, B[i]);
+  }
+  printf("Complete");
+}
+
+(float A[]) constructArray(int n) {
+  foreach i in [0:n:1]{
+    A[i] = 1.9;
+  }
+}
