@@ -1,0 +1,5 @@
+CUDA - RAVEN - Bilateral Filtering  application 
+
+- To execute the application for complete test from 1 - 1024 threads and problem size from 1 KB to 12 MB, execute the below command
+	- make 
+	- qsub ./submit.sh

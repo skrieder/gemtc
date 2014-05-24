@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
           if(argc!=3)
 		{
 		  printf("This test requires two parameters:\n");
-		  printf("   int IMAGE_WIDTH, int MASK_WIDTH, int NUM_THREADS \n");
+		  printf("   int IMAGE_WIDTH, int MASK_WIDTH \n");
 		  printf("where  IMAGE_WIDTH is the number of pixels in an image in one dimensional\n");
 		  printf("       MASK_WIDTH is the width of the mask to be applied on the image\n");
 		  exit(1);

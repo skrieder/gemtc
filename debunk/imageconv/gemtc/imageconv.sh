@@ -6,7 +6,7 @@
 TMP_DIR=$PWD
 image_width=25600
 mask_width=50
-FLAG=$1
+FLAG=1
 LOOP_SIZE=1
 NUM_TASK=1
 echo "Image width in 1-D: $image_width"
