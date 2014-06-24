@@ -1,3 +1,4 @@
+#include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -30,13 +31,14 @@ int main( int argc, char* argv[] )
 {
     // Length of vectors
     unsigned int n = 100000000;
- 
+struct timespec start, finish;
+
     // Host input vectors
     int *h_a;
     int *h_b;
     // Host output vector
     int *h_c;
- 
+ double elapsed;
     // Device input buffers
     cl_mem d_a;
     cl_mem d_b;
@@ -67,12 +69,14 @@ int main( int argc, char* argv[] )
  
     size_t globalSize, localSize;
     cl_int err;
- 
+ int workgrp;
+int wrkitm;
+wrkitm=atoi(argv[1]);
     // Number of work items in each local work group
-    localSize = 2;
- 
+    localSize =wrkitm ;
+ 	workgrp=atoi(argv[2]);
     // Number of total work items - localSize must be devisor
-    globalSize = 64*44707;
+    globalSize = 256*workgrp;//ceil(n/(float)localSize)*localSize;
  
     // Bind to platform
     err = clGetPlatformIDs(1, &cpPlatform, NULL);
@@ -113,9 +117,13 @@ clFinish(queue);
     err = clSetKernelArg(kernel, 1, sizeof(cl_mem), &d_b);
     err = clSetKernelArg(kernel, 2, sizeof(cl_mem), &d_c);
     err = clSetKernelArg(kernel, 3, sizeof(unsigned int), &n);
+ clock_gettime(CLOCK_MONOTONIC, &start);
     // Execute the kernel over the entire range of the data set 
     err = clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &globalSize, &localSize,
                                                               0, NULL, NULL);
+ clock_gettime(CLOCK_MONOTONIC, &finish);
+        elapsed = (finish.tv_sec - start.tv_sec);
+        elapsed += (finish.tv_nsec - start.tv_nsec)/ 1000000000.0;
  
     // Wait for the command queue to get serviced before reading back results
     clFinish(queue);
@@ -129,7 +137,8 @@ clFinish(queue);
     double sum = 0;
     for(i=0; i<n; i++)
         sum += h_c[i];
-    printf("final result: %f\n", sum/n);
+printf("Work Item/threads = %d \n",wrkitm);
+printf("time taken by GPU = %le\n ",elapsed);
  
     // release OpenCL resources
     clReleaseMemObject(d_a);
