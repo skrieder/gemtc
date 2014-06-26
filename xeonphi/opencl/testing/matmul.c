@@ -119,7 +119,7 @@ main(int argc, char** argv)
  
  
    // 6. Load and build OpenCL kernel
-   char *clMatrixMul = oclLoadProgSource("kernel.cl",
+   char *clMatrixMul = oclLoadProgSource("matxm.cl",
                         "// My comment\n", 
                         &kernelLength);
    shrCheckError(clMatrixMul != NULL, shrTRUE);
@@ -154,9 +154,10 @@ main(int argc, char** argv)
    errcode |= clSetKernelArg(clKernel, 4, 
               sizeof(int), (void *)&wC);
    shrCheckError(errcode, CL_SUCCESS);
- 
-   localWorkSize[0] = 16;
-   localWorkSize[1] = 16;
+ int value;
+value =atoi(argv[1]);
+   localWorkSize[0] = value ;
+   localWorkSize[1] = value ;
    globalWorkSize[0] = 1024;
    globalWorkSize[1] = 1024;
  
@@ -197,4 +198,4 @@ main(int argc, char** argv)
    clReleaseProgram(clProgram);
    clReleaseCommandQueue(clCommandQue);
 
-}
+

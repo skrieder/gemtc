@@ -1,8 +1,4 @@
-* kernel.cl 
- * Matrix multiplication: C = A * B.
- * Device code.
- */
- 
+
 // OpenCL Kernel
 __kernel void
 matrixMul(__global float* C, 
