@@ -7,8 +7,10 @@
 #$ -pe mpich 1
 #$ -S /bin/bash
 #
-./bigcuda2 60 256 >> gpu.txt
-./bigcuda2 30 512 >> gpu2.txt
-./bigcuda2 60 128 >> gpu3.txt
-./bigcuda2 60 64 >> gpu4.txt
-./bigcuda2 60 384 >> gpu5.txt
+./matm 16 >> matrix.txt
+./matm 32 >> matrix.txt
+./matm 64 >> matrix.txt
+./matm 128 >> matrix.txt
+./matm 256 >> matrix.txt
+./matm 384 >> matrix.txt
+./matm 512 >> matrix.txt
