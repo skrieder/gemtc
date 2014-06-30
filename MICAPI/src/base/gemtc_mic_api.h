@@ -1,4 +1,3 @@
-#ifndef _GEMTC_MIC_API_H_
 #define _GEMTC_MIC_API_H_ 1
 
 void MIC_gemtcSetup(int Queuesize, int workers);
