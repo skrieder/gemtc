@@ -14,7 +14,7 @@ int main()
     double time;
     
     struct timespec start, finish;
-double elapsed;
+   double elapsed;
   /*  printf("Enter rows and column for first matrix: ");
     scanf("%d%d", &r1, &c1);
     printf("Enter rows and column for second matrix: ");

@@ -54,19 +54,33 @@ void EnqueueJob(JobPointer h_JobDescription, Queue Q) {
    return;
 }
 
-JobPointer MaybeFandD(Queue Q){
+void DequeueResult(Queue Q) {
+//called by CPU
 
-  if(IsEmpty(Q)){
-    return NULL;
-  }else{
-    JobPointer result = (JobPointer) malloc(sizeof(JobPointer));
-    *result = Q->Array[Q->Front];
-    Q->Front = (Q->Front+1)%(Q->Capacity);
-    return result;
+
+   if(IsEmpty(Q)){
+      printf ("Dequeue error: Queue is empty!");
+      return;
   }
+
+  JobPointer *resultP = (JobPointer *) malloc(sizeof(JobPointer));
+  //Pointer to Front task description
+
+  cudaSafeMemcpy(resultP, (void *)&h_Q->Array[h_Q->Front], sizeof(JobPointer), 
+                 cudaMemcpyDeviceToHost, stream_dataOut,
+                 "FandDJob, Getting JobPointer");
+  
+  gemtcFree(*resultP);
+
+
+  h_Q->Front = (h_Q->Front+1)%(h_Q->Capacity);
+
+  cudaSafeMemcpy( movePointer(Q, 16), movePointer(h_Q, 16), 
+		  sizeof(int), cudaMemcpyHostToDevice, stream_dataOut,
+                  "FandDJob, Updating Queue");
+
+  free(h_Q);
 }
-
-
 
 
 
