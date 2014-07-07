@@ -8,7 +8,7 @@ static size_t MM = 90000000;
 void add(int *a, int *b, int *c, size_t n){
     size_t i;
     
-    omp_set_num_threads(4);
+    omp_set_num_threads(1);
     
     #pragma omp parallel for
     for(i = 0; i < n; ++i) {
