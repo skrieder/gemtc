@@ -1,0 +1,3 @@
+The command line that I am using to compile is:
+
+gcc -fopenmp CPU_main.c CPUgemtcOpenMP.c Queue.c -o main
