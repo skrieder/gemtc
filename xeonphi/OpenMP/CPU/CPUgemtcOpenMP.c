@@ -52,12 +52,12 @@ void CPU_gemtcSetup(int QueueSize, int numthreads){
    val->results = finishedJobs;
    val->kill = &kill;
    
-   omp_set_num_threads(numthreads);
+   //omp_set_num_threads(numthreads);
    
-   #pragma omp parallel
-   {
+   //#pragma omp parallel
+  // {
       superKernel(val);
-   }
+   //}
    return;
 }
 
@@ -84,7 +84,7 @@ void CPU_gemtcPush(int taskType, int Threads, int ID, void *parameters){
    //Start Critical Section
    #pragma omp critical
    {
-      Enqueue(h_JobDescription, newJobs);
+      EnqueueJob(h_JobDescription, newJobs);
    }
    //End Critical Section
   

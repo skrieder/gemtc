@@ -19,13 +19,12 @@ struct QueueRecord {
 
 typedef struct QueueRecord *Queue;
 
-int IsEmpty(Queue Q) {
-  return (Q->Rear+1)%Q->Capacity == Q->Front;
-}
-
-int IsFull(Queue Q) {
-  return (Q->Rear+2)%Q->Capacity == Q->Front;
-}
+Queue CreateQueue(int MaxElements);
+void DisposeQueue(Queue Q);
+void EnqueueJob(JobPointer jobDescription, Queue Q);
+JobPointer MaybeFandD(Queue Q);
+JobPointer Front(Queue Q);
+void Dequeue(Queue Q);
 
 /*int openSpace(Queue Q){
   int temp = (Q->Front - ((Q->Rear+2)%Q->Capacity));

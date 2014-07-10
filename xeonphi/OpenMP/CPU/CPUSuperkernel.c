@@ -32,7 +32,7 @@ void *superKernel(void *val)
     retval = executeJob(currentJob);
 
       //enqueue the result
-    Enqueue(retval, results);
+    EnqueueJob(retval, results);
   }
   return NULL;
 }

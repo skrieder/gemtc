@@ -68,31 +68,13 @@ void Dequeue(Queue Q) {
 }
 
 
+int IsEmpty(Queue Q) {
+  return (Q->Rear+1)%Q->Capacity == Q->Front;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+int IsFull(Queue Q) {
+  return (Q->Rear+2)%Q->Capacity == Q->Front;
+}
 
 
 

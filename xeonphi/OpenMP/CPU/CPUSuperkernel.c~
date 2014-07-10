@@ -6,6 +6,12 @@
 
 JobPointer executeJob(JobPointer currentJob);
 
+struct Parameter_t{
+  Queue incoming;
+  Queue results;
+  int *kill;
+};
+
 void *superKernel(void *val)
 {
   struct Parameter_t *params = (struct Parameter_t *) val;

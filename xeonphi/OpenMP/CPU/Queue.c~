@@ -56,7 +56,7 @@ JobPointer MaybeFandD(Queue Q){
 
 JobPointer Front(Queue Q) {
   while(IsEmpty(Q));
-  JobPointer *result = (JobPointer) malloc(sizeof(JobPointer));
+  JobPointer result = (JobPointer) malloc(sizeof(JobPointer));
   *result = Q->Array[Q->Front];
   return result;
 }

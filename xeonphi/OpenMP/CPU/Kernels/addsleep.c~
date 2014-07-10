@@ -1,4 +1,4 @@
-void addsleep(void *params){
+void addSleep(void *params){
   long *sleepTime = (long *)params;
   *sleepTime = (*sleepTime)*230;
   long i;

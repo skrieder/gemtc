@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "CPUgemtcOpenMP.h"
+//#include "CPUgemtcOpenMP.h"
 #include "Queue.h"
 #include "CPUSuperkernel.c"
 #include "omp.h"
@@ -84,7 +84,7 @@ void CPU_gemtcPush(int taskType, int Threads, int ID, void *parameters){
    //Start Critical Section
    #pragma omp critical
    {
-      Enqueue(h_JobDescription, newJobs);
+      EnqueueJob(h_JobDescription, newJobs);
    }
    //End Critical Section
   
