@@ -1,0 +1,8 @@
+void addSleep(void *params){
+  long *sleepTime = (long *)params;
+  *sleepTime = (*sleepTime)*230;
+  long i;
+  for(i=0;i<*sleepTime;i++); //This wont sleep the correct time.
+                             //But the time slept will be a linear
+                             // function of *params
+}

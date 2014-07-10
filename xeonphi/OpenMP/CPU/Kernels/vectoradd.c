@@ -16,7 +16,7 @@ void add(int *a, int *b, int *c, size_t n){
     }
 }
 
-int main() {
+void vectoradd() {
     int *a, *b, *c;
     size_t i;
     struct timespec start, finish;
@@ -43,5 +43,5 @@ int main() {
     free(a);
     free(b);
     free(c);
-    return 0;
+    return;
 }

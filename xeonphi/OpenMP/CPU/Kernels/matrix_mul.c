@@ -4,9 +4,8 @@
 #include<time.h>
 
 
-int main()
+void matrix_mul()
 {
-  //  int mult[5010][5010];
     int **a, **b, **result;
     int i, j, k,r1, c1, r2, c2;
     int nthreads;
@@ -134,5 +133,5 @@ int main()
    elapsed += (finish.tv_nsec - start.tv_nsec)/ 1000000000.0;
 
     printf("\n time = %le  ",elapsed);
-    return 0;
+    return;
 }

@@ -1,4 +1,5 @@
-#include <stdlib.h>
+#ifndef _CPU_QUEUEJOBS_H_
+#define _CPU_QUEUEJOBS_H_
 
 struct JobDescription{
   int JobID;
@@ -26,8 +27,15 @@ int IsFull(Queue Q) {
   return (Q->Rear+2)%Q->Capacity == Q->Front;
 }
 
-int openSpace(Queue Q){
+/*int openSpace(Queue Q){
   int temp = (Q->Front - ((Q->Rear+2)%Q->Capacity));
   while(temp<0) temp+=Q->Capacity;
   return temp;
 }
+
+void *movePointer(void *p, int n){
+   char * ret = (char *) p;
+   return ((void *)(ret+n));
+}*/
+
+#endif
