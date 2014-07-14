@@ -3,6 +3,8 @@
 //#include "CPUgemtcOpenMP.h"
 #include "Queue.h"
 
+int kill;
+
 int main(int argv, char **argc) {
 
    int numthreads = 1;
@@ -23,30 +25,35 @@ int main(int argv, char **argc) {
    
    #pragma omp parallel
    {
-      #pragma omp single
+      #pragma omp single nowait
       {
       CPU_gemtcSetup(1000, numthreads); //1000==QueueSize
+      }
 
       printf("Setup Done\n");
-      }
+
       int i, j;
-      for(i=0;i<numTasks;){
+      #pragma omp for nowait
+      for(i=0;i<numTasks;i++){
 	 printf("Starting to send batch\n");
 	 for(j=0;j<loopSize;j++){
-	    CPU_gemtcPush(0,1,i,&sleepTime);
+	    CPU_gemtcPush(2,1,i,&sleepTime);
 	    i++;
 	 }
-	 printf("batch sent, starting to recieve\n");
+	 printf("batch sent, starting to receive\n");
 	 for(j=0;j<loopSize;j++){
 	    JobPointer task;
-	    while((task = CPU_gemtcPoll())==NULL);
+	    do {
+	       task = CPU_gemtcPoll();
+	    }
+	    while(task == NULL);
 	    printf("Result from %d\n", task->JobID);
 	    free(task);
 	 }
-      printf("batch received\n");
+	 printf("batch received\n");
       }
    }
-
+printf("VOU LIMPAAAARRR\n");
    CPU_gemtcCleanup();
    printf("Cleanup done\n");
    return 0;

@@ -12,27 +12,29 @@ struct Parameter_t{
   int *kill;
 };
 
-void *superKernel(void *val)
+extern int kill;
+
+void *superKernel(struct Parameter_t *val)
 {
-  struct Parameter_t *params = (struct Parameter_t *) val;
+  /*struct Parameter_t *params = (struct Parameter_t *) val;
   Queue incoming = params->incoming;
   Queue results =  params->results;
-  int *kill =      params->kill;
-
+  int *kill =      params->kill;*/
   JobPointer currentJob;
   //This is the function that all worker threads execute
-  while(!(*kill))
+  while(!(kill))
   {
       //dequeue a task
-    currentJob = Front(incoming);
-    Dequeue(incoming);
+    currentJob = Front(val->incoming);
+    Dequeue(val->incoming);
 
       //execute the task
     JobPointer retval;
     retval = executeJob(currentJob);
 
       //enqueue the result
-    Enqueue(retval, results);
+    EnqueueJob(retval, val->results);
+    printf("Resultado empilhado\n");
   }
   return NULL;
 }

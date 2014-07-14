@@ -18,7 +18,7 @@ void CPU_gemtcPush(int Type, int Threads, int ID, void *params);
 JobPointer CPU_gemtcPoll();
 
 Queue newJobs, finishedJobs;
-int kill;
+extern int kill;
 
 /*
 This file contains the functions that make up the API to gemtc
@@ -52,12 +52,12 @@ void CPU_gemtcSetup(int QueueSize, int numthreads){
    val->results = finishedJobs;
    val->kill = &kill;
    
-   omp_set_num_threads(numthreads);
+   //omp_set_num_threads(numthreads);
    
-   #pragma omp parallel
-   {
+   //#pragma omp single nowait
+   //{
       superKernel(val);
-   }
+   //}
    return;
 }
 
@@ -75,16 +75,17 @@ void CPU_gemtcCleanup(){
 
 void CPU_gemtcPush(int taskType, int Threads, int ID, void *parameters){
 
-   JobPointer h_JobDescription = (JobPointer) malloc(sizeof(struct JobDescription));
-   h_JobDescription->JobType = taskType;
-   h_JobDescription->numThreads = Threads;
-   h_JobDescription->params = parameters;
-   h_JobDescription->JobID = ID;
-
    //Start Critical Section
    #pragma omp critical
    {
+      JobPointer h_JobDescription = (JobPointer) malloc(sizeof(struct JobDescription));
+      h_JobDescription->JobType = taskType;
+      h_JobDescription->numThreads = Threads;
+      h_JobDescription->params = parameters;
+      h_JobDescription->JobID = ID;
+
       EnqueueJob(h_JobDescription, newJobs);
+      printf ("TAREFA EMPILHADA\n");
    }
    //End Critical Section
   
@@ -101,6 +102,7 @@ JobPointer CPU_gemtcPoll(){
    //Start Critical Section
    #pragma omp critical
    {
+      //printf("ENTROU NA CRITICAL DO POLL\n");
       h_JobDescription = MaybeFandD(finishedJobs);//returns null if empty
    //End Critical Section
    }

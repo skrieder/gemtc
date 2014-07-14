@@ -28,10 +28,10 @@ void matrix_mul()
         printf("Enter rows and column for second matrix: ");
         scanf("%d%d",&r2, &c2);
     }*/
-    r1 = 500;
-    c1 = 500;
-    r2 = 500;
-    c2 = 500;
+    r1 = 10; //500
+    c1 = 10; //500
+    r2 = 10; //500
+    c2 = 10; //500
     /* Initializing the clock */
   
    
@@ -132,6 +132,6 @@ void matrix_mul()
    elapsed = (finish.tv_sec - start.tv_sec);
    elapsed += (finish.tv_nsec - start.tv_nsec)/ 1000000000.0;
 
-    printf("\n time = %le  ",elapsed);
+    //printf("\n time = %le  ",elapsed);
     return;
 }

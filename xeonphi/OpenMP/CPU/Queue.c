@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "Queue.h"
+#include <stdio.h>
 
 ////////////////////////////////////////////////////////////
 // Constructor and Deconsturctor
@@ -38,19 +39,25 @@ void EnqueueJob(JobPointer jobDescription, Queue Q) {
    // set job description
    Q->Array[temp] = *jobDescription;
    Q->Rear = temp;
+   printf("JobID = %d\nJobType = %d\n", Q->Array[temp].JobID, Q->Array[temp].JobType);
+   printf("Thread = %d\n", omp_get_thread_num());
+   printf("JOB ENFILERADOOOOOOOOOO\n");
 
    return;
 }
 
 JobPointer MaybeFandD(Queue Q){
 
-  if(IsEmpty(Q)){
-    return NULL;
-  }else{
-    JobPointer result = (JobPointer) malloc(sizeof(JobPointer));
-    *result = Q->Array[Q->Front];
-    Q->Front = (Q->Front+1)%(Q->Capacity);
-    return result;
+   if(IsEmpty(Q)){
+      return NULL;
+   }else{
+      JobPointer result = (JobPointer) malloc(sizeof(JobPointer));
+      *result = Q->Array[Q->Front];
+      Q->Front = (Q->Front+1)%(Q->Capacity);
+      printf("JobID = %d\nJobType = %d\n", result->JobID, result->JobType);
+      printf("Thread = %d\n", omp_get_thread_num());
+      printf("JOB RETIRADDOOOOOOOOOO\n");
+      return result;
   }
 }
 
@@ -65,6 +72,7 @@ void Dequeue(Queue Q) {
 //called by CPU
   while(IsEmpty(Q));
   Q->Front = (Q->Front+1)%(Q->Capacity);
+   return;
 }
 
 
