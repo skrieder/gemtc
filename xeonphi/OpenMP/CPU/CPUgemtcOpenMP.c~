@@ -11,7 +11,8 @@
   int *kill;
 };*/
 
-void CPU_gemtcSetup(int Queuesize, int numthreads);
+//void CPU_gemtcSetup(int Queuesize, int numthreads);
+struct Parameter_t * CPU_gemtcSetup(int Queuesize, int numthreads);
 void CPU_BlockingRun(int Type, int Threads, int ID, void *params);
 void CPU_gemtcCleanup();
 void CPU_gemtcPush(int Type, int Threads, int ID, void *params);
@@ -37,7 +38,8 @@ They are:
 //API Functions//
 /////////////////
 
-void CPU_gemtcSetup(int QueueSize, int numthreads){
+//void CPU_gemtcSetup(int QueueSize, int numthreads){
+struct Parameter_t * CPU_gemtcSetup(int QueueSize, int numthreads){
  
    //Initialize Device Memory with Queues
    newJobs = CreateQueue(QueueSize);
@@ -56,9 +58,9 @@ void CPU_gemtcSetup(int QueueSize, int numthreads){
    
    //#pragma omp single nowait
    //{
-      superKernel(val);
+      //superKernel(val);
    //}
-   return;
+   return val;
 }
 
 void CPU_gemtcCleanup(){
@@ -85,7 +87,7 @@ void CPU_gemtcPush(int taskType, int Threads, int ID, void *parameters){
       h_JobDescription->JobID = ID;
 
       EnqueueJob(h_JobDescription, newJobs);
-      printf ("TAREFA EMPILHADA\n");
+      printf ("TAREFA EMPILHADA\n\n");
    }
    //End Critical Section
   
