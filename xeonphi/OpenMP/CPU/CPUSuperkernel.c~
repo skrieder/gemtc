@@ -4,6 +4,7 @@
 #include "Kernels/vectoradd.c"
 #include "Kernels/matrix_mul.c"
 #include "CPUgemtcOpenMP.h"
+#include "omp.h"
 
 JobPointer executeJob(JobPointer currentJob);
 

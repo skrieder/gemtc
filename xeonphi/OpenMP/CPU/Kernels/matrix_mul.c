@@ -103,7 +103,6 @@ void matrix_mul()
 	 {
 	    result[i][j]+= a[i][k]*b[k][j];
 	 }
-    
    clock_gettime(CLOCK_MONOTONIC, &finish); 
    free(a);
    free(b);

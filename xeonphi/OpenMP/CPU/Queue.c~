@@ -41,7 +41,6 @@ void EnqueueJob(JobPointer jobDescription, Queue Q) {
    Q->Rear = temp;
    printf("JobID = %d\nJobType = %d\n", Q->Array[temp].JobID, Q->Array[temp].JobType);
    printf("Thread = %d\n", omp_get_thread_num());
-   printf("JOB ENFILERADOOOOOOOOOO\n\n");
 
    return;
 }
@@ -56,13 +55,17 @@ JobPointer MaybeFandD(Queue Q){
       Q->Front = (Q->Front+1)%(Q->Capacity);
       printf("JobID = %d\nJobType = %d\n", result->JobID, result->JobType);
       printf("Thread = %d\n", omp_get_thread_num());
-      printf("JOB RETIRADDOOOOOOOOOO\n\n");
+      printf("JOB RETIRADDOOOOOOOOOO\n");
       return result;
   }
 }
 
 JobPointer Front(Queue Q) {
   while(IsEmpty(Q));
+   /*if (IsEmpty(Q)) {
+      printf ("Front error!!!\n");
+      exit(1);
+   }*/
   JobPointer result = (JobPointer) malloc(sizeof(JobPointer));
   *result = Q->Array[Q->Front];
   return result;
@@ -71,6 +74,10 @@ JobPointer Front(Queue Q) {
 void Dequeue(Queue Q) {
 //called by CPU
   while(IsEmpty(Q));
+   /*if (IsEmpty(Q)) {
+      printf ("Dequeue error!!!\n");
+      exit(1);
+   }*/
   Q->Front = (Q->Front+1)%(Q->Capacity);
    return;
 }

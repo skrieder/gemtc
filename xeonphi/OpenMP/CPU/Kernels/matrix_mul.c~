@@ -103,7 +103,7 @@ void matrix_mul()
 	 {
 	    result[i][j]+= a[i][k]*b[k][j];
 	 }
-    
+    printf ("Matriz Multiplicada!!!!!!!\n\n");
    clock_gettime(CLOCK_MONOTONIC, &finish); 
    free(a);
    free(b);
@@ -132,6 +132,6 @@ void matrix_mul()
    elapsed = (finish.tv_sec - start.tv_sec);
    elapsed += (finish.tv_nsec - start.tv_nsec)/ 1000000000.0;
 
-    printf("\n time = %le  ",elapsed);
+    //printf("\n time = %le  ",elapsed);
     return;
 }
