@@ -1,0 +1,252 @@
+Received parameters
+Setup Done
+Starting to send batch 222
+JobID = 0
+JobType = 2
+Thread = 0
+TAREFA EMPILHADA
+
+JobID = 0
+JobType = 2
+Thread = 0
+Resultado empilhado
+
+batch sent, starting to receive 222
+to no loop do pol 222
+ENTROU NA CRITICAL DO POLL
+JobID = 0
+JobType = 2
+Thread = 0
+JOB RETIRADOOOO
+Result from 0
+batch received 222
+Starting to send batch 222
+JobID = 1
+JobType = 2
+Thread = 0
+TAREFA EMPILHADA
+
+JobID = 1
+JobType = 2
+Thread = 0
+Resultado empilhado
+
+batch sent, starting to receive 222
+to no loop do pol 222
+ENTROU NA CRITICAL DO POLL
+JobID = 1
+JobType = 2
+Thread = 0
+JOB RETIRADOOOO
+Result from 1
+batch received 222
+Starting to send batch
+JobID = 2
+JobType = 2
+Thread = 0
+TAREFA EMPILHADA
+
+JobID = 2
+JobType = 2
+Thread = 0
+Resultado empilhado
+
+batch sent, starting to receive
+ENTROU NA CRITICAL DO POLL
+JobID = 2
+JobType = 2
+Thread = 0
+JOB RETIRADOOOO
+Result from 2
+batch received
+Starting to send batch
+JobID = 3
+JobType = 2
+Thread = 0
+TAREFA EMPILHADA
+
+JobID = 3
+JobType = 2
+Thread = 0
+Resultado empilhado
+
+batch sent, starting to receive
+ENTROU NA CRITICAL DO POLL
+JobID = 3
+JobType = 2
+Thread = 0
+JOB RETIRADOOOO
+Result from 3
+batch received
+Starting to send batch
+JobID = 4
+JobType = 2
+Thread = 0
+TAREFA EMPILHADA
+
+JobID = 4
+JobType = 2
+Thread = 0
+Resultado empilhado
+
+batch sent, starting to receive
+ENTROU NA CRITICAL DO POLL
+JobID = 4
+JobType = 2
+Thread = 0
+JOB RETIRADOOOO
+Result from 4
+batch received
+Starting to send batch
+JobID = 5
+JobType = 2
+Thread = 0
+TAREFA EMPILHADA
+
+JobID = 5
+JobType = 2
+Thread = 0
+Resultado empilhado
+
+batch sent, starting to receive
+ENTROU NA CRITICAL DO POLL
+JobID = 5
+JobType = 2
+Thread = 0
+JOB RETIRADOOOO
+Result from 5
+batch received
+Starting to send batch
+JobID = 6
+JobType = 2
+Thread = 0
+TAREFA EMPILHADA
+
+JobID = 6
+JobType = 2
+Thread = 0
+Resultado empilhado
+
+batch sent, starting to receive
+ENTROU NA CRITICAL DO POLL
+JobID = 6
+JobType = 2
+Thread = 0
+JOB RETIRADOOOO
+Result from 6
+batch received
+Starting to send batch
+JobID = 7
+JobType = 2
+Thread = 0
+TAREFA EMPILHADA
+
+JobID = 7
+JobType = 2
+Thread = 0
+Resultado empilhado
+
+batch sent, starting to receive
+ENTROU NA CRITICAL DO POLL
+JobID = 7
+JobType = 2
+Thread = 0
+JOB RETIRADOOOO
+Result from 7
+batch received
+Starting to send batch
+JobID = 8
+JobType = 2
+Thread = 0
+TAREFA EMPILHADA
+
+JobID = 8
+JobType = 2
+Thread = 0
+Resultado empilhado
+
+batch sent, starting to receive
+ENTROU NA CRITICAL DO POLL
+JobID = 8
+JobType = 2
+Thread = 0
+JOB RETIRADOOOO
+Result from 8
+batch received
+Starting to send batch
+JobID = 9
+JobType = 2
+Thread = 0
+TAREFA EMPILHADA
+
+JobID = 9
+JobType = 2
+Thread = 0
+Resultado empilhado
+
+batch sent, starting to receive
+ENTROU NA CRITICAL DO POLL
+JobID = 9
+JobType = 2
+Thread = 0
+JOB RETIRADOOOO
+Result from 9
+batch received
+Starting to send batch
+JobID = 10
+JobType = 2
+Thread = 0
+TAREFA EMPILHADA
+
+JobID = 10
+JobType = 2
+Thread = 0
+Resultado empilhado
+
+batch sent, starting to receive
+ENTROU NA CRITICAL DO POLL
+JobID = 10
+JobType = 2
+Thread = 0
+JOB RETIRADOOOO
+Result from 10
+batch received
+Starting to send batch
+JobID = 11
+JobType = 2
+Thread = 0
+TAREFA EMPILHADA
+
+JobID = 11
+JobType = 2
+Thread = 0
+Resultado empilhado
+
+batch sent, starting to receive
+ENTROU NA CRITICAL DO POLL
+JobID = 11
+JobType = 2
+Thread = 0
+JOB RETIRADOOOO
+Result from 11
+batch received
+Starting to send batch
+JobID = 12
+JobType = 2
+Thread = 0
+TAREFA EMPILHADA
+
+JobID = 12
+JobType = 2
+Thread = 0
+Resultado empilhado
+
+batch sent, starting to receive
+ENTROU NA CRITICAL DO POLL
+JobID = 12
+JobType = 2
+Thread = 0
+JOB RETIRADOOOO
+Result from 12
+batch received
+Cleanup done

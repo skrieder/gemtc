@@ -30,32 +30,25 @@ int main(int argv, char **argc) {
    
    val = CPU_gemtcSetup(1000, numthreads); //1000==QueueSize
 
-      printf("Setup Done\n");
+   printf("Setup Done\n");
    
    for(i=0;i<(numTasks%numthreads);i++){
-      //for(i=0;i<numTasks;i++){
-	 printf("Starting to send batch 222\n");
+	 printf("Starting to send batch\n");
 	 for(j=0;j<loopSize;j++){
 	    CPU_gemtcPush(2,1,ID++,&sleepTime);
-	   // ID++;
-	    //superKernel(val);
-	    //i++;
 	 }
 	 superKernel(val);
 
-	// #pragma omp barrier
-	 printf("batch sent, starting to receive 222\n");
 	 for(j=0;j<loopSize;j++){
 	    JobPointer task;
 	    do {
-	       printf("to no loop do pol 222\n");
 	       task = CPU_gemtcPoll();
 	    }
 	    while(task == NULL);
 	    printf("Result from %d\n", task->JobID);
 	    free(task);
 	 }
-	 printf("batch received 222\n");
+	 printf("batch received\n");
    }
    
    #pragma omp parallel shared (ID)

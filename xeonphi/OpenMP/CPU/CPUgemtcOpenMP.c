@@ -104,7 +104,6 @@ JobPointer CPU_gemtcPoll(){
    //Start Critical Section
    #pragma omp critical
    {
-      printf("ENTROU NA CRITICAL DO POLL\n");
       h_JobDescription = MaybeFandD(finishedJobs);//returns null if empty
    //End Critical Section
    }
