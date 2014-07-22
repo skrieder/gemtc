@@ -5,6 +5,9 @@
 #include "Kernels/matrix_mul.c"
 #include "CPUgemtcOpenMP.h"
 #include "omp.h"
+#include <unistd.h>
+
+#define SLEEP_POOL_LENGTH 0.1
 
 JobPointer executeJob(JobPointer currentJob);
 
@@ -24,12 +27,30 @@ void *superKernel(struct Parameter_t *val)
    Queue results =  params->results;
    int *kill =      params->kill;*/
    JobPointer currentJob;
+   int i;
    //This is the function that all worker threads execute
-   //while(!(kill))
-   #pragma omp critical
-   {
-      if (!kill)
-      {
+   while(!(kill)) {
+
+      // dequeue a task if avaliable, otherwise sleep
+    //#pragma omp critical
+    //{
+      if ((currentJob = MaybeFandD(val->incoming)) == NULL) {
+	 printf("Entrou no NULL do kernel - %d\n", omp_get_thread_num());
+	 sleep(SLEEP_POOL_LENGTH);
+	 //continue;
+      }
+    //}
+    if (currentJob == NULL) continue;
+    printf("Super exec - JobID = %d - JobType = %d - Thread = %d\n", currentJob->JobID, currentJob->JobType, omp_get_thread_num());
+
+    //execute the task
+    JobPointer retval;
+    retval = executeJob(currentJob);
+
+      //enqueue the result
+    EnqueueJob(retval, val->results);     
+    /*//if (!kill)
+      //{
 	    //dequeue a task
 	 currentJob = Front(val->incoming);
 	 Dequeue(val->incoming);
@@ -41,9 +62,9 @@ void *superKernel(struct Parameter_t *val)
 	    //enqueue the result
 	 EnqueueJob(retval, val->results);
 	 printf("Resultado empilhado\n\n");
-      }
+      //}*/
    }
-   return NULL;
+   return;
 }
 
 JobPointer executeJob(JobPointer currentJob){
@@ -59,6 +80,7 @@ JobPointer executeJob(JobPointer currentJob){
       vectoradd(currentJob->params);
       break;
     case 2:
+        printf("VOU EXECUTAR - %d\n", omp_get_thread_num());
       matrix_mul(currentJob->params);
       break;
   }

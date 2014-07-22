@@ -18,7 +18,7 @@ void CPU_gemtcCleanup();
 void CPU_gemtcPush(int Type, int Threads, int ID, void *params);
 JobPointer CPU_gemtcPoll();
 
-Queue newJobs, finishedJobs;
+extern Queue newJobs, finishedJobs;
 extern int kill;
 
 /*
@@ -29,7 +29,6 @@ They are:
   CPU_gemtcCleanup()
 
 *** EnQueue/DeQueue Tasks  ***
-  CPU_gemtcBlockingRun()
   CPU_gemtcPush()
   CPU_gemtcPoll()
  */
@@ -77,18 +76,14 @@ void CPU_gemtcCleanup(){
 
 void CPU_gemtcPush(int taskType, int Threads, int ID, void *parameters){
 
-   //Start Critical Section
-   #pragma omp critical
-   {
+   //Start Critical Section  
       JobPointer h_JobDescription = (JobPointer) malloc(sizeof(struct JobDescription));
       h_JobDescription->JobType = taskType;
       h_JobDescription->numThreads = Threads;
       h_JobDescription->params = parameters;
       h_JobDescription->JobID = ID;
-
       EnqueueJob(h_JobDescription, newJobs);
-      printf ("TAREFA EMPILHADA\n\n");
-   }
+      printf("TAR EMP - JobID = %d - JobType = %d - Thread = %d\n", h_JobDescription->JobID, h_JobDescription->JobType, omp_get_thread_num());
    //End Critical Section
   
   return;
@@ -102,16 +97,17 @@ JobPointer CPU_gemtcPoll(){
    JobPointer h_JobDescription;
   
    //Start Critical Section
-   #pragma omp critical
-   {
+   //#pragma omp critical
+   //{
       h_JobDescription = MaybeFandD(finishedJobs);//returns null if empty
    //End Critical Section
-   }
+   //}
    if(h_JobDescription==NULL){
       //*ID=-1;
       //*params=NULL;
       return NULL;
    }
+   printf("RES RET - JobID = %d - JobType = %d - Thread = %d\n", h_JobDescription->JobID, h_JobDescription->JobType, omp_get_thread_num());
 
    //*ID = h_JobDescription->JobID;
    //*params = h_JobDescription->params;

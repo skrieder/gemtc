@@ -6,6 +6,10 @@
 //#include "CPUSuperkernel.c"
 
 int kill;
+Queue newJobs, finishedJobs;
+
+/* PROBLEMA TA NA CRITICAL DA ENQUEUE
+*/
 
 
 int main(int argv, char **argc) {
@@ -30,9 +34,9 @@ int main(int argv, char **argc) {
    
    val = CPU_gemtcSetup(1000, numthreads); //1000==QueueSize
 
-      printf("Setup Done\n");
+   printf("Setup Done\n");
    
-   for(i=0;i<(numTasks%numthreads);i++){
+  /* for(i=0;i<(numTasks%numthreads);i++){
 	 printf("Starting to send batch\n");
 	 for(j=0;j<loopSize;j++){
 	    CPU_gemtcPush(2,1,ID++,&sleepTime);
@@ -49,71 +53,43 @@ int main(int argv, char **argc) {
 	    free(task);
 	 }
 	 printf("batch received\n");
-   }
-   
-   #pragma omp parallel shared (ID)
-   {
-     /* #pragma omp single
-      {
-      val = CPU_gemtcSetup(1000, numthreads); //1000==QueueSize
-
-      printf("Setup Done\n");
-      }*/
-
-      #pragma omp for
-      //for(i=0;i<(numTasks/numthreads);i++){
-      for(i=0;i<numTasks;i++){
-	 printf("Starting to send batch\n");
-	 for(j=0;j<loopSize;j++){
-	    CPU_gemtcPush(2,1,ID++,&sleepTime); 
-	    //ID++;
-	    //superKernel(val);
-	    //i++;
-	 }
-	 //#pragma omp barrier	 
-	 superKernel(val);
-	 
-	 #pragma omp barrier
-	 printf("batch sent, starting to receive\n");
-	 for(j=0;j<loopSize;j++){
-	    JobPointer task;	    
-	    do {
-	       task = CPU_gemtcPoll();
-	    } while(task == NULL);
-	    printf("Result from %d\n", task->JobID);
-	    free(task);
-	 }
-	 printf("batch received\n");
-	 
-	 #pragma omp barrier
-      }
-   }
-   /*for(i=0;i<(numTasks%numthreads);i++){
-      //for(i=0;i<numTasks;i++){
-	 printf("Starting to send batch 222\n");
-	 for(j=0;j<loopSize;j++){
-	    CPU_gemtcPush(2,1,ID++,&sleepTime);
-	   // ID++;
-	    //superKernel(val);
-	    //i++;
-	 }
-	 superKernel(val);
-
-	// #pragma omp barrier
-	 printf("batch sent, starting to receive 222\n");
-	 for(j=0;j<loopSize;j++){
-	    JobPointer task;
-	    do {
-	       printf("to no loop do pol 222\n");
-	       task = CPU_gemtcPoll();
-	    }
-	    while(task == NULL);
-	    printf("Result from %d\n", task->JobID);
-	    free(task);
-	 }
-	 printf("batch received 222\n");
    }*/
    
+   #pragma omp parallel shared (ID, val, finishedJobs)
+   {
+      #pragma omp single nowait
+      {
+	 for(i=0;i<numTasks;i++){
+	    printf("Starting to send batch\n");
+	    for(j=0;j<loopSize;j++){
+	       CPU_gemtcPush(2,1,ID++,&sleepTime); 
+	       //ID++;
+	       //superKernel(val);
+	       //i++;
+	    }
+	 }
+	 for(i=0;i<numTasks;i++){
+	    printf("batch sent, starting to receive\n");
+	    
+	    for(j=0;j<loopSize;j++){
+	       JobPointer task;	    
+	       do {
+		  printf ("Checking for results of tasks\n\n");
+		  task = CPU_gemtcPoll();
+	       } while(task == NULL);
+	       printf ("Try to print something\n\n");
+	       printf("Result from %d\n", task->JobID);
+	       free(task);
+	    }
+	    printf("batch received\n");
+	 }
+	 kill = 1;
+      }
+ 
+      superKernel(val);
+	 
+   }
+
    CPU_gemtcCleanup();
    printf("Cleanup done\n");
    return 0;

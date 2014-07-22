@@ -1,252 +1,278 @@
 Received parameters
 Setup Done
-Starting to send batch 222
-JobID = 0
-JobType = 2
-Thread = 0
-TAREFA EMPILHADA
-
-JobID = 0
-JobType = 2
-Thread = 0
-Resultado empilhado
-
-batch sent, starting to receive 222
-to no loop do pol 222
-ENTROU NA CRITICAL DO POLL
-JobID = 0
-JobType = 2
-Thread = 0
-JOB RETIRADOOOO
-Result from 0
-batch received 222
-Starting to send batch 222
-JobID = 1
-JobType = 2
-Thread = 0
-TAREFA EMPILHADA
-
-JobID = 1
-JobType = 2
-Thread = 0
-Resultado empilhado
-
-batch sent, starting to receive 222
-to no loop do pol 222
-ENTROU NA CRITICAL DO POLL
-JobID = 1
-JobType = 2
-Thread = 0
-JOB RETIRADOOOO
-Result from 1
-batch received 222
 Starting to send batch
-JobID = 2
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 2
+JobID = 0
 JobType = 2
 Thread = 0
+JobID = 0
+JobType = 2
+Entrou no NULL do kernel - 2
+Thread = 1
+Entrou no NULL do kernel - 2
+Entrou no NULL do kernel - 2
 TAREFA EMPILHADA
 
+Starting to send batch
+Entrou no NULL do kernel - 2
+JobID = 1
+JobType = 2
+Thread = 1
+TAREFA EMPILHADA
+
+Starting to send batch
+JobID = 1
+JobType = 2
+Thread = 2
+S - JobID = 1
+JobType = 2
 JobID = 2
 JobType = 2
-Thread = 0
-Resultado empilhado
+S - JobID = 0
+JobType = 2
+Thread = 1
+TAREFA EMPILHADA
+
+S - Thread = 0
+Starting to send batch
+Trabalho pego pra executar
+S - Thread = 2
+Trabalho pego pra executar
+VOU EXECUTAR
+JobID = 3
+JobType = 2
+Thread = 1
+TAREFA EMPILHADA
+
+Starting to send batch
+JobID = 4
+JobType = 2
+Thread = 1
+TAREFA EMPILHADA
+
+Starting to send batch
+VOU EXECUTAR
+JobID = 5
+JobType = 2
+Thread = 1
+TAREFA EMPILHADA
+
+Starting to send batch
+JobID = 6
+JobType = 2
+Thread = 1
+TAREFA EMPILHADA
+
+Starting to send batch
+JobID = 7
+JobType = 2
+Thread = 1
+TAREFA EMPILHADA
+
+Starting to send batch
+JobID = 8
+JobType = 2
+Thread = 1
+TAREFA EMPILHADA
 
 batch sent, starting to receive
-ENTROU NA CRITICAL DO POLL
+VOU CHAMAR A ENQUEUE
+JobID = 1
+JobType = 2
+JobID = 1
+JobType = 2
+Thread = 2
+Thread = 1
+Resultado retirado
 JobID = 2
 JobType = 2
+Thread = 2
+S - JobID = 2
+JobType = 2
+S - Thread = 2
+Trabalho pego pra executar
+VOU EXECUTAR
+Result from 1
+batch received
+batch sent, starting to receive
+VOU CHAMAR A ENQUEUE
+JobID = 0
+JobType = 2
 Thread = 0
-JOB RETIRADOOOO
+JobID = 3
+JobType = 2
+Thread = 0
+S - JobID = 3
+JobType = 2
+S - Thread = 0
+JobID = 0
+JobType = 2
+Thread = 1
+Resultado retirado
+Result from 0
+batch received
+batch sent, starting to receive
+Trabalho pego pra executar
+VOU EXECUTAR
+VOU CHAMAR A ENQUEUE
+JobID = 2
+JobType = 2
+Thread = 2
+JobID = 2
+JobType = 2
+JobID = 4
+JobType = 2
+Thread = 2
+S - JobID = 4
+JobType = 2
+S - Thread = 2
+Trabalho pego pra executar
+VOU EXECUTAR
+Thread = 1
+Resultado retirado
 Result from 2
 batch received
-Starting to send batch
-JobID = 3
-JobType = 2
-Thread = 0
-TAREFA EMPILHADA
-
-JobID = 3
-JobType = 2
-Thread = 0
-Resultado empilhado
-
 batch sent, starting to receive
-ENTROU NA CRITICAL DO POLL
+VOU CHAMAR A ENQUEUE
+JobID = 3
+JobType = 2
 JobID = 3
 JobType = 2
 Thread = 0
-JOB RETIRADOOOO
+Thread = 1
+JobID = 5
+JobType = 2
+Thread = 0
+S - JobID = 5
+JobType = 2
+S - Thread = 0
+Trabalho pego pra executar
+VOU EXECUTAR
+Resultado retirado
 Result from 3
 batch received
-Starting to send batch
-JobID = 4
-JobType = 2
-Thread = 0
-TAREFA EMPILHADA
-
-JobID = 4
-JobType = 2
-Thread = 0
-Resultado empilhado
-
 batch sent, starting to receive
-ENTROU NA CRITICAL DO POLL
+VOU CHAMAR A ENQUEUE
 JobID = 4
 JobType = 2
-Thread = 0
-JOB RETIRADOOOO
+JobID = 4
+JobType = 2
+Thread = 1
+Resultado retirado
 Result from 4
 batch received
-Starting to send batch
-JobID = 5
-JobType = 2
-Thread = 0
-TAREFA EMPILHADA
-
-JobID = 5
-JobType = 2
-Thread = 0
-Resultado empilhado
-
 batch sent, starting to receive
-ENTROU NA CRITICAL DO POLL
+Thread = 2
+JobID = 6
+JobType = 2
+Thread = 2
+S - JobID = 6
+JobType = 2
+S - Thread = 2
+Trabalho pego pra executar
+VOU EXECUTAR
+VOU CHAMAR A ENQUEUE
 JobID = 5
 JobType = 2
-Thread = 0
-JOB RETIRADOOOO
+JobID = 5
+JobType = 2
+Thread = 1
+Resultado retirado
 Result from 5
 batch received
-Starting to send batch
-JobID = 6
-JobType = 2
-Thread = 0
-TAREFA EMPILHADA
-
-JobID = 6
-JobType = 2
-Thread = 0
-Resultado empilhado
-
 batch sent, starting to receive
-ENTROU NA CRITICAL DO POLL
-JobID = 6
+Thread = 0
+JobID = 7
 JobType = 2
 Thread = 0
-JOB RETIRADOOOO
+S - JobID = 7
+JobType = 2
+S - Thread = 0
+Trabalho pego pra executar
+VOU EXECUTAR
+VOU CHAMAR A ENQUEUE
+JobID = 6
+JobType = 2
+JobID = 6
+JobType = 2
+Thread = 1
+Resultado retirado
 Result from 6
 batch received
-Starting to send batch
-JobID = 7
-JobType = 2
-Thread = 0
-TAREFA EMPILHADA
-
-JobID = 7
-JobType = 2
-Thread = 0
-Resultado empilhado
-
 batch sent, starting to receive
-ENTROU NA CRITICAL DO POLL
+Thread = 2
+JobID = 8
+JobType = 2
+Thread = 2
+S - JobID = 8
+JobType = 2
+S - Thread = 2
+Trabalho pego pra executar
+VOU EXECUTAR
+VOU CHAMAR A ENQUEUE
 JobID = 7
 JobType = 2
-Thread = 0
-JOB RETIRADOOOO
+JobID = 7
+JobType = 2
+Thread = 1
+Resultado retirado
 Result from 7
 batch received
-Starting to send batch
-JobID = 8
-JobType = 2
-Thread = 0
-TAREFA EMPILHADA
-
-JobID = 8
-JobType = 2
-Thread = 0
-Resultado empilhado
-
 batch sent, starting to receive
-ENTROU NA CRITICAL DO POLL
+Thread = 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
+VOU CHAMAR A ENQUEUE
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 0
 JobID = 8
 JobType = 2
-Thread = 0
-JOB RETIRADOOOO
+Entrou no NULL do kernel - 0
+Thread = 1
+JobID = 8
+JobType = 2
+Entrou no NULL do kernel - 0
+Thread = 2
+Entrou no NULL do kernel - 0
+Entrou no NULL do kernel - 2
+Resultado retirado
+Entrou no NULL do kernel - 0
 Result from 8
+Entrou no NULL do kernel - 2
 batch received
-Starting to send batch
-JobID = 9
-JobType = 2
-Thread = 0
-TAREFA EMPILHADA
-
-JobID = 9
-JobType = 2
-Thread = 0
-Resultado empilhado
-
-batch sent, starting to receive
-ENTROU NA CRITICAL DO POLL
-JobID = 9
-JobType = 2
-Thread = 0
-JOB RETIRADOOOO
-Result from 9
-batch received
-Starting to send batch
-JobID = 10
-JobType = 2
-Thread = 0
-TAREFA EMPILHADA
-
-JobID = 10
-JobType = 2
-Thread = 0
-Resultado empilhado
-
-batch sent, starting to receive
-ENTROU NA CRITICAL DO POLL
-JobID = 10
-JobType = 2
-Thread = 0
-JOB RETIRADOOOO
-Result from 10
-batch received
-Starting to send batch
-JobID = 11
-JobType = 2
-Thread = 0
-TAREFA EMPILHADA
-
-JobID = 11
-JobType = 2
-Thread = 0
-Resultado empilhado
-
-batch sent, starting to receive
-ENTROU NA CRITICAL DO POLL
-JobID = 11
-JobType = 2
-Thread = 0
-JOB RETIRADOOOO
-Result from 11
-batch received
-Starting to send batch
-JobID = 12
-JobType = 2
-Thread = 0
-TAREFA EMPILHADA
-
-JobID = 12
-JobType = 2
-Thread = 0
-Resultado empilhado
-
-batch sent, starting to receive
-ENTROU NA CRITICAL DO POLL
-JobID = 12
-JobType = 2
-Thread = 0
-JOB RETIRADOOOO
-Result from 12
-batch received
+Entrou no NULL do kernel - 0
 Cleanup done
