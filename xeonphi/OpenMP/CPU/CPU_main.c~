@@ -3,10 +3,15 @@
 #include "CPUgemtcOpenMP.h"
 #include "Queue.h"
 #include "omp.h"
+#include <unistd.h>
+
+#define SLEEP_POOL_LENGTH 0.1
 //#include "CPUSuperkernel.c"
+
 
 int kill;
 Queue newJobs, finishedJobs;
+omp_lock_t writelock;
 
 /* PROBLEMA TA NA CRITICAL DA ENQUEUE
 */
@@ -54,8 +59,9 @@ int main(int argv, char **argc) {
 	 }
 	 printf("batch received\n");
    }*/
+   omp_init_lock(&writelock);
    
-   #pragma omp parallel shared (ID, val, finishedJobs)
+   #pragma omp parallel shared (ID, val, finishedJobs, writelock)
    {
       #pragma omp single nowait
       {
@@ -68,24 +74,27 @@ int main(int argv, char **argc) {
 	       //i++;
 	    }
 	 }
+	 #pragma omp flush
+	 sleep(SLEEP_POOL_LENGTH);
+	 sleep(SLEEP_POOL_LENGTH);
 	 for(i=0;i<numTasks;i++){
 	    printf("batch sent, starting to receive\n");
 	    
 	    for(j=0;j<loopSize;j++){
 	       JobPointer task;	    
 	       do {
-		  printf ("Checking for results of tasks\n\n");
 		  task = CPU_gemtcPoll();
 	       } while(task == NULL);
-	       printf ("Try to print something\n\n");
 	       printf("Result from %d\n", task->JobID);
 	       free(task);
 	    }
 	    printf("batch received\n");
 	 }
 	 kill = 1;
+	 omp_destroy_lock(&writelock);
+
       }
- 
+
       superKernel(val);
 	 
    }

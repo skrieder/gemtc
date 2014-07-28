@@ -31,19 +31,15 @@ void *superKernel(struct Parameter_t *val)
    //This is the function that all worker threads execute
    while(!(kill)) {
 
-      for (i=0; val->incoming->Array[i].JobID != NULL; i++){
-	 printf ("Res[%d] ID = %d\n\n\n", val->incoming->Array[i].JobID);
-      }
       // dequeue a task if avaliable, otherwise sleep
     //#pragma omp critical
     //{
       if ((currentJob = MaybeFandD(val->incoming)) == NULL) {
-	 printf("Entrou no NULL do kernel - %d\n", omp_get_thread_num());
 	 sleep(SLEEP_POOL_LENGTH);
-	 //continue;
+	 continue;
       }
     //}
-    if (currentJob == NULL) continue;
+    //if (currentJob == NULL) continue;
     printf("Super exec - JobID = %d - JobType = %d - Thread = %d\n", currentJob->JobID, currentJob->JobType, omp_get_thread_num());
 
     //execute the task
@@ -51,11 +47,7 @@ void *superKernel(struct Parameter_t *val)
     retval = executeJob(currentJob);
 
       //enqueue the result
-    EnqueueJob(retval, val->results);
-    for (i=0; val->results->Array[i].JobID != NULL; i++){
-	 printf ("Res[%d] ID = %d\n\n\n", val->results->Array[i].JobID);
-      }
-     
+    EnqueueJob(retval, val->results);     
     /*//if (!kill)
       //{
 	    //dequeue a task
@@ -78,19 +70,19 @@ JobPointer executeJob(JobPointer currentJob){
 
   int JobType = currentJob->JobType;
 
-  // large switch
-  switch(JobType){
-    case 0:
-      addsleep(currentJob->params);
-      break;
-    case 1:
-      vectoradd(currentJob->params);
-      break;
-    case 2:
-        printf("VOU EXECUTAR - %d\n", omp_get_thread_num());
-      matrix_mul(currentJob->params);
-      break;
-  }
+   // large switch
+   switch(JobType){
+      case 0:
+	 addsleep(currentJob->params);
+	 break;
+      case 1:
+	 vectoradd(currentJob->params);
+	 break;
+      case 2:
+	 printf("Executing - %d\n", omp_get_thread_num());
+	 matrix_mul(currentJob->params);
+	 break;
+   }
   return currentJob;
 }
 

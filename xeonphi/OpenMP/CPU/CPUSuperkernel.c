@@ -34,13 +34,14 @@ void *superKernel(struct Parameter_t *val)
       // dequeue a task if avaliable, otherwise sleep
     //#pragma omp critical
     //{
+      sleep(SLEEP_POOL_LENGTH);
+      sleep(SLEEP_POOL_LENGTH);
       if ((currentJob = MaybeFandD(val->incoming)) == NULL) {
-	 printf("Entrou no NULL do kernel - %d\n", omp_get_thread_num());
 	 sleep(SLEEP_POOL_LENGTH);
-	 //continue;
+	 continue;
       }
     //}
-    if (currentJob == NULL) continue;
+    //if (currentJob == NULL) continue;
     printf("Super exec - JobID = %d - JobType = %d - Thread = %d\n", currentJob->JobID, currentJob->JobType, omp_get_thread_num());
 
     //execute the task
@@ -71,19 +72,19 @@ JobPointer executeJob(JobPointer currentJob){
 
   int JobType = currentJob->JobType;
 
-  // large switch
-  switch(JobType){
-    case 0:
-      addsleep(currentJob->params);
-      break;
-    case 1:
-      vectoradd(currentJob->params);
-      break;
-    case 2:
-        printf("VOU EXECUTAR - %d\n", omp_get_thread_num());
-      matrix_mul(currentJob->params);
-      break;
-  }
+   // large switch
+   switch(JobType){
+      case 0:
+	 addsleep(currentJob->params);
+	 break;
+      case 1:
+	 vectoradd(currentJob->params);
+	 break;
+      case 2:
+	 printf("Executing - %d\n", omp_get_thread_num());
+	 matrix_mul(currentJob->params);
+	 break;
+   }
   return currentJob;
 }
 

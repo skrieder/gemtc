@@ -83,6 +83,7 @@ void CPU_gemtcPush(int taskType, int Threads, int ID, void *parameters){
       h_JobDescription->params = parameters;
       h_JobDescription->JobID = ID;
       EnqueueJob(h_JobDescription, newJobs);
+ 
       printf("TAR EMP - JobID = %d - JobType = %d - Thread = %d\n", h_JobDescription->JobID, h_JobDescription->JobType, omp_get_thread_num());
    //End Critical Section
   

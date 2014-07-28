@@ -18,7 +18,7 @@ void CPU_gemtcCleanup();
 void CPU_gemtcPush(int Type, int Threads, int ID, void *params);
 JobPointer CPU_gemtcPoll();
 
-Queue newJobs, finishedJobs;
+extern Queue newJobs, finishedJobs;
 extern int kill;
 
 /*
@@ -83,6 +83,7 @@ void CPU_gemtcPush(int taskType, int Threads, int ID, void *parameters){
       h_JobDescription->params = parameters;
       h_JobDescription->JobID = ID;
       EnqueueJob(h_JobDescription, newJobs);
+ 
       printf("TAR EMP - JobID = %d - JobType = %d - Thread = %d\n", h_JobDescription->JobID, h_JobDescription->JobType, omp_get_thread_num());
    //End Critical Section
   
@@ -97,11 +98,11 @@ JobPointer CPU_gemtcPoll(){
    JobPointer h_JobDescription;
   
    //Start Critical Section
-   //#pragma omp critical
-   //{
+   #pragma omp critical
+   {
       h_JobDescription = MaybeFandD(finishedJobs);//returns null if empty
    //End Critical Section
-   //}
+   }
    if(h_JobDescription==NULL){
       //*ID=-1;
       //*params=NULL;

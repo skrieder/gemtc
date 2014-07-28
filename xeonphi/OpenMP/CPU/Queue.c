@@ -3,12 +3,15 @@
 #include <stdio.h>
 #include "omp.h"
 
+extern omp_lock_t writelock;
+
 ////////////////////////////////////////////////////////////
-// Constructor and Deconsturctor
+// Constructor and Deconstructor
 ////////////////////////////////////////////////////////////
 
 Queue CreateQueue(int MaxElements) {
    Queue Q = (Queue) malloc (sizeof(struct QueueRecord));
+   int i;
 
    Q->Array = (struct JobDescription *) malloc(sizeof(struct JobDescription)*MaxElements);
   
@@ -32,51 +35,61 @@ void DisposeQueue(Queue Q) {
 void EnqueueJob(JobPointer jobDescription, Queue Q) {
 //called by CPU
    int temp;
-   omp_lock_t writelock;
+   //omp_lock_t writelock;
 
-   omp_init_lock(&writelock);
-
+  // omp_init_lock(&writelock);
+  
    while (IsFull(Q));
 
+  // while(!omp_test_lock(&writelock));
    omp_set_lock(&writelock);
+
    //#pragma omp critical
    //{ 
       // floating point exception from mod capacity if 0 or -n
       temp = (Q->Rear+1)%(Q->Capacity);
-      
+      //printf ("Rear = %d\n", temp);
       // set job description
       Q->Array[temp] = *jobDescription;
       Q->Rear = temp;
-   //}
+  // }
    omp_unset_lock(&writelock);
-
+   #pragma omp flush
    return;
 }
 
 JobPointer MaybeFandD(Queue Q){
 
-   omp_lock_t writelock;
-
-   omp_init_lock(&writelock);
+   //omp_lock_t writelock;
    
-      if(IsEmpty(Q)){
-	 return NULL;
-      }else{
+   JobPointer result = (JobPointer) malloc(sizeof(JobPointer));
+
+  // omp_init_lock(&writelock);
+  //while(!omp_test_lock(&writelock));
+   
+   if(IsEmpty(Q)){
+      free(result);
+      omp_unset_lock(&writelock);
+      return NULL;
+   }else{
+	// #pragma omp critical
+	// {
 	 omp_set_lock(&writelock);
 	 if (IsEmpty(Q)) {
 	    omp_unset_lock(&writelock);
 	    return NULL;
 	 }
-	 JobPointer result = (JobPointer) malloc(sizeof(JobPointer));
-	 //Maybe it will need another IsEmpty test here
 	 //JobPointer result = (JobPointer) malloc(sizeof(JobPointer));
 	 *result = Q->Array[Q->Front];
+	// printf("Front = %d\n", Q->Front);
 	 Q->Front = (Q->Front+1)%(Q->Capacity);
 	 omp_unset_lock(&writelock);
-	 //printf("JobID = %d\nJobType = %d\n", result->JobID, result->JobType);
-	 //printf("Thread = %d\n", omp_get_thread_num());
+      //}
+   }
+	 #pragma omp flush
 	 return result;
-      }
+      //}
+      
 }
 
 JobPointer Front(Queue Q) {
