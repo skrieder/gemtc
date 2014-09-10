@@ -7,10 +7,15 @@
 #$ -pe mpich 1
 #$ -S /bin/bash
 #
-./vect 8 512 >> vecto.txt
-./vect 32 512 >> vecto.txt
-./vect 64 512 >> vecto.txt
-./vect 128 512 >> vecto.txt
-./vect 256 512 >> vecto.txt
-./vect 384 512 >> vecto.txt
-./vect 448 512 >> vecto.txt
+./vect 32 1 >> vectcg.txt
+./vect 64 1 >> vectcg.txt
+./vect 128 1 >> vectcg.txt
+./vect 256 1 >> vectcg.txt
+./vect 384 1 >> vectcg.txt
+./vect 512 1 >> vectcg.txt
+./vect 32 2 >> vectcg.txt
+./vect 64 2 >> vectcg.txt
+./vect 128 2 >> vectcg.txt
+./vect 256 2 >> vectcg.txt
+./vect 384 2 >> vectcg.txt
+./vect 512 2 >> vectcg.txt

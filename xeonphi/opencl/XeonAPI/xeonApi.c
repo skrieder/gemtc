@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include <CL/opencl.h>
 
+//need to make APIs that do not expose these variables to the user`
 void XEON_gemtcInitialize()
 {
 //initialize all the opencl variables

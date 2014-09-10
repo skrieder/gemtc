@@ -34,7 +34,7 @@ const char *KernelSource = "\n" \
 
 int main(int argc, char** argv)
 {
-    int err;                            // error code returned from api calls
+   cl_int err;                            // error code returned from api calls
       
     float data[DATA_SIZE];              // original data set given to device
     float results[DATA_SIZE];           // results returned from device
@@ -48,6 +48,8 @@ int main(int argc, char** argv)
     cl_command_queue commands;          // compute command queue
     cl_program program;                 // compute program
     cl_kernel kernel;                   // compute kernel
+cl_platform_id* platforms;
+cl_uint platformCount;
     
     cl_mem input;                       // device memory used for the input array
     cl_mem output;                      // device memory used for the output array
@@ -58,11 +60,15 @@ int main(int argc, char** argv)
     unsigned int count = DATA_SIZE;
     for(i = 0; i < count; i++)
         data[i] = rand() / (float)RAND_MAX;
-    
+    //platform
+ clGetPlatformIDs(0, NULL, &platformCount);
+    platforms = (cl_platform_id*) malloc(sizeof(cl_platform_id) * platformCount);
+clGetPlatformIDs(platformCount, platforms, NULL);
+
     // Connect to a compute device
     //
     int gpu = 1;
-    err = clGetDeviceIDs(NULL,CL_DEVICE_TYPE_CPU , 1, &device_id, NULL);
+    err = clGetDeviceIDs(platforms[1],CL_DEVICE_TYPE_CPU , 1, &device_id, NULL);
     if (err != CL_SUCCESS)
     {
         printf("Error: Failed to create a device group!\n");
