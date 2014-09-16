@@ -16,7 +16,8 @@
 #define WC WB
 #define HC HA
  int i=0;
-char* load_program_source(const char *filename) {
+
+/*char* load_program_source(const char *filename) {
   struct stat statbuf;
   FILE *fh;
   char *source;
@@ -32,7 +33,7 @@ char* load_program_source(const char *filename) {
 
   return source;
 }
-
+*/
 // Allocates a matrix with random float entries.
 void randomInit(float* data, int size)
 {
@@ -51,6 +52,7 @@ int main(int argc, char* argv[])
    srand(2006);
  
    // 1. allocate host memory for matrices A and B
+	//automate the size of the matrix
    unsigned int size_A = WA * HA;
    unsigned int mem_size_A = sizeof(float) * size_A;
    float* h_A = (float*) malloc(mem_size_A);

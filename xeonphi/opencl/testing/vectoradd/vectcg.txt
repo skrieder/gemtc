@@ -1,0 +1,25 @@
+threads = 31250 
+time taken by GPU = 8.108428e-03
+ threads = 15625 
+time taken by GPU = 9.600362e-03
+ threads = 7812 
+time taken by GPU = 2.026400e-05
+ threads = 3906 
+time taken by GPU = 2.308500e-05
+ threads = 2604 
+time taken by GPU = 2.986800e-05
+ threads = 1953 
+time taken by GPU = 2.167100e-05
+ threads = 31250 
+time taken by GPU = 1.248920e-03
+ threads = 15625 
+time taken by GPU = 9.343400e-04
+ threads = 7812 
+time taken by GPU = 5.013000e-06
+ threads = 3906 
+time taken by GPU = 4.613000e-06
+ threads = 2604 
+time taken by GPU = 4.890000e-06
+ threads = 1953 
+time taken by GPU = 4.985000e-06
+ 
