@@ -9,15 +9,31 @@
 #include <sys/stat.h>
 #include <CL/opencl.h> 
  
-#define WA 1024
-#define HA 1024
-#define WB 1024
-#define HB WA
-#define WC WB
-#define HC HA
  int i=0;
+/*const char *KernelSource = "\n"\
 
-/*char* load_program_source(const char *filename) {
+"__kernel void matrixMul(__global float* C,		\n"\
+"          __global float* A,				\n"\
+"         __global float* B,				\n"\
+"        int wA, int wB)				\n"\
+"{							\n"\
+"   int tx = get_global_id(0); 				\n"\
+"   int ty = get_global_id(1);				\n"\
+
+"	 float value = 0;				\n"\
+"   for (int k = 0; k < wA; ++k)			\n"\
+"   {							\n"\
+"      float elementA = A[ty * wA + k];			\n"\
+"      float elementB = B[k * wB + tx];			\n"\
+"      value += elementA * elementB;			\n"\
+"   }							\n"\
+
+"   C[ty * wA + tx] = value;				\n"\
+"}							\n"\
+
+"\n";
+*/
+char* load_program_source(const char *filename) {
   struct stat statbuf;
   FILE *fh;
   char *source;
@@ -33,7 +49,7 @@
 
   return source;
 }
-*/
+
 // Allocates a matrix with random float entries.
 void randomInit(float* data, int size)
 {
@@ -47,6 +63,22 @@ void randomInit(float* data, int size)
  
 int main(int argc, char* argv[])
 {
+
+	//variables
+/*#define WA 1024
+#define HA 1024
+#define WB 1024
+#define HB WA
+#define WC WB
+#define HC HA
+*/
+int WA,HA,WB,HB,WC,HC;
+WA = atoi(argv[3]);
+HA = WA;
+WB = WA;
+HB = WB;
+WC = WA;
+HC = WA;
  
    // set seed for rand()
    srand(2006);
@@ -93,6 +125,8 @@ int main(int argc, char* argv[])
    cl_command_queue clCommandQue;
    cl_program clProgram;
    cl_kernel clKernel;
+ cl_platform_id* cpPlatform;        // OpenCL platform
+cl_uint platformCount; //keeps the divice count
   
    size_t dataBytes;
    size_t kernelLength;
@@ -106,22 +140,46 @@ int main(int argc, char* argv[])
    /*****************************************/
    /* Initialize OpenCL */
    /*****************************************/
-cl_platform_id cpPlatform;        // OpenCL platform
+//cl_platform_id* cpPlatform;        // OpenCL platform
     cl_device_id device_id;  
     // Bind to platform
-    errcode = clGetPlatformIDs(1, &cpPlatform, NULL);
+// errcode = clGetPlatformIDs(1, &cpPlatform, NULL);
+clGetPlatformIDs(0, NULL, &platformCount);
+    cpPlatform = (cl_platform_id*) malloc(sizeof(cl_platform_id) * platformCount);
+clGetPlatformIDs(platformCount, cpPlatform, NULL);//what ever is returned from last step will be used here
+
+int choice =atoi(argv[1]);
+if(choice ==1)
+{
+ // Length of vectors
+    // n = 64;
+
+    // Connect to a compute device 
+// we can have CL_DEVICE_GPU or ACCELERATOR or ALL as an option here
+//depending what device are we working on
+// we can these multiple times depending on requirements
+    errcode = clGetDeviceIDs(cpPlatform[0],CL_DEVICE_TYPE_CPU , 1, &device_id, NULL);
+    if (errcode != CL_SUCCESS)
+
+        printf("Error: Failed to create a device group!\n");
+}
+else
+{
+ //   errcode = clGetPlatformIDs(1, &cpPlatform, NULL);
     // Get ID for the device
-    errcode = clGetDeviceIDs(cpPlatform, CL_DEVICE_TYPE_GPU, 1, &device_id, NULL);
+    errcode = clGetDeviceIDs(cpPlatform[1], CL_DEVICE_TYPE_GPU, 1, &device_id, NULL);
     if (errcode != CL_SUCCESS)
 
     {
 
         printf("Error: Failed to create a device group!\n");
 }
+}
+printf("here");
     // Create a context 
    clGPUContext = clCreateContext(NULL, 1, &device_id, NULL, NULL, &errcode);
     // Create a command queue
-
+printf("here");
    /*clGPUContext = clCreateContextFromType(NULL, 
                    CL_DEVICE_TYPE_GPU, 
                    NULL, NULL, &errcode);
@@ -156,10 +214,10 @@ cl_platform_id cpPlatform;        // OpenCL platform
           mem_size_B, h_B, &errcode);
  
  	const char *file="matxm.cl";
-	const char *kernelSource =  load_program_source(file);
+	const char *KernelSource =  load_program_source(file);
  
    clProgram = clCreateProgramWithSource(clGPUContext, 
-                1, (const char **) & kernelSource, 
+                1, (const char **) & KernelSource, 
                 &kernelLength, &errcode);
    //shrCheckError(errcode, CL_SUCCESS);
  
@@ -192,11 +250,11 @@ struct timespec start, finish;
 double elapsed;
  
  int value;
-value =atoi(argv[1]);
+value =atoi(argv[2]);
    localWorkSize[0] = value ;
    localWorkSize[1] = value ;
-   globalWorkSize[0] = 256*1024;
-   globalWorkSize[1] = 256*1024;
+   globalWorkSize[0] = HA;
+   globalWorkSize[1] = HA;
 clFinish(clCommandQue);
 
 //timer starting
@@ -205,19 +263,27 @@ clFinish(clCommandQue);
               clKernel, 2, NULL, globalWorkSize, 
               localWorkSize, 0, NULL, NULL);
   // shrCheckError(errcode, CL_SUCCESS);
-  clock_gettime(CLOCK_MONOTONIC, &finish);
+/*  clock_gettime(CLOCK_MONOTONIC, &finish);
         elapsed = (finish.tv_sec - start.tv_sec);
         elapsed += (finish.tv_nsec - start.tv_nsec)/ 1000000000.0;
 
 printf("Work Item/threads = %d \n",value);
 printf("time taken by GPU = %le\n ",elapsed);
-
+*/
    // 8. Retrieve result from device
    errcode = clEnqueueReadBuffer(clCommandQue, 
               d_C, CL_TRUE, 0, mem_size_C, 
               h_C, 0, NULL, NULL);
    //shrCheckError(errcode, CL_SUCCESS);
  clFinish(clCommandQue);
+
+ // shrCheckError(errcode, CL_SUCCESS);
+  clock_gettime(CLOCK_MONOTONIC, &finish);
+        elapsed = (finish.tv_sec - start.tv_sec);
+        elapsed += (finish.tv_nsec - start.tv_nsec)/ 1000000000.0;
+
+printf("Work Item/threads = %d \n",value);
+printf("time taken by GPU = %le\n ",elapsed);
 
    // 9. print out the results
    /*printf("\n\nMatrix C (Results)\n");
@@ -238,8 +304,8 @@ printf("time taken by GPU = %le\n ",elapsed);
    clReleaseMemObject(d_C);
    clReleaseMemObject(d_B);
  
-   free(device_id);
-   free(kernelSource);
+   //free(device_id);
+   //free(KernelSource);
    clReleaseContext(clGPUContext);
    clReleaseKernel(clKernel);
    clReleaseProgram(clProgram);

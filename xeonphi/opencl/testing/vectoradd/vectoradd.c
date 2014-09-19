@@ -89,7 +89,7 @@ cl_uint platformCount; //keeps the divice count
     cl_int err;//for errors
  int workgrp;
 int wrkitm;
-wrkitm=atoi(argv[1]);// i have tried automating lots of data,
+wrkitm=atoi(argv[2]);// i have tried automating lots of data,
 //u can check my bash script
     // Number of work items in each local work group
     localSize = wrkitm ;
@@ -100,7 +100,7 @@ wrkitm=atoi(argv[1]);// i have tried automating lots of data,
  clGetPlatformIDs(0, NULL, &platformCount);
     cpPlatform = (cl_platform_id*) malloc(sizeof(cl_platform_id) * platformCount);
 clGetPlatformIDs(platformCount, cpPlatform, NULL);//what ever is returned from last step will be used here
-int choice =atoi(argv[2]);
+int choice =atoi(argv[1]);
 if(choice ==1)
 {
  // Length of vectors
@@ -196,13 +196,13 @@ clFinish(queue);
 // as u can see, similar to CUDA, if u take the memcpy part
 
     //Sum up vector c and print result divided by n, this should equal 1 within error
-int threads=globalSize/localSize;    
+//int threads=globalSize/localSize;    
 double sum = 0;
     for(i=0; i<n; i++)
         sum += h_c[i];
 //printf("%d",globalSize);
 //printf("/%d ",localSize);
-printf("threads = %d \n",threads);
+//printf("threads = %d \n",threads);
 printf("time taken by GPU = %le\n ",elapsed);
  
     // release OpenCL resources
