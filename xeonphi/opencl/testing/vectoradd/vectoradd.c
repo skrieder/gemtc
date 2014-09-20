@@ -110,7 +110,7 @@ if(choice ==1)
 // we can have CL_DEVICE_GPU or ACCELERATOR or ALL as an option here
 //depending what device are we working on
 // we can these multiple times depending on requirements
-    err = clGetDeviceIDs(cpPlatform[1],CL_DEVICE_TYPE_CPU , 1, &device_id, NULL);
+    err = clGetDeviceIDs(cpPlatform[1],CL_DEVICE_TYPE_ALL , 1, &device_id, NULL);
     if (err != CL_SUCCESS)
     
         printf("Error: Failed to create a device group!\n");
@@ -136,7 +136,7 @@ else
 // its a lil complicated than CUDA, programitic perpective
 // we are using device id generated from previous steps.
     // Create a context 
-    context = clCreateContext(0, 1, &device_id, NULL, NULL, &err);
+    context = clCreateContext(NULL, 1, &device_id, NULL, NULL, &err);
     // Create a command queue
     queue = clCreateCommandQueue(context, device_id, 0, &err);
 //loading external cl file

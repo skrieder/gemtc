@@ -9,7 +9,7 @@
 #
 ./matm 2 1024 10 >> matrix.txt
 ./matm 2 1024 100 >> matrix.txt
-./matm 2 1024 1000 >> matrix.txt
-./matm 2 512 10000 >> matrix.txt
+./matm 1 1024 1000 >> matrix.txt
+./matm 1 512 10000 >> matrix.txt
 ./matm 2 512 1000000 >> matrix.txt
 ./matm 2 512 10000000 >> matrix.txt

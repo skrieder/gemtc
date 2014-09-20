@@ -158,7 +158,7 @@ if(choice ==1)
 // we can have CL_DEVICE_GPU or ACCELERATOR or ALL as an option here
 //depending what device are we working on
 // we can these multiple times depending on requirements
-    errcode = clGetDeviceIDs(cpPlatform[0],CL_DEVICE_TYPE_CPU , 1, &device_id, NULL);
+    errcode = clGetDeviceIDs(cpPlatform[1],CL_DEVICE_TYPE_CPU , 1, &device_id, NULL);
     if (errcode != CL_SUCCESS)
 
         printf("Error: Failed to create a device group!\n");
@@ -167,7 +167,7 @@ else
 {
  //   errcode = clGetPlatformIDs(1, &cpPlatform, NULL);
     // Get ID for the device
-    errcode = clGetDeviceIDs(cpPlatform[1], CL_DEVICE_TYPE_GPU, 1, &device_id, NULL);
+    errcode = clGetDeviceIDs(cpPlatform[0], CL_DEVICE_TYPE_GPU, 1, &device_id, NULL);
     if (errcode != CL_SUCCESS)
 
     {

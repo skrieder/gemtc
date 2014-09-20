@@ -7,9 +7,9 @@
 #$ -pe mpich 1
 #$ -S /bin/bash
 #
-./vect 1 1024 100000000 >> vectcg.txt
+./vect 1 1024 100000 >> vectcg.txt
 ./vect 2 1024 100000000 >> vectcg.txt
-./vect 2 1024 100000000 >> vectcg.txt
+./vect 2 1024 1000000 >> vectcg.txt
 ./vect 2 1024 100000000 >> vectcg.txt
 ./vect 2 1024 100000000 >> vectcg.txt
 ./vect 2 1024 100000000 >> vectcg.txt
