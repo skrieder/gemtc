@@ -175,11 +175,11 @@ else
         printf("Error: Failed to create a device group!\n");
 }
 }
-printf("here");
+//printf("here");
     // Create a context 
-   clGPUContext = clCreateContext(NULL, 1, &device_id, NULL, NULL, &errcode);
+   clGPUContext = clCreateContext(0, 1, &device_id, NULL, NULL, &errcode);
     // Create a command queue
-printf("here");
+//printf("here");
    /*clGPUContext = clCreateContextFromType(NULL, 
                    CL_DEVICE_TYPE_GPU, 
                    NULL, NULL, &errcode);

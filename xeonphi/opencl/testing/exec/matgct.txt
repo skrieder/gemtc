@@ -1,0 +1,19 @@
+Work Item/threads = 1024 
+time taken by GPU = 5.474104e+02
+ Work Item/threads = 1024 
+time taken by GPU = 4.781162e-01
+ Work Item/threads = 1024 
+time taken by GPU = 2.507691e+00
+ Work Item/threads = 1024 
+time taken by GPU = 5.664885e-02
+ Work Item/threads = 1024 
+time taken by GPU = 2.316397e+01
+ Work Item/threads = 1024 
+time taken by GPU = 1.260845e+01
+ Work Item/threads = 1024 
+time taken by GPU = 6.632963e+01
+ Work Item/threads = 1024 
+time taken by GPU = 1.797013e-01
+ Work Item/threads = 1024 
+time taken by GPU = 2.345557e+00
+ 

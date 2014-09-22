@@ -1,0 +1,9 @@
+time taken by GPU = 1.525200e-05
+ time taken by GPU = 1.705900e-05
+ time taken by GPU = 1.998900e-05
+ time taken by GPU = 1.753800e-05
+ time taken by GPU = 2.413361e+01
+ time taken by GPU = 9.090000e-06
+ time taken by GPU = 2.584400e-05
+ time taken by GPU = 2.663900e-05
+ 

@@ -1,0 +1,5 @@
+time taken by GPU = 9.859000e-06
+ time taken by GPU = 1.064500e-05
+ Work Item/threads = 1024 
+time taken by GPU = 2.984534e+00
+ 

@@ -136,7 +136,7 @@ else
 // its a lil complicated than CUDA, programitic perpective
 // we are using device id generated from previous steps.
     // Create a context 
-    context = clCreateContext(NULL, 1, &device_id, NULL, NULL, &err);
+    context = clCreateContext(0, 1, &device_id, NULL, NULL, &err);
     // Create a command queue
     queue = clCreateCommandQueue(context, device_id, 0, &err);
 //loading external cl file
