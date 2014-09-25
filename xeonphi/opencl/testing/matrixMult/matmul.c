@@ -177,7 +177,7 @@ else
 }
 //printf("here");
     // Create a context 
-   clGPUContext = clCreateContext(0, 1, &device_id, NULL, NULL, &errcode);
+   clGPUContext = clCreateContext(NULL, 1, &device_id, NULL, NULL, &errcode);
     // Create a command queue
 //printf("here");
    /*clGPUContext = clCreateContextFromType(NULL, 
@@ -304,7 +304,7 @@ printf("time taken by GPU = %le\n ",elapsed);
    clReleaseMemObject(d_C);
    clReleaseMemObject(d_B);
  
-   //free(device_id);
+   free(device_id);
    //free(KernelSource);
    clReleaseContext(clGPUContext);
    clReleaseKernel(clKernel);

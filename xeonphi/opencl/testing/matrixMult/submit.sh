@@ -7,8 +7,13 @@
 #$ -pe mpich 1
 #$ -S /bin/bash
 #
-./matm 2 1024 1000 >> matvarwl.txt
-./matm 2 1024 10000 >> matvarwl.txt
-./matm 2 1024 1000000 >> matvarwl.txt
-./matm 2 1024 10000000 >> matvarwl.txt
-./matm 2 1024 1000000000 >> matvarwl.txt
+/usr/bin/time -f "%e" ./matm 2 512 100000 
+/usr/bin/time -f "%e" ./matm 2 512 100000 
+/usr/bin/time -f "%e" ./matm 2 512 100000
+/usr/bin/time -f "%e" ./matm 2 512 100000
+/usr/bin/time -f "%e" ./matm 2 512 100000
+/usr/bin/time -f "%e" ./matm 2 512 100000
+/usr/bin/time -f "%e" ./matm 2 512 100000
+/usr/bin/time -f "%e" ./matm 2 512 100000
+/usr/bin/time -f "%e" ./matm 2 512 100000
+/usr/bin/time -f "%e" ./matm 2 512 100000
