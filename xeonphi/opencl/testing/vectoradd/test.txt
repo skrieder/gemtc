@@ -1,0 +1,2 @@
+/usr/bin/time -f %e ./vect 2 512 1000
+/usr/bin/time -f %e ./vect 2 512 1000

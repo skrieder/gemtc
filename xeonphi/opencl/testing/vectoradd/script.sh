@@ -14,4 +14,3 @@
 /usr/bin/time -f "%e" ./vect 1 512 1000000000
 /usr/bin/time -f "%e" ./vect 1 768 1000000000
 /usr/bin/time -f "%e" ./vect 1 1024 1000000000
-~                                                 
