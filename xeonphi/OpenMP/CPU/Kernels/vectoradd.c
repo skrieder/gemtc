@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <omp.h>
-
+//need to modify
 static size_t MM = 90000000;
 
 void add(int *a, int *b, int *c, size_t n){

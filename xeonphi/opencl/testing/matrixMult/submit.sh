@@ -7,13 +7,6 @@
 #$ -pe mpich 1
 #$ -S /bin/bash
 #
-/usr/bin/time -f "%e" ./matm 2 512 100000 
-/usr/bin/time -f "%e" ./matm 2 512 100000 
-/usr/bin/time -f "%e" ./matm 2 512 100000
-/usr/bin/time -f "%e" ./matm 2 512 100000
-/usr/bin/time -f "%e" ./matm 2 512 100000
-/usr/bin/time -f "%e" ./matm 2 512 100000
-/usr/bin/time -f "%e" ./matm 2 512 100000
-/usr/bin/time -f "%e" ./matm 2 512 100000
-/usr/bin/time -f "%e" ./matm 2 512 100000
-/usr/bin/time -f "%e" ./matm 2 512 100000
+/usr/bin/time -f "%e" ./matm 1 512 10000000
+/usr/bin/time -f "%e" ./matm 1 512 10000000
+/usr/bin/time -f "%e" ./matm 1 512 10000000
