@@ -40,7 +40,76 @@ const char *KernelSource = "\n" \
   return source;
 }
  */
-
+int main() {
+ 
+    int i, j;
+    char* value;
+    size_t valueSize;
+    cl_uint platformCount;
+    cl_platform_id* platforms;
+    cl_uint deviceCount;
+    cl_device_id* devices;
+    cl_uint maxComputeUnits;
+ 
+    // get all platforms
+    clGetPlatformIDs(0, NULL, &platformCount);
+    platforms = (cl_platform_id*) malloc(sizeof(cl_platform_id) * platformCount);
+    clGetPlatformIDs(platformCount, platforms, NULL);
+ 
+    for (i = 0; i < platformCount; i++) {
+ 
+        // get all devices
+        clGetDeviceIDs(platforms[i], CL_DEVICE_TYPE_ALL, 0, NULL, &deviceCount);
+        devices = (cl_device_id*) malloc(sizeof(cl_device_id) * deviceCount);
+        clGetDeviceIDs(platforms[i], CL_DEVICE_TYPE_ALL, deviceCount, devices, NULL);
+ 
+        // for each device print critical attributes
+        for (j = 0; j < deviceCount; j++) {
+ 
+            // print device name
+            clGetDeviceInfo(devices[j], CL_DEVICE_NAME, 0, NULL, &valueSize);
+            value = (char*) malloc(valueSize);
+            clGetDeviceInfo(devices[j], CL_DEVICE_NAME, valueSize, value, NULL);
+            printf("%d. Device: %sn", j+1, value);
+            free(value);
+ 
+            // print hardware device version
+            clGetDeviceInfo(devices[j], CL_DEVICE_VERSION, 0, NULL, &valueSize);
+            value = (char*) malloc(valueSize);
+            clGetDeviceInfo(devices[j], CL_DEVICE_VERSION, valueSize, value, NULL);
+            printf(" %d.%d Hardware version: %sn", j+1, 1, value);
+            free(value);
+ 
+            // print software driver version
+            clGetDeviceInfo(devices[j], CL_DRIVER_VERSION, 0, NULL, &valueSize);
+            value = (char*) malloc(valueSize);
+            clGetDeviceInfo(devices[j], CL_DRIVER_VERSION, valueSize, value, NULL);
+            printf(" %d.%d Software version: %sn", j+1, 2, value);
+            free(value);
+ 
+            // print c version supported by compiler for device
+            clGetDeviceInfo(devices[j], CL_DEVICE_OPENCL_C_VERSION, 0, NULL, &valueSize);
+            value = (char*) malloc(valueSize);
+            clGetDeviceInfo(devices[j], CL_DEVICE_OPENCL_C_VERSION, valueSize, value, NULL);
+            printf(" %d.%d OpenCL C version: %sn", j+1, 3, value);
+            free(value);
+ 
+            // print parallel compute units
+            clGetDeviceInfo(devices[j], CL_DEVICE_MAX_COMPUTE_UNITS,
+                    sizeof(maxComputeUnits), &maxComputeUnits, NULL);
+            printf(" %d.%d Parallel compute units: %dn", j+1, 4, maxComputeUnits);
+ 
+        }
+ 
+        free(devices);
+ 
+    }
+ 
+    free(platforms);
+    return 0;
+ 
+}
+/*
 int main( int argc, char* argv[] )
 {
 //unsigned int n;
@@ -112,7 +181,7 @@ if(choice ==1)
 // we can have CL_DEVICE_GPU or ACCELERATOR or ALL as an option here
 //depending what device are we working on
 // we can these multiple times depending on requirements
-  err = clGetDeviceIDs(*cpPlatform,CL_DEVICE_TYPE_ALL , 1, &device_id, NULL);
+  err = clGetDeviceIDs(*cpPlatform,CL_DEVICE_TYPE_CPU , 1, &device_id, NULL);
     if (err != CL_SUCCESS)
     
         printf("Error: Failed to create a device group!\n");
@@ -126,7 +195,7 @@ else
     // Bind to platform
     //err = clGetPlatformIDs(platformCount, &cpPlatform, NULL);
     // Get ID for the device
-    err = clGetDeviceIDs(cpPlatform[0], CL_DEVICE_TYPE_GPU, 1, &device_id, NULL);
+    err = clGetDeviceIDs(cpPlatform[0], CL_DEVICE_TYPE_ALL, 1, &device_id, NULL);
     if (err != CL_SUCCESS)
 
     {
@@ -205,7 +274,7 @@ err = clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &globalSize, &localSize,
 
     //Sum up vector c and print result divided by n, this should equal 1 within error
 //int threads=globalSize/localSize;    
-/*double sum = 0;
+double sum = 0;
     for(i=0; i<n; i++)
         sum += h_c[i];*/
 //elapsed=(start-finish)/CLOCKS_PER_SEC;
@@ -215,7 +284,7 @@ err = clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &globalSize, &localSize,
 //    printf("Time taken by GPU in MicroSec = %.6le\n ",elapsed);
  
     // release OpenCL resources
-    clReleaseMemObject(d_a);
+/*    clReleaseMemObject(d_a);
     clReleaseMemObject(d_b);
     clReleaseMemObject(d_c);
     clReleaseProgram(program);
@@ -229,4 +298,4 @@ err = clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &globalSize, &localSize,
     free(h_c);
  
     return 0;
-}
+}*/
