@@ -4,73 +4,16 @@
 #include<time.h>
 
 
-void matrix_mul()
+void main(int argc, char *argv[])
 {
     int **a, **b, **result;
     int i, j, k,r1, c1, r2, c2;
     int nthreads;
-    clock_t begin, end;
-    double time;
-    
-    struct timespec start, finish;
-   double elapsed;
-  /*  printf("Enter rows and column for first matrix: ");
-    scanf("%d%d", &r1, &c1);
-    printf("Enter rows and column for second matrix: ");
-    scanf("%d%d",&r2, &c2);
-
-/* If colum of first matrix in not equal to row of second matrix, asking user to enter the size of matrix again. 
-    while (c1!=r2)
-    {
-        printf("Error! column of first matrix not equal to row of second.\n");
-        printf("Enter rows and column for first matrix: ");
-        scanf("%d%d", &r1, &c1);
-        printf("Enter rows and column for second matrix: ");
-        scanf("%d%d",&r2, &c2);
-    }*/
-    r1 = 10; //500
-    c1 = 10; //500
-    r2 = 10; //500
-    c2 = 10; //500
+    r1 = atoi(argv[2]); //500
+    c1 = r1; //500
+    r2 = r1; //500
+    c2 = r1; //500
     /* Initializing the clock */
-  
-   
-   
-/* Storing elements of first matrix. */
-   /* printf("\nEnter elements of matrix 1:\n");
-    #pragma omp parallel 
-    {
-      #pragma omp master
-      {
-	 nthreads = omp_get_num_threads();
-	 printf("\nnthr = %d \n ", nthreads);
-      }
-      #pragma omp for collapse(2) schedule(dynamic, r1)
-	 for(i=0; i<r1; i++)
-	 for(j=0; j<c1; j++)
-	 {
-	 //printf("Enter elements a%d%d: ",i+1,j+1);
-	 scanf("%d",&a[i][j]);
-	 }
-    }
-
-/* Storing elements of second matrix. */
-  /*  printf("\nEnter elements of matrix 2:\n");
-    #pragma omp parallel 
-    {
-       #pragma omp master
-       {
-	 nthreads = omp_get_num_threads();
-	 printf("\nnthr = %d \n ", nthreads);
-       }
-       #pragma omp for collapse(2) schedule(dynamic, r1)
-	 for(i=0; i<r2; i++)
-	 for(j=0; j<c2; j++)
-	 {
-	    //printf("Enter elements b%d%d: ",i+1,j+1);
-	    scanf("%d",&b[i][j]);
-	 }
-    }*/
   
    a = (int **)malloc(r1 * sizeof(int*));
    for(i = 0; i < r1; i++) 
@@ -88,11 +31,11 @@ void matrix_mul()
 	 {
 	    result[i][j]=0;
 	 }
-
-   omp_set_num_threads(1);
+int num=atoi(argv[1]);
+   omp_set_num_threads(num);
 
    int sum=0;
-   clock_gettime(CLOCK_MONOTONIC, &start);
+   //clock_gettime(CLOCK_MONOTONIC, &start);
 /* Multiplying matrix a and b and storing in array mult. */
    
       #pragma omp parallel for collapse(3) 
@@ -103,7 +46,7 @@ void matrix_mul()
 	 {
 	    result[i][j]+= a[i][k]*b[k][j];
 	 }
-   clock_gettime(CLOCK_MONOTONIC, &finish); 
+   //clock_gettime(CLOCK_MONOTONIC, &finish); 
    free(a);
    free(b);
 /* Displaying the multiplication of two matrix. */
@@ -127,9 +70,9 @@ void matrix_mul()
 	    //}
 	 }
     }
-    /* Stopping the clock */
-   elapsed = (finish.tv_sec - start.tv_sec);
-   elapsed += (finish.tv_nsec - start.tv_nsec)/ 1000000000.0;
+*/  /* Stopping the clock */
+  // elapsed = (finish.tv_sec - start.tv_sec);
+  // elapsed += (finish.tv_nsec - start.tv_nsec)/ 1000000000.0;
 
     //printf("\n time = %le  ",elapsed);
     return;

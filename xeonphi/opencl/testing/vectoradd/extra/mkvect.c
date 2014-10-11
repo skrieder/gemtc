@@ -45,9 +45,10 @@ int main( int argc, char* argv[] )
 {
 //unsigned int n;
     // Length of vectors
-  int m = atoi(argv[4]);
+ unsigned int n = atoi(argv[3]);
+n=n*256;
 //struct timespec start, finish;
-unsigned int n=(256*m);
+
     // Host input vectors
     int *h_a;
     int *h_b;
@@ -63,8 +64,10 @@ unsigned int n=(256*m);
     cl_platform_id* cpPlatform;        // OpenCL platform
     cl_device_id device_id;           // device ID
     cl_context context;               // context
-    //cl_command_queue* queue;           // command queue
-    //cl_command_queue queue;           // command queue
+    cl_command_queue queue;           // command queue
+    cl_command_queue queue1;           // command queue
+    cl_command_queue queue2;           // command queue
+    cl_command_queue queue3;           // command queue
     cl_program program;               // program
 cl_platform_id* platforms;		// platform id,
 // differnt for all the device we have in the system
@@ -90,25 +93,26 @@ cl_uint platformCount; //keeps the divice count
     cl_int err;//for errors
     int workgrp;
     int wrkitm;
-    int num_ker;
-    num_ker=atoi(argv[2]);
-    wrkitm=atoi(argv[3]);// i have tried automating lots of data,
+
+
+    wrkitm=atoi(argv[2]);// i have tried automating lots of data,
 //u can check my bash script
     // Number of work items in each local work group
     localSize = wrkitm ;
 //n=atoi(argv[1]);
     // Number of total work items - localSize must be devisor
-    globalSize = n;
-//mallocing for array of queues (break through)
-cl_command_queue * queue = (cl_command_queue *)malloc(num_ker * sizeof(cl_command_queue));
+    globalSize = ceil(n/(float)localSize)*localSize;
 //defining platform
  clGetPlatformIDs(0, NULL, &platformCount);
     cpPlatform = (cl_platform_id*) malloc(sizeof(cl_platform_id) * platformCount);
 clGetPlatformIDs(platformCount, cpPlatform, NULL);//what ever is returned from last step will be used here
-
-int choice = atoi(argv[1]);
+int choice =atoi(argv[1]);
 if(choice ==1)
 {
+ // Length of vectors
+    // n = 64;
+
+    // Connect to a compute device 
 // we can have CL_DEVICE_GPU or ACCELERATOR or ALL as an option here
 //depending what device are we working on
 // we can these multiple times depending on requirements
@@ -120,9 +124,13 @@ if(choice ==1)
 
 else
 {
+ // Length of vectors
+   // n = 100000000;
+
+    // Bind to platform
+    //err = clGetPlatformIDs(platformCount, &cpPlatform, NULL);
     // Get ID for the device
     err = clGetDeviceIDs(cpPlatform[1], CL_DEVICE_TYPE_GPU, 1, &device_id, NULL);
-
     if (err != CL_SUCCESS)
 
     {
@@ -130,12 +138,19 @@ else
         printf("Error: Failed to create a device group!\n");
 }
 }
+// lots of comments from past, cause i was trying different variations
+// its a lil complicated than CUDA, programitic perpective
+// we are using device id generated from previous steps.
+    // Create a context 
     context = clCreateContext(0, 1, &device_id, NULL, NULL, &err);
-
-	for(i=0;i<num_ker;++i)
-	{
-    queue[i] = clCreateCommandQueue(context, device_id, 0, &err);
-	}
+    // Create a command queue
+    queue = clCreateCommandQueue(context, device_id, 0, &err);
+    queue1 = clCreateCommandQueue(context, device_id, 0, &err);
+    queue2 = clCreateCommandQueue(context, device_id, 0, &err);
+    queue3 = clCreateCommandQueue(context, device_id, 0, &err);
+//loading external cl file
+// const char *file="vectadd.cl";
+//const char *kernelSource =  load_program_source(file);
     // Create the compute program from the source buffer
     program = clCreateProgramWithSource(context, 1,
                             (const char **) & KernelSource, NULL, &err);
@@ -151,11 +166,15 @@ else
     //clock_gettime(CLOCK_MONOTONIC, &start);
 
 	// Write our data set into the input array in device memory
-	for(i=0;i<num_ker;++i)
-{
-    err = clEnqueueWriteBuffer(queue[i], d_a, CL_TRUE, 0,bytes, h_a, 0, NULL, NULL);
-    err = clEnqueueWriteBuffer(queue[i], d_b, CL_TRUE, 0,bytes, h_b, 0, NULL, NULL);
-}
+    err = clEnqueueWriteBuffer(queue, d_a, CL_TRUE, 0,bytes, h_a, 0, NULL, NULL);
+    err = clEnqueueWriteBuffer(queue, d_b, CL_TRUE, 0,bytes, h_b, 0, NULL, NULL);
+  err = clEnqueueWriteBuffer(queue1, d_a, CL_TRUE, 0,bytes, h_a, 0, NULL, NULL);
+    err = clEnqueueWriteBuffer(queue1, d_b, CL_TRUE, 0,bytes, h_b, 0, NULL, NULL);
+ err = clEnqueueWriteBuffer(queue2, d_a, CL_TRUE, 0,bytes, h_a, 0, NULL, NULL);
+    err = clEnqueueWriteBuffer(queue2, d_b, CL_TRUE, 0,bytes, h_b, 0, NULL, NULL);
+ err = clEnqueueWriteBuffer(queue3, d_a, CL_TRUE, 0,bytes, h_a, 0, NULL, NULL);
+    err = clEnqueueWriteBuffer(queue3, d_b, CL_TRUE, 0,bytes, h_b, 0, NULL, NULL);
+
 //clFinish(queue);
 	// i know.. way to many APIs to be called in OpenCL
     // Set the arguments to our compute kernel
@@ -179,13 +198,13 @@ else
     // Execute the kernel over the entire range of the data set 
     
 //printf("err = clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &globalSize, &localSize,0, NULL, NULL\n");
-for(i=0;i<num_ker;i++)
-{
-err = clEnqueueNDRangeKernel(queue[i], kernel, 1, NULL, &globalSize, &localSize,
+err = clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &globalSize, &localSize,
                                                               0, NULL, NULL);
-
-
-}
+err = clEnqueueNDRangeKernel(queue1, kernel, 1, NULL, &globalSize, &localSize,                                                        0, NULL, NULL);
+err = clEnqueueNDRangeKernel(queue2, kernel, 1, NULL, &globalSize, &localSize,
+                                                              0, NULL, NULL);
+err = clEnqueueNDRangeKernel(queue3, kernel, 1, NULL, &globalSize, &localSize,
+                                                              0, NULL, NULL);
 
 // Wait for the command queue to get serviced before reading back results
 
@@ -193,21 +212,28 @@ err = clEnqueueNDRangeKernel(queue[i], kernel, 1, NULL, &globalSize, &localSize,
     //elapsed = (finish.tv_sec - start.tv_sec);
     //elapsed += (finish.tv_nsec - start.tv_nsec)/ 1000000.0;
  //clock_t finish =clock();
+	clFinish(queue);
+    clFinish(queue1);
+    clFinish(queue2);
+    clFinish(queue3);
 
+    // Wait for the command queue to get serviced before reading back results
+//    clFinish(queue);
     // Read the results from the device
-
-for(i=0;i<num_ker;++i)
-{
-clEnqueueReadBuffer(queue[i], d_c, CL_TRUE, 0,
+clEnqueueReadBuffer(queue, d_c, CL_TRUE, 0,
                                 bytes, h_c, 0, NULL, NULL );    
-}  
+clEnqueueReadBuffer(queue1, d_c, CL_TRUE, 0,
+                                bytes, h_c, 0, NULL, NULL );
+clEnqueueReadBuffer(queue2, d_c, CL_TRUE, 0,
+                                bytes, h_c, 0, NULL, NULL );
+clEnqueueReadBuffer(queue3, d_c, CL_TRUE, 0,
+                                bytes, h_c, 0, NULL, NULL );
+   
+// as u can see, similar to CUDA, if u take the memcpy part
 //clock_gettime(CLOCK_MONOTONIC, &finish);
   //elapsed = (finish.tv_nsec - start.tv_nsec);
   //  elapsed += (finish.tv_nsec - start.tv_nsec)/ 1000000.0;
-for(i=0;i<num_ker;++i)
-{
-clFinish(queue[i]);
-}
+
     //Sum up vector c and print result divided by n, this should equal 1 within error
 //int threads=globalSize/localSize;    
 //double sum = 0;
@@ -225,8 +251,10 @@ clFinish(queue[i]);
     clReleaseMemObject(d_c);
     clReleaseProgram(program);
     clReleaseKernel(kernel);
-for(i=0;i<num_ker;++i)
-    clReleaseCommandQueue(queue[i]);
+    clReleaseCommandQueue(queue);
+    clReleaseCommandQueue(queue1);
+    clReleaseCommandQueue(queue2);
+    clReleaseCommandQueue(queue3);
     clReleaseContext(context);
  
     //release host memory

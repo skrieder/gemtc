@@ -63,7 +63,8 @@ void randomInit(float* data, int size)
  
 int main(int argc, char* argv[])
 {
-
+int num_ker;
+num_ker=atoi(argv[2]);
 	//variables
 /*#define WA 1024
 #define HA 1024
@@ -73,13 +74,12 @@ int main(int argc, char* argv[])
 #define HC HA
 */
 int WA,HA,WB,HB,WC,HC;
-WA = atoi(argv[3]);
+WA = atoi(argv[4]);
 HA = WA;
 WB = WA;
 HB = WB;
 WC = WA;
 HC = WA;
- 
    // set seed for rand()
    srand(2006);
  
@@ -114,7 +114,8 @@ HC = WA;
       printf("\n");
    }
  */
-   // 4. allocate host memory for the result C
+   
+// 4. allocate host memory for the result C
    unsigned int size_C = WC * HC;
    unsigned int  mem_size_C = sizeof(float) * size_C;
    float* h_C = (float*) malloc(mem_size_C);
@@ -122,7 +123,7 @@ HC = WA;
    // 5. Initialize OpenCL
    // OpenCL specific variables
    cl_context clGPUContext;
-   cl_command_queue clCommandQue;
+//   cl_command_queue* clCommandQue;
    cl_program clProgram;
    cl_kernel clKernel;
  cl_platform_id* cpPlatform;        // OpenCL platform
@@ -197,16 +198,21 @@ else
               clDevices, NULL);
    //shrCheckError(errcode, CL_SUCCESS);
  */
+//malloc for command queue
+cl_command_queue * clCommandQue = (cl_command_queue *)malloc(num_ker * sizeof(cl_command_queue));
    //Create a command-queue
-   clCommandQue = clCreateCommandQueue(clGPUContext, 
+for(i=0;i<num_ker;i++)
+{
+   clCommandQue[i] = clCreateCommandQueue(clGPUContext, 
                   device_id, 0, &errcode);
-   //shrCheckError(errcode, CL_SUCCESS);
+ }  //shrCheckError(errcode, CL_SUCCESS);
   
   /* // Setup device memory
    d_C = clCreateBuffer(clGPUContext, 
           CL_MEM_READ_WRITE, 
           mem_size_A, NULL, &errcode);
    d_A = clCreateBuffer(clGPUContext, 
+printf("\nhere"); 
           CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, 
           mem_size_A, h_A, &errcode);
    d_B = clCreateBuffer(clGPUContext, 
@@ -239,9 +245,11 @@ else
           mem_size_B, h_B, &errcode);
 
      // Write our data set into the input array in device memory
-    errcode = clEnqueueWriteBuffer(clCommandQue, d_A, CL_TRUE, 0,mem_size_A, h_A, 0, NULL, NULL);
-errcode = clEnqueueWriteBuffer(clCommandQue, d_B, CL_TRUE, 0,mem_size_B, h_B, 0, NULL, NULL);
 
+for(i=0;i<num_ker;i++){
+    errcode = clEnqueueWriteBuffer(clCommandQue[i], d_A, CL_TRUE, 0,mem_size_A, h_A, 0, NULL, NULL);
+errcode = clEnqueueWriteBuffer(clCommandQue[i], d_B, CL_TRUE, 0,mem_size_B, h_B, 0, NULL, NULL);
+}
     
    // 7. Launch OpenCL kernel
    size_t localWorkSize[2], globalWorkSize[2];
@@ -260,7 +268,6 @@ errcode = clEnqueueWriteBuffer(clCommandQue, d_B, CL_TRUE, 0,mem_size_B, h_B, 0,
               sizeof(int), (void *)&wC);
 //   shrCheckError(errcode, CL_SUCCESS);
 //struct timespec start, finish;
-//double elapsed;
  
  int value;
 value =atoi(argv[3]);
@@ -272,9 +279,12 @@ value =atoi(argv[3]);
 
 //timer starting
 // clock_gettime(CLOCK_MONOTONIC, &start);
-   errcode = clEnqueueNDRangeKernel(clCommandQue, 
+
+for(i=0;i<num_ker;i++){
+   errcode = clEnqueueNDRangeKernel(clCommandQue[i], 
               clKernel, 2, NULL, globalWorkSize, 
               localWorkSize, 0, NULL, NULL);
+}
   // shrCheckError(errcode, CL_SUCCESS);
 /*  clock_gettime(CLOCK_MONOTONIC, &finish);
         elapsed = (finish.tv_sec - start.tv_sec);
@@ -284,12 +294,18 @@ printf("Work Item/threads = %d \n",value);
 printf("time taken by GPU = %le\n ",elapsed);
 */
    // 8. Retrieve result from device
-   errcode = clEnqueueReadBuffer(clCommandQue, 
+
+for(i=0;i<num_ker;i++)
+{
+   errcode = clEnqueueReadBuffer(clCommandQue[i], 
               d_C, CL_TRUE, 0, mem_size_C, 
               h_C, 0, NULL, NULL);
    //shrCheckError(errcode, CL_SUCCESS);
- clFinish(clCommandQue);
-
+}
+for(i=0;i<num_ker;i++)
+{
+ clFinish(clCommandQue[i]);
+}
  // shrCheckError(errcode, CL_SUCCESS);
   //clock_gettime(CLOCK_MONOTONIC, &finish);
     //    elapsed = (finish.tv_sec - start.tv_sec);
@@ -322,7 +338,8 @@ printf("time taken by GPU = %le\n ",elapsed);
    clReleaseContext(clGPUContext);
    clReleaseKernel(clKernel);
    clReleaseProgram(clProgram);
-   clReleaseCommandQueue(clCommandQue);
+for(i=0;i<num_ker;i++)
+   clReleaseCommandQueue(clCommandQue[i]);
 
 }
 
