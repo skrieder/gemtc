@@ -31,6 +31,19 @@ void main(int argc, char *argv[])
 	 {
 	    result[i][j]=0;
 	 }
+//initializing first matrix
+  for(i=0; i<r1; i++)
+         for(j=0; j<c1; j++)
+         {
+         a[i][j]=i;
+         }
+//second matrix
+  for(i=0; i<r1; i++)
+         for(j=0; j<c1; j++)
+         {
+         b[i][j]=i;
+         }
+
 int num=atoi(argv[1]);
    omp_set_num_threads(num);
 
@@ -49,31 +62,7 @@ int num=atoi(argv[1]);
    //clock_gettime(CLOCK_MONOTONIC, &finish); 
    free(a);
    free(b);
-/* Displaying the multiplication of two matrix. */
-   /* printf("\nOutput Matrix:\n");
-    #pragma omp parallel 
-    {
-       //#pragma omp single
-       //{
-	 nthreads = omp_get_num_threads();
-	 printf("thr = %d \n", nthreads);
-//       }
-       #pragma omp for   
-	 for(i=0; i<r1; i++)
-	 for(j=0; j<c2; j++)
-	 {
-	  //  #pragma omp critical
-	    //{
-	   printf("%d  ",mult[i][j]);
-	    if(j==c2-1)
-		  printf("\n\n");
-	    //}
-	 }
-    }
-*/  /* Stopping the clock */
-  // elapsed = (finish.tv_sec - start.tv_sec);
-  // elapsed += (finish.tv_nsec - start.tv_nsec)/ 1000000000.0;
-
-    //printf("\n time = %le  ",elapsed);
-    return;
+	free(result);
+exit(0);
+return;
 }

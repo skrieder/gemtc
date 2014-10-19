@@ -97,7 +97,7 @@ cl_uint platformCount; //keeps the divice count
     localSize = wrkitm ;
 //n=atoi(argv[1]);
     // Number of total work items - localSize must be devisor
-    globalSize =n; //ceil(n/(float)localSize)*localSize;
+    globalSize =ceil(n/(float)localSize)*localSize;
 //defining platform
  clGetPlatformIDs(0, NULL, &platformCount);
     cpPlatform = (cl_platform_id*) malloc(sizeof(cl_platform_id) * platformCount);

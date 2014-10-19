@@ -63,7 +63,7 @@ void randomInit(float* data, int size)
  
 int main(int argc, char* argv[])
 {
-int num_ker;
+int num_ker=0;
 num_ker=atoi(argv[2]);
 	//variables
 /*#define WA 1024
@@ -73,6 +73,7 @@ num_ker=atoi(argv[2]);
 #define WC WB
 #define HC HA
 */
+
 int WA,HA,WB,HB,WC,HC;
 WA = atoi(argv[4]);
 HA = WA;
@@ -126,7 +127,7 @@ HC = WA;
 //   cl_command_queue* clCommandQue;
    cl_program clProgram;
    cl_kernel clKernel;
- cl_platform_id* cpPlatform;        // OpenCL platform
+cl_platform_id* cpPlatform;        // OpenCL platform
 cl_uint platformCount; //keeps the divice count
   
    size_t dataBytes;
@@ -142,13 +143,14 @@ cl_uint platformCount; //keeps the divice count
    /* Initialize OpenCL */
    /*****************************************/
 //cl_platform_id* cpPlatform;        // OpenCL platform
-    cl_device_id device_id;  
+    //cl_device_id device_id;// = (cl_device_id)malloc(sizeof(cl_device_id)); 
     // Bind to platform
 // errcode = clGetPlatformIDs(1, &cpPlatform, NULL);
 clGetPlatformIDs(0, NULL, &platformCount);
     cpPlatform = (cl_platform_id*) malloc(sizeof(cl_platform_id) * platformCount);
 clGetPlatformIDs(platformCount, cpPlatform, NULL);//what ever is returned from last step will be used here
 
+cl_device_id device_id;
 int choice =atoi(argv[1]);
 if(choice ==1)
 {
@@ -341,5 +343,6 @@ for(i=0;i<num_ker;i++)
 for(i=0;i<num_ker;i++)
    clReleaseCommandQueue(clCommandQue[i]);
 
+exit(0);
 }
 

@@ -20,6 +20,7 @@ void main(int argc, char *argv[]) {
     int i;
     //struct timespec start, finish;
     //double elapsed;
+	//size of each vector
 	int n;
 	n=atoi(argv[2]);
     a = (int *) malloc(n*sizeof(int));
@@ -32,7 +33,7 @@ void main(int argc, char *argv[]) {
         b[i] = i;
     }	
 	int num_threads;
-num_threads=atoi(argv[1]);
+num_threads=atoi(argv[1]);//number of threads
    // clock_gettime(CLOCK_MONOTONIC, &start);
     add(a,b,c,n,num_threads);
     //clock_gettime(CLOCK_MONOTONIC, &finish);
