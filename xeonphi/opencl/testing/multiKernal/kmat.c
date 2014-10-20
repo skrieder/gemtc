@@ -226,7 +226,7 @@ printf("\nhere");
  
    clProgram = clCreateProgramWithSource(clGPUContext, 
                 1, (const char **) & KernelSource, 
-                NULL, &errcode);
+                &kernelLength, &errcode);
    //shrCheckError(errcode, CL_SUCCESS);
  
    errcode = clBuildProgram(clProgram, 0, 
