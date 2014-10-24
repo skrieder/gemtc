@@ -72,13 +72,13 @@ int main( int argc, char* argv[] )
     cl_mem d_b;
     // Device output buffer
     cl_mem d_c;
-	cl_kernel *kernel; 
+//	cl_kernel *kernel; 
     cl_platform_id* cpPlatform;        // OpenCL platform
     cl_device_id device_id;           // device ID
     cl_context context;               // context
     //cl_command_queue* queue;           // command queue
     //cl_command_queue queue;           // command queue
-    cl_program *program;               // program
+//    cl_program *program;               // program
 cl_platform_id* platforms;		// platform id,
 // differnt for all the device we have in the system
 cl_uint platformCount; //keeps the divice count
@@ -112,8 +112,8 @@ cl_uint platformCount; //keeps the divice count
     globalSize = n;
 //################################# Done vector ###################
 //#############Matrix Multiplication Variables ###############
-nt WA,HA,WB,HB,WC,HC;
-WA = atoi(argv[4]);
+int WA,HA,WB,HB,WC,HC;
+WA = n;
 HA = WA;
 WB = WA;
 HB = WB;
@@ -131,6 +131,10 @@ HC = WA;
    unsigned int size_B = WB * HB;
    unsigned int mem_size_B = sizeof(float) * size_B;
    float* h_B = (float*) malloc(mem_size_B);
+// 4. allocate host memory for the result C
+   unsigned int size_C = WC * HC;
+   unsigned int  mem_size_C = sizeof(float) * size_C;
+   float* h_C = (float*) malloc(mem_size_C);
  // 2. initialize host memory
    randomInit(h_A, size_A);
    randomInit(h_B, size_B);
@@ -176,11 +180,10 @@ char **KernelSource=(char **)malloc(num_ker * sizeof(char *));
 	{
     queue[i] = clCreateCommandQueue(context, device_id, 0, &err);
 	}
-	*file[0]="vectadd.cl";
-        *KernelSource[0] =  load_program_source(file);
-        *file[1]="matxm.cl";
-        *KernelSource[1] =  load_program_source(file1);
-//malloc to be done    
+	file[0]="vectadd.cl";
+        KernelSource[0] =  load_program_source(file[0]);
+        file[1]="matxm.cl";
+        KernelSource[1] =  load_program_source(file[1]);
 for(i=0;i<num_ker;i++)
 {
 	// Create the compute program from the source buffer
@@ -215,10 +218,10 @@ if(i=0)//for vectorADD
     err = clEnqueueWriteBuffer(queue[i], d_a, CL_TRUE, 0,bytes, h_a, 0, NULL, NULL);
     err = clEnqueueWriteBuffer(queue[i], d_b, CL_TRUE, 0,bytes, h_b, 0, NULL, NULL);
   // Set the arguments to our compute kernel
-    err = clSetKernelArg(kernel, 0, sizeof(cl_mem), &d_a);
-    err = clSetKernelArg(kernel, 1, sizeof(cl_mem), &d_b);
-    err = clSetKernelArg(kernel, 2, sizeof(cl_mem), &d_c);
-    err = clSetKernelArg(kernel, 3, sizeof(unsigned int), &n);
+    err = clSetKernelArg(kernel[i], 0, sizeof(cl_mem), &d_a);
+    err = clSetKernelArg(kernel[i], 1, sizeof(cl_mem), &d_b);
+    err = clSetKernelArg(kernel[i], 2, sizeof(cl_mem), &d_c);
+    err = clSetKernelArg(kernel[i], 3, sizeof(unsigned int), &n);
   // Get the maximum work group size for executing the kernel on the device
     if (err != CL_SUCCESS)
     {
@@ -230,19 +233,19 @@ if(i=0)//for vectorADD
 else if(i=1)
 { err = clEnqueueWriteBuffer(queue[i], d_A, CL_TRUE, 0,mem_size_A, h_A, 0, NULL, NULL);
 err = clEnqueueWriteBuffer(queue[i], d_B, CL_TRUE, 0,mem_size_B, h_B, 0, NULL, NULL);
- size_t localWorkSize[2], globalWorkSize[2];
+ //size_t localWorkSize[2], globalWorkSize[2];
 
    int wA = WA;
    int wC = WC;
-   err = clSetKernelArg(kernel, 0,
+   err = clSetKernelArg(kernel[i], 0,
               sizeof(cl_mem), (void *)&d_C);
-   err = clSetKernelArg(kernel, 1,
+   err = clSetKernelArg(kernel[i], 1,
               sizeof(cl_mem), (void *)&d_A);
-   err = clSetKernelArg(kernel, 2,
+   err = clSetKernelArg(kernel[i], 2,
               sizeof(cl_mem), (void *)&d_B);
-   err = clSetKernelArg(kernel, 3,
+   err = clSetKernelArg(kernel[i], 3,
               sizeof(int), (void *)&wA);
-   err = clSetKernelArg(kernel, 4,
+   err = clSetKernelArg(kernel[i], 4,
               sizeof(int), (void *)&wC);
 
 }
@@ -262,29 +265,51 @@ err = clEnqueueWriteBuffer(queue[i], d_B, CL_TRUE, 0,mem_size_B, h_B, 0, NULL, N
 //need to work on work size#############################
 for(i=0;i<num_ker;i++)
 {
-err = clEnqueueNDRangeKernel(queue[i], kernel, 1, NULL, &globalSize, &localSize,
+err = clEnqueueNDRangeKernel(queue[i], kernel[i], 1, NULL, &globalSize, &localSize,
                                                               0, NULL, NULL);
 
 
 }
 
+for(i=0;i<num_ker;i++)
+clFinish(queue[i]);
 for(i=0;i<num_ker;++i)
 {
+if(i=0)
+{
 clEnqueueReadBuffer(queue[i], d_c, CL_TRUE, 0,
-                                bytes, h_c, 0, NULL, NULL );    
+                                bytes, h_c, 0, NULL, NULL ); 
+}
+else if(i=1)
+{
+err = clEnqueueReadBuffer(queue[i],
+              d_C, CL_TRUE, 0, mem_size_C,
+              h_C, 0, NULL, NULL);
+   }
 }  
 for(i=0;i<num_ker;++i)
 {
 clFinish(queue[i]);
 }
     // release OpenCL resources
-    clReleaseMemObject(d_a);
+    free(h_A);
+   free(h_B);
+   free(h_C);
+
+   clReleaseMemObject(d_A);
+   clReleaseMemObject(d_C);
+   clReleaseMemObject(d_B);
+	clReleaseMemObject(d_a);
     clReleaseMemObject(d_b);
     clReleaseMemObject(d_c);
-    clReleaseProgram(program);
-    clReleaseKernel(kernel);
+ //   clReleaseProgram(program);
+   // clReleaseKernel(kernel);
 for(i=0;i<num_ker;++i)
+{
     clReleaseCommandQueue(queue[i]);
+    clReleaseKernel(kernel[i]);
+    clReleaseProgram(program[i]);
+}
     clReleaseContext(context);
  
     //release host memory
