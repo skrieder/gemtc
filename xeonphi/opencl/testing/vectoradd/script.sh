@@ -7,10 +7,17 @@
 #$ -pe mpich 1
 #$ -S /bin/bash
 #
-/usr/bin/time -f "%e" ./vect 1 512 100000000
-/usr/bin/time -f "%e" ./vect 1 512 200000000
-/usr/bin/time -f "%e" ./vect 1 512 300000000
-/usr/bin/time -f "%e" ./vect 1 512 400000000
-/usr/bin/time -f "%e" ./vect 1 512 500000000
-/usr/bin/time -f "%e" ./vect 1 512 600000000
-/usr/bin/time -f "%e" ./vect 1 512 700000000
+/usr/bin/time -f "%e" ./mvect 2 2 512 1
+/usr/bin/time -f "%e" ./mvect 2 2 512 2
+/usr/bin/time -f "%e" ./mvect 2 2 512 4
+/usr/bin/time -f "%e" ./mvect 2 2 512 8
+/usr/bin/time -f "%e" ./mvect 2 2 512 16
+/usr/bin/time -f "%e" ./mvect 2 2 512 32
+/usr/bin/time -f "%e" ./mvect 2 2 512 64
+/usr/bin/time -f "%e" ./mvect 2 2 512 128
+/usr/bin/time -f "%e" ./mvect 2 2 512 256
+/usr/bin/time -f "%e" ./mvect 2 2 512 512
+/usr/bin/time -f "%e" ./mvect 2 2 512 1024
+/usr/bin/time -f "%e" ./mvect 2 2 512 2048
+/usr/bin/time -f "%e" ./mvect 2 2 512 3072
+/usr/bin/time -f "%e" ./mvect 2 2 512 4096

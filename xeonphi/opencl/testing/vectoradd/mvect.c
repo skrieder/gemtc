@@ -177,7 +177,14 @@ else
 // clock_gettime(CLOCK_MONOTONIC, &start);
 // kernel part
     // Execute the kernel over the entire range of the data set 
-    
+// timing function
+struct timeval tim;
+  double t1,t2;
+  
+//    gettimeofday(&tim, NULL);
+  //  t1=tim.tv_sec+(tim.tv_usec/1000000.0);
+    gettimeofday(&tim, NULL);
+    t1=tim.tv_sec+(tim.tv_usec/1000000.0);    
 //printf("err = clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &globalSize, &localSize,0, NULL, NULL\n");
 for(i=0;i<num_ker;i++)
 {
@@ -195,6 +202,13 @@ err = clEnqueueNDRangeKernel(queue[i], kernel, 1, NULL, &globalSize, &localSize,
  //clock_t finish =clock();
 
     // Read the results from the device
+for(i=0;i<num_ker;++i)
+{
+clFinish(queue[i]);
+}
+ gettimeofday(&tim, NULL);
+    t2=tim.tv_sec+(tim.tv_usec/1000000.0);
+printf("GPU Time %.4lf\t",(t2-t1));
 
 for(i=0;i<num_ker;++i)
 {

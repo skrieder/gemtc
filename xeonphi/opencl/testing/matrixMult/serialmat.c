@@ -125,7 +125,7 @@ HC = WA;
    // 5. Initialize OpenCL
    // OpenCL specific variables
    cl_context clGPUContext;
-//   cl_command_queue* clCommandQue;
+   cl_command_queue clCommandQue;
    cl_program clProgram;
    cl_kernel clKernel;
 cl_platform_id* cpPlatform;        // OpenCL platform
@@ -202,13 +202,13 @@ else
    //shrCheckError(errcode, CL_SUCCESS);
  */
 //malloc for command queue
-cl_command_queue * clCommandQue = (cl_command_queue *)malloc(num_ker * sizeof(cl_command_queue));
+//cl_command_queue * clCommandQue = (cl_command_queue *)malloc(num_ker * sizeof(cl_command_queue));
    //Create a command-queue
-for(i=0;i<num_ker;i++)
-{
-   clCommandQue[i] = clCreateCommandQueue(clGPUContext, 
+//for(i=0;i<num_ker;i++)
+//{
+   clCommandQue = clCreateCommandQueue(clGPUContext, 
                   device_id, 0, &errcode);
- }  //shrCheckError(errcode, CL_SUCCESS);
+// }  //shrCheckError(errcode, CL_SUCCESS);
   
   /* // Setup device memory
    d_C = clCreateBuffer(clGPUContext, 
@@ -249,10 +249,11 @@ printf("\nhere");
 
      // Write our data set into the input array in device memory
 
-for(i=0;i<num_ker;i++){
-    errcode = clEnqueueWriteBuffer(clCommandQue[i], d_A, CL_TRUE, 0,mem_size_A, h_A, 0, NULL, NULL);
-errcode = clEnqueueWriteBuffer(clCommandQue[i], d_B, CL_TRUE, 0,mem_size_B, h_B, 0, NULL, NULL);
-}
+//for(i=0;i<num_ker;i++)
+//{
+    errcode = clEnqueueWriteBuffer(clCommandQue, d_A, CL_TRUE, 0,mem_size_A, h_A, 0, NULL, NULL);
+errcode = clEnqueueWriteBuffer(clCommandQue, d_B, CL_TRUE, 0,mem_size_B, h_B, 0, NULL, NULL);
+//}
     
    // 7. Launch OpenCL kernel
    size_t localWorkSize[2], globalWorkSize[2];
@@ -284,7 +285,7 @@ value =atoi(argv[3]);
 // clock_gettime(CLOCK_MONOTONIC, &start);
 
 for(i=0;i<num_ker;i++){
-   errcode = clEnqueueNDRangeKernel(clCommandQue[i], 
+   errcode = clEnqueueNDRangeKernel(clCommandQue, 
               clKernel, 2, NULL, globalWorkSize, 
               localWorkSize, 0, NULL, NULL);
 }
@@ -298,17 +299,17 @@ printf("time taken by GPU = %le\n ",elapsed);
 */
    // 8. Retrieve result from device
 
-for(i=0;i<num_ker;i++)
-{
-   errcode = clEnqueueReadBuffer(clCommandQue[i], 
+//for(i=0;i<num_ker;i++)
+//{
+   errcode = clEnqueueReadBuffer(clCommandQue, 
               d_C, CL_TRUE, 0, mem_size_C, 
               h_C, 0, NULL, NULL);
    //shrCheckError(errcode, CL_SUCCESS);
-}
-for(i=0;i<num_ker;i++)
-{
- clFinish(clCommandQue[i]);
-}
+//}
+//for(i=0;i<num_ker;i++)
+//{
+ clFinish(clCommandQue);
+//}
  // shrCheckError(errcode, CL_SUCCESS);
   //clock_gettime(CLOCK_MONOTONIC, &finish);
     //    elapsed = (finish.tv_sec - start.tv_sec);
@@ -341,8 +342,8 @@ for(i=0;i<num_ker;i++)
    clReleaseContext(clGPUContext);
    clReleaseKernel(clKernel);
    clReleaseProgram(clProgram);
-for(i=0;i<num_ker;i++)
-   clReleaseCommandQueue(clCommandQue[i]);
+//for(i=0;i<num_ker;i++)
+   clReleaseCommandQueue(clCommandQue);
 
 exit(0);
 }

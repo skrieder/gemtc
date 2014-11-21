@@ -73,9 +73,9 @@ num_ker=atoi(argv[2]);
 #define WC WB
 #define HC HA
 */
-
+int m=atoi(argv[4]);
 int WA,HA,WB,HB,WC,HC;
-WA = atoi(argv[4]);
+WA = (256*m);
 HA = WA;
 WB = WA;
 HB = WB;
@@ -281,6 +281,11 @@ value =atoi(argv[3]);
 
 //timer starting
 // clock_gettime(CLOCK_MONOTONIC, &start);
+struct timeval tim;
+  double t1,t2;
+
+    //gettimeofday(&tim, NULL);
+    //t1=tim.tv_sec+(tim.tv_usec/1000000.0);
 
 for(i=0;i<num_ker;i++){
    errcode = clEnqueueNDRangeKernel(clCommandQue[i], 
@@ -295,6 +300,14 @@ for(i=0;i<num_ker;i++){
 printf("Work Item/threads = %d \n",value);
 printf("time taken by GPU = %le\n ",elapsed);
 */
+//for(i=0;i<num_ker;i++)
+//{
+ //clFinish(clCommandQue[i]);
+//}
+//gettimeofday(&tim, NULL);
+  //  t2=tim.tv_sec+(tim.tv_usec/1000000.0);
+//printf("%.4lf\t",(t2-t1));
+
    // 8. Retrieve result from device
 
 for(i=0;i<num_ker;i++)

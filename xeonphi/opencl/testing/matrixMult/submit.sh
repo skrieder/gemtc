@@ -7,12 +7,13 @@
 #$ -pe mpich 1
 #$ -S /bin/bash
 #
-/usr/bin/time -f "%e" ./kmat 2 1 64 10000000
-/usr/bin/time -f "%e" ./kmat 2 1 128 10000000
-/usr/bin/time -f "%e" ./kmat 2 1 256 10000000
-/usr/bin/time -f "%e" ./kmat 2 1 384 10000000
-/usr/bin/time -f "%e" ./kmat 2 1 512 10000000
-/usr/bin/time -f "%e" ./kmat 2 1 1024 10000000
-/usr/bin/time -f "%e" ./kmat 2 1 1536 10000000
+/usr/bin/time -f "%e" ./kmat 2 1 512 1
+/usr/bin/time -f "%e" ./kmat 2 1 512 2
+/usr/bin/time -f "%e" ./kmat 2 1 512 4
+/usr/bin/time -f "%e" ./kmat 2 1 512 8
+/usr/bin/time -f "%e" ./kmat 2 1 512 16
+/usr/bin/time -f "%e" ./kmat 2 1 512 32
+/usr/bin/time -f "%e" ./kmat 2 1 512 64
+/usr/bin/time -f "%e" ./kmat 2 1 512 128
 #/usr/bin/time -f "%e" ./matm 1 512 100
 #/usr/bin/time -f "%e" ./matm 2 512 100

@@ -179,6 +179,13 @@ else
     // Execute the kernel over the entire range of the data set 
     
 //printf("err = clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &globalSize, &localSize,0, NULL, NULL\n");
+
+struct timeval tim;
+  double t1,t2;
+
+    gettimeofday(&tim, NULL);
+    t1=tim.tv_sec+(tim.tv_usec/1000000.0);
+
 for(i=0;i<num_ker;i++)
 {
 err = clEnqueueNDRangeKernel(queue[i], kernel, 1, NULL, &globalSize, &localSize,
@@ -186,6 +193,9 @@ err = clEnqueueNDRangeKernel(queue[i], kernel, 1, NULL, &globalSize, &localSize,
 
 
 }
+gettimeofday(&tim, NULL);
+    t2=tim.tv_sec+(tim.tv_usec/1000000.0);
+printf("GPU time %.4lf\t",(t2-t1));
 
 // Wait for the command queue to get serviced before reading back results
 
