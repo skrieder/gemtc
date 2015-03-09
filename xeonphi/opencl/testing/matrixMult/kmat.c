@@ -51,10 +51,10 @@ char* load_program_source(const char *filename) {
 }
 
 // Allocates a matrix with random float entries.
-void randomInit(float* data, int size)
+void randomInit(int* data, int size)
 {
    for  (i = 0; i < size; i++)
-   data[i] = rand() / (float)RAND_MAX;
+   data[i] = rand() / (int)RAND_MAX;
 }
  
 /////////////////////////////////////////////////////////
@@ -73,6 +73,13 @@ num_ker=atoi(argv[2]);
 #define WC WB
 #define HC HA
 */
+struct timeval tim,ftim;
+  double t1,t2,tim1,tim2;
+
+//    gettimeofday(&tim, NULL);
+  //  t1=tim.tv_sec+(tim.tv_usec/1000000.0);
+    gettimeofday(&ftim, NULL);
+    tim1=ftim.tv_sec+(ftim.tv_usec/1000000.0);
 
 int m,WA,HA,WB,HB,WC,HC;
 m = atoi(argv[4]);
@@ -88,12 +95,12 @@ HC = WA;
    // 1. allocate host memory for matrices A and B
 	//automate the size of the matrix
    unsigned int size_A = WA * HA;
-   unsigned int mem_size_A = sizeof(float) * size_A;
-   float* h_A = (float*) malloc(mem_size_A);
+   unsigned int mem_size_A = sizeof(int) * size_A;
+   int* h_A = (int*) malloc(mem_size_A);
  
    unsigned int size_B = WB * HB;
-   unsigned int mem_size_B = sizeof(float) * size_B;
-   float* h_B = (float*) malloc(mem_size_B);
+   unsigned int mem_size_B = sizeof(int) * size_B;
+   int* h_B = (int*) malloc(mem_size_B);
  
    // 2. initialize host memory
    randomInit(h_A, size_A);
@@ -119,8 +126,8 @@ HC = WA;
    
 // 4. allocate host memory for the result C
    unsigned int size_C = WC * HC;
-   unsigned int  mem_size_C = sizeof(float) * size_C;
-   float* h_C = (float*) malloc(mem_size_C);
+   unsigned int  mem_size_C = sizeof(int) * size_C;
+   int* h_C = (int*) malloc(mem_size_C);
  
    // 5. Initialize OpenCL
    // OpenCL specific variables
@@ -282,13 +289,29 @@ value =atoi(argv[3]);
 
 //timer starting
 // clock_gettime(CLOCK_MONOTONIC, &start);
+//struct timeval tim;
+  //double t1,t2;
+
+//    gettimeofday(&tim, NULL);
+  //  t1=tim.tv_sec+(tim.tv_usec/1000000.0);
+    gettimeofday(&tim, NULL);
+    t1=tim.tv_sec+(tim.tv_usec/1000000.0);
 
 for(i=0;i<num_ker;i++){
    errcode = clEnqueueNDRangeKernel(clCommandQue[i], 
               clKernel, 2, NULL, globalWorkSize, 
               localWorkSize, 0, NULL, NULL);
 }
-  // shrCheckError(errcode, CL_SUCCESS);
+for(i=0;i<num_ker;i++)
+{
+ clFinish(clCommandQue[i]);
+}
+
+gettimeofday(&tim, NULL);
+    t2=tim.tv_sec+(tim.tv_usec/1000000.0);
+printf("%.6lf\t",(t2-t1));
+ 
+ // shrCheckError(errcode, CL_SUCCESS);
 /*  clock_gettime(CLOCK_MONOTONIC, &finish);
         elapsed = (finish.tv_sec - start.tv_sec);
         elapsed += (finish.tv_nsec - start.tv_nsec)/ 1000000000.0;
@@ -343,7 +366,10 @@ for(i=0;i<num_ker;i++)
    clReleaseProgram(clProgram);
 for(i=0;i<num_ker;i++)
    clReleaseCommandQueue(clCommandQue[i]);
-
+gettimeofday(&ftim, NULL);
+    tim2=ftim.tv_sec+(ftim.tv_usec/1000000.0);
+printf("%.6lf\t",(tim2-tim1));
+printf("\n");
 exit(0);
 }
 

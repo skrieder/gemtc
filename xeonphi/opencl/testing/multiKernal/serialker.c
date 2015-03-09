@@ -143,7 +143,7 @@ for (i=0;i<num_ker;i++)
 {    
 // Create the compute kernel in the program we wish to run
     kernel[i] = clCreateKernel(program, file, &err);
- }
+// }
 //matrix start 
 d_C = clCreateBuffer(context, CL_MEM_READ_WRITE,
           mem_size_A, NULL, &err);
@@ -156,7 +156,8 @@ d_C = clCreateBuffer(context, CL_MEM_READ_WRITE,
 //matrix finish
  err = clEnqueueWriteBuffer(queue, d_A, CL_TRUE, 0,mem_size_A, h_A, 0, NULL, NULL);
 err = clEnqueueWriteBuffer(queue, d_B, CL_TRUE, 0,mem_size_B, h_B, 0, NULL, NULL);
- //size_t localWorkSize[2], globalWorkSize[2];
+} 
+//size_t localWorkSize[2], globalWorkSize[2];
 for(i=0;i<num_ker;i++)
 {
    int wA = WA;

@@ -51,10 +51,10 @@ char* load_program_source(const char *filename) {
 }
 
 // Allocates a matrix with random float entries.
-void randomInit(int* data, int size)
+void randomInit(float* data, int size)
 {
    for  (i = 0; i < size; i++)
-   data[i] = rand() / (int)RAND_MAX;
+   data[i] = rand() / (float)RAND_MAX;
 }
  
 /////////////////////////////////////////////////////////
@@ -63,9 +63,6 @@ void randomInit(int* data, int size)
  
 int main(int argc, char* argv[])
 {
-//struct timespec start, finish,start1,finish1;
-//double elapsed,elapsed1;
-//clock_gettime(CLOCK_MONOTONIC, &start1);
 int num_ker=0;
 num_ker=atoi(argv[2]);
 	//variables
@@ -91,12 +88,12 @@ HC = WA;
    // 1. allocate host memory for matrices A and B
 	//automate the size of the matrix
    unsigned int size_A = WA * HA;
-   unsigned int mem_size_A = sizeof(int) * size_A;
-   int* h_A = (int*) malloc(mem_size_A);
+   unsigned int mem_size_A = sizeof(float) * size_A;
+   float* h_A = (float*) malloc(mem_size_A);
  
    unsigned int size_B = WB * HB;
-   unsigned int mem_size_B = sizeof(int) * size_B;
-   int* h_B = (int*) malloc(mem_size_B);
+   unsigned int mem_size_B = sizeof(float) * size_B;
+   float* h_B = (float*) malloc(mem_size_B);
  
    // 2. initialize host memory
    randomInit(h_A, size_A);
@@ -122,13 +119,13 @@ HC = WA;
    
 // 4. allocate host memory for the result C
    unsigned int size_C = WC * HC;
-   unsigned int  mem_size_C = sizeof(int) * size_C;
-   int* h_C = (int*) malloc(mem_size_C);
+   unsigned int  mem_size_C = sizeof(float) * size_C;
+   float* h_C = (float*) malloc(mem_size_C);
  
    // 5. Initialize OpenCL
    // OpenCL specific variables
    cl_context clGPUContext;
-   cl_command_queue clCommandQue;
+//   cl_command_queue* clCommandQue;
    cl_program clProgram;
    cl_kernel clKernel;
 cl_platform_id* cpPlatform;        // OpenCL platform
@@ -155,21 +152,6 @@ clGetPlatformIDs(0, NULL, &platformCount);
 clGetPlatformIDs(platformCount, cpPlatform, NULL);//what ever is returned from last step will be used here
 
 cl_device_id device_id;
- // 7. Launch OpenCL kernel
-   size_t localWorkSize[2], globalWorkSize[2];
-
-   int wA = WA;
-   int wC = WC;
-
-int value;
-value =atoi(argv[3]);
-   localWorkSize[0] = value ;
-   localWorkSize[1] = value ;
-   globalWorkSize[0] = HA;
-   globalWorkSize[1] = HA;
-char *file="matxm.cl";
-        char *KernelSource =  load_program_source(file);
-
 int choice =atoi(argv[1]);
 if(choice ==1)
 {
@@ -220,15 +202,13 @@ else
    //shrCheckError(errcode, CL_SUCCESS);
  */
 //malloc for command queue
-//cl_command_queue * clCommandQue = (cl_command_queue *)malloc(num_ker * sizeof(cl_command_queue));
+cl_command_queue * clCommandQue = (cl_command_queue *)malloc(num_ker * sizeof(cl_command_queue));
    //Create a command-queue
-//for(i=0;i<num_ker;i++)
-//{
-for(i=0;i<num_ker;i++){
-
-   clCommandQue = clCreateCommandQueue(clGPUContext, 
+for(i=0;i<num_ker;i++)
+{
+   clCommandQue[i] = clCreateCommandQueue(clGPUContext, 
                   device_id, 0, &errcode);
-// }  //shrCheckError(errcode, CL_SUCCESS);
+ }  //shrCheckError(errcode, CL_SUCCESS);
   
   /* // Setup device memory
    d_C = clCreateBuffer(clGPUContext, 
@@ -241,10 +221,10 @@ printf("\nhere");
    d_B = clCreateBuffer(clGPUContext, 
           CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, 
           mem_size_B, h_B, &errcode);
- 
+ */
  	char *file="matxm.cl";
 	char *KernelSource =  load_program_source(file);
- */
+ 
    clProgram = clCreateProgramWithSource(clGPUContext, 
                 1, (const char **) & KernelSource, 
                 NULL, &errcode);
@@ -253,7 +233,7 @@ printf("\nhere");
    errcode = clBuildProgram(clProgram, 0, 
               NULL, NULL, NULL, NULL);
    //shrCheckError(errcode, CL_SUCCESS);
-
+ 
    clKernel = clCreateKernel(clProgram, 
                "matrixMul", &errcode);
    //shrCheckError(errcode, CL_SUCCESS);
@@ -266,21 +246,19 @@ printf("\nhere");
    d_B = clCreateBuffer(clGPUContext,
           CL_MEM_READ_WRITE,
           mem_size_B, h_B, &errcode);
-//clock_gettime(CLOCK_MONOTONIC, &start);
 
      // Write our data set into the input array in device memory
 
-//for(i=0;i<num_ker;i++)
-//{
-    errcode = clEnqueueWriteBuffer(clCommandQue, d_A, CL_TRUE, 0,mem_size_A, h_A, 0, NULL, NULL);
-errcode = clEnqueueWriteBuffer(clCommandQue, d_B, CL_TRUE, 0,mem_size_B, h_B, 0, NULL, NULL);
-//}
+for(i=0;i<num_ker;i++){
+    errcode = clEnqueueWriteBuffer(clCommandQue[i], d_A, CL_TRUE, 0,mem_size_A, h_A, 0, NULL, NULL);
+errcode = clEnqueueWriteBuffer(clCommandQue[i], d_B, CL_TRUE, 0,mem_size_B, h_B, 0, NULL, NULL);
+}
     
    // 7. Launch OpenCL kernel
-/*   size_t localWorkSize[2], globalWorkSize[2];
+   size_t localWorkSize[2], globalWorkSize[2];
  
    int wA = WA;
-   int wC = WC;*/
+   int wC = WC;
    errcode = clSetKernelArg(clKernel, 0, 
               sizeof(cl_mem), (void *)&d_C);
    errcode = clSetKernelArg(clKernel, 1, 
@@ -293,61 +271,43 @@ errcode = clEnqueueWriteBuffer(clCommandQue, d_B, CL_TRUE, 0,mem_size_B, h_B, 0,
               sizeof(int), (void *)&wC);
 //   shrCheckError(errcode, CL_SUCCESS);
 //struct timespec start, finish;
-//double elapsed; 
-/* int value;
+ 
+ int value;
 value =atoi(argv[3]);
    localWorkSize[0] = value ;
    localWorkSize[1] = value ;
    globalWorkSize[0] = HA;
    globalWorkSize[1] = HA;
 //clFinish(clCommandQue);
-*/
-//timer startinUUUUclock_gettime(CLOCK_MONOTONIC_RAW, &start);
-//clock_gettime(CLOCK_MONOTONIC, &start);
-//for(i=0;i<num_ker;i++){
-struct timeval tim;
-  double t1,t2;
 
-//    gettimeofday(&tim, NULL);
-  //  t1=tim.tv_sec+(tim.tv_usec/1000000.0);
-    gettimeofday(&tim, NULL);
-    t1=tim.tv_sec+(tim.tv_usec/1000000.0);
+//timer starting
+// clock_gettime(CLOCK_MONOTONIC, &start);
 
-   errcode = clEnqueueNDRangeKernel(clCommandQue, 
+for(i=0;i<num_ker;i++){
+   errcode = clEnqueueNDRangeKernel(clCommandQue[i], 
               clKernel, 2, NULL, globalWorkSize, 
               localWorkSize, 0, NULL, NULL);
-//}
-/*  // shrCheckError(errcode, CL_SUCCESS);
- clock_gettime(CLOCK_MONOTONIC, &finish);
+}
+  // shrCheckError(errcode, CL_SUCCESS);
+/*  clock_gettime(CLOCK_MONOTONIC, &finish);
         elapsed = (finish.tv_sec - start.tv_sec);
         elapsed += (finish.tv_nsec - start.tv_nsec)/ 1000000000.0;
 
-//printf("Work Item/threads = %d \n",value);
-printf("%le	",elapsed);
+printf("Work Item/threads = %d \n",value);
+printf("time taken by GPU = %le\n ",elapsed);
 */
    // 8. Retrieve result from device
-gettimeofday(&tim, NULL);
-    t2=tim.tv_sec+(tim.tv_usec/1000000.0);
-printf("%.4lf\t",(t2-t1));
 
-//for(i=0;i<num_ker;i++)
-//{
-   errcode = clEnqueueReadBuffer(clCommandQue, 
+for(i=0;i<num_ker;i++)
+{
+   errcode = clEnqueueReadBuffer(clCommandQue[i], 
               d_C, CL_TRUE, 0, mem_size_C, 
               h_C, 0, NULL, NULL);
-  
- //shrCheckError(errcode, CL_SUCCESS);
-//}
-//for(i=0;i<num_ker;i++)
-//{
- clFinish(clCommandQue);
-/*clock_gettime(CLOCK_MONOTONIC, &finish);
-        elapsed = (finish.tv_sec - start.tv_sec);
-        elapsed += (finish.tv_nsec - start.tv_nsec)/ 1000000000.0;
-*/
-//printf("Work Item/threads = %d \n",value);
-//printf("%le     ",elapsed);
-
+   //shrCheckError(errcode, CL_SUCCESS);
+}
+for(i=0;i<num_ker;i++)
+{
+ clFinish(clCommandQue[i]);
 }
  // shrCheckError(errcode, CL_SUCCESS);
   //clock_gettime(CLOCK_MONOTONIC, &finish);
@@ -381,14 +341,9 @@ printf("%.4lf\t",(t2-t1));
    clReleaseContext(clGPUContext);
    clReleaseKernel(clKernel);
    clReleaseProgram(clProgram);
-//for(i=0;i<num_ker;i++)
-   clReleaseCommandQueue(clCommandQue);
-//clock_gettime(CLOCK_MONOTONIC, &finish1);
-  //      elapsed1 = (finish1.tv_sec - start1.tv_sec);
-    //    elapsed1 += (finish1.tv_nsec - start1.tv_nsec)/ 1000.0;
+for(i=0;i<num_ker;i++)
+   clReleaseCommandQueue(clCommandQue[i]);
 
-//printf("Work Item/threads = %d \n",value);
-//printf("OpenCl = %le\n ",elapsed1);
 exit(0);
 }
 

@@ -6,14 +6,11 @@
 #$ -m n
 #$ -pe mpich 1
 #$ -S /bin/bash
-#
-/usr/bin/time -f "%e" ./kmat 2 1 512 1
-/usr/bin/time -f "%e" ./kmat 2 1 512 2
-/usr/bin/time -f "%e" ./kmat 2 1 512 4
-/usr/bin/time -f "%e" ./kmat 2 1 512 8
-/usr/bin/time -f "%e" ./kmat 2 1 512 16
-/usr/bin/time -f "%e" ./kmat 2 1 512 32
-/usr/bin/time -f "%e" ./kmat 2 1 512 64
-/usr/bin/time -f "%e" ./kmat 2 1 512 128
-#/usr/bin/time -f "%e" ./matm 1 512 100
-#/usr/bin/time -f "%e" ./matm 2 512 100
+/usr/bin/time -f "%e" ./kmat 2 1 32 20
+/usr/bin/time -f "%e" ./kmat 2 1 32 22
+/usr/bin/time -f "%e" ./kmat 2 1 32 24
+/usr/bin/time -f "%e" ./kmat 2 1 32 26
+/usr/bin/time -f "%e" ./kmat 2 1 32 28
+/usr/bin/time -f "%e" ./kmat 2 1 32 30
+/usr/bin/time -f "%e" ./kmat 2 1 32 32
+#/usr/bin/time -f "%e" ./mkvect 2 512 6000000

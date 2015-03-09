@@ -149,7 +149,14 @@ else
     d_b = clCreateBuffer(context, CL_MEM_READ_ONLY, bytes, NULL, NULL);
     d_c = clCreateBuffer(context, CL_MEM_WRITE_ONLY, bytes, NULL, NULL);
     //clock_gettime(CLOCK_MONOTONIC, &start);
+//struct timeval tim;
+ // double t1,t2;
 
+//    gettimeofday(&tim, NULL);
+  //  t1=tim.tv_sec+(tim.tv_usec/1000000.0);
+/*    gettimeofday(&tim, NULL);
+    t1=tim.tv_sec+(tim.tv_usec/1000000.0);
+*/
 	// Write our data set into the input array in device memory
 	for(i=0;i<num_ker;++i)
 {
@@ -176,7 +183,8 @@ else
 
 // clock_gettime(CLOCK_MONOTONIC, &start);
 // kernel part
-    // Execute the kernel over the entire range of the data set 
+  
+  // Execute the kernel over the entire range of the data set 
 // timing function
 struct timeval tim;
   double t1,t2;
@@ -208,7 +216,7 @@ clFinish(queue[i]);
 }
  gettimeofday(&tim, NULL);
     t2=tim.tv_sec+(tim.tv_usec/1000000.0);
-printf("GPU Time %.4lf\t",(t2-t1));
+printf("%.4lf\t",(t2-t1));
 
 for(i=0;i<num_ker;++i)
 {
@@ -221,8 +229,11 @@ clEnqueueReadBuffer(queue[i], d_c, CL_TRUE, 0,
 for(i=0;i<num_ker;++i)
 {
 clFinish(queue[i]);
-}
-    //Sum up vector c and print result divided by n, this should equal 1 within error
+}/*
+gettimeofday(&tim, NULL);
+    t2=tim.tv_sec+(tim.tv_usec/1000000.0);
+printf(" %.4lf\t",(t2-t1)); */   
+//Sum up vector c and print result divided by n, this should equal 1 within error
 //int threads=globalSize/localSize;    
 //double sum = 0;
   //  for(i=0; i<n; i++)

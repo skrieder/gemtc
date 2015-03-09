@@ -63,7 +63,7 @@ void randomInit(int* data, int size)
  
 int main(int argc, char* argv[])
 {
-
+ clock_gettime(CLOCK_MONOTONIC, &start1);
 	//variables
 /*#define WA 1024
 #define HA 1024
@@ -255,8 +255,8 @@ errcode = clEnqueueWriteBuffer(clCommandQue, d_B, CL_TRUE, 0,mem_size_B, h_B, 0,
    errcode = clSetKernelArg(clKernel, 4, 
               sizeof(int), (void *)&wC);
 //   shrCheckError(errcode, CL_SUCCESS);
-//struct timespec start, finish;
-//double elapsed;
+struct timespec start, finish,start1,finish1;
+double elapsed,elapsed1;
  
  int value;
 value =atoi(argv[3]);
@@ -267,19 +267,19 @@ value =atoi(argv[3]);
 //clFinish(clCommandQue);
 
 //timer starting
-// clock_gettime(CLOCK_MONOTONIC, &start);
+ clock_gettime(CLOCK_MONOTONIC, &start);
    errcode = clEnqueueNDRangeKernel(clCommandQue, 
               clKernel, 2, NULL, globalWorkSize, 
               localWorkSize, 0, NULL, NULL);
   // shrCheckError(errcode, CL_SUCCESS);
-/*  clock_gettime(CLOCK_MONOTONIC, &finish);
+  clock_gettime(CLOCK_MONOTONIC, &finish);
         elapsed = (finish.tv_sec - start.tv_sec);
-        elapsed += (finish.tv_nsec - start.tv_nsec)/ 1000000000.0;
+        elapsed += (finish.tv_nsec - start.tv_nsec)/ 1000.0;
 
-printf("here\n");
-printf("Work Item/threads = %d \n",value);
-printf("time taken by GPU = %le\n ",elapsed);
-*/
+//printf("here\n");
+//printf("Work Item/threads = %d \n",value);
+//printf("micsec GPU = %le\n ",elapsed);
+
 clFinish(clCommandQue);
    // 8. Retrieve result from device
    errcode = clEnqueueReadBuffer(clCommandQue, 
@@ -321,6 +321,12 @@ clFinish(clCommandQue);
    clReleaseKernel(clKernel);
    clReleaseProgram(clProgram);
    clReleaseCommandQueue(clCommandQue);
+clock_gettime(CLOCK_MONOTONIC, &finish1);
+  elapsed1 = (finish1.tv_sec - start1.tv_sec);
+        elapsed1 += (finish1.tv_nsec - start1.tv_nsec)/ 1000.0;
+
+printf("micsec GPU = %le\n ",elapsed);
+printf("micsec all = %le\n ",elapsed1);
 
 }
 
