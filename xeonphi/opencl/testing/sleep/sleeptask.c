@@ -34,6 +34,13 @@ int main(int argc, char* argv[])
 {
 int num_ker=0;
 num_ker=atoi(argv[2]);
+struct timeval tim,ftim;
+  double t1,t2,tim1,tim2;
+
+//    gettimeofday(&tim, NULL);
+  //  t1=tim.tv_sec+(tim.tv_usec/1000000.0);
+    gettimeofday(&ftim, NULL);
+    tim1=ftim.tv_sec+(ftim.tv_usec/1000000.0);
  
  
    // 5. Initialize OpenCL
@@ -63,7 +70,8 @@ cl_device_id device_id;
 int value;
 value =atoi(argv[3]);// should be 1 ?
    localWorkSize = value ;
-   globalWorkSize=value ;
+   globalWorkSize=atoi(argv[4]);
+	int n = atoi(argv[4]);
 char *file="sleep.cl";
         char *KernelSource =  load_program_source(file);
 
@@ -116,51 +124,62 @@ for(i=0;i<num_ker;i++)
                "sleep", &errcode);
  }
   //shrCheckError(errcode, CL_SUCCESS);
-unsigned int h_A=atoi(argv[4]), h_B=0;// A for sleep time, B for results may be
-  // Setup device memory
+	 int *h_A;// n=atoi(argv[4]);// A for sleep time, B for results may be
+  // Setup device memoryi
+	cl_mem d_A;
+	h_A = (int *)malloc(n*sizeof(int));
 /*   d_A = clCreateBuffer(clGPUContext,
           CL_MEM_READ_WRITE,
           sizeof(int), h_A, &errcode);
    d_B = clCreateBuffer(clGPUContext,
           CL_MEM_READ_WRITE,
           sizeof(int), h_B, &errcode);*/
-
+	int i;
+	for( i=0; i< n; i++)
+	h_A[i]=i*i;
      // Write our data set into the input array in device memory
-
+	
+	d_A = clCreateBuffer(clGPUContext, CL_MEM_READ_ONLY, n*sizeof(int), h_A, NULL);
 for(i=0;i<num_ker;i++)
 {
-/*
-   errcode = clEnqueueWriteBuffer(clCommandQue, d_B, CL_TRUE, 0,sizeof(int), h_B, 0, NULL, NULL);
 
-*/
+   errcode = clEnqueueWriteBuffer(clCommandQue, d_A, CL_TRUE, 0,n*sizeof(int), h_A, 0, NULL, NULL);
+
+
    errcode = clSetKernelArg(clKernel[i], 0, 
-              sizeof(unsigned int), &h_A);
+              n*sizeof(int),(void *)&h_A);
    errcode = clSetKernelArg(clKernel[i], 1, 
-              sizeof(unsigned int), &h_B);
+              sizeof(unsigned int),(void *)&n);
 
- clock_gettime(CLOCK_MONOTONIC, &start);
+// clock_gettime(CLOCK_MONOTONIC, &start);
+}
+ gettimeofday(&tim, NULL);
+    t1=tim.tv_sec+(tim.tv_usec/1000000.0);
 
-
-//for(i=0;i<num_ker;i++){
+for(i=0;i<num_ker;i++){
    errcode = clEnqueueNDRangeKernel(clCommandQue, 
               clKernel[i], 1, NULL, &globalWorkSize, 
               &localWorkSize, 0, NULL, NULL);
-
+}
   // shrCheckError(errcode, CL_SUCCESS);
-  clock_gettime(CLOCK_MONOTONIC, &finish);
-        elapsed = (finish.tv_sec - start.tv_sec);
-        elapsed += (finish.tv_nsec - start.tv_nsec)/ 1000.0;
+ // clock_gettime(CLOCK_MONOTONIC, &finish);
+   //     elapsed = (finish.tv_sec - start.tv_sec);
+     //   elapsed += (finish.tv_nsec - start.tv_nsec)/ 1000.0;
   
-//printf("Work Item/threads = %d \n",value);
-printf("time microsecond GPU = %le\n ",elapsed);
+gettimeofday(&tim, NULL);
+    t2=tim.tv_sec+(tim.tv_usec/1000000.0);
+printf("%.6lf\t",(t2-t1));
 
-}  
+//printf("Work Item/threads = %d \n",value);
+//printf("time microsecond GPU = %le\n ",elapsed);
+
+ 
    // 8. Retrieve result from device
 
 //for(i=0;i<num_ker;i++)
-//{
-  /* errcode = clEnqueueReadBuffer(clCommandQue, 
-              d_B, CL_TRUE, 0, sizeof(int), 
+/*{
+   errcode = clEnqueueReadBuffer(clCommandQue, 
+              d_B, CL_TRUE, 0, sizeof(unsigned int), 
               h_B, 0, NULL, NULL);
    //shrCheckError(errcode, CL_SUCCESS);
 //}*/
@@ -186,6 +205,10 @@ for(i=0;i<num_ker;i++)
    clReleaseProgram(clProgram);
 //for(i=0;i<num_ker;i++)
    clReleaseCommandQueue(clCommandQue);
+gettimeofday(&ftim, NULL);
+    tim2=ftim.tv_sec+(ftim.tv_usec/1000000.0);
+printf("%.6lf\t",(tim2-tim1));
+printf("\n");
 
 exit(0);
 }

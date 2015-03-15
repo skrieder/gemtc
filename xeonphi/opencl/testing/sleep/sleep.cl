@@ -1,10 +1,21 @@
 // OpenCL Kernel
 __kernel void
-sleep(__global unsigned int a, __global unsigned int b)
+sleep(__global int *a, __global unsigned int n)
 {
-	b=0;
-   int tx = get_global_id(0); 
-	while(tx<a)
-	b=b+1; 
+	int b=1,c=1,d=1,id,i=1;
+   	id = get_global_id(0);
 
+	while(i<n){
+	b=a[id+i]*b;
+	b=b+1;
+	b=c+b/(c*d);
+	d=c*b/(c+d);
+	 b=b+1;
+        b=c+b/(c*d);
+        d=c*b/(c+d);
+	 b=b+1;
+        b=c+b/(c*d);
+        d=c*b/(c+d);
+	i++;	 
+}
 }
