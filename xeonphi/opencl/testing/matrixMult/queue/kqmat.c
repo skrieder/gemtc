@@ -133,8 +133,8 @@ HC = WA;
    // OpenCL specific variables
    cl_context clGPUContext;
 //   cl_command_queue* clCommandQue;
-   cl_program clProgram;
-   cl_kernel clKernel;
+   //cl_program clProgram;
+   //cl_kernel clKernel;
 cl_platform_id* cpPlatform;        // OpenCL platform
 cl_uint platformCount; //keeps the divice count
   
@@ -208,7 +208,10 @@ else
               clDevices, NULL);
    //shrCheckError(errcode, CL_SUCCESS);
  */
-//malloc for command queue
+//malloc for command queue, kernel and program
+cl_kernel *clKernel=(cl_kernel *)malloc(num_ker * sizeof(cl_kernel));
+cl_program *clProgram=(cl_program *)malloc(num_ker * sizeof(cl_kernel));
+
 cl_command_queue * clCommandQue = (cl_command_queue *)malloc(num_ker * sizeof(cl_command_queue));
    //Create a command-queue
 for(i=0;i<num_ker;i++)
@@ -231,19 +234,21 @@ printf("\nhere");
  */
  	char *file="matxm.cl";
 	char *KernelSource =  load_program_source(file);
- 
-   clProgram = clCreateProgramWithSource(clGPUContext, 
+ for(i=0;i<num_ker;i++)
+{
+   clProgram[i] = clCreateProgramWithSource(clGPUContext, 
                 1, (const char **) & KernelSource, 
                 NULL, &errcode);
    //shrCheckError(errcode, CL_SUCCESS);
  
-   errcode = clBuildProgram(clProgram, 0, 
+   errcode = clBuildProgram(clProgram[i], 0, 
               NULL, NULL, NULL, NULL);
    //shrCheckError(errcode, CL_SUCCESS);
  
-   clKernel = clCreateKernel(clProgram, 
+   clKernel[i] = clCreateKernel(clProgram[i], 
                "matrixMul", &errcode);
-   //shrCheckError(errcode, CL_SUCCESS);
+} 
+  //shrCheckError(errcode, CL_SUCCESS);
   // Setup device memory
    d_C = clCreateBuffer(clGPUContext, CL_MEM_READ_WRITE,
           mem_size_A, NULL, &errcode);
@@ -266,16 +271,19 @@ errcode = clEnqueueWriteBuffer(clCommandQue[i], d_B, CL_TRUE, 0,mem_size_B, h_B,
  
    int wA = WA;
    int wC = WC;
-   errcode = clSetKernelArg(clKernel, 0, 
+for(i=0;i<num_ker;i++)
+{
+   errcode = clSetKernelArg(clKernel[i], 0, 
               sizeof(cl_mem), (void *)&d_C);
-   errcode = clSetKernelArg(clKernel, 1, 
+   errcode = clSetKernelArg(clKernel[i], 1, 
               sizeof(cl_mem), (void *)&d_A);
-   errcode = clSetKernelArg(clKernel, 2, 
+   errcode = clSetKernelArg(clKernel[i], 2, 
               sizeof(cl_mem), (void *)&d_B);
-   errcode = clSetKernelArg(clKernel, 3, 
+   errcode = clSetKernelArg(clKernel[i], 3, 
               sizeof(int), (void *)&wA);
-   errcode = clSetKernelArg(clKernel, 4, 
+   errcode = clSetKernelArg(clKernel[i], 4, 
               sizeof(int), (void *)&wC);
+}
 //   shrCheckError(errcode, CL_SUCCESS);
 //struct timespec start, finish;
  
@@ -299,7 +307,7 @@ value =atoi(argv[3]);
 
 for(i=0;i<num_ker;i++){
    errcode = clEnqueueNDRangeKernel(clCommandQue[i], 
-              clKernel, 2, NULL, globalWorkSize, 
+              clKernel[i], 2, NULL, globalWorkSize, 
               localWorkSize, 0, NULL, NULL);
 }
 for(i=0;i<num_ker;i++)
@@ -362,10 +370,12 @@ for(i=0;i<num_ker;i++)
 //   free(device_id);
  free(KernelSource);
    clReleaseContext(clGPUContext);
-   clReleaseKernel(clKernel);
-   clReleaseProgram(clProgram);
 for(i=0;i<num_ker;i++)
+{
+   clReleaseKernel(clKernel[i]);
+   clReleaseProgram(clProgram[i]);
    clReleaseCommandQueue(clCommandQue[i]);
+}	
 gettimeofday(&ftim, NULL);
     tim2=ftim.tv_sec+(ftim.tv_usec/1000000.0);
 printf("%.6lf\t",(tim2-tim1));
