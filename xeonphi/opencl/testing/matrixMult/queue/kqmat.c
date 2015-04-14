@@ -63,8 +63,10 @@ void randomInit(int* data, int size)
  
 int main(int argc, char* argv[])
 {
-int num_ker=0;
+int num_ker=0,num_queue;
 num_ker=atoi(argv[2]);
+num_queue=atoi(argv[3]);
+
 	//variables
 /*#define WA 1024
 #define HA 1024
@@ -82,7 +84,7 @@ struct timeval tim,ftim;
     tim1=ftim.tv_sec+(ftim.tv_usec/1000000.0);
 
 int m,WA,HA,WB,HB,WC,HC;
-m = atoi(argv[4]);
+m = atoi(argv[5]);
 WA=(256*m);
 HA = WA;
 WB = WA;
@@ -214,7 +216,7 @@ cl_program *clProgram=(cl_program *)malloc(num_ker * sizeof(cl_kernel));
 
 cl_command_queue * clCommandQue = (cl_command_queue *)malloc(num_ker * sizeof(cl_command_queue));
    //Create a command-queue
-for(i=0;i<num_ker;i++)
+for(i=0;i<num_queue;i++)
 {
    clCommandQue[i] = clCreateCommandQueue(clGPUContext, 
                   device_id, 0, &errcode);
@@ -261,7 +263,7 @@ printf("\nhere");
 
      // Write our data set into the input array in device memory
 
-for(i=0;i<num_ker;i++){
+for(i=0;i<num_queue;i++){
     errcode = clEnqueueWriteBuffer(clCommandQue[i], d_A, CL_TRUE, 0,mem_size_A, h_A, 0, NULL, NULL);
 errcode = clEnqueueWriteBuffer(clCommandQue[i], d_B, CL_TRUE, 0,mem_size_B, h_B, 0, NULL, NULL);
 }
@@ -288,7 +290,7 @@ for(i=0;i<num_ker;i++)
 //struct timespec start, finish;
  
  int value;
-value =atoi(argv[3]);
+value =atoi(argv[4]);
    localWorkSize[0] = value ;
    localWorkSize[1] = value ;
    globalWorkSize[0] = HA;
@@ -304,13 +306,17 @@ value =atoi(argv[3]);
   //  t1=tim.tv_sec+(tim.tv_usec/1000000.0);
     gettimeofday(&tim, NULL);
     t1=tim.tv_sec+(tim.tv_usec/1000000.0);
-
+//multikernels inside queues
+int j=0;
+for(j=0;j<num_queue;j++)
+{
 for(i=0;i<num_ker;i++){
-   errcode = clEnqueueNDRangeKernel(clCommandQue[i], 
+   errcode = clEnqueueNDRangeKernel(clCommandQue[j], 
               clKernel[i], 2, NULL, globalWorkSize, 
               localWorkSize, 0, NULL, NULL);
 }
-for(i=0;i<num_ker;i++)
+}
+for(i=0;i<num_queue;i++)
 {
  clFinish(clCommandQue[i]);
 }
@@ -329,14 +335,14 @@ printf("time taken by GPU = %le\n ",elapsed);
 */
    // 8. Retrieve result from device
 
-for(i=0;i<num_ker;i++)
+for(i=0;i<num_queue;i++)
 {
    errcode = clEnqueueReadBuffer(clCommandQue[i], 
               d_C, CL_TRUE, 0, mem_size_C, 
               h_C, 0, NULL, NULL);
    //shrCheckError(errcode, CL_SUCCESS);
 }
-for(i=0;i<num_ker;i++)
+for(i=0;i<num_queue;i++)
 {
  clFinish(clCommandQue[i]);
 }
@@ -374,6 +380,8 @@ for(i=0;i<num_ker;i++)
 {
    clReleaseKernel(clKernel[i]);
    clReleaseProgram(clProgram[i]);
+}
+for(i=0;i<num_queue;i++){
    clReleaseCommandQueue(clCommandQue[i]);
 }	
 gettimeofday(&ftim, NULL);

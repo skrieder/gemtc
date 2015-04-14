@@ -216,7 +216,7 @@ clFinish(queue[i]);
 }
  gettimeofday(&tim, NULL);
     t2=tim.tv_sec+(tim.tv_usec/1000000.0);
-printf("%.4lf\t",(t2-t1));
+printf("%.6lf\t",(t2-t1));
 
 for(i=0;i<num_ker;++i)
 {
